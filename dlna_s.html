@@ -8,211 +8,797 @@
 </head>
 <body>
 	<div class="dlna_s">
-		<h2>Настройка_DLNA</h2>
-Настройка_DLNA
-<br>Шаг 3. Корректируем конфиг.
-Первым делом, прописываем путь к нашей библиотеке медиафайлов. Для этого раскомментируем (уберем решетку перед строчкой «medai_dir=»).
-<br>Прописываем после знака равенства путь к нашей библиотеке файлов. Я не стал заморачиваться (хоть это и не очень безопасно) и прописал путь к своей домашней папке. В итоге у меня получилось как-то так: media_dir=/home/<user> (вместо <user> подставьте имя своего пользователя).
-<br>Раскомментируем строчку friendly_name и пропишем после знака равенства название нашего сервера (как он будет отображаться на клиентах). Я и тут не стал заморачиваться и назвал сервер DLNA. В итоге получил такую строку: friendly_name=DLNA.
-<br>Следующим находим следующую строчку: db_dir=var/cache/minidlna. Эта строка показывает нам, где будет хранится база данных сервера minidlna. Создаем папочку там где указано или в любом другом месте (тогда нужно будет прописать новый путь после знака равенства) и даем соответствующие права на эту папку (чтобы сервер смог туда записывать свои данные).
-<br>Сохраняем конфиг.
-<br>Шаг 4. Рестарт сервера.
-<br>Для того, чтобы сервер заработал (если все настроено правильно), его нужно перезапустить командой:
-<br>sudo service minidlna restart
+        <h2><a id="install" name="install"></a>Установка MiniDLNA</h2>
 
-<br>Шаг 5. Не работает.
-<br>К сожалению, мы имеем дело с Linux и мелкие проблемы иногда возникают. Здесь я опишу всего одну проблему, с которой мне пришлось столкнуться и решение которой я пока не нашел. Так получилось, что мой телевизор PHILIPS 43PUT6101/60 отказывается видеть сервер dlna, если был включен позже компьютера. Временное решение проблемы — перезапустить сервер командой из шага 4.
-<br>Еще об одной проблеме и ее решении можно почитать в конце статьи по этой ссылке.
-========
-<br>Если что-то пойдёт не так то первым делом надо смотреть файл журнала "/var/log/minidlna.log". Статус сервера и список подключенных клиентов можно смотреть на веб-странице "http://<IP_вашего_сервера>:8200". Выглядит эта страница примерно так:
-<br>1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN mode DEFAULT group default qlen 1
-    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
-<br>2: enp4s0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP mode DEFAULT group default qlen 1000
-    link/ether 00:16:e6:d8:97:f3 brd ff:ff:ff:ff:ff:ff
-<br>3: wlp6s0: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc mq state DOWN mode DORMANT group default qlen 1000
-    link/ether f8:1a:67:89:09:78 brd ff:ff:ff:ff:ff:ff
-<br>СЕТЬ1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN mode DEFAULT group default qlen 1
-    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
-<br>2: enp4s0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP mode DEFAULT group default qlen 1000
-    link/ether 00:16:e6:d8:97:f3 brd ff:ff:ff:ff:ff:ff
-<br>3: wlp6s0: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc mq state DOWN mode DORMANT group default qlen 1000
-    link/ether f8:1a:67:89:09:78 brd ff:ff:ff:ff:ff:ff
+<p>Простейшим способом установки является, установка пакета из репозитория вашего дистрибутива:</p>
 
-<br>ip link set enp4s0 multicast on
-<br>ip link set enp4s0 broadcast 192.168.1.40
-==========================================================================
+<pre>sudo apt-get update
+sudo apt-get install minidlna</pre>
 
-<br>Главная
-<br>Аквариум
-<br>Собаки
-<br>Кошки
-<br>Другие домашние животные
-<br>Разное
-<br>О сайте
-<br>Карта сайта
-<br>Вход на сайт 
-<br>Вы здесь:   
-Главная ￼ 
-Разное ￼ 
-<br>Операционная система Ubuntu ￼ 
-<h2>Установка и настройка</h2> DLNA | UPnP медиасервера Gerbera (Mediatomb) в Ubuntu Linux 18.04 | Kubuntu Linux 18.04 
-<br>Установка и настройка DLNA | UPnP медиасервера Gerbera (Mediatomb) в Ubuntu Linux 18.04 | Kubuntu Linux 18.04 
-<br>UPnP (он же DLNA) - это сетевой протокол, предназначенный для простого подключения устройств и упрощения обмена цифровыми мультимедийными данными между вашими устройствами в локальной сети. Существует множество программ для Linux, которые могут помочь вам настроить сервер UPnP у вас дома.
-<br>Среди этих программ есть новая программа под названием Gerbera на GitHub. Если быть совсем честным, то Gerbera - это форк всем известного медиасервера под Linux с веб-интерфейсом, который всем был известен как Mediatomb.
-￼ 
-<br>Gerbera - это медиасервер UPnP, который позволяет организовать потоковую передачу цифрового мультимедиа через домашнюю сеть. В этой статье я расскажу вам, как можно установить и настроить его в Ubuntu 18.04 или же kubuntu 18.04 (в общем, настройка будет аналогична на любом дистрибутиве, основанном на Debian).
-<br>1. Установка DLNA | UPnP медиасервера Gerbera через Терминал
-Установить Gerbera можно через ppa, поддерживаемый Стивеном Четти
-Наберите в Терминале для установки следующие команды:
-sudo add-apt-repository ppa:stephenczetty/gerbera-updates
-sudo apt-get update
-sudo apt install gerbera
-￼
-<br>2. Запуск DLNA | UPnP медиасервера Gerbera и настройка автостарта службы
-Следующие две команды в Терминале запустят медиасервер и настроят его автозапуск
-sudo systemctl start gerbera
-sudo systemctl enable gerbera
-￼
-<br>3. Запуск веб-интерфейса DLNA | UPnP медиасервера Gerbera
-Медиасервер Gerbera использует номер порта 49152, поэтому убедитесь, что порт не используется. Теперь вы можете запустить медиасервер Gerbera при помощи соответствующего значка в Меню запуска приложений. Правда, скорее всего при запуске веб-интерфейса вы получите сообщение о том, что GUI отключен. Необходимо его включить.
-￼
-<br>4. Включение GUI интерфейса в DLNA | UPnP медиасервере Gerbera
-Для включения GUI нужно отредактировать файл конфигурации по адресу /etc/gerbera/config.xml, установив значение параметра ui enabled = "yes". Удобнее всего это сделать через Терминал при помощи команды: 
-sudo vim /etc/gerbera/config.xml
-￼
-<br>Если редактор Vim не установлен в Ubuntu, то предварительно установите его командой:
-sudo apt install vim
-Немного о редактировании файла в Vim:
-Нажмите клавишу "i", чтобы перейти в режим редактирования. Теперь можно редактировать файл так же, как и в любом текстовом редакторе. После того как завершите редактирование, нажмите Esc, чтобы перейти в командный режим и наберите ":wq", то есть "Записать и выйти". Все, готово.
-<br>5. Перезапуск службы DLNA | UPnP медиасервера Gerbera
-После редактирования файла конфигурации или в случае возникновения каких-либо проблем с сервером следует перезапустить службу медииасервера при помощи команды в Терминале
-sudo systemctl restart gerbera
-Далее нужно обязательно закрыть страницу веб-интерфейса и открыть заново, нажатие кнопки Обновить в браузере может не помочь.
-￼
-<br>6. Добавление медиаконтента в потоковую передачу DLNA | UPnP медиасервера Gerbera
-Для добавления файла в потоковую передачу необходимо щелкнуть по ссылке File System, найти директорию с файлами музыки, видео или фото, а затем просто нажать ссылку Add Item для ручного добавления файла или Add Autoscan Item для добавления автосканирования каталога, содержащего мультемедийный контент.
-￼
-<br>7. Просмотр содержимого DLNA | UPnP медиасервера Gerbera
-Для просмотра добавленного на сервер контента необходимо щелкнуть по ссылке Database. При щелчке по указанной ссылке вы увидите все медиафайлы, которые были добавлены вручную или автоматически.
-￼
-<br>8. Переключение в старый интерфейс DLNA | UPnP медиасервера Gerbera, доставшийся от Mediatomb
-Если вы привыкли к тому старому интерфейсу, который был ранее в Mediatomb, то нужно кликнуть по ссылке Revert to old UI, что приведет к желанному результату.
-￼
-<br>9. Проверка работоспособности DLNA | UPnP медиасервера Gerbera
-Для проверки работоспособности медиасервера Gerbera удобнее всего использовать плеер VCL. Для этого выбираем команду Вид -> Плейлист, переходим в раздел Протокол UPnP и, если все хорошо, то мы должны увидеть наш медиасервер.
-￼
-<br>10. Решение проблемы доступа к файловой системе для DLNA | UPnP медиасервера Gerbera
-Для корректного доступа к файлам видео том с медиаданными должен быть смонтирован в каталог /mnt, а не /media, иначе Gerbera выдаст ошибку. Перенастроить точку монтирования можно при помощи утилиты Disks (дисковая утилита Gnome).
-Для установки дисковой утилиты в Kubuntu используйте команду Терминала
-sudo apt install gnome-disk-utility
-￼
-<br>11. Удаление DLNA | UPnP медиасервера Gerbera
-Если вы вдруг решите удалить Gerbera, то просто наберите в Терминале команду
-sudo apt purge gerbera
-sudo add-apt-repository --remove ppa:stephenczetty/gerbera-updates
-На этом, собственно, все. Надеюсь, теперь настройка медиасервера в Linux у вас не должна вызвать вопросов. Ну а если вопросы есть, то для этого есть комментарии.
-<br>Шаг 3. Корректируем конфиг.
-<br>Первым делом, прописываем путь к нашей библиотеке медиафайлов. Для этого раскомментируем (уберем решетку перед строчкой «medai_dir=»).
-<br>Прописываем после знака равенства путь к нашей библиотеке файлов. Я не стал заморачиваться (хоть это и не очень безопасно) и прописал путь к своей домашней папке. В итоге у меня получилось как-то так: media_dir=/home/<user> (вместо <user> подставьте имя своего пользователя).
-<br>Раскомментируем строчку friendly_name и пропишем после знака равенства название нашего сервера (как он будет отображаться на клиентах). Я и тут не стал заморачиваться и назвал сервер DLNA. В итоге получил такую строку: friendly_name=DLNA.
-<br>Следующим находим следующую строчку: db_dir=var/cache/minidlna. Эта строка показывает нам, где будет хранится база данных сервера minidlna. Создаем папочку там где указано или в любом другом месте (тогда нужно будет прописать новый путь после знака равенства) и даем соответствующие права на эту папку (чтобы сервер смог туда записывать свои данные).
-Сохраняем конфиг.
-<br>Шаг 4. Рестарт сервера.
-Для того, чтобы сервер заработал (если все настроено правильно), его нужно перезапустить командой:
-<br>sudo service minidlna restart
 
-<br>Шаг 5. Не работает.
-<br>К сожалению, мы имеем дело с Linux и мелкие проблемы иногда возникают. Здесь я опишу всего одну проблему, с которой мне пришлось столкнуться и решение которой я пока не нашел. Так получилось, что мой телевизор PHILIPS 43PUT6101/60 отказывается видеть сервер dlna, если был включен позже компьютера. Временное решение проблемы — перезапустить сервер командой из шага 4.
-<br>Еще об одной проблеме и ее решении можно почитать в конце статьи по этой ссылке.
-========
-<br>Если что-то пойдёт не так то первым делом надо смотреть файл журнала "/var/log/minidlna.log". Статус сервера и список подключенных клиентов можно смотреть на веб-странице "http://<IP_вашего_сервера>:8200". <br>Выглядит эта страница примерно так:
-http://192.168.1.43:8200
-<br>1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN mode DEFAULT group default qlen 1
-    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
-<br>2: enp4s0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP mode DEFAULT group default qlen 1000
-    link/ether 00:16:e6:d8:97:f3 brd ff:ff:ff:ff:ff:ff
-<br>3: wlp6s0: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc mq state DOWN mode DORMANT group default qlen 1000
-    link/ether f8:1a:67:89:09:78 brd ff:ff:ff:ff:ff:ff
-<br>СЕТЬ1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN mode DEFAULT group default qlen 1
-    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
-<br>2: enp4s0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP mode DEFAULT group default qlen 1000
-    link/ether 00:16:e6:d8:97:f3 brd ff:ff:ff:ff:ff:ff
-<br>3: wlp6s0: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc mq state DOWN mode DORMANT group default qlen 1000
-    link/ether f8:1a:67:89:09:78 brd ff:ff:ff:ff:ff:ff
+<h3>Установка Sudo</h3>
 
-<br>ip link set enp4s0 multicast on
-<br>ip link set enp4s0 broadcast 192.168.1.40
-==========================================================================
+<p>Если в вашей системе отсутствует команда sudo, желательно ее установить. Sudo нам потребуется в процессе настройки, для тестирования прав доступа к папкам с медиа-файлами.</p>
 
-Главная
-Аквариум
-Собаки
-Кошки
-Другие домашние животные
-Разное
-О сайте
-Карта сайта
-Вход на сайт 
-Вы здесь:   
-Главная ￼ 
-Разное ￼ 
-Операционная система Ubuntu ￼ 
-Установка и настройка DLNA | UPnP медиасервера Gerbera (Mediatomb) в Ubuntu Linux 18.04 | Kubuntu Linux 18.04 
-Установка и настройка DLNA | UPnP медиасервера Gerbera (Mediatomb) в Ubuntu Linux 18.04 | Kubuntu Linux 18.04 
-UPnP (он же DLNA) - это сетевой протокол, предназначенный для простого подключения устройств и упрощения обмена цифровыми мультимедийными данными между вашими устройствами в локальной сети. Существует множество программ для Linux, которые могут помочь вам настроить сервер UPnP у вас дома.
-Среди этих программ есть новая программа под названием Gerbera на GitHub. Если быть совсем честным, то Gerbera - это форк всем известного медиасервера под Linux с веб-интерфейсом, который всем был известен как Mediatomb.
-￼ 
-Gerbera - это медиасервер UPnP, который позволяет организовать потоковую передачу цифрового мультимедиа через домашнюю сеть. В этой статье я расскажу вам, как можно установить и настроить его в Ubuntu 18.04 или же kubuntu 18.04 (в общем, настройка будет аналогична на любом дистрибутиве, основанном на Debian).
-1. Установка DLNA | UPnP медиасервера Gerbera через Терминал
-Установить Gerbera можно через ppa, поддерживаемый Стивеном Четти
-Наберите в Терминале для установки следующие команды:
-sudo add-apt-repository ppa:stephenczetty/gerbera-updates
-sudo apt-get update
-sudo apt install gerbera
-￼
-2. Запуск DLNA | UPnP медиасервера Gerbera и настройка автостарта службы
-Следующие две команды в Терминале запустят медиасервер и настроят его автозапуск
-sudo systemctl start gerbera
-sudo systemctl enable gerbera
-￼
-3. Запуск веб-интерфейса DLNA | UPnP медиасервера Gerbera
-Медиасервер Gerbera использует номер порта 49152, поэтому убедитесь, что порт не используется. Теперь вы можете запустить медиасервер Gerbera при помощи соответствующего значка в Меню запуска приложений. Правда, скорее всего при запуске веб-интерфейса вы получите сообщение о том, что GUI отключен. Необходимо его включить.
-￼
-4. Включение GUI интерфейса в DLNA | UPnP медиасервере Gerbera
-Для включения GUI нужно отредактировать файл конфигурации по адресу /etc/gerbera/config.xml, установив значение параметра ui enabled = "yes". Удобнее всего это сделать через Терминал при помощи команды: 
-sudo vim /etc/gerbera/config.xml
-￼
-Если редактор Vim не установлен в Ubuntu, то предварительно установите его командой:
-sudo apt install vim
-Немного о редактировании файла в Vim:
-Нажмите клавишу "i", чтобы перейти в режим редактирования. Теперь можно редактировать файл так же, как и в любом текстовом редакторе. После того как завершите редактирование, нажмите Esc, чтобы перейти в командный режим и наберите ":wq", то есть "Записать и выйти". Все, готово.
-5. Перезапуск службы DLNA | UPnP медиасервера Gerbera
-После редактирования файла конфигурации или в случае возникновения каких-либо проблем с сервером следует перезапустить службу медииасервера при помощи команды в Терминале
-sudo systemctl restart gerbera
-Далее нужно обязательно закрыть страницу веб-интерфейса и открыть заново, нажатие кнопки Обновить в браузере может не помочь.
-￼
-6. Добавление медиаконтента в потоковую передачу DLNA | UPnP медиасервера Gerbera
-Для добавления файла в потоковую передачу необходимо щелкнуть по ссылке File System, найти директорию с файлами музыки, видео или фото, а затем просто нажать ссылку Add Item для ручного добавления файла или Add Autoscan Item для добавления автосканирования каталога, содержащего мультемедийный контент.
-￼
-7. Просмотр содержимого DLNA | UPnP медиасервера Gerbera
-Для просмотра добавленного на сервер контента необходимо щелкнуть по ссылке Database. При щелчке по указанной ссылке вы увидите все медиафайлы, которые были добавлены вручную или автоматически.
-￼
-8. Переключение в старый интерфейс DLNA | UPnP медиасервера Gerbera, доставшийся от Mediatomb
-Если вы привыкли к тому старому интерфейсу, который был ранее в Mediatomb, то нужно кликнуть по ссылке Revert to old UI, что приведет к желанному результату.
-￼
-9. Проверка работоспособности DLNA | UPnP медиасервера Gerbera
-Для проверки работоспособности медиасервера Gerbera удобнее всего использовать плеер VCL. Для этого выбираем команду Вид -> Плейлист, переходим в раздел Протокол UPnP и, если все хорошо, то мы должны увидеть наш медиасервер.
-￼
-10. Решение проблемы доступа к файловой системе для DLNA | UPnP медиасервера Gerbera
-Для корректного доступа к файлам видео том с медиаданными должен быть смонтирован в каталог /mnt, а не /media, иначе Gerbera выдаст ошибку. Перенастроить точку монтирования можно при помощи утилиты Disks (дисковая утилита Gnome).
-Для установки дисковой утилиты в Kubuntu используйте команду Терминала
-sudo apt install gnome-disk-utility
-￼
-11. Удаление DLNA | UPnP медиасервера Gerbera
-Если вы вдруг решите удалить Gerbera, то просто наберите в Терминале команду
-sudo apt purge gerbera
-sudo add-apt-repository --remove ppa:stephenczetty/gerbera-updates
-На этом, собственно, все. Надеюсь, теперь настройка медиасервера в Linux у вас не должна вызвать вопросов. Ну а если вопросы есть, то для этого есть комментарии.
+<p>Устанавливаем sudo:</p>
+
+<pre>apt-get install sudo</pre>
+
+<p>Добавляем пользователя в группу sudo:</p>
+
+<pre>usermod -aG sudo <em>пользователь</em></pre>
+
+<p>Выходим из системы и входим заново, чтобы изменение группы вступило в силу.</p>
+
+<h2><a id="config" name="config"></a>Настройка MiniDLNA</h2>
+
+<p>Правим файл конфигурации:</p>
+
+<pre>sudo nano /etc/minidlna.conf</pre>
+
+<p>Как минимум, потребуется задать путь к папке с медиа-файлами, параметр: &quot;media_dir&quot;.&nbsp; Также можно задать имя сервера, отображаемое клиентом, параметр: &quot;friendly_name&quot;.</p>
+
+<p>В случае если наш DLNA-сервер по совместительству является интернет-шлюзом, также необходимо задать внутренний сетевой интерфейс, параметр: &quot;network_interface&quot;.</p>
+
+<p>Параметры в комментариях файла конфигурации содержат значения по умолчанию.</p>
+
+<pre># Порт сервера
+port=8200
+
+# Сетевой интерфейс
+# Можно задать несколько интерфейсов
+# в формате network_interface=eth0,eth1
+<strong>#network_interface=eth0
+</strong>
+# Имя пользователя или UID, под которым будет работать служба
+# Добавлен в версии 1.1.0
+# В Debian задается в параметрах init-скрипта
+#user=jmaggard
+
+# Путь к папке с медиа-файлами
+# Для сканирования нескольких папок, укажите несколько параметров media_dir
+# Чтобы сканировать файлы определенного типа, укажите соответствующий префикс:
+#   A - аудио: media_dir=A,/home/jmaggard/Music
+#   V - видео: media_dir=V,/home/jmaggard/Videos
+#   P - изображения: media_dir=P,/home/jmaggard/Pictures
+# Начиная с версии 1.1.0, можно задать несколько типов:
+#   PV - изображения и видео: media_dir=AV,/var/lib/minidlna/digital_camera
+#
+# При изменении параметра, потребуется повторное сканирование файлов.
+# Необходимо выполнить команду &quot;service minidlna force-reload&quot; от имени root [<a href="#rescan">подробнее</a>].
+# Начиная с версии 1.1.0, при изменении параметра, сканирование выполняется автоматически.
+<strong>media_dir=/var/lib/minidlna
+</strong>
+# Объединять корневые папки
+# Параметр добавлен в версии 1.1.3
+# Включаем, чтобы избавиться от лишнего уровня вложенности
+# Расположение видео файлов при значении &quot;no&quot;: Video/Folders/Video, при значении &quot;yes&quot;: Video/Folders
+# При изменении параметра, потребуется повторное сканирование файлов.
+<strong>merge_media_dirs=yes</strong>
+
+# Имя DLNA-сервера, отображаемое клиентом
+# По умолчанию: &quot;$HOSTNAME:$USER&quot;
+#friendly_name=
+
+# Путь к папке для хранения базы данных и кэша обложек альбомов
+db_dir=/var/lib/minidlna
+
+# Путь к папке с лог-файлами
+log_dir=/var/log
+
+# Уровень детальности лога
+# В формате log_level=источник1,источник2=значение1,источник3,источник4=значение2 ...
+# Доступные источники: &quot;general&quot;, &quot;artwork&quot;, &quot;database&quot;, &quot;inotify&quot;, &quot;scanner&quot;, &quot;metadata&quot;, &quot;http&quot;, &quot;ssdp&quot;, &quot;tivo&quot;
+# Возможные значения: &quot;off&quot;, &quot;fatal&quot;, &quot;error&quot;, &quot;warn&quot;, &quot;info&quot; or &quot;debug&quot;
+#log_level=general,artwork,database,inotify,scanner,metadata,info,ssdp,tivo=warn
+
+# Перечень имен файлов-обложек альбомов, разделитель: &quot;/&quot;
+album_art_names=Cover.jpg/cover.jpg/AlbumArtSmall.jpg/albumartsmall.jpg/AlbumArt.jpg/albumart.jpg/Album.jpg/album.jpg/Folder.jpg/folder.jpg/Thumb.jpg/thumb.jpg
+
+# Автообнаружение новых файлов
+# Включено по умолчанию
+#inotify=yes
+
+# Поддержка устройств TiVo
+#enable_tivo=no
+
+# Строго следовать DLNA-стандарту
+# Использовать серверное масштабирование для очень больших JPEG-изображений
+# Что может снизить скорость их обработки.
+#strict_dlna=no
+
+# Адрес веб-страницы устройства
+# По умолчанию IP-адрес и заданный порт сервера
+#presentation_url=http://www.mylan/index.php
+
+# Интервал отправки SSDP-уведомлений, в секундах
+#notify_interval=895
+
+# Серийный номер и номер модели DLNA-сервера, сообщаемый клиенту
+serial=12345678
+model_number=1
+
+# Путь к сокету MiniSSDPd, если установлен
+# Требуется для обеспечения работы нескольких DLNA/UPnP служб на одном сервере
+#minissdpdsocket=/run/minissdpd.sock
+
+# Контейнер, используемый в качестве корневой папки для клиентов
+#   * &quot;.&quot; - стандартный контейнер
+#   * &quot;B&quot; - &quot;Обзор папки&quot;
+#   * &quot;M&quot; - &quot;Музыка&quot;
+#   * &quot;V&quot; - &quot;Видео&quot;
+#   * &quot;P&quot; - &quot;Изображения&quot;
+# Если задано &quot;B&quot; и клиент представится как аудиоплеер, в качестве корня будет использована папка &quot;Music/Folders&quot;
+#root_container=.
+
+# Всегда использовать заданный критерий сортировки, вместо значения, запрошенного клиентом
+#force_sort_criteria=+upnp:class,+upnp:originalTrackNumber,+dc:title
+
+# Максимальное число одновременных подключений
+# Учтите: многие клиенты открывают несколько подключений одновременно
+#max_connections=50
+
+</pre>
+
+<p><a id="init-default" name="init-default"></a>Проверяем параметры init-скрипта /etc/default/minidlna:</p>
+
+<pre>sudo nano /etc/default/minidlna</pre>
+
+<p>Обычно корректировка не требуется. Если файл отсутствует, при первичной установке из исходников, копируем листинг:</p>
+
+<pre># Запускать демон, если задано &quot;yes&quot;
+START_DAEMON=&quot;yes&quot;
+
+# Путь к файлу конфигурации
+#CONFIGFILE=&quot;/etc/minidlna.conf&quot;
+
+# Путь к лог-файлу
+#LOGFILE=&quot;/var/log/minidlna.log&quot;
+
+# Запуск от имени заданного пользователя и группы
+# По умолчанию: minidlna
+#USER=&quot;minidlna&quot;
+#GROUP=&quot;minidlna&quot;
+
+# Дополнительные ключи запуска
+DAEMON_OPTS=&quot;&quot;</pre>
+
+<p>Поскольку служба работает под пользователем с ограниченными правами, публикуемые папки и файлы должны быть доступны на чтение для всех пользователей, следовательно, иметь разрешения 644: &quot;<code>rw- r-- <strong><span style="color:#FF0000;">r--</span></strong></code>&quot;, для файлов и 755: &quot;<code>rwx r-x <strong><span style="color:#FF0000;">r-x</span></strong></code>&quot;, для папок.</p>
+
+<p>Проверяем доступность для каждой папки, заданной в minidlna.conf,&nbsp;командой:</p>
+
+<pre>sudo -u minidlna ls -l <em>папка</em></pre>
+
+<p>Если папка недоступна, задаем права доступа:&nbsp;</p>
+
+<pre>sudo chmod -R 755 <em>папка</em></pre>
+
+<p>Вышестоящие папки также должны быть доступны на чтение всем пользователям. Проверяем доступность на чтение каждой папки, указанной в пути. Для вышестоящих папок используем chmod без ключа -R, если не требуется сброс разрешений для всех дочерних файлов и папок.&nbsp;</p>
+
+<p>В качестве альтернативы смене разрешений, можно запустить MiniDLNA от имени пользователя или группы-владельца файлов. Для этого необходимо задать параметры USER и GROUP в /etc/default/minidlna, и сменить владельца папки /var/lib/minidlna командой:</p>
+
+<pre>sudo chown -R пользователь:группа /var/lib/minidlna
+</pre>
+
+<h2><a id="start" name="start"></a>Запуск MiniDLNA</h2>
+
+<p>Перезапускаем службу:</p>
+
+<pre>sudo systemctl restart minidlna</pre>
+
+<p>Проверяем, работает ли служба, также смотрим параметры запуска:</p>
+
+<pre>systemctl status minidlna</pre>
+
+<p>Проверяем, слушается ли порт:</p>
+
+<pre>sudo ss -4lnp | grep minidlna</pre>
+
+<p>Проверяем лог:</p>
+
+<pre>cat /var/log/minidlna.log</pre>
+
+<p>В случае успешного старта, лог должен быть примерно следующим:</p>
+
+<pre>[2014/04/07 22:00:48] minidlna.c:1000: warn: Starting MiniDLNA version 1.1.2.
+[2014/04/07 22:00:48] minidlna.c:354: warn: Creating new database at /var/lib/minidlna/files.db
+[2014/04/07 22:00:48] minidlna.c:1039: warn: HTTP listening on port 8200
+[2014/04/07 22:00:48] scanner.c:702: warn: Scanning /var/lib/minidlna
+[2014/04/07 22:00:55] scanner.c:789: warn: Scanning /var/lib/minidlna finished (25 files)!
+[2014/04/07 22:00:55] playlist.c:125: warn: Parsing playlists...
+[2014/04/07 22:00:55] playlist.c:256: warn: Finished parsing playlists.
+[2014/04/07 22:00:55] inotify.c:198: warn: WARNING: Inotify max_user_watches [8192] is low or close to the number of used watches [14] and I do not have permission to increase this limit.  Please do so manually by writing a higher value into /proc/sys/fs/inotify/max_user_watches.</pre>
+
+<p>Если видим: &quot;<code>WARNING: Inotify max_user_watches [8192] is low.</code>&quot;, необходимо увеличить число дескрипторов слежения inotify до 100 000. Для этого в файл /etc/sysctl.conf добавим строки:</p>
+
+<pre>#MiniDLNA warning fix
+fs.inotify.max_user_watches = 100000
+</pre>
+
+<p>Вручную редактором:</p>
+
+<pre>sudo nano /etc/sysctl.conf</pre>
+
+<p>Или копипастом команды:</p>
+
+<pre>sudo sh -c &#39;printf &quot;\n\n#MiniDLNA warning fix\nfs.inotify.max_user_watches = 100000\n&quot; &gt;&gt; /etc/sysctl.conf &amp;&amp; cat /etc/sysctl.conf&#39;</pre>
+
+<p>Изменение параметра вступит в силу после перезагрузки системы.</p>
+
+<p>Открываем в браузере http://адрес.сервера:8200, видим количество файлов в библиотеке, начиная с версии 1.1.2, также отображается список подключенных клиентов.</p>
+
+<p>Настройка DLNA/UPnP-AV сервера завершена.</p>
+
+<p>Если вместо сообщений и папок-контейнеров MiniDLNA отображаются знаки вопроса, отключаем локализацию.</p>
+
+<p>Если был установлен пакет:</p>
+
+<pre>sudo mv /usr/share/locale/ru/LC_MESSAGES/minidlna.mo minidlna.mo.del</pre>
+
+<p>При установке из исходников:</p>
+
+<pre>sudo mv /usr/local/share/locale/ru/LC_MESSAGES/minidlna.mo minidlna.mo.del</pre>
+
+<p>Перезапускаем MiniDLNA с повторным сканированием библиотеки.</p>
+
+<h2><a id="rescan" name="rescan"></a>Сканирование медиа-библиотеки MiniDLNA</h2>
+
+<p>При появлении ошибок в каталоге, необходимо выполнить повторное сканирование файлов.</p>
+
+<p>Для этого удалим базу Minidlna и перезапустим службу:</p>
+
+<pre>sudo rm /var/lib/minidlna/files.db
+sudo systemctl restart minidlna
+</pre>
+
+<p>Для сканирования медиа-библиотеки при каждом старте системы можно задать ключ запуска: &quot;-R&quot; в параметре DAEMON_OPTS в файле&nbsp;/etc/default/minidlna. Сканирование большой медиа-библиотеки существенно нагружает диск, что может замедлить загрузку системы.</p>
+
+<p>Полное формирование каталога может занять несколько минут. Сканирование папок выполняется в порядке их объявления в конфиге. Файлы из небольших папок, объявленных в конфиге выше, появятся в каталоге в самом начале процесса сканирования. Крупные папки с редко воспроизводимым контентом имеет смысл размещать в конфиге последними.</p>
+
+<h2><a id="source-install" name="source-install"></a>Установка MiniDLNA из исходников</h2>
+
+<p style="color: red">Дальнейший материал был написан во времена Debian 7 и не тестировался на современных версиях.<br />Как минимум, инит-скрипты и юнит-файлы берем из deb-пакета.</p>
+
+<p>Устанавливаем сборочные зависимости:</p>
+
+<pre>sudo apt-get update
+sudo apt-get build-dep minidlna
+</pre>
+
+<p>Если при установке зависимостей возникает ошибка: &quot;Невозможно найти пакет с исходным кодом для minidlna&quot;. Значит, пакет&nbsp;MiniDLNA&nbsp; отсутствует в вашей версии дистрибутива. В этом случае придется установить зависимости вручную:</p>
+
+<pre>sudo apt-get install gcc debhelper libavcodec-dev libavformat-dev libavutil-dev libexif-dev libflac-dev libid3tag0-dev libjpeg-dev libogg-dev libsqlite3-dev libvorbis-dev</pre>
+
+<p>Создаем папку для исходников в профиле пользователя и переходим в нее:</p>
+
+<pre>mkdir -p ~/src/minidlna
+cd ~/src/minidlna
+</pre>
+
+<h3>Сборка стабильной версии MiniDLNA</h3>
+
+<p>Загружаем исходники последней стабильной версии:</p>
+
+<pre>wget --trust-server-names http://sourceforge.net/projects/minidlna/files/latest/download
+</pre>
+
+<p>С ключом --trust-server-name, будет сохранено исходное имя файла: &quot;minidlna-1.1.4.tar.gz&quot;, номер версии может отличаться. Если ключ не указан, файл будет сохранен под именем: &quot;download&quot;.</p>
+
+<p>Распаковываем архив:</p>
+
+<pre>tar -xf minidlna-1.1.4.tar.gz
+</pre>
+
+<p>Переходим в папку с исходниками:</p>
+
+<pre>cd minidlna-1.1.4
+</pre>
+
+<p>Конфигурируем:</p>
+
+<pre>./configure
+</pre>
+
+<p>Компилируем:</p>
+
+<pre>make</pre>
+
+<h3>Сборка текущей разрабатываемой версии MiniDLNA из Git-репозитория</h3>
+
+<p>Для сборки из Git-репозитория, потребуются дополнительные пакеты:</p>
+
+<pre>sudo apt-get install git autoconf automake autopoint</pre>
+
+<p>Получаем исходники:</p>
+
+<pre>git clone git://git.code.sf.net/p/minidlna/git minidlna-git</pre>
+
+<p>Переходим в папку с исходниками:</p>
+
+<pre>cd minidlna-git</pre>
+
+<p>Создаем скрипт автоконфигурации:</p>
+
+<pre>./autogen.sh</pre>
+
+<p>Конфигурируем:</p>
+
+<pre>./configure
+</pre>
+
+<p>Компилируем:</p>
+
+<pre>make</pre>
+
+<h3><a id="make-install" name="make-install"></a>Установка</h3>
+
+<p>Удаляем пакет, если он был установлен ранее:</p>
+
+<pre>sudo apt-get remove minidlna</pre>
+
+<p>Устанавливаем собранную версию:</p>
+
+<pre>sudo make install
+</pre>
+
+<p>При первичной установке, копируем minidlna.conf в папку /etc:</p>
+
+<pre>sudo cp -i minidlna.conf /etc
+</pre>
+
+<p>Создаем init-скрипт:</p>
+
+<pre>sudo nano /etc/init.d/minidlna
+</pre>
+
+<p>Если скрипт остался от оригинального пакета Debian, достаточно исправить путь к исполняемому файлу, выделенный красным. Если файл отсутствует, копируем следующий листинг:</p>
+
+<pre>#!/bin/sh
+#
+# MiniDLNA initscript
+#
+# Based on the mediatomb debian package.
+# Original authors: Tor Krill &lt;tor@excito.com&gt;
+#                   Leonhard Wimmer &lt;leo@mediatomb.cc&gt;
+#                   Andres Mejia &lt;mcitadel@gmail.com&gt;
+#
+# Modified by: Benoit Knecht &lt;benoit.knecht@fsfe.org&gt;
+#
+### BEGIN INIT INFO
+# Provides:          minidlna
+# Required-Start:    $network $local_fs $remote_fs
+# Required-Stop::    $network $local_fs $remote_fs
+# Should-Start:      $all
+# Should-Stop:       $all
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Start minidlna at boot time
+# Description:       Manage the minidlna daemon, a DLNA/UPnP-AV media server.
+### END INIT INFO
+
+unset USER
+
+# PATH should only include /usr/* if it runs after the mountnfs.sh script
+PATH=/sbin:/usr/sbin:/bin:/usr/bin
+DESC=&quot;DLNA/UPnP-AV media server&quot;
+NAME=minidlna
+DAEMON=<span style="color:#FF0000;"><strong>/usr/local/sbin/minidlnad</strong></span>
+PIDDIR=/run/$NAME
+PIDFILE=$PIDDIR/$NAME.pid
+SCRIPTNAME=/etc/init.d/$NAME
+DEFAULT=/etc/default/$NAME
+
+# Exit if the package is not installed
+[ -x $DAEMON ] || exit 0
+
+# Read configuration variable file if it is present
+[ -r $DEFAULT ] &amp;&amp; . $DEFAULT
+
+# Load the VERBOSE setting and other rcS variables
+. /lib/init/vars.sh
+
+# Define LSB log_* functions.
+# Depend on lsb-base (&gt;= 3.0-6) to ensure that this file is present.
+. /lib/lsb/init-functions
+
+# Do not start the daemon if NO_START is enabled in DEFAULT
+if [ "$START_DAEMON" != "yes" ] &amp;&amp; [ "$1" != "stop" ]; then
+        log_warning_msg &quot;$NAME: Not starting $DESC.&quot;
+        log_warning_msg &quot;$NAME: Disabled in $DEFAULT.&quot;
+        exit 0
+fi
+
+# Set the default configuration file
+if [ -z $CONFIGFILE ]; then
+        CONFIGFILE=/etc/minidlna.conf
+fi
+
+# Set the default log file
+if [ -z $LOGFILE ]; then
+        LOGFILE=/var/log/minidlna.log
+fi
+
+# Run as `minidlna&#39; if USER is not specified or is `root&#39;
+if [ -z $USER ]; then
+        USER=minidlna
+fi
+
+# If no group is specified, use USER
+if [ -z $GROUP ]; then
+        GROUP=$USER
+fi
+
+DAEMON_ARGS=&quot;-f $CONFIGFILE -P $PIDFILE $DAEMON_OPTS&quot;
+
+#
+# Function that starts the daemon/service
+#
+do_start()
+{
+        # Return
+        #   0 if daemon has been started
+        #   1 if daemon was already running
+        #   2 if daemon could not be started
+        touch $LOGFILE &amp;&amp; chown $USER:$GROUP $LOGFILE || return 2
+        if [ ! -d $PIDDIR ]; then
+            mkdir $PIDDIR || return 2
+        fi
+        chown $USER:$GROUP $PIDDIR || return 2
+
+        start-stop-daemon --start --quiet --pidfile $PIDFILE \
+                --chuid $USER:$GROUP --exec $DAEMON --test &gt; /dev/null \
+                || return 1
+        start-stop-daemon --start --quiet --pidfile $PIDFILE \
+                --chuid $USER:$GROUP --exec $DAEMON -- \
+                $DAEMON_ARGS \
+                || return 2
+}
+
+#
+# Function that stops the daemon/service
+#
+do_stop()
+{
+        # Return
+        #   0 if daemon has been stopped
+        #   1 if daemon was already stopped
+        #   2 if daemon could not be stopped
+        #   other if a failure occurred
+        start-stop-daemon --stop --quiet --retry=TERM/30/KILL/5 --pidfile $PIDFILE --name $NAME
+        RETVAL=&quot;$?&quot;
+        [ "$RETVAL" = 2 ] &amp;&amp; return 2
+        # Wait for children to finish too if this is a daemon that forks
+        # and if the daemon is only ever run from this initscript.
+        start-stop-daemon --stop --quiet --oknodo --retry=0/30/KILL/5 --exec $DAEMON
+        [ "$?" = 2 ] &amp;&amp; return 2
+        # Many daemons don&#39;t delete their pidfiles when they exit.
+        rm -rf $PIDDIR
+        return &quot;$RETVAL&quot;
+}
+
+case &quot;$1&quot; in
+  start)
+    [ "$VERBOSE" != no ] &amp;&amp; log_daemon_msg &quot;Starting $DESC &quot; &quot;$NAME&quot;
+    do_start
+    case &quot;$?&quot; in
+                0|1) [ "$VERBOSE" != no ] &amp;&amp; log_end_msg 0 ;;
+                2) [ "$VERBOSE" != no ] &amp;&amp; log_end_msg 1 ;;
+        esac
+  ;;
+  stop)
+        [ "$VERBOSE" != no ] &amp;&amp; log_daemon_msg &quot;Stopping $DESC&quot; &quot;$NAME&quot;
+        do_stop
+        case &quot;$?&quot; in
+                0|1) [ "$VERBOSE" != no ] &amp;&amp; log_end_msg 0 ;;
+                2) [ "$VERBOSE" != no ] &amp;&amp; log_end_msg 1 ;;
+        esac
+        ;;
+  status)
+       status_of_proc -p &quot;$PIDFILE&quot; &quot;$DAEMON&quot; &quot;$NAME&quot; &amp;&amp; exit 0 || exit $?
+       ;;
+  restart|force-reload)
+        log_daemon_msg &quot;Restarting $DESC&quot; &quot;$NAME&quot;
+        do_stop
+        case &quot;$?&quot; in
+          0|1)
+                if [ "$1" = "force-reload" ]; then
+                        # Rescan the collection
+                        DAEMON_ARGS=&quot;$DAEMON_ARGS -R&quot;
+                fi
+                do_start
+                case &quot;$?&quot; in
+                        0) log_end_msg 0 ;;
+                        1) log_end_msg 1 ;; # Old process is still running
+                        *) log_end_msg 1 ;; # Failed to start
+                esac
+                ;;
+          *)
+                # Failed to stop
+                log_end_msg 1
+                ;;
+        esac
+        ;;
+  *)
+        echo &quot;Usage: $SCRIPTNAME {start|stop|status|restart|force-reload}&quot; &gt;&amp;2
+        exit 3
+        ;;
+esac
+
+:
+</pre>
+
+<p>Для дистрибутивов на базе Debian 6 в init-скрипте необходимо скорректировать параметр PIDDIR, для современных дистрибутивов корректировка не требуется.</p>
+
+<pre>PIDDIR=/var/run/$NAME</pre>
+
+<p>Разрешаем запуск скрипта:</p>
+
+<pre>sudo chmod 755 /etc/init.d/minidlna
+</pre>
+
+<p>Активируем запуск init-скрипта в rc.d:</p>
+
+<pre>sudo update-rc.d minidlna defaults
+</pre>
+
+<p>По умолчанию служба запускается под пользователем minidlna, создаем учетную запись:</p>
+
+<pre>sudo adduser --system --home /var/lib/minidlna --group --gecos &quot;MiniDLNA server&quot; minidlna
+</pre>
+
+<p>Также, при первичной установке, потребуется создать <a href="#init-default">файл параметров init-скрипта</a> (/etc/default/minidlna), рассмотренный далее, в процессе настройки.</p>
+
+<p>При установке из исходников, minidlna.conf требует дополнительной корректировки.&nbsp;В пакете Debian пути по умолчанию были изменены, теперь их необходимо прописать явно.&nbsp;</p>
+
+<p>Открываем редактор:</p>
+
+<pre>sudo nano /etc/minidlna.conf</pre>
+
+<p>Задаем путь для хранения базы данных, используем домашнюю папку пользователя minidlna, созданного на предыдущем шаге:</p>
+
+<pre>db_dir=/var/lib/minidlna</pre>
+
+<p>Задаем путь к лог-файлу:</p>
+
+<pre>log_dir=/var/log
+</pre>
+
+
+<h2><a id="folders" name="folders"></a>Отключение запроса способа отображения файлов: All Files, Folders</h2>
+
+<p>Настраиваем отображение содержимого папок Music, Pictures, Video без промежуточного запроса способа их отображения.</p>
+
+<p>Частично вопрос можно решить установкой параметра: &quot;root_container=B&quot; в minidlna.conf. При этом сам запрос не отключается, но содержимое папок отображается непосредственно в корневом контейнере.</p>
+
+<p>В случае если устройство, в качестве корневого контейнера, отображает свой собственный стартовый экран, корректировка файла конфигурации не даст результата. Для полного отключения запроса способа отображения файлов, придется внести изменения в код программы.</p>
+
+<h3>Отключение виртуальных папок в MiniDLNA версии 1.1.4 и выше</h3>
+
+<p>Для версии 1.1.4 применяем <a href="http://sourceforge.net/p/minidlna/feature-requests/101/" target="_blank">патч</a>, и добавляем параметр <code>disable_extended_directories=yes</code> в minidlna.conf. Данный патч войдет в состав следующей версии MiniDLNA, для более поздних версий достаточно задать параметр в файле конфигурации.</p>
+
+<p>Получаем и устанавливаем пакет с исходниками, как описано в разделе: &quot;<a href="#source-install">Установка или обновление MiniDLNA из исходников</a>&quot;.</p>
+
+<p>Переходим в папку с исходниками:</p>
+
+<pre>cd ~/src/minidlna/minidlna-1.1.4</pre>
+
+<p>Загружаем и применяем патч:</p>
+
+<pre>wget http://sourceforge.net/p/minidlna/feature-requests/101/attachment/diff.dif
+patch &lt; diff.diff
+</pre>
+
+<p>Собираем и устанавливаем исправленную версию:</p>
+
+<pre>sudo make install</pre>
+
+<p>Редактируем файл конфигурации:</p>
+
+<pre>sudo nano /etc/minidlna.conf</pre>
+
+<p>Добавляем параметр:</p>
+
+<pre># Отключить виртуальные папки
+disable_extended_directories=yes</pre>
+
+<p>Перезапускаем службу с повторным сканированием медиа-библиотеки:</p>
+
+<pre>sudo service minidlna force-reload</pre>
+
+<p>В системах на базе systemd для повторного сканирования потребуется удалить базу данных вручную:</p>
+
+<pre>sudo rm /var/lib/minidlna/files.db
+sudo systemctl restart minidlna
+
+Проверяем результат. Папки должны открываться без запроса способа отображения.</pre>
+
+<h3>Отключение виртуальных папок в MiniDLNA версии 1.1.3 и ниже</h3>
+
+<p>Получаем и устанавливаем пакет с исходниками, как описано в разделе: &quot;<a href="#source-install">Установка или обновление MiniDLNA из исходников</a>&quot;.</p>
+
+<p>Переходим в папку с исходниками:</p>
+
+<pre>cd ~/src/minidlna/minidlna-1.1.3</pre>
+
+<p>Необходимые константы идентификаторов папок объявлены в scanner.h</p>
+
+<pre>#define MUSIC_ID                &quot;1&quot;
+#define MUSIC_ALL_ID            &quot;1$4&quot;
+#define MUSIC_GENRE_ID          &quot;1$5&quot;
+#define MUSIC_ARTIST_ID         &quot;1$6&quot;
+#define MUSIC_ALBUM_ID          &quot;1$7&quot;
+#define MUSIC_PLIST_ID          &quot;1$F&quot;
+#define MUSIC_DIR_ID            &quot;1$14&quot;
+#define MUSIC_CONTRIB_ARTIST_ID &quot;1$100&quot;
+#define MUSIC_ALBUM_ARTIST_ID   &quot;1$107&quot;
+#define MUSIC_COMPOSER_ID       &quot;1$108&quot;
+#define MUSIC_RATING_ID         &quot;1$101&quot;
+
+#define VIDEO_ID                &quot;2&quot;
+#define VIDEO_ALL_ID            &quot;2$8&quot;
+#define VIDEO_GENRE_ID          &quot;2$9&quot;
+#define VIDEO_ACTOR_ID          &quot;2$A&quot;
+#define VIDEO_SERIES_ID         &quot;2$E&quot;
+#define VIDEO_PLIST_ID          &quot;2$10&quot;
+#define VIDEO_DIR_ID            &quot;2$15&quot;
+#define VIDEO_RATING_ID         &quot;2$200&quot;
+
+#define IMAGE_ID                &quot;3&quot;
+#define IMAGE_ALL_ID            &quot;3$B&quot;
+#define IMAGE_DATE_ID           &quot;3$C&quot;
+#define IMAGE_ALBUM_ID          &quot;3$D&quot;
+#define IMAGE_CAMERA_ID         &quot;3$D2&quot; // PlaysForSure == Keyword
+#define IMAGE_PLIST_ID          &quot;3$11&quot;
+#define IMAGE_DIR_ID            &quot;3$16&quot;
+#define IMAGE_RATING_ID         &quot;3$300&quot;</pre>
+
+<p>Нам необходимо при запросе папок MUSIC_ID, VIDEO_ID и IMAGE_ID, перенаправить клиента в MUSIC_DIR_ID, VIDEO_DIR_ID и IMAGE_DIR_ID соответственно.</p>
+
+<p>Обработка запросов клиента реализована в файле upnpsoap.c.</p>
+
+<p>Сохраняем резервную копию файла:</p>
+
+<pre>cp upnpsoap.c upnpsoap.c.old</pre>
+
+<p>Запускаем редактор:</p>
+
+<pre>nano upnpsoap.c</pre>
+
+<p>Активируем поиск (F6), ищем процедуру: &quot;BrowseContentDirectory&quot;.</p>
+
+<pre>static void
+BrowseContentDirectory(struct upnphttp * h, const char * action)
+{</pre>
+
+<p>В начале процедуры выполняется разбор&nbsp;SOAP/XML-запроса, затем его обработка и возврат результата.</p>
+
+<p>Разбор запроса завершается формированием отладочного сообщения:</p>
+
+<pre>   DPRINTF(E_DEBUG, L_HTTP, &quot;Browsing ContentDirectory:\n&quot;
+             &quot; * ObjectID: %s\n&quot;
+             &quot; * Count: %d\n&quot;
+             &quot; * StartingIndex: %d\n&quot;
+             &quot; * BrowseFlag: %s\n&quot;
+             &quot; * Filter: %s\n&quot;
+             &quot; * SortCriteria: %s\n&quot;,
+            ObjectID, RequestedCount, StartingIndex,
+            BrowseFlag, Filter, SortCriteria);</pre>
+
+<p>Далее реализован выбор корневого контейнера в зависимости от конфигурационного параметра root_container:</p>
+
+<pre>   // Если запрошен корневой контейнер
+    if( strcmp(ObjectID, &quot;0&quot;) == 0 )
+    {
+        // Выставляем флаг корневого контейнера
+        args.flags |= FLAG_ROOT_CONTAINER;
+        // Если в конфиге задан корневой контейнер
+        if( runtime_vars.root_container )
+        {
+            // Если клиентом является аудио плейер и в конфиге задан обзор папок
+            // Отправляем его в папку с музыкой
+            if( (args.flags &amp; FLAG_AUDIO_ONLY) &amp;&amp; (strcmp(runtime_vars.root_container, BROWSEDIR_ID) == 0) )
+                ObjectID = MUSIC_DIR_ID;
+            else // Иначе выставляем контейнер, заданный в конфиге
+                ObjectID = runtime_vars.root_container;
+        }
+        else // Если контейнер в конфиге не задан
+        {
+            // Если клиентом является аудио плейер
+            // Отправляем его в папку с музыкой
+            if( args.flags &amp; FLAG_AUDIO_ONLY )
+                ObjectID = MUSIC_ID;
+        }
+    }</pre>
+
+<p>Сразу после этого блока и перед блоком с запросами к БД добавляем код перенаправления папок для видео, музыки и изображений:</p>
+
+<pre>   //Redirect video to folder
+    if( strcmp(ObjectID, VIDEO_ID) == 0 )
+    {
+        ObjectID = VIDEO_DIR_ID;
+    }
+
+    //Redirect music to folder
+    if( strcmp(ObjectID, MUSIC_ID) == 0 )
+    {
+        ObjectID = MUSIC_DIR_ID;
+    }
+
+    //Redirect images to folder
+    if( strcmp(ObjectID, IMAGE_ID) == 0 )
+    {
+        ObjectID = IMAGE_DIR_ID;
+    }</pre>
+
+<p>В итоге правленный фрагмент должен выглядеть следующим образом:</p>
+
+<pre>        if( strcmp(ObjectID, &quot;0&quot;) == 0 )
+        {
+                args.flags |= FLAG_ROOT_CONTAINER;
+                if( runtime_vars.root_container )
+                {
+                        if( (args.flags &amp; FLAG_AUDIO_ONLY) &amp;&amp; (strcmp(runtime_vars.root_containe$
+                                ObjectID = MUSIC_DIR_ID;
+                        else
+                                ObjectID = runtime_vars.root_container;
+                }
+                else
+                {
+                        if( args.flags &amp; FLAG_AUDIO_ONLY )
+                                ObjectID = MUSIC_ID;
+                }
+        }
+
+<strong>        //Redirect video to folder
+        if( strcmp(ObjectID, VIDEO_ID) == 0 )
+        {
+                ObjectID = VIDEO_DIR_ID;
+        }
+
+        //Redirect music to folder
+        if( strcmp(ObjectID, MUSIC_ID) == 0 )
+        {
+                ObjectID = MUSIC_DIR_ID;
+        }
+
+        //Redirect images to folder
+        if( strcmp(ObjectID, IMAGE_ID) == 0 )
+        {
+                ObjectID = IMAGE_DIR_ID;
+        }
+</strong>
+        if( strcmp(BrowseFlag+6, &quot;Metadata&quot;) == 0 )
+        {
+                args.requested = 1;
+                sql = sqlite3_mprintf(&quot;SELECT %s, &quot; COLUMNS
+                                      &quot;from OBJECTS o left join DETAILS d on (d.ID = o.DETAIL_ID$
+                                      &quot; where OBJECT_ID = &#39;%q&#39;;&quot;,
+                                      (args.flags &amp; FLAG_ROOT_CONTAINER) ? &quot;0, -1&quot; : &quot;o.OBJECT_I$
+                                      ObjectID);
+                ret = sqlite3_exec(db, sql, callback, (void *) &amp;args, &amp;zErrMsg);
+                totalMatches = args.returned;
+        }
+</pre>
+
+<p>Собираем и устанавливаем исправленную версию:</p>
+
+<pre>sudo make install</pre>
+
+<p>Перезапускаем службу:</p>
+
+<pre>sudo service minidlna restart</pre>
+
+<p>Проверяем результат. Папки должны открываться без запроса способа отображения.</p>
+
+<h2><a id="links" name="links"></a>Ссылки</h2>
+
+<p>Сайт проекта: <a href="http://sourceforge.net/projects/minidlna/" target="_blank">http://sourceforge.net/projects/minidlna/</a>.</p>
+
+<p>Список DLNA-серверов и клиентов в <a href="http://en.wikipedia.org/wiki/List_of_UPnP_AV_media_servers_and_clients" target="_blank">Википедии</a>.</p>
+
+<p>Клиент для Android:&nbsp;<a href="http://4pda.ru/forum/index.php?showtopic=272708" target="_blank">BubbleUPnP</a>.</p>
+
+       
 
 
 	</div>
