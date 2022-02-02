@@ -90,3 +90,20 @@ h1 {
   div {
     overflow: hidden;
   }
+ /* img {
+position:relative;
+margin:auto;
+top:0;
+bottom:0;
+left:0;
+right:0;
+}
+img { 
+  position:relative; 
+  left: 50%;
+  top: 50%; 
+  margin-top:0; 
+  margin-left: - 1/2 width; }*/
+   p {
+    text-indent: 30px;
+  }
