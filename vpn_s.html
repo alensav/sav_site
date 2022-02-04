@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head profile="http://gmpg.org/xfn/11">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<title>Установки и настройка OpenVPN в Ubuntu Linux за 5 минут | Записки программиста</title>
+
+<link rel="shortcut icon" href="https://eax.me/favicon.ico" type="image/x-icon" />
+<meta name="google-site-verification" content="mI_RLXJwm4YMPzdIMR6z3SZiGCHnxxQCZPKAYBimygM" />
+<meta name='yandex-verification' content='5944100ee6c98f3d' />
+  <meta name="description" content="Постоянные читатели этого блога, скорее всего, уже пару-тройку раз в своей жизни настраивали OpenVPN. Но думается, что новичкам данная заметка будет интересна и" />
+
+<link rel="stylesheet" href="https://eax.me/wp-content/themes/eaxme/style.css?20210331" type="text/css" media="screen" />
+
+<link rel="alternate" type="application/rss+xml" title="Записки программиста - RSS Feed" href="https://eax.me/feed/" />
+
+<link rel="stylesheet" href="https://eax.me/wp-content/plugins/codecolorer/codecolorer.css" type="text/css" media="screen" />
+<link rel='canonical' href='https://eax.me/openvpn/' />
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+	<script type="text/javascript"><!--
+new Image().src = "https://coun"+"ter.yad"+"ro.ru/hit?r"+
+escape(document.referrer)+((typeof(screen)=="undefined")?"":
+";s"+screen.width+"*"+screen.height+"*"+(screen.colorDepth?
+screen.colorDepth:screen.pixelDepth))+";u"+escape(document.URL)+
+";"+Math.random();//--></script>
+
+<div id="page">
+
+<!-- header begin -->
+
+<div id="header">
+    <div id="header_title">
+        <h1><a href="https://eax.me/">Записки программиста</a></h1>
+    </div>
+    <div id="header_desc">
+      <strong>Блог о программировании, а также электронике, радио, и всяком таком</strong>
+    </div>
+    <div class="clear"></div>
+</div>
+
+<!-- header end -->
+
+<div id="body">
+<div id="body_top">
+	<div id="body_left">
+    	<div id="body_left_content">
+
+
+	<div id="content" class="narrowcolumn">
+	<div class="post" id="post-35065">
+                <div class="post-top">
+                    <div class="post-title">
+                        <div class="left">
+                          <h2>Установки и настройка OpenVPN в Ubuntu Linux за 5 минут</h2>
+                          <div style="float: left;">
+                          <p>4 марта 2015</p>
+                          </div>
+                          <div style="float: right;"></div>
+                          <div style="clear: both;"></div>
+                        </div>
+                    </div>
+                </div>
+				<div class="entry">
+					<p>Постоянные читатели этого блога, скорее всего, уже пару-тройку раз в своей жизни настраивали OpenVPN. Но думается, что новичкам данная заметка будет интересна и полезна. Из нее вы узнаете, как за пять минут поднять собственный VPN сервер, а также зачем он, собственно, нужен. Ну хорошо, учитывая время на регистрацию в каком-нибудь <a href="/aws-intro/">Amazon&#8217;е</a>, DigitalOcean, Vscale.io или FastVDS и оплату VDS, пожалуй, потребуется не пять минут, а «целых» пятнадцать. <span id="more-35065"></span></p>
+<p>Итак, зачем же кому-то ходить в сеть через VPN? На то есть целый ряд причин. Например, чтобы ваши пароли, передаваемые по HTTP, не утекли, когда вы сидите с открытых WiFi точек неизвестного происхождения. Да и вообще, даже вашему обычному провайдеру не обязательно знать, на какие сайты вы ходите. Еще &#8212; чтобы <a href="/scala-geoip/">не палить свой IP</a> в <a href="/irc-descr/">IRC сетях</a> и прочих сервисах, с которыми вы работаете. Им знать ваше местоположение тоже совсем ни к чему. Также вам может захотеться попробовать какой-нибудь новый сервис, который пока что недоступен для пользователей с российским IP. Кроме того, трафик между вами и VPN сервером не только шифруется, но и сжимается, что нередко может создать ощущение более быстрого интернета. Еще OpenVPN может быть полезен в ряде других случаев, например, для доступа сотрудников ко внутренним ресурсам компании, когда они не в офисе.</p>
+<p>Почему VPN, а не какие-нибудь прокси или пробрасывание портов через SSH, надеюсь, тоже понятно. VPN достаточно настроить один раз и сразу весь трафик всех приложений пойдет через VPN cервер, в сжатом и зашифрованном виде.</p>
+<p>Чтобы поднять свой VPN, вам потребуется собственный сервер с Ubuntu Linux (или любым другим Linux/*BSD, но тогда вам будет довольно сложно следовать инструкциям данной заметки), а также права root&#8217;а на нем. Если сервер у вас уже есть, хорошо. Если нет, то не расстраивайтесь. В наши дни купить подходящий VDS/VPS можно за смешные 5$ в месяц или даже меньше. Компаний, предлагающих соответствующие услуги &#8212; десятки, некоторые были названы в начале заметки. Лично я рекомендую присмотреться к <a href="/digitalocean/">DigitalOcean</a>. Но не поленитесь изучить вопрос самостоятельно, так как к моменту прочтения вами этих строк ситуация на рынке VDS может измениться.</p>
+<p>Заходим на сервер, становимся root&#8217;ом, говорим:</p>
+<div class="codecolorer-container bash default" style="overflow:auto;white-space:nowrap;"><div class="bash codecolorer"><span class="kw2">apt-get update</span><br />
+<span class="kw2">apt-get install</span> openvpn</div></div>
+<p>Раньше в OpenVPN входила утилита под названием easy-rsa, предназначенная для генерации ключей и сертификатов. Начиная с версии 2.3 эту утилиту из пакета выпилили, поэтому придется скачать и собрать ее самостоятельно:</p>
+<div class="codecolorer-container bash default" style="overflow:auto;white-space:nowrap;"><div class="bash codecolorer"><span class="kw3">cd</span> <span class="sy0">/</span>tmp<br />
+<span class="kw2">wget</span> https:<span class="sy0">//</span>github.com<span class="sy0">/</span>OpenVPN<span class="sy0">/</span>easy-rsa<span class="sy0">/</span>archive<span class="sy0">/</span>master.zip<br />
+<span class="kw2">apt-get install</span> <span class="kw2">unzip</span><br />
+<span class="kw2">unzip</span> master.zip<br />
+<span class="kw3">cd</span> easy-rsa-master<br />
+.<span class="sy0">/</span>build<span class="sy0">/</span>build-dist.sh<br />
+<span class="kw2">tar</span> xvzf .<span class="sy0">/</span>EasyRSA-git-development.tgz<br />
+<span class="kw3">cd</span> EasyRSA-git-development</div></div>
+<p>Генерируем все необходимые ключи и сертификаты. Приготовьтесь вводить для них пароли. Так как мы настраиваем персональный VPN сервер, то, видимо, можно использовать один-единственный пароль, но подлиннее:</p>
+<div class="codecolorer-container bash default" style="overflow:auto;white-space:nowrap;"><div class="bash codecolorer">.<span class="sy0">/</span>easyrsa init-pki<br />
+.<span class="sy0">/</span>easyrsa build-ca<br />
+.<span class="sy0">/</span>easyrsa build-server-full server<br />
+.<span class="sy0">/</span>easyrsa build-client-full client1<br />
+.<span class="sy0">/</span>easyrsa gen-dh</div></div>
+<p>Выполнение последней команды может занять несколько минут.</p>
+<p>Переносим полученные ключи и сертификаты в каталог /etc/openvpn/:</p>
+<div class="codecolorer-container bash default" style="overflow:auto;white-space:nowrap;"><div class="bash codecolorer"><span class="kw2">mv</span> .<span class="sy0">/</span>pki<span class="sy0">/</span>dh.pem <span class="sy0">/</span>etc<span class="sy0">/</span>openvpn<span class="sy0">/</span>dh.pem<br />
+<span class="kw2">mv</span> .<span class="sy0">/</span>pki<span class="sy0">/</span>private<span class="sy0">/</span>client1.key <span class="sy0">/</span>etc<span class="sy0">/</span>openvpn<span class="sy0">/</span><br />
+<span class="kw2">mv</span> .<span class="sy0">/</span>pki<span class="sy0">/</span>private<span class="sy0">/</span>server.key <span class="sy0">/</span>etc<span class="sy0">/</span>openvpn<span class="sy0">/</span><br />
+<span class="kw2">mv</span> .<span class="sy0">/</span>pki<span class="sy0">/</span>ca.crt <span class="sy0">/</span>etc<span class="sy0">/</span>openvpn<span class="sy0">/</span><br />
+<span class="kw2">mv</span> .<span class="sy0">/</span>pki<span class="sy0">/</span>issued<span class="sy0">/</span>client1.crt <span class="sy0">/</span>etc<span class="sy0">/</span>openvpn<span class="sy0">/</span><br />
+<span class="kw2">mv</span> .<span class="sy0">/</span>pki<span class="sy0">/</span>issued<span class="sy0">/</span>server.crt <span class="sy0">/</span>etc<span class="sy0">/</span>openvpn<span class="sy0">/</span></div></div>
+<p>В том же каталоге создаем файл server.conf:</p>
+<div class="codecolorer-container text default" style="overflow:auto;white-space:nowrap;"><div class="text codecolorer">mode server<br />
+dev tun<br />
+server 10.128.0.0 255.255.255.0<br />
+push &quot;redirect-gateway def1&quot;<br />
+# важно! иначе будем ходить в DNS провайдера<br />
+push &quot;dhcp-option DNS 8.8.8.8&quot;<br />
+tls-server<br />
+ca ca.crt<br />
+cert server.crt<br />
+key server.key<br />
+dh dh.pem<br />
+proto tcp-server<br />
+port 1194<br />
+# клиенты видят друг друга<br />
+client-to-client<br />
+comp-lzo<br />
+keepalive 10 120<br />
+verb 4<br />
+cipher AES-256-CBC<br />
+user nobody<br />
+group nogroup<br />
+max-clients 10<br />
+# если вы хотите, чтобы несколько клиентов<br />
+# использовали один ключ одновременно:<br />
+# duplicate-cn</div></div>
+<p>Попробуем запустить OpenVPN. При запуске от вас будет требоваться ввести пароль. Соответственно, после ребута поднимать OpenVPN придется руками. Но поскольку мы настраиваем персональный VPN, вряд ли это представляет собой бОльшую проблему, чем ключи, лежащие в открытом виде, или еще хуже &#8212; сохраненные пароли. Запускаем:</p>
+<div class="codecolorer-container bash default" style="overflow:auto;white-space:nowrap;"><div class="bash codecolorer"><span class="kw2">service</span> openvpn start</div></div>
+<p>Проверяем:</p>
+<div class="codecolorer-container bash default" style="overflow:auto;white-space:nowrap;"><div class="bash codecolorer"><span class="kw2">netstat</span> <span class="re5">-tuwpan</span></div></div>
+<p>Сервер должен слушать порт 1194. Если это не так, курим /var/log/syslog.</p>
+<p>Теперь что касается клиентской стороны. Нам понадобятся файлы client1.crt, client1.key и ca.crt:</p>
+<div class="codecolorer-container bash default" style="overflow:auto;white-space:nowrap;"><div class="bash codecolorer"><span class="kw2">mkdir</span> vpn<br />
+<span class="kw3">cd</span> vpn<br />
+<span class="kw2">scp</span> vpn-server:<span class="sy0">/</span>etc<span class="sy0">/</span>openvpn<span class="sy0">/</span>client1.crt .<span class="sy0">/</span><br />
+<span class="kw2">scp</span> vpn-server:<span class="sy0">/</span>etc<span class="sy0">/</span>openvpn<span class="sy0">/</span>client1.key .<span class="sy0">/</span><br />
+<span class="kw2">scp</span> vpn-server:<span class="sy0">/</span>etc<span class="sy0">/</span>openvpn<span class="sy0">/</span>ca.crt .<span class="sy0">/</span></div></div>
+<p>Создадим файл client.conf:</p>
+<div class="codecolorer-container text default" style="overflow:auto;white-space:nowrap;"><div class="text codecolorer">client<br />
+proto tcp<br />
+dev tun<br />
+# !!! замените на настоящий ip адрес сервера<br />
+remote 123.45.67.89 1194<br />
+<br />
+# следующие две строчки актуальны только для *nix систем<br />
+# на практике они не очень удобны, так как OpenVPN не сможет<br />
+# нормально все за собой почистить по завершению работы<br />
+<br />
+# user nobody<br />
+# group nogroup<br />
+<br />
+persist-key<br />
+persist-tun<br />
+ca ca.crt<br />
+cert client1.crt<br />
+key client1.key<br />
+cipher AES-256-CBC<br />
+comp-lzo<br />
+verb 3</div></div>
+<p>Подрубаемся к серверу, внимательно читаем логи:</p>
+<div class="codecolorer-container bash default" style="overflow:auto;white-space:nowrap;"><div class="bash codecolorer"><span class="kw2">sudo</span> openvpn <span class="re5">--config</span> client.conf</div></div>
+<p>В соседнем терминале говорим:</p>
+<div class="codecolorer-container bash default" style="overflow:auto;white-space:nowrap;"><div class="bash codecolorer"><span class="kw2">ping</span> 10.128.0.1<br />
+traceroute mail.ru</div></div>
+<p>Если все было сделано правильно, вы обнаружите, что пинги успешно доходят до 10.128.0.1 (первая команда), но пакеты через него никуда не проходят (вторая команда). Это потому что мы забыли настроить на сервере NAT. Что мне лично кажется странным. Я смутно припоминаю, что когда в свое время я поднимал OpenVPN на <a href="/goodbye-freebsd/">FreeBSD</a>, подобного шага не требовалось. Впрочем, я могу и ошибаться.</p>
+<p>На сервере открываем файл /etc/sysctl.conf и раскомментируем в нем строчку:</p>
+<div class="codecolorer-container text default" style="overflow:auto;white-space:nowrap;"><div class="text codecolorer">net.ipv4.ip_forward=1</div></div>
+<p>Чтобы не пришлось перезагружаться, говорим:</p>
+<div class="codecolorer-container bash default" style="overflow:auto;white-space:nowrap;"><div class="bash codecolorer"><span class="kw3">echo</span> <span class="nu0">1</span> <span class="sy0">&gt;&gt;</span> <span class="sy0">/</span>proc<span class="sy0">/</span>sys<span class="sy0">/</span>net<span class="sy0">/</span>ipv4<span class="sy0">/</span>conf<span class="sy0">/</span>all<span class="sy0">/</span>forwarding</div></div>
+<p>Затем:</p>
+<div class="codecolorer-container bash default" style="overflow:auto;white-space:nowrap;"><div class="bash codecolorer"><span class="kw2">iptables</span> <span class="re5">-A</span> FORWARD <span class="re5">-s</span> 10.128.0.0<span class="sy0">/</span><span class="nu0">24</span> <span class="re5">-j</span> ACCEPT<br />
+<span class="kw2">iptables</span> <span class="re5">-A</span> FORWARD <span class="re5">-d</span> 10.128.0.0<span class="sy0">/</span><span class="nu0">24</span> <span class="re5">-m</span> state \<br />
+&nbsp; <span class="re5">--state</span> ESTABLISHED,RELATED <span class="re5">-j</span> ACCEPT<br />
+<span class="kw2">iptables</span> <span class="re5">-t</span> nat <span class="re5">-A</span> POSTROUTING <span class="re5">-s</span> 10.128.0.0<span class="sy0">/</span><span class="nu0">24</span> \<br />
+&nbsp; <span class="re5">-j</span> SNAT <span class="re5">--to-source</span> 123.45.67.89</div></div>
+<p>&#8230; где 123.45.67.89 &#8212; это IP сервера. Переподключаемся клиентом, попробуем зайти на какие-нибудь <a href="http://2ip.ru">2ip.ru</a> или <a href="/ip/">eax.me/ip</a> &#8212; теперь все должно работать. Если это не так, курим логи. Если все ОК, сохраняем правила фаервола на сервере:</p>
+<div class="codecolorer-container bash default" style="overflow:auto;white-space:nowrap;"><div class="bash codecolorer">iptables-save <span class="sy0">&gt;</span> <span class="sy0">/</span>etc<span class="sy0">/</span>iptables.rules</div></div>
+<p>&#8230; и проверяем, что в файле /etc/network/interfaces есть строчка:</p>
+<div class="codecolorer-container text default" style="overflow:auto;white-space:nowrap;"><div class="text codecolorer">pre-up iptables-restore &lt; /etc/iptables.rules</div></div>
+<p>Если на сервере ранее уже <a href="/iptables/">настраивался фаервол</a>, может оказаться, что правила хранятся в файле с именем, отличным от /etc/iptables.rules.</p>
+<p>Можно сказать <code class="codecolorer bash default"><span class="bash"><span class="kw2">reboot</span></span></code> и проверить, что настройки держатся после перезагрузки сервера:</p>
+<div class="codecolorer-container bash default" style="overflow:auto;white-space:nowrap;"><div class="bash codecolorer"><span class="kw2">cat</span> <span class="sy0">/</span>proc<span class="sy0">/</span>sys<span class="sy0">/</span>net<span class="sy0">/</span>ipv4<span class="sy0">/</span>conf<span class="sy0">/</span>all<span class="sy0">/</span>forwarding<br />
+<span class="kw2">iptables</span> <span class="re5">-L</span> <span class="re5">-n</span></div></div>
+<p>Сервер OpenVPN, разумеется, придется перезапустить руками.</p>
+<p>Осталось сделать последний штрих на клиенте. Дело в том, что (1) запускать openvpn в отдельном терминале и следить, не упал ли он там, неудобно. Кроме того, (2) если на клиенте сказать:</p>
+<div class="codecolorer-container bash default" style="overflow:auto;white-space:nowrap;"><div class="bash codecolorer">nm-tool <span class="sy0">|</span> <span class="kw2">grep</span> DNS<br />
+<span class="kw2">sudo</span> <span class="kw2">iptables</span> <span class="re5">-A</span> OUTPUT <span class="re5">-d</span> 192.168.0.1 <span class="re5">-j</span> DROP<br />
+<span class="co0"># ^ для удаления правила введите ту же команду с -D вместо -A</span></div></div>
+<p>&#8230; где 192.168.0.1 &#8212; DNS вашего провайдера (выводится утилитой nm-tool), вы обнаружите, что резолвинг доменов сломался, а следовательно клиент все еще использует DNS провайдера. Можно убить двух зайцев, сказав:</p>
+<div class="codecolorer-container bash default" style="overflow:auto;white-space:nowrap;"><div class="bash codecolorer"><span class="kw2">sudo</span> <span class="kw2">apt-get install</span> network-manager-openvpn-gnome</div></div>
+<p>&#8230; и настроив VPN через NetworkManager (иконку сети в правом верхнем углу <a href="/unity/">Unity</a>). Делается это несложно, фактически нужно повторить текстовый конфиг клиента при помощи галочек и полей ввода. Понять, какая галочка какой строчке в конфиге соответствует, очень легко. Главное &#8212; не полениться залезть во всякие продвинутые свойства сети и прочие разделы настроек. Если же вы где-то ошибетесь, проблему можно с легкостью диагностировать при помощи файла /var/log/syslog.</p>
+<p>Несмотря на то, что заметка получилась довольно длинной, настройка OpenVPN действительно занимает всего лишь несколько минут. Безопасного и быстрого вам веб-серфинга! А также, как всегда, я буду искренне рад вашим вопросам и дополнениям.</p>
+<p><em>Дополнение:</em> Я столкнулся с такой проблемой, что OpenVPN не переподключался к серверу после выхода ноутбука из спящего режима. Исправить ситуацию помогла команда <code class="codecolorer bash default"><span class="bash"><span class="kw2">sudo</span> <span class="kw2">pkill</span> <span class="re5">--signal</span> SIGHUP <span class="re5">--exact</span> openvpn</span></code>, выполняемая сразу после выходя из спящего режима. Для этого соответствующая команда <a href="https://github.com/afiskon/archlinux-on-desktop/blob/master/home/eax/bin/zzz">была дописана в скрипт</a>, который я использую для <em>входа</em> в спящий режим, откуда она вызывается с небольшой задержкой. Чтобы это работало, у пользователя должно быть право говорить sudo без пароля. Кроме того, в конфиге сервера OpenVPN мне пришлось убрать параметр <code class="codecolorer text default"><span class="text">keepalive</span></code>, а в клиентском конфиге добавить <code class="codecolorer text default"><span class="text">ping-restart 0</span></code>.</p>
+<p><em>Дополнение:</em> Вы можете держать OpenVPN и веб-серер (например, <a href="/nginx/">Nginx</a>) на одном порту. Для этого веб-сервер должен слушать, к примеру, 127.0.0.1:4443, а у OpenVPN в конфиге следом за <code class="codecolorer text default"><span class="text">port 443</span></code> нужно написать <code class="codecolorer text default"><span class="text">port-share 127.0.0.1 4443</span></code>. Конкретно порт 443 интересен тем, что на нем обычно <a href="/lets-encrypt/">живет HTTPS</a>. Поэтому интернет-провайдеры редко режут или как-то модифицируют трафик, идущий на этот порт. Если держать VPN на другом порту, он может оказаться недоступен по Wi-Fi в каком-нибудь кафе или аэропорте.</p>
+<p><em>Дополнение:</em> Вас также могут заинтересовать статьи, посвященные <a href="/sshuttle/">sshuttle</a> и <a href="/tor/">Tor</a>. А&nbsp;из поста про <a href="/raspberry-pi-wifi-router/">роутер на базе Raspberry Pi</a> вы узнаете, как можно завернуть в VPN сетевой трафик сразу всех ваших устройств.</p>
+<!-- tags begin -->
+	
+</body>
+</html>

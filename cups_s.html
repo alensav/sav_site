@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="ru" data-vue-meta="%7B%22lang%22:%7B%22ssr%22:%22ru%22%7D%7D">
+<head >
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+  <meta name="referrer" content="unsafe-url">
+  <title>Настройка с нуля принтсервера CUPS с доменной авторизацией и без нее в сети с разными ОС / Хабр</title>
+  <style>
+    /* cyrillic-ext */
+    @font-face {
+      font-family: 'Fira Sans';
+      font-style: normal;
+      font-weight: 500;
+      font-display: swap;
+      src: url(https://fonts.gstatic.com/s/firasans/v11/va9B4kDNxMZdWfMOD5VnZKveSxf6TF0.woff2) format('woff2');
+      unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+    }
+
+    /* cyrillic */
+    @font-face {
+      font-family: 'Fira Sans';
+      font-style: normal;
+      font-weight: 500;
+      font-display: swap;
+      src: url(https://fonts.gstatic.com/s/firasans/v11/va9B4kDNxMZdWfMOD5VnZKveQhf6TF0.woff2) format('woff2');
+      unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+    }
+
+    /* latin-ext */
+    @font-face {
+      font-family: 'Fira Sans';
+      font-style: normal;
+      font-weight: 500;
+      font-display: swap;
+      src: url(https://fonts.gstatic.com/s/firasans/v11/va9B4kDNxMZdWfMOD5VnZKveSBf6TF0.woff2) format('woff2');
+      unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+    }
+
+    /* latin */
+    @font-face {
+      font-family: 'Fira Sans';
+      font-style: normal;
+      font-weight: 500;
+      font-display: swap;
+      src: url(https://fonts.gstatic.com/s/firasans/v11/va9B4kDNxMZdWfMOD5VnZKveRhf6.woff2) format('woff2');
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+    }
+
+    /* non-breaking hyphen */
+    @font-face {
+      font-family: 'Fira Sans';
+      font-style: normal;
+      font-weight: 500;
+      font-display: swap;
+      src: url(https://fonts.gstatic.com/l/font?kit=KFOlCnqEu92Fr1MmEU9vBh0_IsHAlmrO6g&skey=ee881451c540fdec&v=v29) format('woff2');
+      unicode-range: U+02011;
+    }
+  </style>
+  <link rel="preload" href="https://assets.habr.com/habr-web/css/chunk-vendors.e7843cc0.css" as="style"><link rel="preload" href="https://assets.habr.com/habr-web/js/chunk-vendors.4722dff8.js" as="script"><link rel="preload" href="https://assets.habr.com/habr-web/css/app.41694118.css" as="style"><link rel="preload" href="https://assets.habr.com/habr-web/js/app.20f8c25a.js" as="script">
+  <link rel="stylesheet" href="https://assets.habr.com/habr-web/css/chunk-vendors.e7843cc0.css"><link rel="stylesheet" href="https://assets.habr.com/habr-web/css/app.41694118.css">
+  <script>window.i18nFetch = new Promise((res, rej) => {
+          const xhr = new XMLHttpRequest();
+          xhr.open('GET', '/js/i18n/ru-compiled.8fa3f7551c3beb5fdc248d68681b665e.json');
+          xhr.responseType = 'json';
+          xhr.onload = function(e) {
+            if (this.status === 200) {
+              res({ru: xhr.response});
+            } else {
+              rej(e);
+            }
+          };
+          xhr.send();
+        });</script>
+  
+  <script data-vue-meta="ssr" type="application/ld+json" data-vmid="ldjson-schema">{"@context":"http:\/\/schema.org","@type":"Article","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/habr.com\/ru\/post\/443094\/"},"headline":"Настройка с нуля принтсервера CUPS с доменной авторизацией и без нее в сети с разными ОС","datePublished":"2019-03-09T19:58:16+03:00","dateModified":"2020-11-24T18:37:25+03:00","author":{"@type":"Person","name":"melichronsoul"},"publisher":{"@type":"Organization","name":"Habr","logo":{"@type":"ImageObject","url":"https:\/\/habrastorage.org\/webt\/a_\/lk\/9m\/a_lk9mjkccjox-zccjrpfolmkmq.png"}},"description":"Настройка с нуля принтсервера CUPS с доменной авторизацией и без нее в сети с разными ОС Вступление Итак. Предположительно, сервис печати CUPS &mdash; это мощное решен...","url":"https:\/\/habr.com\/ru\/post\/443094\/#post-content-body","about":["h_linux","h_sys_admin","h_nix","f_admin"],"image":["https:\/\/habr.com\/share\/publication\/443094\/4a1e9a17205a6a8ebbfcd516b828be69\/"]}</script>
+  <script src="//www.googletagservices.com/tag/js/gpt.js" async></script>
+  <style>.grecaptcha-badge{visibility: hidden;}</style>
+  <meta name="habr-version" content="2.60.0">
+  
+  <meta data-vue-meta="ssr" property="fb:app_id" content="444736788986613"><meta data-vue-meta="ssr" property="fb:pages" content="472597926099084"><meta data-vue-meta="ssr" name="twitter:card" content="summary_large_image"><meta data-vue-meta="ssr" name="twitter:site" content="@habr_com"><meta data-vue-meta="ssr" property="og:site_name" content="Хабр" data-vmid="og:site_name"><meta data-vue-meta="ssr" property="og:title" content="Настройка с нуля принтсервера CUPS с доменной авторизацией и без нее в сети с разными ОС" data-vmid="og:title"><meta data-vue-meta="ssr" name="twitter:title" content="Настройка с нуля принтсервера CUPS с доменной авторизацией и без нее в сети с разными ОС" data-vmid="twitter:title"><meta data-vue-meta="ssr" name="aiturec:title" content="Настройка с нуля принтсервера CUPS с доменной авторизацией и без нее в сети с разными ОС" data-vmid="aiturec:title"><meta data-vue-meta="ssr" name="description" content="Настройка с нуля принтсервера CUPS с доменной авторизацией и без нее в сети с разными ОС
+Вступление
+Итак. Предположительно, сервис печати CUPS — это мощное решение, позволяющее организовать..." data-vmid="description"><meta data-vue-meta="ssr" itemprop="description" content="Настройка с нуля принтсервера CUPS с доменной авторизацией и без нее в сети с разными ОС
+Вступление
+Итак. Предположительно, сервис печати CUPS — это мощное решение, позволяющее организовать..." data-vmid="description:itemprop"><meta data-vue-meta="ssr" property="og:description" content="Настройка с нуля принтсервера CUPS с доменной авторизацией и без нее в сети с разными ОС
+Вступление
+Итак. Предположительно, сервис печати CUPS — это мощное решение, позволяющее организовать..." data-vmid="og:description"><meta data-vue-meta="ssr" name="twitter:description" content="Настройка с нуля принтсервера CUPS с доменной авторизацией и без нее в сети с разными ОС
+Вступление
+Итак. Предположительно, сервис печати CUPS — это мощное решение, позволяющее организовать..." data-vmid="twitter:description"><meta data-vue-meta="ssr" property="aiturec:description" content="Настройка с нуля принтсервера CUPS с доменной авторизацией и без нее в сети с разными ОС
+Вступление
+Итак. Предположительно, сервис печати CUPS — это мощное решение, позволяющее организовать..." data-vmid="aiturec:description"><meta data-vue-meta="ssr" itemprop="image" content="https://habr.com/share/publication/443094/4a1e9a17205a6a8ebbfcd516b828be69/" data-vmid="image:itemprop"><meta data-vue-meta="ssr" property="og:image" content="https://habr.com/share/publication/443094/4a1e9a17205a6a8ebbfcd516b828be69/" data-vmid="og:image"><meta data-vue-meta="ssr" property="og:image:width" content="1200" data-vmid="og:image:width"><meta data-vue-meta="ssr" property="og:image:height" content="630" data-vmid="og:image:height"><meta data-vue-meta="ssr" property="aiturec:image" content="https://habr.com/share/publication/443094/4a1e9a17205a6a8ebbfcd516b828be69/" data-vmid="aiturec:image"><meta data-vue-meta="ssr" name="twitter:image" content="https://habr.com/share/publication/443094/4a1e9a17205a6a8ebbfcd516b828be69/" data-vmid="twitter:image"><meta data-vue-meta="ssr" property="vk:image" content="https://habr.com/share/publication/443094/4a1e9a17205a6a8ebbfcd516b828be69/?format=vk" data-vmid="vk:image"><meta data-vue-meta="ssr" property="aiturec:item_id" content="443094" data-vmid="aiturec:item_id"><meta data-vue-meta="ssr" property="aiturec:datetime" content="2019-03-09T16:58:16.000Z" data-vmid="aiturec:datetime"><meta data-vue-meta="ssr" content="https://habr.com/ru/post/443094/" property="og:url" data-vmid="og:url"><meta data-vue-meta="ssr" property="og:type" content="article" data-vmid="og:type"><meta data-vue-meta="ssr" property="og:locale" content="ru_RU" data-vmid="og:locale"><meta data-vue-meta="ssr" name="keywords" content="CUPS, Linux, принтсервер, доменная авторизация, SSSD, Winbind">
+  <link data-vue-meta="ssr" href="https://habr.com/ru/rss/post/443094/?fl=ru" type="application/rss+xml" title="" rel="alternate" name="rss"><link data-vue-meta="ssr" href="https://habr.com/ru/post/443094/" rel="canonical" data-vmid="canonical"><link data-vue-meta="ssr" data-vmid="hreflang"><link data-vue-meta="ssr" image_src="image" href="https://habr.com/share/publication/443094/4a1e9a17205a6a8ebbfcd516b828be69/" data-vmid="image:href">
+  <meta name="apple-mobile-web-app-status-bar-style" content="#303b44">
+  <meta name="msapplication-TileColor" content="#629FBC">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <link
+    rel="shortcut icon"
+    type="image/png"
+    sizes="16x16"
+    href="https://assets.habr.com/habr-web/img/favicons/favicon-16.png"
+  >
+  <link
+    rel="shortcut icon"
+    type="image/png"
+    sizes="32x32"
+    href="https://assets.habr.com/habr-web/img/favicons/favicon-32.png"
+  >
+  <link
+    rel="apple-touch-icon"
+    type="image/png"
+    sizes="76x76"
+    href="https://assets.habr.com/habr-web/img/favicons/apple-touch-icon-76.png"
+  >
+  <link
+    rel="apple-touch-icon"
+    type="image/png"
+    sizes="120x120"
+    href="https://assets.habr.com/habr-web/img/favicons/apple-touch-icon-120.png"
+  >
+  <link
+    rel="apple-touch-icon"
+    type="image/png"
+    sizes="152x152"
+    href="https://assets.habr.com/habr-web/img/favicons/apple-touch-icon-152.png"
+  >
+  <link
+    rel="apple-touch-icon"
+    type="image/png"
+    sizes="180x180"
+    href="https://assets.habr.com/habr-web/img/favicons/apple-touch-icon-180.png"
+  >
+  <link
+    rel="apple-touch-icon"
+    type="image/png"
+    sizes="256x256"
+    href="https://assets.habr.com/habr-web/img/favicons/apple-touch-icon-256.png"
+  >
+  <link
+    rel="apple-touch-startup-image"
+    media="screen and (device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)"
+    href="https://assets.habr.com/habr-web/img/splashes/splash_1136x640.png"
+  >
+  <link
+    rel="apple-touch-startup-image"
+    media="screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)"
+    href="https://assets.habr.com/habr-web/img/splashes/splash_2436x1125.png"
+  >
+  <link
+    rel="apple-touch-startup-image"
+    media="screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)"
+    href="https://assets.habr.com/habr-web/img/splashes/splash_1792x828.png"
+  >
+  <link
+    rel="apple-touch-startup-image"
+    media="screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)"
+    href="https://assets.habr.com/habr-web/img/splashes/splash_828x1792.png"
+  >
+  <link
+    rel="apple-touch-startup-image"
+    media="screen and (device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)"
+    href="https://assets.habr.com/habr-web/img/splashes/splash_1334x750.png"
+  >
+  <link
+    rel="apple-touch-startup-image"
+    media="screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)"
+    href="https://assets.habr.com/habr-web/img/splashes/splash_1242x2668.png"
+  >
+  <link
+    rel="apple-touch-startup-image"
+    media="screen and (device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)"
+    href="https://assets.habr.com/habr-web/img/splashes/splash_2208x1242.png"
+  >
+  <link
+    rel="apple-touch-startup-image"
+    media="screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)"
+    href="https://assets.habr.com/habr-web/img/splashes/splash_1125x2436.png"
+  >
+  <link
+    rel="apple-touch-startup-image"
+    media="screen and (device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)"
+    href="https://assets.habr.com/habr-web/img/splashes/splash_1242x2208.png"
+  >
+  <link
+    rel="apple-touch-startup-image"
+    media="screen and (device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)"
+    href="https://assets.habr.com/habr-web/img/splashes/splash_2732x2048.png"
+  >
+  <link
+    rel="apple-touch-startup-image"
+    media="screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)"
+    href="https://assets.habr.com/habr-web/img/splashes/splash_2688x1242.png"
+  >
+  <link
+    rel="apple-touch-startup-image"
+    media="screen and (device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)"
+    href="https://assets.habr.com/habr-web/img/splashes/splash_2224x1668.png"
+  >
+  <link
+    rel="apple-touch-startup-image"
+    media="screen and (device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)"
+    href="https://assets.habr.com/habr-web/img/splashes/splash_750x1334.png"
+  >
+  <link
+    rel="apple-touch-startup-image"
+    media="screen and (device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)"
+    href="https://assets.habr.com/habr-web/img/splashes/splash_2048x2732.png"
+  >
+  <link
+    rel="apple-touch-startup-image"
+    media="screen and (device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)"
+    href="https://assets.habr.com/habr-web/img/splashes/splash_2388x1668.png"
+  >
+  <link
+    rel="apple-touch-startup-image"
+    media="screen and (device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)"
+    href="https://assets.habr.com/habr-web/img/splashes/splash_1668x2224.png"
+  >
+  <link
+    rel="apple-touch-startup-image"
+    media="screen and (device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)"
+    href="https://assets.habr.com/habr-web/img/splashes/splash_640x1136.png"
+  >
+  <link
+    rel="apple-touch-startup-image"
+    media="screen and (device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)"
+    href="https://assets.habr.com/habr-web/img/splashes/splash_1668x2388.png"
+  >
+  <link
+    rel="apple-touch-startup-image"
+    media="screen and (device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)"
+    href="https://assets.habr.com/habr-web/img/splashes/splash_2048x1536.png"
+  >
+  <link
+    rel="apple-touch-startup-image"
+    media="screen and (device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)"
+    href="https://assets.habr.com/habr-web/img/splashes/splash_1536x2048.png"
+  >
+  <link
+    rel="mask-icon"
+    color="#77a2b6"
+    href="https://assets.habr.com/habr-web/img/favicons/apple-touch-icon-120.svg"
+  >
+  <link
+    crossorigin="use-credentials"
+    href="/manifest.webmanifest"
+    rel="manifest"
+  >
+</head>
+<body>
+
+
+<div id="app" data-server-rendered="true" data-async-called="true"><div class="tm-layout__wrapper"><!----> <div></div> <!----> <header class="tm-header"><div class="tm-page-width"><div class="tm-header__container"><!----> <span class="tm-header__logo-wrap"><a href="/ru/" class="tm-header__logo tm-header__logo_ru"><svg height="16" width="16" class="tm-svg-img tm-header__icon"><title>Хабр</title> <use xlink:href="/img/habr-logo-ru.svg#logo"></use></svg></a> <span class="tm-header__beta-sign" style="display:none;">β</span></span> <div class="tm-dropdown tm-header__projects"><div class="tm-dropdown__head"><button class="tm-header__dropdown-toggle"><svg height="16" width="16" class="tm-svg-img tm-header__icon tm-header__icon_dropdown"><title>Открыть список</title> <use xlink:href="/img/megazord-v24.4a410f80.svg#arrow-down"></use></svg></button></div> <!----></div> <a href="/ru/sandbox/start/" class="tm-header__become-author-btn">
+            Как стать автором
+          </a> <div class="tm-feature tm-header__feature tm-feature_variant-inline"><!----></div> <!----> <!----></div></div></header> <div class="tm-layout"><div class="tm-page-progress-bar"></div> <div data-menu-sticky="true" class="tm-base-layout__header tm-base-layout__header_is-sticky"><div class="tm-page-width"><div class="tm-base-layout__header-wrapper"><div class="tm-main-menu"><div class="tm-main-menu__section"><nav class="tm-main-menu__section-content"><!----> <a href="/ru/all/" class="tm-main-menu__item">
+        Все потоки
+      </a> <a href="/ru/flows/develop/" class="tm-main-menu__item">
+          Разработка
+        </a><a href="/ru/flows/admin/" class="tm-main-menu__item">
+          Администрирование
+        </a><a href="/ru/flows/design/" class="tm-main-menu__item">
+          Дизайн
+        </a><a href="/ru/flows/management/" class="tm-main-menu__item">
+          Менеджмент
+        </a><a href="/ru/flows/marketing/" class="tm-main-menu__item">
+          Маркетинг
+        </a><a href="/ru/flows/popsci/" class="tm-main-menu__item">
+          Научпоп
+        </a></nav></div></div> <div class="tm-header-user-menu tm-base-layout__user-menu"><a href="/ru/search/" class="tm-header-user-menu__item tm-header-user-menu__search"><svg height="24" width="24" class="tm-svg-img tm-header-user-menu__icon tm-header-user-menu__icon_search tm-header-user-menu__icon_dark"><title>Поиск</title> <use xlink:href="/img/megazord-v24.4a410f80.svg#search"></use></svg></a> <!----> <!----> <!----> <div class="tm-header-user-menu__item tm-header-user-menu__user_desktop"><div class="tm-dropdown"><div class="tm-dropdown__head"><svg height="24" width="24" data-test-id="menu-toggle-guest" class="tm-svg-img tm-header-user-menu__icon"><title>Профиль</title> <use xlink:href="/img/megazord-v24.4a410f80.svg#header-user"></use></svg> <!----></div> <!----></div> <!----></div> <!----></div></div></div></div> <!----> <div class="tm-page-width"></div> <main class="tm-layout__container"><div hl="ru" data-async-called="true" class="tm-page"><div class="tm-page-width"><!----> <div class="tm-page__wrapper"><div class="tm-page__main tm-page__main_has-sidebar"><div class="pull-down"><div class="pull-down__header" style="height:0px;"><div class="pull-down__content" style="bottom:10px;"><svg height="24" width="24" class="tm-svg-img pull-down__arrow"><title>Обновить</title> <use xlink:href="/img/megazord-v24.4a410f80.svg#pull-arrow"></use></svg></div></div> <div class="tm-article-presenter"> <div class="tm-article-presenter__body"><div class="tm-misprint-area"><div class="tm-misprint-area__wrapper"><article class="tm-article-presenter__content tm-article-presenter__content_narrow"><div class="tm-article-presenter__header"> <div class="tm-article-snippet tm-article-presenter__snippet"><div class="tm-article-snippet__meta-container"><div class="tm-article-snippet__meta"><span class="tm-user-info tm-article-snippet__author"><a href="/ru/users/melichronsoul/" title="melichronsoul" class="tm-user-info__userpic"><div class="tm-entity-image"><svg height="24" width="24" class="tm-svg-img tm-image-placeholder tm-image-placeholder_blue"><!----> <use xlink:href="/img/megazord-v24.4a410f80.svg#placeholder-user"></use></svg></div></a> <span class="tm-user-info__user"><a href="/ru/users/melichronsoul/" class="tm-user-info__username">
+      melichronsoul
+    </a> </span></span> <span class="tm-article-snippet__datetime-published"><time datetime="2019-03-09T16:58:16.000Z" title="2019-03-09, 19:58">9  марта  2019 в 19:58</time></span></div> <!----></div> <h1 lang="ru" class="tm-article-snippet__title tm-article-snippet__title_h1"><span>Настройка с нуля принтсервера CUPS с доменной авторизацией и без нее в сети с разными ОС</span></h1> <div class="tm-article-snippet__hubs"><span class="tm-article-snippet__hubs-item"><a href="/ru/hub/linux/" class="tm-article-snippet__hubs-item-link"><span>Настройка Linux</span> <span title="Профильный хаб" class="tm-article-snippet__profiled-hub">*</span></a></span><span class="tm-article-snippet__hubs-item"><a href="/ru/hub/sys_admin/" class="tm-article-snippet__hubs-item-link"><span>Системное администрирование</span> <span title="Профильный хаб" class="tm-article-snippet__profiled-hub">*</span></a></span><span class="tm-article-snippet__hubs-item"><a href="/ru/hub/nix/" class="tm-article-snippet__hubs-item-link"><span>*nix</span> <span title="Профильный хаб" class="tm-article-snippet__profiled-hub">*</span></a></span></div> <div class="tm-article-snippet__labels"><div class="tm-article-snippet__label tm-article-snippet__label_variant-sandbox"><span>
+        Из песочницы
+      </span></div><div class="tm-article-snippet__label tm-article-snippet__label_variant-tutorial"><span>
+        Tutorial
+      </span></div></div> <!----> <!----></div></div> <!----> <div data-gallery-root="" lang="ru" class="tm-article-body"><div></div> <div id="post-content-body"><div><div class="article-formatted-body article-formatted-body_version-1"><div xmlns="http://www.w3.org/1999/xhtml"><h2 id="nastroyka-s-nulya-printservera-cups-s-domennoy-avtorizaciey-i-bez-nee-v-seti-s-raznymi-os">Настройка с нуля принтсервера CUPS с доменной авторизацией и без нее в сети с разными ОС</h2><br/>
+<h3 id="vstuplenie">Вступление</h3><br/>
+<p>Итак. Предположительно, сервис печати CUPS — это мощное решение, позволяющее организовать централизованное управление принтерами в компании. Так оно и есть, но в процессе настройки потребуется провести некоторое время в поисках решения в Google множества мелких неочевидных проблем, особенно, если ваша необходимость выходит за рамки стандартных мануалов по настройке.</p><br/>
+<p>В статье будет описана установка принтсервера CUPS на Ubuntu Server в сети с работающим доменом Active Directory, хотя его наличие совершенно не обязательно и инструкции по настройке взаимодействию с ним можно будет смело пропустить, его настройка, а также настройка клиентских машин Linux и Windows для взаимодействия с данным принт-сервером.</p><a name="habracut"></a><br/>
+<p>В инструкции домен будет именоваться <strong>example.com</strong>, сам принтсервер — <strong>cupsserver</strong> (<strong>cupsserver.example.com</strong>) с IP адресом 10.10.100.50, а клиентские машины <strong>linux1</strong>, <strong>linux2</strong>, <strong>linux3</strong> и т.д для клиентских машин Linux и <strong>windows1</strong>, <strong>windows2</strong>, <strong>windows3</strong> и т.д. для клиентских машин Windows соответственно.</p><br/>
+<h3 id="nastroyka-printservera">Настройка принтсервера</h3><br/>
+<p>В первую очередь мы настроим принтсервер, а точнее, настроим административный доступ на него, затем настроим печать на него, а затем опишем настройку клиентских машин.</p><br/>
+<p>Заходим на принтсервер любым удобным способом и обновим на нем пакеты:</p><br/>
+<pre><code class="plaintext">root@cupsserver:~# apt update &amp;&amp; apt upgrade -y </code></pre><br/>
+<p>Далее проверим, установлен ли CUPS на сервере:</p><br/>
+<pre><code class="plaintext">root@cupsserver:~# which cupsd </code></pre><br/>
+<p>Если вывод выглядит как то так:</p><br/>
+<pre><code class="plaintext">/usr/bin/cupsd </code></pre><br/>
+<p>то CUPS установлен, если вывода нет — устанавливаем CUPS:</p><br/>
+<pre><code class="plaintext">root@cupsserver:~# apt install cups -y </code></pre><br/>
+<p>Теперь настроим административный доступ к веб-интерфейсу CUPS. Все файлы конфигурации находятся по пути <em>/etc/cups/</em>. Для начала, на всякий случай сделаем резервные копии основных файлов конфигурации CUPS:</p><br/>
+<pre><code class="plaintext">root@cupsserver:~# cp /etc/cups/cupsd.conf /etc/cups/cupsd.conf.original
+root@cupsserver:~# cp /etc/cups/cups-files.conf /etc/cups/cups-files.conf.original 
+root@cupsserver:~# cp /etc/cups/cups-browsed.conf /etc/cups/cups-browsed.conf.original</code></pre><br/>
+<p>Впрочем, если вы этого не сделали — не беда, образцы данных файлов по умолчанию лежат по пути <em>/usr/share/cups</em>. Также нужно упомянуть, что вы можете проверить любые добавленные опции в файлы конфигурации CUPS с помощью команды:</p><br/>
+<pre><code class="plaintext">root@cupsserver:~# cupsd -t </code></pre><br/>
+<p>Если вы что-то напутали, опечатались или использовали опцию, которая уже не поддерживается CUPS'ом, то вывод команды отразит данные ошибки.</p><br/>
+<p>Но приступим наконец к настройке. После любых изменений файлов в папке <em>/etc/cups/</em> для получения эффекта необходимо перезапускать сервис CUPS:</p><br/>
+<pre><code class="plaintext">root@cupsserver:~# service cups restart
+или
+root@cupsserver:~# systemctl restart cups
+или
+root@cupsserver:~# /etc/init.d/cups restart</code></pre><br/>
+<p>А если вы отредактировали файл <em>/etc/cups/cups-browsed.conf</em>, то за него отвечает отдельный сервис <strong>cups-browsed</strong>, который тоже нужно перезапустить:</p><br/>
+<pre><code class="plaintext">root@cupsserver:~# service cups-browsed restart
+или
+root@cupsserver:~# systemctl restart cups-browsed
+или
+root@cupsserver:~# /etc/init.d/cups-browsed restart</code></pre><br/>
+<p>Выполним команду</p><br/>
+<pre><code class="plaintext">root@cupsserver:~# nano /etc/cups/cupsd.conf </code></pre><br/>
+<p>Первой незакомментированной опцией является</p><br/>
+<pre><code class="plaintext">LogLevel warn </code></pre><br/>
+<p>Она определяет минимальную информативность логов CUPS. Лог-файлы CUPS находятся по пути <em>/var/log/cups/</em>. На время установки, настройки и отладки принтсервера будет разумным перевести логгирование в debug-режим. Для этого изменим warn на debug2:</p><br/>
+<pre><code class="plaintext">LogLevel debug2 </code></pre><br/>
+<p>По умолчанию CUPS слушает входящие подключения только от <strong>localhost</strong>, то бишь на loopback интерфейсе. Чтобы убедится в этом, можете выполнить команду</p><br/>
+<pre><code class="plaintext">root@cupsserver:~# netstat -plutn </code></pre><br/>
+<p>Одна из строк будет выглядеть приблизительно так:</p><br/>
+<pre><code class="plaintext">tcp 0   0   127.0.0.1:631   0.0.0.0:*   LISTEN  737/cupsd </code></pre><br/>
+<p>Дальнейшие действия зависят от степени вашей паранойи. Вы можете добавить в блоке, который условно начинается с комментария <strong>#Only listen for connections from the local machine</strong> несколько строк с указанием IP адресов или подсетей, откуда CUPS'у будет позволено слушать подключения.</p><br/>
+<pre><code class="plaintext"># Only listen for connections from the local machine.
+Listen localhost:631
+Listen /run/cups/cups.sock
+#Слушать подключения с определенного IP адреса
+Listen 10.10.100.67:631
+#Слушать подключения с подсети бухгалтерии
+Listen 172.16.0.0:631</code></pre><br/>
+<p>Либо же вы можете разрешить CUPS'у слушать подключения со всех адресов</p><br/>
+<pre><code class="plaintext"># Only listen for connections from the local machine.
+Listen /run/cups/cups.sock
+Port 631</code></pre><br/>
+<p>Следующий момент настройки — это обнаружение сетевых и расшаренных принтеров.</p><br/>
+<pre><code class="plaintext"># Show shared printers on the local network.
+Browsing Off
+BrowseLocalProtocols dnssd</code></pre><br/>
+<p>На мой взгляд эта опция так и должна остаться выключенной, так как она определяет, будет ли рассылаться широковещательная информация по сети о подключенных к принтсерверу принтерах. А они ведь будут подключены к ней все. И соответственно у всех клиентских машин будут отображаться сразу все принтера. Наш принтсервер должен искать и обнаруживать все принтера в сети, но не рассылать их бездумно по всей сети.</p><br/>
+<p>Далее идут настройки аутентификации:</p><br/>
+<pre><code class="plaintext"># Default authentication type, when authentication is required...
+DefaultAuthType Basic</code></pre><br/>
+<p>Определяет права доступа к веб-интерфейсу CUPS, а также к его административной части. Чтобы пользователь <strong>user</strong> имел право на администрирование CUPS, его нужно добавить в системную группу <strong>lpadmin</strong>:</p><br/>
+<pre><code class="plaintext">root@cupsserver:~# usermod -a -G lpadmin user</code></pre><br/>
+<p>Вообще, группы, которым позволен административный доступ к CUPS, определяются в файле конфигурации <em>cups-files.conf</em> в блоке</p><br/>
+<pre><code class="plaintext"># Administrator user group, used to match @SYSTEM in cupsd.conf policy rules...
+# This cannot contain the Group value for security reasons...
+SystemGroup lpadmin</code></pre><br/>
+<p>Если вы хотите добавить некой группе пользователей Linux права на администрирование принтсервера, например <strong>printadmins</strong>, то просто добавьте их через пробел к <strong>lpadmin</strong>. Если группа доменная, то это немного сложнее и будет описано позже.</p><br/>
+<p>Теперь перейдем к блоку <strong>&lt;Location /></strong>:</p><br/>
+<pre><code class="plaintext"># Restrict access to the server...
+&lt;Location />
+  Order allow,deny
+
+&lt;/Location></code></pre><br/>
+<p><strong>Order allow,deny</strong> означает, что запрещены подключения отовсюду, если специально не указано разрешение. То есть нужно добавлять IP-адреса, подсети, хосты или хосты по маске (<em><strong>.example.com</strong>) в виде "</em>Allow from [разрешенный адрес]*":</p><br/>
+<pre><code class="plaintext"># Restrict access to the server...
+&lt;Location />
+  Order allow,deny
+ Allow from cupsserver                          # разрешение подключатся к самому себе по имени хоста
+ Allow from cupsserver.example.com    # разрешение подключатся к самому себе по FQDN
+ Allow from localhost                             # разрешение подключатся к самому себе через loopback интерфейс
+ Allow from 10.10.100.*                        # Если хотите разрешить
+ Allow from linux4.example.com           # доступ на печать с
+ Allow from 172.168.5.125                   # определенных подсетей, IP или хостов
+&lt;/Location></code></pre><br/>
+<p>Для полной уверености и отладки, можно оставить, пока не настроите все остальное, такую констукцию, которая позволит печать отовсюду:</p><br/>
+<pre><code class="plaintext"># Restrict access to the server...
+&lt;Location />
+  Order allow,deny
+  Allow from all
+&lt;/Location></code></pre><br/>
+<p>Приступим к настройке административного доступа к CUPS на принтсервере. Определитесь, с какого/каких IP и/или подсетей вы собираетесь подключаться к CUPS, и добавить их по аналогии с блоком <strong>&lt;Location /></strong>:</p><br/>
+<pre><code class="plaintext"># Restrict access to the admin pages...
+&lt;Location /admin>
+  Order allow,deny
+  Allow from localhost
+  Allow from 10.10.100.*
+  Allow from admin.example.com
+&lt;/Location>
+
+# Restrict access to configuration files...
+&lt;Location /admin/conf>
+  Order allow,deny
+  Allow from localhost
+  Allow from 10.10.100.*
+  Allow from admin.example.com
+&lt;/Location>
+
+# Restrict access to log files...
+&lt;Location /admin/log>
+  Order allow,deny
+  Allow from localhost
+  Allow from 10.10.100.*
+  Allow from admin.example.com
+&lt;/Location></code></pre><br/>
+<p>Еще, по желанию, можно добавить язык интерфейса по умолчанию. Список доступных языков можно посмотреть с помощью команды:</p><br/>
+<pre><code class="plaintext">root@cupsserver:~# ls /usr/share/cups/locale</code></pre><br/>
+<p>Если нужная вам локализация, например <strong>ru</strong>, есть, то добавьте строчку в <em>/etc/cups/cupsd.conf</em>:</p><br/>
+<pre><code class="plaintext">DefaultLanguage ru</code></pre><br/>
+<p>Чтобы к вашему принтсерверу <strong>cupsserver.example.com</strong> можно было обращатся по его хосту (hostname), необходимо создать в папке <em>/etc/cups/</em> файл <em>client.conf</em> с таким содержимым:</p><br/>
+<pre><code class="plaintext">ServerName имя_хоста</code></pre><br/>
+<p>Самым простым способом это можно сделать так:</p><br/>
+<pre><code class="plaintext">root@cupsserver:/etc/cups# echo "ServerName $(cat /etc/hostname)" > /etc/cups/client.conf</code></pre><br/>
+<p>Поскольку мы предполагаем, что в сети есть DNS сервер, то будет предпочтительным, чтобы можно было обращатся к принтсерверу по его доменному имени (<strong>cupsserver.example.com</strong>). Также серверу может быть присвоен CNAME псевдоним на DNS сервере, например <strong>print</strong> или <strong>cups</strong>. Чтобы принтсервер принимал подключения по таким обращениям, необходимо добавить такую строчку в файл <em>/etc/cups/cupsd.conf</em>:</p><br/>
+<pre><code class="plaintext">ServerAlias cupsserver.example.com print cups</code></pre><br/>
+<p>Если вы хотите, чтобы принтсервер примимал любые обращения, или не хотите заморачиваться, то можно добавить это:</p><br/>
+<pre><code class="plaintext">ServerAlias *</code></pre><br/>
+<p>Еще нужно взглянуть внутрь файла <em>/etc/cups/cups-browsed.conf</em>. Этот файл управляет тем, как принтсервер будет искать принтеры в сети и проводить широковещательную рассылку своих принтеров. Я предлагаю совершенно отключить опцию рассылки. Принтсервер будет искать принтера в сети, но с него принтеры на клиентские машины будут подключатся вручную. Ниже будет описано, почему. Пока же мы находим строку <strong>BrowseRemoteProtocols dnssd cups</strong>:</p><br/>
+<pre><code class="plaintext"># Which protocols will we use to discover printers on the network?
+# Can use DNSSD and/or CUPS and/or LDAP, or 'none' for neither.
+
+BrowseRemoteProtocols dnssd cups</code></pre><br/>
+<p>Благодаря этой опции принтсервер ищет расшаренные принтера в сети. Ее мы оставляем включенной, так как в наших интересах, чтобы принтсервер искал принтера в сети. Но нам совершенно не нужно, чтобы принтсервер рассылал вообще все подключенные к нему принтеры, иначе возникнет большая путаница. Для предотвращения такого сценария находим следующую опцию <strong>#BrowseLocalProtocols none</strong> и раскомментируем ее:</p><br/>
+<pre><code class="plaintext"># Which protocols will we use to broadcast shared local printers to the network?
+# Can use DNSSD and/or CUPS, or 'none' for neither.
+# Only CUPS is actually supported, as DNSSD is done by CUPS itself (we ignore DNSSD in this directive).
+
+BrowseLocalProtocols none</code></pre><br/>
+<p>На этом настройку принтсервера приостанавливаем и переходим к настройке клиентких машин Windows и Linux. Требования к ним такие — позволять посылать на себя задания печати принтсерверу, и посылать задания на печать именно (и только) на принтсервер в случае необходимости печати на сетевой принтер.</p><br/>
+<p>В качестве примера настроим печать сквозь принтсервер между двумя клиентскими машинами с Linux (имя хоста <strong>linux1</strong>) и Windows 8 соотвественно (имя хоста <strong>windows1</strong>). Начнем с настройки <strong>windows1</strong> в качестве приемника печати от принтсервера. У меня к нему подключен и штатно работает принтер Canon i-SENSYS MF4410. Имя принтера — Canon-MF4400. Самый простой способ, на самом деле, обеспечить печать с принтсервера на <strong>windows1</strong> — перейти в <em>Панель управления > Программы > Программы и компоненты > Включение или отключение компонентов Windows</em>. Там мы включаем компонент <em>Службы печати и документов > Служба печати LPD</em>. Это позволит подключить данный принтер к принтсерверу с помощью адреса <em>lpd://windows1/Canon-MF4400</em>. Разумеется, назревает вопрос, почему бы не подключить с помощью SMB? Никто не запрещает. Если у вас отлажен данный метод, вы можете расшарить принтер таким образом, и подключить к принтсерверу по протоколу SMB. Инстукции по данному подключению, на мой взгляд, выходят за рамки данной статьи, которая и так выходит довольно объемной. Пока же считаем, что читатель успешно зашел по адресу <code>http://cupsserver:631/admin</code> нажал на кнопку "Добавить новый принтер" и следуя интуиции, логике и прочитатанным ранее мануалам успешно подключил принтер с <strong>windows1</strong> по протоколу <strong>LPD</strong> к принтсерверу <strong>cupsserver[example.com]</strong> и страница принтера доступна по адресу <code>http://cupsserver:631/printers/Canon-MF4400</code>. </p><br/>
+<p>Теперь выполним аналогичную операцию на клиентской машине Linux c именем хоста <strong>linux1</strong>. Вообще, данная часть будет куда объемнее, так как у клиентской машины есть свой сервис CUPS и его тоже нужно настроить во многом так же, как и принтсервер, за исключением его подчиненной роли в организации печати. </p><br/>
+<h3 id="ispravlenie-oshibki-obrascheniya-k-cups-cherez-loopback-po-imeni-hosta">Исправление ошибки обращения к CUPS через loopback по имени хоста</h3><br/>
+<p>Есть неприятный момент. Если вы введете <strong>linux1</strong> в домен, настроите на нем CUPS по этим инструкциям, то можете заметить абсурдную ситуацию, когда на WEB-интерфейс <strong>linux1</strong> можно зайти снаружи, но на самом хосте этого сделать нельзя! И графические приложения для локальной настройки принтеров, вроде приложения <strong>system-config-printer</strong> в Linux Mint, отказываются работать. При попытке подключения на свой же CUPS по по адресу <code>http://linux1:631/</code> будет сообщение "Запрещено" или "Bad Request". Это известная и толком не решенная на множестве форумов интернета проблема. </p><br/>
+<p>В большинстве инструкций по введению Linux в домен одним из пунктов является приведение файла <em>/etc/hosts</em> приблизительно к такому виду:</p><br/>
+<pre><code class="plaintext">127.0.0.1       localhost
+127.0.1.1    linux1.example.com linux1
+# The following lines are desirable for IPv6 capable hosts
+::1     ip6-localhost ip6-loopback
+fe02::2 ip6-localnet
+ff00::0 ip6-mcastprefix
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters</code></pre><br/>
+<p>Почему то CUPS не в силах ассоциировать обращение через 127.0.1.1, то есть через Loopback интерфейс, с именем хоста.</p><br/>
+<p>Исправляется эта ошибка двумя способами. Если в вашей сети IP адреса статичные, то в файле <em>/etc/hosts</em> исправьте 127.0.1.1 на IP адрес внешнего сетевого интерфейса клиентской машины, например:</p><br/>
+<pre><code class="plaintext">127.0.0.1       localhost
+192.168.1.50   linux1.example.com linux1</code></pre><br/>
+<p>Либо же, раз уж вы вводите Linux в домен, то это предполагает, что в вашей сети работает DHCP и DNS сервер Active Directory. В таком случае просто закомментируйте данную строчку:</p><br/>
+<pre><code class="plaintext">127.0.0.1       localhost
+# 127.0.1.1   linux1.example.com linux1</code></pre><br/>
+<p>Разницы в работоспособности или проблем от данного действия пока обнаружено не было.</p><br/>
+<h3 id="nastroyka-adresov-proslushivaniya-podklyucheniy-k-cups-u-klientskih-mashin-linux">Настройка адресов прослушивания подключений к CUPS у клиентских машин Linux</h3><br/>
+<p>Заходим на <strong>linux1</strong> любым удобным способом. Редактируем файл <em>/etc/cups/cupsd.conf</em>:</p><br/>
+<pre><code class="plaintext">user@linux1:~$ sudo nano /etc/cups/cupsd.conf</code></pre><br/>
+<p>Находим, добавляем или изменяем в нем строки:</p><br/>
+<pre><code class="plaintext">
+DefaultLanguage ru         # Если язык присутствует в папке /usr/share/cups/locale
+
+ServerAlias linux1.example.com linux1 [CNAME псевдоним присвоенный на DNS сервере]
+или
+ServerAlias *              # Если неохота вникать в особенности
+
+Listen /run/cups/cups.sock 
+Listen localhost:631           # Слушать localhost
+Listen 10.10.100.50:631    # IP адрес нашего принтсервера.
+Listen cupsserver:631        # Доменное имя принтсервера. Рекомендую чтобы его IP тоже был, на всякий случай
+Listen linux1:631          # 
+или
+Port 631                   # Будет слушать подключения со всех адресов
+Listen /run/cups/cups.sock
+
+Browsing off                          # Выключено. Машина будет посылать информацию только принтсерверу
+
+DefaultAuthType Basic      # Без изменений. Есть вариант с авторизацией Kerberos, но там много подводных камней</code></pre><br/>
+<h3 id="nastroyka-adresov-proslushivaniya-podklyucheniy-k-cups">Настройка адресов прослушивания подключений к CUPS</h3><br/>
+<p>В предыдущем блоке мы настроили возможность подключения к CUPS. Теперь перейдем к настройке разрешений на доступ к печати, а также к административным страницам сервиса CUPS на хосте <strong>linux1</strong>. Вновь открываем, если закрыли, файл <em>/etc/cups/cupsd.conf</em> и переходим к редактированию блоков <strong>&lt;Location /></strong>, <strong>&lt;Location /admin></strong>, <strong>&lt;Location /admin/conf></strong>, <strong>&lt;Location /admin/log></strong>:</p><br/>
+<pre><code class="plaintext">
+# Restrict access to the server...
+&lt;Location />
+  Order allow,deny        # Определяет политику доступа "Что не разрешено, то запрещено"
+  Allow from localhost    # Позволяет печатать самой linux1
+  Allow from linux1       # Печать на свое имя хоста. Проблемы этого действия описаны выше
+  Allow from cupsserver   # Если CUPS нормально взаимодействует с DNS, то сработает. Увы, не всегда это так
+  Allow from cupsserver.example.com   # FQDN принтсервера
+  Allow from 10.10.100.50 # Разрешение на печать с IP принтсервера **cupsserver**
+&lt;/Location>
+
+# Restrict access to the admin pages...
+&lt;Location /admin>
+  Order allow,deny        # Аналогично предыдущему
+  Allow from localhost    # Необходимо для возможности добавлять принтеры
+  Allow from linux1       # Аналогично предыдущему
+  Allow from 10.10.101.71 # Предположим, это IP админа
+  Allow from 10.20.50.*   # Предположим, это подсеть вашего IT отдела
+  AuthType Default        # То есть CUPS спросит логин и пароль. Подробнее ниже
+  Require user @SYSTEM    # Определение группы доступа к CUPS
+&lt;/Location>
+
+# Restrict access to configuration files...
+&lt;Location /admin/conf>
+#Блок идентичен предыдущему
+  Order allow,deny        # Аналогично предыдущему
+  Allow from localhost    # Необходимо для возможности добавлять принтеры
+  Allow from linux1       # Аналогично предыдущему
+  Allow from 10.10.101.71 # Предположим, это IP админа
+  Allow from 10.20.50.*   # Предположим, это подсеть вашего IT отдела
+  AuthType Default        # То есть CUPS спросит логин и пароль. Подробнее ниже
+  Require user @SYSTEM    # Определение группы доступа к CUPS
+&lt;/Location>
+
+# Restrict access to log files...
+&lt;Location /admin/log>
+#Блок идентичен предыдущему
+  Order allow,deny        # Аналогично предыдущему
+  Allow from localhost    # Необходимо для возможности добавлять принтеры
+  Allow from linux1       # Аналогично предыдущему
+  Allow from 10.10.101.71 # Предположим, это IP админа
+  Allow from 10.20.50.*   # Предположим, это подсеть вашего IT отдела
+  AuthType Default        # То есть CUPS спросит логин и пароль. Подробнее ниже
+  Require user @SYSTEM    # Определение группы доступа к CUPS
+&lt;/Location></code></pre><br/>
+<h3 id="nastroyka-razdachi-i-polucheniya-shirokoveschatelnoy-rassylki-setevyh-printerov">Настройка раздачи и получения широковещательной рассылки сетевых принтеров</h3><br/>
+<p>Еще у клиетской машины Linux, в данном случае <strong><em>linux1</em></strong>, необходимо отредактировать файл <em>/etc/cups/cups-browsed.conf</em>:</p><br/>
+<pre><code class="plaintext">user@linux1:~$ sudo nano /etc/cups/cups-browsed.conf 
+
+  BrowseRemoteProtocols none # Пишем none чтобы не получить кучу принтеров автоматически. 
+
+  BrowseLocalProtocols cups  # Показывать подключеные принтеры в сеть. DNSSD указывать не надо, его директива в cupsd.conf
+
+  BrowseOrder Allow,Deny             # Аналогично директиве Order в cupsd.conf - необходимо явно указать, куда МОЖНО посылать информацию о подключенных принтерах
+  BrowseAllow 10.10.100.50           # IP принтсервера
+  BrowseAllow cupsserver             # Имя хоста принтсервера
+  BrowseAllow cupsserver.example.com # Полное доменное имя принтсервера</code></pre><br/>
+<h3 id="nastroyka-administrativnogo-dostupa">Настройка административного доступа</h3><br/>
+<p>Еще пару слов по поводу административного доступа, как на WEB-интерфейс CUPS на принтсервере, так и на любой клиентской машине Linux. Даже при условии наличия 30-50 компьютеров нужно унифицировать авторизацию на CUPS, а не держать в голове или еще где пароли каждой машины. И это важно на всех Linux машинах, ведь чтобы добавить принтер на сервер, его сперва нужно установить локально. Я вижу несколько путей.</p><br/>
+<p>Первый — на каждой системе Linux создать пользователя <strong>printeradmin</strong> (например) и добавить в группу <strong>lpadmin</strong>:</p><br/>
+<pre><code class="plaintext">user@linux1:~$ sudo usermod -a -G lpamin printeradmin </code></pre><br/>
+<p>и авторизовываться на <code>http://имя_хоста:631/admin</code> c помощью его учетных данных.</p><br/>
+<p>Второй вариант практически идентичен и предлагает создать группу в системе, например, <strong>printersadmins</strong>, добавить туда требуемого администратора CUPS (<strong>printeradmin</strong>, <strong>user</strong>):</p><br/>
+<pre><code class="plaintext">user@linux1:~$ sudo groupadd printersadmins
+user@linux1:~$ sudo usermod -a -G printersadmins printeradmin
+user@linux1:~$ sudo usermod -a -G printersadmins user</code></pre><br/>
+<p>Затем нужно найти в файле <em>/etc/cups/cups-files.conf</em> строку</p><br/>
+<pre><code class="plaintext"># Administrator user group, used to match @SYSTEM in cupsd.conf policy rules...
+# This cannot contain the Group value for security reasons...
+SystemGroup lpadmin</code></pre><br/>
+<p>и добавить через пробел одну или несколько групп пользователей с правом администрировать CUPS.</p><br/>
+<pre><code class="plaintext"># Administrator user group, used to match @SYSTEM in cupsd.conf policy rules...
+# This cannot contain the Group value for security reasons...
+SystemGroup lpadmin printersadmins somegroup</code></pre><br/>
+<p>И наконец, третий вариант. Сделать администраторами принтсервера и CUPS'ов клиентских машин доменную группу пользователей. Для этого принтсервер и клиентские машины Linux должны быть присоединены к домену AD. Есть несколько методов подключения Linux к домену Windows, но, насколько я знаю, основные это подключение с помощью winbind и с помощью SSSD(realmd). Описание данных методов не входит в статью, поэтому остановлюсь только на моментах которые касаются конкретно CUPS'а. </p><br/>
+<h3 id="nastroyka-ispolzovaniya-domennyh-grupp-polzovateley-dlya-administrirovaniya-cups">Настройка использования доменных групп пользователей для администрирования CUPS</h3><br/>
+<p>Каждый метод присоединения к системе централизованной авторизации в Linux создает специальный файл-"трубу" (pipe), сквозь который приложения могут посмотреть список пользователей домена. Чтобы так мог сделать CUPS, нужно разрешить ему использовать pipe в AppArmor'е для аутентификации пользователей. AppArmor — модуль безопасности Linux по управлению доступом. Ограничивает определенные программы набором перечисленных в его политиках файлов. Чтобы добавить CUPS'у право использовать пользователей и группы домена через winbindd, нужно добавить в файл <em>/etc/apparmod.d/local/usr.sbin.cupsd</em> такую строку:</p><br/>
+<pre><code class="plaintext">/var/lib/samba/winbindd_privileged/pipe rw</code></pre><br/>
+<p>Если Linux введен в домен через SSSD, то необходимо указать расположение его pipe в <em>/etc/apparmod.d/local/usr.sbin.cupsd</em>, добавив туда строку:</p><br/>
+<pre><code class="plaintext">/var/lib/sss/pipes/private/pam rw</code></pre><br/>
+<p>К тому же, в случае с SSSD это позволяет пройти аутентификацию (узнать кто заходит), но чтобы пройти авторизацию (узнать есть ли право у пользователя управлять CUPS) необходимо также добавить в файл конфигурации SSSD <em>/etc/sssd/sssd.conf</em> строку:</p><br/>
+<pre><code class="plaintext">ad_gpo_map_interactive = +cups</code></pre><br/>
+<p>Это, условно выражаюсь, дает CUPS'у право "заглядывать" в SSSD.</p><br/>
+<p>К тому же, в силу того, что CUPS теперь зависит от сервиса SSSD, нужно указать CUPS'у что он должен запускаться после SSSD, иначе он будет отваливаться при включении и его будет необходимо каждый раз включать вручную. </p><br/>
+<p>Добавим CUPS'у указание грузиться после SSSD. Отредактируем файл сервиса <em>cups.service</em> по пути <em>/lib/systemd/system/</em>, добавив инструкцию <strong>After</strong> в секцию <strong>[Unit]</strong>:</p><br/>
+<pre><code class="plaintext">[Unit]
+Description=CUPS Scheduler
+Documentation=man:cupsd(8)
+After=sssd.service</code></pre><br/>
+<p>Таким образом CUPS настроен на Basic авторизацию через домен, то есть авторизацию с помощью ввода логина и пароля доменного пользователя с правом администрирования CUPS. </p><br/>
+<p>Авторизация может быть настроена и иначе, но принцип (pipe-файл) в целом универсален и есть шанс настроить и для LDAP, FreeIPA и прочих служб каталогов по аналогии.</p><br/>
+<h3 id="ustanovka-printera-v-linux">Установка принтера в Linux</h3><br/>
+<p>Установить принтер на Linux это часто специфическая задача, разная для разных марок и даже моделей. Поэтому не вижу смысла описывать установку принтера и примем за факт, что на хосте <strong>linux1</strong> установлен принтер Kyocera-1024FP с именем <strong>Kyocera-1024FP</strong>, и страница принтера доступна по ссылке <code>http://linux1:631/printers/Kyocera-1024FP</code>.</p><br/>
+<p>Теперь, когда сервер и клиенские машины Linux настроены, к некоторым из них присоединены принтеры, а также есть машины на Windows, которым и с которых нужно печатать, и вся эта система должна быть стабильной и в случае, если на одном из ПК необходимо заменить принтер, то это не должно повлечь за собой перенастройку доброй половины всех ПК, если не всех. К тому же нужно как можно меньше проблем с драйверами. И это вполне возможно.</p><br/>
+<h3 id="gruppy-printerov-classes">Группы принтеров (Classes)</h3><br/>
+<p>Выше мы описывали подключение <strong>Canon-MF4400</strong> c хоста <strong>windows1</strong> через протокол LPD. Принтер все еще подключен и его статус можно посмотреть на странице <code>http://cupsserver:631/printers/Canon-MF4400</code>. А теперь обратим пристальное внимание на главную страницу администрирования <strong>cupsserver</strong> <code>http://cupsserver:631/admin</code>. На этой странице есть кнопка "Добавить группу" [Add Class]. Нажмем на нее. В ней вы увидите поля "Название", "Описание", "Расположение", аналогичные таким же при настройке обычного принтера. В нижнем же блоке вы увидите список всех подключенных к принтсерверу принтеров. Выберите <strong>Canon-MF4400</strong> или любой который хотите, затем в поле "Название" впишите, например <strong>printer-windows1</strong>, "Описание" и "Расположение" на ваше усмотрение, и нажмите "Добавить группу". </p><br/>
+<p>Теперь у нас есть группа <strong>printer-windows1</strong> с принтером <strong>Canon-MF4400</strong> в ней. Страница этой группы доступна так же как и страница принтера <strong>Canon-MF4400</strong> с оговоркой на немного другой путь — <code>http://cupsserver:631/classes/printer-windows1</code>. </p><br/>
+<p>Еще у нас все еще есть подключенный к <strong>linux1</strong> принтер Kyocera-1024FP. Подключим его к принтсерверу по HTTP. Выбираем метод подключения "Протокол интернет печати (http)" [Internet Printing Protocol (http)], из списка драйверов выбираем марку "Generic", модель "IPP Everywhere". Называем его как угодно, мы назовем так же как на хосте <strong>linux1</strong> — <strong>Kyocera-1024FP</strong>. Теперь принтер доступен на принтсервере по ссылке <code>http://cupsserver:631/printers/Kyocera-1024FP</code>. Аналогично настройке группы <strong>printer-windows1</strong> создаем группу <strong>printer-linux1</strong> c принтером <strong>Kyocera-1024FP</strong> в ней. Ее ссылка соответственно <code>http://cupsserver:631/classes/printer-linux1</code>.</p><br/>
+<p>Теперь подключим принтер <strong>Kyocera-1024FP</strong> с хоста <strong>linux1</strong> через принтсервер <strong>cupsserver</strong> к хосту <strong>windows1</strong> с системой Windows 8 на борту без какой либо дополнительной(!) установки драйверов. Для этого мы при подключении принтера выбираем "Выбрать общий принтер по имени". В <strong>общем</strong> случае мы пишем <code>http://имя_принтcервера:631/classes/название_группы</code>. В нашем конкретном случае — <code>http://cupsserver:631/classes/printer-linux1</code>. При запросе на выбор драйвера указываем марку "Generic", модель — "MS Publisher Imagesetter". Все подтверждаем далее, и имеем подключенный принтер с название вроде <code>printer-linux1 на http://cupsserver:631</code>. Если до сих пор никаких ошибок и подводных камней при настойке не возникло, то попытка пробной печати приведет к успешной печати на Kyocera-1024FP.</p><br/>
+<p>Теперь подключим принтер <strong>Canon-MF4400</strong> с хоста <strong>windows1</strong> через принтсервер <strong>cupsserver</strong> к хосту <strong>linux1</strong> с системой Linux на борту без какой либо дополнительной(!) установки драйверов. Для этого мы при подключении принтера действуем аналогично тому, как подключали <strong>Kyocera-1024FP</strong> к принтсерверу <strong>cupsserver</strong>. То есть при добавлении принтера на <strong>linux1</strong> выбираем метод подключения "Протокол интернет печати (http)", в качестве расположения принтера (<strong>Canon-MF4400</strong>) ссылку на его группу на принтсервере — <code>http://cupsserver:631/classes/printer-windows1</code>. При запросе на выбор драйвера указываем марку "Generic", модель — "IPP Everywhere". Называем его как угодно, можно назвать так же как группу — <strong>printer-windows1</strong>. Теперь принтер доступен на <strong>linux1</strong> по ссылке <code>http://linux1:631/printers/printer-windows1</code>, и мы уже можем отправлять на печать документы.</p><br/>
+<p>Главная прелесть данного метода в том, что если на любом из ПК заменяется принтер, заменяется сам компьютер, или то и другое сразу, то это никак не влияет на тех, кто был к ним подключен через группу на принтсервере. Единственная настройка производится на принтсервере — к принтсерверу подключается новый принтер, затем из группы, в которой состоял старый принтер, он удаляется, и добавляется новый принтер на замену старому. И никаких дополнительных настроек на любом количестве ПК, только на принтсервере и собственно ПК на котором меняли принтер. Драйвера "IPP Everywhere" и "MS Publisher Imagesetter" содержат большое количество настроек бумаги, печати и т.д., так что нет проблем настроить нужный вид печати через них.</p><br/>
+<h3 id="zaklyuchenie">Заключение</h3><br/>
+<p>Тема слишком обширна, чтобы изложить сколько-нибудь подробно, и даже так статья вышла крайне объемной. Любые уточнения, указания на ошибки, нераскрытые вопросы и советы, данные в комментариях к данной статье, будут приняты во внимание и в случае необходимости включены в статью.</p></div></div></div> <DIV class="v-portal" style="display:none;"></DIV></div> <!----> <!----></div> <div class="tm-article-presenter__meta"><div class="tm-separated-list tm-article-presenter__meta-list"><span class="tm-separated-list__title">Теги:</span> <ul class="tm-separated-list__list"><li class="tm-separated-list__item"><a href="/ru/search/?target_type=posts&amp;order=relevance&amp;q=%5BCUPS%5D" class="tm-tags-list__link">CUPS</a></li><li class="tm-separated-list__item"><a href="/ru/search/?target_type=posts&amp;order=relevance&amp;q=%5BLinux%5D" class="tm-tags-list__link">Linux</a></li><li class="tm-separated-list__item"><a href="/ru/search/?target_type=posts&amp;order=relevance&amp;q=%5B%D0%BF%D1%80%D0%B8%D0%BD%D1%82%D1%81%D0%B5%D1%80%D0%B2%D0%B5%D1%80%5D" class="tm-tags-list__link">принтсервер</a></li><li class="tm-separated-list__item"><a href="/ru/search/?target_type=posts&amp;order=relevance&amp;q=%5B%D0%B4%D0%BE%D0%BC%D0%B5%D0%BD%D0%BD%D0%B0%D1%8F%20%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D1%8F%5D" class="tm-tags-list__link">доменная авторизация</a></li><li class="tm-separated-list__item"><a href="/ru/search/?target_type=posts&amp;order=relevance&amp;q=%5BSSSD%5D" class="tm-tags-list__link">SSSD</a></li><li class="tm-separated-list__item"><a href="/ru/search/?target_type=posts&amp;order=relevance&amp;q=%5BWinbind%5D" class="tm-tags-list__link">Winbind</a></li></ul></div> <div class="tm-separated-list tm-article-presenter__meta-list"><span class="tm-separated-list__title">Хабы:</span> <ul class="tm-separated-list__list"><li class="tm-separated-list__item"><a href="/ru/hub/linux/" class="tm-hubs-list__link">
+    Настройка Linux
+  </a></li><li class="tm-separated-list__item"><a href="/ru/hub/sys_admin/" class="tm-hubs-list__link">
+    Системное администрирование
+  </a></li><li class="tm-separated-list__item"><a href="/ru/hub/nix/" class="tm-hubs-list__link">
+    *nix
+  </a></li></ul></div></div></article></div> <!----></div> <div class="tm-article-sticky-panel"><div class="tm-data-icons tm-article-sticky-panel__icons"><div class="tm-article-rating tm-data-icons__item"><div class="tm-votes-meter tm-article-rating__votes-switcher"><svg height="24" width="24" class="tm-svg-img tm-votes-meter__icon tm-votes-meter__icon_appearance-article"><title>Всего голосов 24: ↑23 и ↓1</title> <use xlink:href="/img/megazord-v24.4a410f80.svg#counter-rating"></use></svg> <span title="Всего голосов 24: ↑23 и ↓1" class="tm-votes-meter__value tm-votes-meter__value_positive tm-votes-meter__value_appearance-article tm-votes-meter__value_rating">+22</span></div> <DIV class="v-portal" style="display:none;"></DIV></div> <!----> <span title="Количество просмотров" class="tm-icon-counter tm-data-icons__item"><svg height="24" width="24" class="tm-svg-img tm-icon-counter__icon"><title>Просмотры</title> <use xlink:href="/img/megazord-v24.4a410f80.svg#counter-views"></use></svg> <span class="tm-icon-counter__value">62K</span></span> <button title="Добавить в закладки" type="button" class="bookmarks-button tm-data-icons__item"><span title="Добавить в закладки" class="tm-svg-icon__wrapper bookmarks-button__icon"><svg height="24" width="24" class="tm-svg-img tm-svg-icon"><title>Добавить в закладки</title> <use xlink:href="/img/megazord-v24.4a410f80.svg#counter-favorite"></use></svg></span> <span title="Количество пользователей, добавивших публикацию в закладки" class="bookmarks-button__counter">
+    149
+  </span></button> <!----> <div title="Поделиться" class="tm-sharing tm-data-icons__item"><button type="button" class="tm-sharing__button"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="tm-sharing__icon"><path fill="currentColor" d="M13.8 13.8V18l7.2-6.6L13.8 5v3.9C5 8.9 3 18.6 3 18.6c2.5-4.4 6-4.8 10.8-4.8z"></path></svg></button> <DIV class="v-portal" style="display:none;"></DIV></div> <DIV class="v-portal" style="display:none;"></DIV></div> </div></div> <DIV class="v-portal" style="display:none;"></DIV> <div class="tm-article-presenter__footer"><div class="tm-article-blocks"><!----> <section class="tm-block tm-block_spacing-bottom"><!----> <div class="tm-block__body tm-block__body_variant-balanced"><div class="tm-article-author"> <div class="tm-user-card tm-article-author__user-card tm-user-card_variant-article"><div class="tm-user-card__info-container"><div class="tm-user-card__header"><div class="tm-user-card__header-data"><a href="/ru/users/melichronsoul/" class="tm-user-card__userpic tm-user-card__userpic_size-40"><div class="tm-entity-image"><svg class="tm-svg-img tm-image-placeholder tm-image-placeholder_blue"><!----> <use xlink:href="/img/megazord-v24.4a410f80.svg#placeholder-user"></use></svg></div></a> <div class="tm-user-card__meta"><div title=" 10 голосов " class="tm-karma tm-user-card__karma"><div class="tm-karma__votes tm-karma__votes_positive">
+    8
+  </div> <div class="tm-karma__text">
+    Карма
+  </div></div> <div title="Рейтинг пользователя" class="tm-rating tm-user-card__rating"><div class="tm-rating__header"> <div class="tm-rating__counter">0</div></div> <div class="tm-rating__text">
+    Рейтинг
+  </div></div></div></div></div> <div class="tm-user-card__info tm-user-card__info_variant-article"><div class="tm-user-card__title tm-user-card__title_variant-article"><!----> <a href="/ru/users/melichronsoul/" class="tm-user-card__nickname tm-user-card__nickname_variant-article">
+          @melichronsoul
+        </a> <!----></div> <p class="tm-user-card__short-info tm-user-card__short-info_variant-article">Пользователь</p></div></div> <div class="tm-user-card__buttons tm-user-card__buttons_variant-article"><!----> <!----> <!----> <!----> <!----></div></div> <div class="tm-article-author__user-contacts"><a href="https://github.com/melichron/" rel="noopener" target="_blank" class="tm-article-author__contact">
+      Github
+    </a></div></div> <DIV class="v-portal" style="display:none;"></DIV></div> <!----></section> <div class="tm-article-blocks__comments"><div class="tm-article-page-comments"><div class="tm-article-comments-counter-link tm-article-comments-counter-button"><a href="/ru/post/443094/comments/" class="tm-article-comments-counter-link__link tm-article-comments-counter-link__link_button-style"><svg height="24" width="24" class="tm-svg-img tm-article-comments-counter-link__icon tm-article-comments-counter-link__icon_contrasted"><title>Комментарии</title> <use xlink:href="/img/megazord-v24.4a410f80.svg#counter-comments"></use></svg> <span class="tm-article-comments-counter-link__value tm-article-comments-counter-link__value_contrasted">
+       Комментарии 2 
+    </span></a> <!----></div></div></div> <div class="tm-ad-banner__container tm-page-article__banner"><!----> <div id="articleBottomBanner4223" class="tm-ad-banner"></div></div> <!----> <!----> <!----> <!----> </div></div></div></div></div> <div class="tm-page__sidebar"><div class="tm-layout-sidebar"><div class="tm-layout-sidebar__ads tm-layout-sidebar__ads_initial"><div class="tm-ad-banner__container tm-layout-sidebar__banner"><!----> <div id="sidebarBanner4224" class="tm-ad-banner"></div></div></div> <div class="tm-sexy-sidebar tm-sexy-sidebar_initial" style="margin-top:0px;"><!----> <section data-async-called="true" class="tm-block tm-block_spacing-bottom"><header class="tm-block__header"><h2 class="tm-block__title">Работа</h2> <!----></header> <div class="tm-block__body"><div class="tm-vacancies-block__item"><a href="https://career.habr.com/vacancies/devops" target="_blank" class="tm-vacancies-block__vacancy-title">
+        DevOps инженер
+      </a> <div class="tm-vacancies-block__vacancies-count">
+        99
+    вакансий
+      </div></div><div class="tm-vacancies-block__item"><a href="https://career.habr.com/vacancies/sistemnij_administrator" target="_blank" class="tm-vacancies-block__vacancy-title">
+        Системный администратор
+      </a> <div class="tm-vacancies-block__vacancies-count">
+        155
+    вакансий
+      </div></div></div> <footer class="tm-block__footer"><a href="https://career.habr.com/catalog" class="tm-block-extralink">
+      Все вакансии
+    </a></footer></section></div></div></div></div></div></div></main> <!----></div> <div class="tm-footer-menu"><div class="tm-page-width"><div class="tm-footer-menu__container"><div class="tm-footer-menu__block"><h3 class="tm-footer-menu__block-title">
+          Ваш аккаунт
+        </h3> <div class="tm-footer-menu__block-content"><ul class="tm-footer-menu__list"><li class="tm-footer-menu__list-item"><a href="/kek/v1/auth/habrahabr/?back=/ru/post/443094/&amp;hl=ru" rel="nofollow" target="_self">
+                Войти
+              </a></li><li class="tm-footer-menu__list-item"><a href="/kek/v1/auth/habrahabr-register/?back=/ru/post/443094/&amp;hl=ru" rel="nofollow" target="_self">
+                Регистрация
+              </a></li></ul></div></div><div class="tm-footer-menu__block"><h3 class="tm-footer-menu__block-title">
+          Разделы
+        </h3> <div class="tm-footer-menu__block-content"><ul class="tm-footer-menu__list"><li class="tm-footer-menu__list-item"><a href="/ru/" class="footer-menu__item-link router-link-active">
+                Публикации
+              </a></li><li class="tm-footer-menu__list-item"><a href="/ru/news/" class="footer-menu__item-link">
+                Новости
+              </a></li><li class="tm-footer-menu__list-item"><a href="/ru/hubs/" class="footer-menu__item-link">
+                Хабы
+              </a></li><li class="tm-footer-menu__list-item"><a href="/ru/companies/" class="footer-menu__item-link">
+                Компании
+              </a></li><li class="tm-footer-menu__list-item"><a href="/ru/users/" class="footer-menu__item-link">
+                Авторы
+              </a></li><li class="tm-footer-menu__list-item"><a href="/ru/sandbox/" class="footer-menu__item-link">
+                Песочница
+              </a></li></ul></div></div><div class="tm-footer-menu__block"><h3 class="tm-footer-menu__block-title">
+          Информация
+        </h3> <div class="tm-footer-menu__block-content"><ul class="tm-footer-menu__list"><li class="tm-footer-menu__list-item"><a href="/ru/docs/help/" class="footer-menu__item-link">
+                Устройство сайта
+              </a></li><li class="tm-footer-menu__list-item"><a href="/ru/docs/authors/codex/" class="footer-menu__item-link">
+                Для авторов
+              </a></li><li class="tm-footer-menu__list-item"><a href="/ru/docs/companies/corpblogs/" class="footer-menu__item-link">
+                Для компаний
+              </a></li><li class="tm-footer-menu__list-item"><a href="/ru/docs/docs/transparency/" class="footer-menu__item-link">
+                Документы
+              </a></li><li class="tm-footer-menu__list-item"><a href="https://account.habr.com/info/agreement" target="_blank">
+                Соглашение
+              </a></li><li class="tm-footer-menu__list-item"><a href="https://account.habr.com/info/confidential/" target="_blank">
+                Конфиденциальность
+              </a></li></ul></div></div><div class="tm-footer-menu__block"><h3 class="tm-footer-menu__block-title">
+          Услуги
+        </h3> <div class="tm-footer-menu__block-content"><ul class="tm-footer-menu__list"><li class="tm-footer-menu__list-item"><a href="https://docs.google.com/presentation/d/e/2PACX-1vQLwRfQmXibiUlWaRg-BAc38s7oM3lJiaPju7qmdJsp8ysIvZ_G-Npem0njJLMozE2bPHMpDqiI5hhy/pub?start=false&amp;loop=false&amp;delayms=60000&amp;slide=id.g91a03369cd_4_297" target="_blank">
+                Реклама
+              </a></li><li class="tm-footer-menu__list-item"><a href="https://habrastorage.org/storage/stuff/habr/service_price.pdf" target="_blank">
+                Тарифы
+              </a></li><li class="tm-footer-menu__list-item"><a href="https://docs.google.com/presentation/d/e/2PACX-1vQJJds8-Di7BQSP_guHxICN7woVYoN5NP_22ra-BIo4bqnTT9FR6fB-Ku2P0AoRpX0Ds-LRkDeAoD8F/pub?start=false&amp;loop=false&amp;delayms=60000" target="_blank">
+                Контент
+              </a></li><li class="tm-footer-menu__list-item"><a href="https://tmtm.timepad.ru/" target="_blank">
+                Семинары
+              </a></li><li class="tm-footer-menu__list-item"><a href="/ru/megaprojects/" class="footer-menu__item-link">
+                Мегапроекты
+              </a></li></ul></div></div></div></div></div> <div class="tm-footer"><div class="tm-page-width"><div class="tm-footer__container"><!----> <div class="tm-footer__social"><a href="https://www.facebook.com/habrahabr.ru" rel="nofollow noopener noreferrer" target="_blank" class="tm-svg-icon__wrapper tm-social-icons__icon"><svg height="16" width="16" class="tm-svg-img tm-svg-icon"><title>Facebook</title> <use xlink:href="/img/social-icons-sprite.svg#social-logo-facebook"></use></svg></a><a href="https://twitter.com/habr_com" rel="nofollow noopener noreferrer" target="_blank" class="tm-svg-icon__wrapper tm-social-icons__icon"><svg height="16" width="16" class="tm-svg-img tm-svg-icon"><title>Twitter</title> <use xlink:href="/img/social-icons-sprite.svg#social-logo-twitter"></use></svg></a><a href="https://vk.com/habr" rel="nofollow noopener noreferrer" target="_blank" class="tm-svg-icon__wrapper tm-social-icons__icon"><svg height="16" width="16" class="tm-svg-img tm-svg-icon"><title>VK</title> <use xlink:href="/img/social-icons-sprite.svg#social-logo-vkontakte"></use></svg></a><a href="https://telegram.me/habr_com" rel="nofollow noopener noreferrer" target="_blank" class="tm-svg-icon__wrapper tm-social-icons__icon"><svg height="16" width="16" class="tm-svg-img tm-svg-icon"><title>Telegram</title> <use xlink:href="/img/social-icons-sprite.svg#social-logo-telegram"></use></svg></a><a href="https://www.youtube.com/channel/UCd_sTwKqVrweTt4oAKY5y4w" rel="nofollow noopener noreferrer" target="_blank" class="tm-svg-icon__wrapper tm-social-icons__icon"><svg height="16" width="16" class="tm-svg-img tm-svg-icon"><title>Youtube</title> <use xlink:href="/img/social-icons-sprite.svg#social-logo-youtube"></use></svg></a><a href="https://zen.yandex.ru/habr" rel="nofollow noopener noreferrer" target="_blank" class="tm-svg-icon__wrapper tm-social-icons__icon"><svg height="16" width="16" class="tm-svg-img tm-svg-icon"><title>Яндекс Дзен</title> <use xlink:href="/img/social-icons-sprite.svg#social-logo-zen"></use></svg></a></div> <DIV class="v-portal" style="display:none;"></DIV> <button class="tm-footer__link"><!---->
+        Настройка языка
+      </button> <a href="/ru/about" class="tm-footer__link">
+        О сайте
+      </a> <a href="/ru/feedback/" class="tm-footer__link">
+        Техническая поддержка
+      </a> <!----> <a href="/berserk-mode-nope" class="tm-footer__link">
+        Вернуться на старую версию
+      </a> <div class="tm-footer-copyright"><span class="tm-copyright"><span class="tm-copyright__years">© 2006–2022 </span> <span class="tm-copyright__name">«<a href="https://company.habr.com/" rel="noopener" target="_blank" class="tm-copyright__link">Habr</a>»</span></span></div></div></div></div> <!----> <!----></div> <div class="vue-portal-target"></div></div>
+<script>window.__INITIAL_STATE__={"adblock":{"hasAcceptableAdsFilter":false,"hasAdblock":false},"articlesList":{"articlesList":{"443094":{"id":"443094","timePublished":"2019-03-09T16:58:16+00:00","isCorporative":false,"lang":"ru","titleHtml":"Настройка с нуля принтсервера CUPS с доменной авторизацией и без нее в сети с разными ОС","leadData":{"textHtml":"\u003Ch2 id=\"nastroyka-s-nulya-printservera-cups-s-domennoy-avtorizaciey-i-bez-nee-v-seti-s-raznymi-os\"\u003EНастройка с нуля принтсервера CUPS с доменной авторизацией и без нее в сети с разными ОС\u003C\u002Fh2\u003E\u003Cbr\u003E\r\n\u003Ch3 id=\"vstuplenie\"\u003EВступление\u003C\u002Fh3\u003E\u003Cbr\u003E\r\n\u003Cp\u003EИтак. Предположительно, сервис печати CUPS — это мощное решение, позволяющее организовать централизованное управление принтерами в компании. Так оно и есть, но в процессе настройки потребуется провести некоторое время в поисках решения в Google множества мелких неочевидных проблем, особенно, если ваша необходимость выходит за рамки стандартных мануалов по настройке.\u003C\u002Fp\u003E\u003Cbr\u003E\r\n\u003Cp\u003EВ статье будет описана установка принтсервера CUPS на Ubuntu Server в сети с работающим доменом Active Directory, хотя его наличие совершенно не обязательно и инструкции по настройке взаимодействию с ним можно будет смело пропустить, его настройка, а также настройка клиентских машин Linux и Windows для взаимодействия с данным принт-сервером.\u003C\u002Fp\u003E","imageUrl":null,"buttonTextHtml":"Читать дальше &rarr;","image":null},"editorVersion":"1.0","postType":"article","postLabels":[{"type":"sandbox","data":null},{"type":"tutorial","data":null}],"author":{"scoreStats":{"score":8,"votesCount":10},"rating":0,"relatedData":null,"contacts":[{"title":"Github","url":"https:\u002F\u002Fgithub.com\u002Fmelichron\u002F","value":"melichron"}],"authorContacts":[{"title":"Github","url":"https:\u002F\u002Fgithub.com\u002Fmelichron\u002F","value":"melichron"}],"paymentDetails":{"paymentYandexMoney":null,"paymentPayPalMe":null,"paymentWebmoney":null},"id":"1988399","alias":"melichronsoul","fullname":null,"avatarUrl":null,"speciality":"Пользователь"},"statistics":{"commentsCount":2,"favoritesCount":149,"readingCount":61877,"score":22,"votesCount":24},"hubs":[{"relatedData":null,"id":"36","alias":"linux","type":"collective","title":"Настройка Linux","titleHtml":"Настройка Linux","isProfiled":true},{"relatedData":null,"id":"221","alias":"sys_admin","type":"collective","title":"Системное администрирование","titleHtml":"Системное администрирование","isProfiled":true},{"relatedData":null,"id":"7289","alias":"nix","type":"collective","title":"*nix","titleHtml":"*nix","isProfiled":true}],"flows":[{"id":"6","alias":"admin","title":"Администрирование"}],"relatedData":null,"textHtml":"\u003Cdiv xmlns=\"http:\u002F\u002Fwww.w3.org\u002F1999\u002Fxhtml\"\u003E\u003Ch2 id=\"nastroyka-s-nulya-printservera-cups-s-domennoy-avtorizaciey-i-bez-nee-v-seti-s-raznymi-os\"\u003EНастройка с нуля принтсервера CUPS с доменной авторизацией и без нее в сети с разными ОС\u003C\u002Fh2\u003E\u003Cbr\u002F\u003E\r\n\u003Ch3 id=\"vstuplenie\"\u003EВступление\u003C\u002Fh3\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003EИтак. Предположительно, сервис печати CUPS — это мощное решение, позволяющее организовать централизованное управление принтерами в компании. Так оно и есть, но в процессе настройки потребуется провести некоторое время в поисках решения в Google множества мелких неочевидных проблем, особенно, если ваша необходимость выходит за рамки стандартных мануалов по настройке.\u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003EВ статье будет описана установка принтсервера CUPS на Ubuntu Server в сети с работающим доменом Active Directory, хотя его наличие совершенно не обязательно и инструкции по настройке взаимодействию с ним можно будет смело пропустить, его настройка, а также настройка клиентских машин Linux и Windows для взаимодействия с данным принт-сервером.\u003C\u002Fp\u003E\u003Ca name=\"habracut\"\u003E\u003C\u002Fa\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003EВ инструкции домен будет именоваться \u003Cstrong\u003Eexample.com\u003C\u002Fstrong\u003E, сам принтсервер — \u003Cstrong\u003Ecupsserver\u003C\u002Fstrong\u003E (\u003Cstrong\u003Ecupsserver.example.com\u003C\u002Fstrong\u003E) с IP адресом 10.10.100.50, а клиентские машины \u003Cstrong\u003Elinux1\u003C\u002Fstrong\u003E, \u003Cstrong\u003Elinux2\u003C\u002Fstrong\u003E, \u003Cstrong\u003Elinux3\u003C\u002Fstrong\u003E и т.д для клиентских машин Linux и \u003Cstrong\u003Ewindows1\u003C\u002Fstrong\u003E, \u003Cstrong\u003Ewindows2\u003C\u002Fstrong\u003E, \u003Cstrong\u003Ewindows3\u003C\u002Fstrong\u003E и т.д. для клиентских машин Windows соответственно.\u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Ch3 id=\"nastroyka-printservera\"\u003EНастройка принтсервера\u003C\u002Fh3\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003EВ первую очередь мы настроим принтсервер, а точнее, настроим административный доступ на него, затем настроим печать на него, а затем опишем настройку клиентских машин.\u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003EЗаходим на принтсервер любым удобным способом и обновим на нем пакеты:\u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Cpre\u003E\u003Ccode class=\"plaintext\"\u003Eroot@cupsserver:~# apt update &amp;&amp; apt upgrade -y \u003C\u002Fcode\u003E\u003C\u002Fpre\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003EДалее проверим, установлен ли CUPS на сервере:\u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Cpre\u003E\u003Ccode class=\"plaintext\"\u003Eroot@cupsserver:~# which cupsd \u003C\u002Fcode\u003E\u003C\u002Fpre\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003EЕсли вывод выглядит как то так:\u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Cpre\u003E\u003Ccode class=\"plaintext\"\u003E\u002Fusr\u002Fbin\u002Fcupsd \u003C\u002Fcode\u003E\u003C\u002Fpre\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003Eто CUPS установлен, если вывода нет — устанавливаем CUPS:\u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Cpre\u003E\u003Ccode class=\"plaintext\"\u003Eroot@cupsserver:~# apt install cups -y \u003C\u002Fcode\u003E\u003C\u002Fpre\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003EТеперь настроим административный доступ к веб-интерфейсу CUPS. Все файлы конфигурации находятся по пути \u003Cem\u003E\u002Fetc\u002Fcups\u002F\u003C\u002Fem\u003E. Для начала, на всякий случай сделаем резервные копии основных файлов конфигурации CUPS:\u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Cpre\u003E\u003Ccode class=\"plaintext\"\u003Eroot@cupsserver:~# cp \u002Fetc\u002Fcups\u002Fcupsd.conf \u002Fetc\u002Fcups\u002Fcupsd.conf.original\nroot@cupsserver:~# cp \u002Fetc\u002Fcups\u002Fcups-files.conf \u002Fetc\u002Fcups\u002Fcups-files.conf.original \nroot@cupsserver:~# cp \u002Fetc\u002Fcups\u002Fcups-browsed.conf \u002Fetc\u002Fcups\u002Fcups-browsed.conf.original\u003C\u002Fcode\u003E\u003C\u002Fpre\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003EВпрочем, если вы этого не сделали — не беда, образцы данных файлов по умолчанию лежат по пути \u003Cem\u003E\u002Fusr\u002Fshare\u002Fcups\u003C\u002Fem\u003E. Также нужно упомянуть, что вы можете проверить любые добавленные опции в файлы конфигурации CUPS с помощью команды:\u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Cpre\u003E\u003Ccode class=\"plaintext\"\u003Eroot@cupsserver:~# cupsd -t \u003C\u002Fcode\u003E\u003C\u002Fpre\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003EЕсли вы что-то напутали, опечатались или использовали опцию, которая уже не поддерживается CUPS'ом, то вывод команды отразит данные ошибки.\u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003EНо приступим наконец к настройке. После любых изменений файлов в папке \u003Cem\u003E\u002Fetc\u002Fcups\u002F\u003C\u002Fem\u003E для получения эффекта необходимо перезапускать сервис CUPS:\u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Cpre\u003E\u003Ccode class=\"plaintext\"\u003Eroot@cupsserver:~# service cups restart\nили\nroot@cupsserver:~# systemctl restart cups\nили\nroot@cupsserver:~# \u002Fetc\u002Finit.d\u002Fcups restart\u003C\u002Fcode\u003E\u003C\u002Fpre\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003EА если вы отредактировали файл \u003Cem\u003E\u002Fetc\u002Fcups\u002Fcups-browsed.conf\u003C\u002Fem\u003E, то за него отвечает отдельный сервис \u003Cstrong\u003Ecups-browsed\u003C\u002Fstrong\u003E, который тоже нужно перезапустить:\u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Cpre\u003E\u003Ccode class=\"plaintext\"\u003Eroot@cupsserver:~# service cups-browsed restart\nили\nroot@cupsserver:~# systemctl restart cups-browsed\nили\nroot@cupsserver:~# \u002Fetc\u002Finit.d\u002Fcups-browsed restart\u003C\u002Fcode\u003E\u003C\u002Fpre\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003EВыполним команду\u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Cpre\u003E\u003Ccode class=\"plaintext\"\u003Eroot@cupsserver:~# nano \u002Fetc\u002Fcups\u002Fcupsd.conf \u003C\u002Fcode\u003E\u003C\u002Fpre\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003EПервой незакомментированной опцией является\u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Cpre\u003E\u003Ccode class=\"plaintext\"\u003ELogLevel warn \u003C\u002Fcode\u003E\u003C\u002Fpre\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003EОна определяет минимальную информативность логов CUPS. Лог-файлы CUPS находятся по пути \u003Cem\u003E\u002Fvar\u002Flog\u002Fcups\u002F\u003C\u002Fem\u003E. На время установки, настройки и отладки принтсервера будет разумным перевести логгирование в debug-режим. Для этого изменим warn на debug2:\u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Cpre\u003E\u003Ccode class=\"plaintext\"\u003ELogLevel debug2 \u003C\u002Fcode\u003E\u003C\u002Fpre\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003EПо умолчанию CUPS слушает входящие подключения только от \u003Cstrong\u003Elocalhost\u003C\u002Fstrong\u003E, то бишь на loopback интерфейсе. Чтобы убедится в этом, можете выполнить команду\u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Cpre\u003E\u003Ccode class=\"plaintext\"\u003Eroot@cupsserver:~# netstat -plutn \u003C\u002Fcode\u003E\u003C\u002Fpre\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003EОдна из строк будет выглядеть приблизительно так:\u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Cpre\u003E\u003Ccode class=\"plaintext\"\u003Etcp 0   0   127.0.0.1:631   0.0.0.0:*   LISTEN  737\u002Fcupsd \u003C\u002Fcode\u003E\u003C\u002Fpre\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003EДальнейшие действия зависят от степени вашей паранойи. Вы можете добавить в блоке, который условно начинается с комментария \u003Cstrong\u003E#Only listen for connections from the local machine\u003C\u002Fstrong\u003E несколько строк с указанием IP адресов или подсетей, откуда CUPS'у будет позволено слушать подключения.\u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Cpre\u003E\u003Ccode class=\"plaintext\"\u003E# Only listen for connections from the local machine.\nListen localhost:631\nListen \u002Frun\u002Fcups\u002Fcups.sock\n#Слушать подключения с определенного IP адреса\nListen 10.10.100.67:631\n#Слушать подключения с подсети бухгалтерии\nListen 172.16.0.0:631\u003C\u002Fcode\u003E\u003C\u002Fpre\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003EЛибо же вы можете разрешить CUPS'у слушать подключения со всех адресов\u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Cpre\u003E\u003Ccode class=\"plaintext\"\u003E# Only listen for connections from the local machine.\nListen \u002Frun\u002Fcups\u002Fcups.sock\nPort 631\u003C\u002Fcode\u003E\u003C\u002Fpre\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003EСледующий момент настройки — это обнаружение сетевых и расшаренных принтеров.\u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Cpre\u003E\u003Ccode class=\"plaintext\"\u003E# Show shared printers on the local network.\nBrowsing Off\nBrowseLocalProtocols dnssd\u003C\u002Fcode\u003E\u003C\u002Fpre\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003EНа мой взгляд эта опция так и должна остаться выключенной, так как она определяет, будет ли рассылаться широковещательная информация по сети о подключенных к принтсерверу принтерах. А они ведь будут подключены к ней все. И соответственно у всех клиентских машин будут отображаться сразу все принтера. Наш принтсервер должен искать и обнаруживать все принтера в сети, но не рассылать их бездумно по всей сети.\u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003EДалее идут настройки аутентификации:\u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Cpre\u003E\u003Ccode class=\"plaintext\"\u003E# Default authentication type, when authentication is required...\nDefaultAuthType Basic\u003C\u002Fcode\u003E\u003C\u002Fpre\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003EОпределяет права доступа к веб-интерфейсу CUPS, а также к его административной части. Чтобы пользователь \u003Cstrong\u003Euser\u003C\u002Fstrong\u003E имел право на администрирование CUPS, его нужно добавить в системную группу \u003Cstrong\u003Elpadmin\u003C\u002Fstrong\u003E:\u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Cpre\u003E\u003Ccode class=\"plaintext\"\u003Eroot@cupsserver:~# usermod -a -G lpadmin user\u003C\u002Fcode\u003E\u003C\u002Fpre\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003EВообще, группы, которым позволен административный доступ к CUPS, определяются в файле конфигурации \u003Cem\u003Ecups-files.conf\u003C\u002Fem\u003E в блоке\u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Cpre\u003E\u003Ccode class=\"plaintext\"\u003E# Administrator user group, used to match @SYSTEM in cupsd.conf policy rules...\n# This cannot contain the Group value for security reasons...\nSystemGroup lpadmin\u003C\u002Fcode\u003E\u003C\u002Fpre\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003EЕсли вы хотите добавить некой группе пользователей Linux права на администрирование принтсервера, например \u003Cstrong\u003Eprintadmins\u003C\u002Fstrong\u003E, то просто добавьте их через пробел к \u003Cstrong\u003Elpadmin\u003C\u002Fstrong\u003E. Если группа доменная, то это немного сложнее и будет описано позже.\u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003EТеперь перейдем к блоку \u003Cstrong\u003E&lt;Location \u002F\u003E\u003C\u002Fstrong\u003E:\u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Cpre\u003E\u003Ccode class=\"plaintext\"\u003E# Restrict access to the server...\n&lt;Location \u002F\u003E\n  Order allow,deny\n\n&lt;\u002FLocation\u003E\u003C\u002Fcode\u003E\u003C\u002Fpre\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003E\u003Cstrong\u003EOrder allow,deny\u003C\u002Fstrong\u003E означает, что запрещены подключения отовсюду, если специально не указано разрешение. То есть нужно добавлять IP-адреса, подсети, хосты или хосты по маске (\u003Cem\u003E\u003Cstrong\u003E.example.com\u003C\u002Fstrong\u003E) в виде \"\u003C\u002Fem\u003EAllow from [разрешенный адрес]*\":\u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Cpre\u003E\u003Ccode class=\"plaintext\"\u003E# Restrict access to the server...\n&lt;Location \u002F\u003E\n  Order allow,deny\n Allow from cupsserver                          # разрешение подключатся к самому себе по имени хоста\n Allow from cupsserver.example.com    # разрешение подключатся к самому себе по FQDN\n Allow from localhost                             # разрешение подключатся к самому себе через loopback интерфейс\n Allow from 10.10.100.*                        # Если хотите разрешить\n Allow from linux4.example.com           # доступ на печать с\n Allow from 172.168.5.125                   # определенных подсетей, IP или хостов\n&lt;\u002FLocation\u003E\u003C\u002Fcode\u003E\u003C\u002Fpre\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003EДля полной уверености и отладки, можно оставить, пока не настроите все остальное, такую констукцию, которая позволит печать отовсюду:\u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Cpre\u003E\u003Ccode class=\"plaintext\"\u003E# Restrict access to the server...\n&lt;Location \u002F\u003E\n  Order allow,deny\n  Allow from all\n&lt;\u002FLocation\u003E\u003C\u002Fcode\u003E\u003C\u002Fpre\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003EПриступим к настройке административного доступа к CUPS на принтсервере. Определитесь, с какого\u002Fкаких IP и\u002Fили подсетей вы собираетесь подключаться к CUPS, и добавить их по аналогии с блоком \u003Cstrong\u003E&lt;Location \u002F\u003E\u003C\u002Fstrong\u003E:\u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Cpre\u003E\u003Ccode class=\"plaintext\"\u003E# Restrict access to the admin pages...\n&lt;Location \u002Fadmin\u003E\n  Order allow,deny\n  Allow from localhost\n  Allow from 10.10.100.*\n  Allow from admin.example.com\n&lt;\u002FLocation\u003E\n\n# Restrict access to configuration files...\n&lt;Location \u002Fadmin\u002Fconf\u003E\n  Order allow,deny\n  Allow from localhost\n  Allow from 10.10.100.*\n  Allow from admin.example.com\n&lt;\u002FLocation\u003E\n\n# Restrict access to log files...\n&lt;Location \u002Fadmin\u002Flog\u003E\n  Order allow,deny\n  Allow from localhost\n  Allow from 10.10.100.*\n  Allow from admin.example.com\n&lt;\u002FLocation\u003E\u003C\u002Fcode\u003E\u003C\u002Fpre\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003EЕще, по желанию, можно добавить язык интерфейса по умолчанию. Список доступных языков можно посмотреть с помощью команды:\u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Cpre\u003E\u003Ccode class=\"plaintext\"\u003Eroot@cupsserver:~# ls \u002Fusr\u002Fshare\u002Fcups\u002Flocale\u003C\u002Fcode\u003E\u003C\u002Fpre\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003EЕсли нужная вам локализация, например \u003Cstrong\u003Eru\u003C\u002Fstrong\u003E, есть, то добавьте строчку в \u003Cem\u003E\u002Fetc\u002Fcups\u002Fcupsd.conf\u003C\u002Fem\u003E:\u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Cpre\u003E\u003Ccode class=\"plaintext\"\u003EDefaultLanguage ru\u003C\u002Fcode\u003E\u003C\u002Fpre\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003EЧтобы к вашему принтсерверу \u003Cstrong\u003Ecupsserver.example.com\u003C\u002Fstrong\u003E можно было обращатся по его хосту (hostname), необходимо создать в папке \u003Cem\u003E\u002Fetc\u002Fcups\u002F\u003C\u002Fem\u003E файл \u003Cem\u003Eclient.conf\u003C\u002Fem\u003E с таким содержимым:\u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Cpre\u003E\u003Ccode class=\"plaintext\"\u003EServerName имя_хоста\u003C\u002Fcode\u003E\u003C\u002Fpre\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003EСамым простым способом это можно сделать так:\u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Cpre\u003E\u003Ccode class=\"plaintext\"\u003Eroot@cupsserver:\u002Fetc\u002Fcups# echo \"ServerName $(cat \u002Fetc\u002Fhostname)\" \u003E \u002Fetc\u002Fcups\u002Fclient.conf\u003C\u002Fcode\u003E\u003C\u002Fpre\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003EПоскольку мы предполагаем, что в сети есть DNS сервер, то будет предпочтительным, чтобы можно было обращатся к принтсерверу по его доменному имени (\u003Cstrong\u003Ecupsserver.example.com\u003C\u002Fstrong\u003E). Также серверу может быть присвоен CNAME псевдоним на DNS сервере, например \u003Cstrong\u003Eprint\u003C\u002Fstrong\u003E или \u003Cstrong\u003Ecups\u003C\u002Fstrong\u003E. Чтобы принтсервер принимал подключения по таким обращениям, необходимо добавить такую строчку в файл \u003Cem\u003E\u002Fetc\u002Fcups\u002Fcupsd.conf\u003C\u002Fem\u003E:\u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Cpre\u003E\u003Ccode class=\"plaintext\"\u003EServerAlias cupsserver.example.com print cups\u003C\u002Fcode\u003E\u003C\u002Fpre\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003EЕсли вы хотите, чтобы принтсервер примимал любые обращения, или не хотите заморачиваться, то можно добавить это:\u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Cpre\u003E\u003Ccode class=\"plaintext\"\u003EServerAlias *\u003C\u002Fcode\u003E\u003C\u002Fpre\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003EЕще нужно взглянуть внутрь файла \u003Cem\u003E\u002Fetc\u002Fcups\u002Fcups-browsed.conf\u003C\u002Fem\u003E. Этот файл управляет тем, как принтсервер будет искать принтеры в сети и проводить широковещательную рассылку своих принтеров. Я предлагаю совершенно отключить опцию рассылки. Принтсервер будет искать принтера в сети, но с него принтеры на клиентские машины будут подключатся вручную. Ниже будет описано, почему. Пока же мы находим строку \u003Cstrong\u003EBrowseRemoteProtocols dnssd cups\u003C\u002Fstrong\u003E:\u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Cpre\u003E\u003Ccode class=\"plaintext\"\u003E# Which protocols will we use to discover printers on the network?\n# Can use DNSSD and\u002For CUPS and\u002For LDAP, or 'none' for neither.\n\nBrowseRemoteProtocols dnssd cups\u003C\u002Fcode\u003E\u003C\u002Fpre\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003EБлагодаря этой опции принтсервер ищет расшаренные принтера в сети. Ее мы оставляем включенной, так как в наших интересах, чтобы принтсервер искал принтера в сети. Но нам совершенно не нужно, чтобы принтсервер рассылал вообще все подключенные к нему принтеры, иначе возникнет большая путаница. Для предотвращения такого сценария находим следующую опцию \u003Cstrong\u003E#BrowseLocalProtocols none\u003C\u002Fstrong\u003E и раскомментируем ее:\u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Cpre\u003E\u003Ccode class=\"plaintext\"\u003E# Which protocols will we use to broadcast shared local printers to the network?\n# Can use DNSSD and\u002For CUPS, or 'none' for neither.\n# Only CUPS is actually supported, as DNSSD is done by CUPS itself (we ignore DNSSD in this directive).\n\nBrowseLocalProtocols none\u003C\u002Fcode\u003E\u003C\u002Fpre\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003EНа этом настройку принтсервера приостанавливаем и переходим к настройке клиентких машин Windows и Linux. Требования к ним такие — позволять посылать на себя задания печати принтсерверу, и посылать задания на печать именно (и только) на принтсервер в случае необходимости печати на сетевой принтер.\u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003EВ качестве примера настроим печать сквозь принтсервер между двумя клиентскими машинами с Linux (имя хоста \u003Cstrong\u003Elinux1\u003C\u002Fstrong\u003E) и Windows 8 соотвественно (имя хоста \u003Cstrong\u003Ewindows1\u003C\u002Fstrong\u003E). Начнем с настройки \u003Cstrong\u003Ewindows1\u003C\u002Fstrong\u003E в качестве приемника печати от принтсервера. У меня к нему подключен и штатно работает принтер Canon i-SENSYS MF4410. Имя принтера — Canon-MF4400. Самый простой способ, на самом деле, обеспечить печать с принтсервера на \u003Cstrong\u003Ewindows1\u003C\u002Fstrong\u003E — перейти в \u003Cem\u003EПанель управления \u003E Программы \u003E Программы и компоненты \u003E Включение или отключение компонентов Windows\u003C\u002Fem\u003E. Там мы включаем компонент \u003Cem\u003EСлужбы печати и документов \u003E Служба печати LPD\u003C\u002Fem\u003E. Это позволит подключить данный принтер к принтсерверу с помощью адреса \u003Cem\u003Elpd:\u002F\u002Fwindows1\u002FCanon-MF4400\u003C\u002Fem\u003E. Разумеется, назревает вопрос, почему бы не подключить с помощью SMB? Никто не запрещает. Если у вас отлажен данный метод, вы можете расшарить принтер таким образом, и подключить к принтсерверу по протоколу SMB. Инстукции по данному подключению, на мой взгляд, выходят за рамки данной статьи, которая и так выходит довольно объемной. Пока же считаем, что читатель успешно зашел по адресу \u003Ccode\u003Ehttp:\u002F\u002Fcupsserver:631\u002Fadmin\u003C\u002Fcode\u003E нажал на кнопку \"Добавить новый принтер\" и следуя интуиции, логике и прочитатанным ранее мануалам успешно подключил принтер с \u003Cstrong\u003Ewindows1\u003C\u002Fstrong\u003E по протоколу \u003Cstrong\u003ELPD\u003C\u002Fstrong\u003E к принтсерверу \u003Cstrong\u003Ecupsserver[example.com]\u003C\u002Fstrong\u003E и страница принтера доступна по адресу \u003Ccode\u003Ehttp:\u002F\u002Fcupsserver:631\u002Fprinters\u002FCanon-MF4400\u003C\u002Fcode\u003E. \u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003EТеперь выполним аналогичную операцию на клиентской машине Linux c именем хоста \u003Cstrong\u003Elinux1\u003C\u002Fstrong\u003E. Вообще, данная часть будет куда объемнее, так как у клиентской машины есть свой сервис CUPS и его тоже нужно настроить во многом так же, как и принтсервер, за исключением его подчиненной роли в организации печати. \u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Ch3 id=\"ispravlenie-oshibki-obrascheniya-k-cups-cherez-loopback-po-imeni-hosta\"\u003EИсправление ошибки обращения к CUPS через loopback по имени хоста\u003C\u002Fh3\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003EЕсть неприятный момент. Если вы введете \u003Cstrong\u003Elinux1\u003C\u002Fstrong\u003E в домен, настроите на нем CUPS по этим инструкциям, то можете заметить абсурдную ситуацию, когда на WEB-интерфейс \u003Cstrong\u003Elinux1\u003C\u002Fstrong\u003E можно зайти снаружи, но на самом хосте этого сделать нельзя! И графические приложения для локальной настройки принтеров, вроде приложения \u003Cstrong\u003Esystem-config-printer\u003C\u002Fstrong\u003E в Linux Mint, отказываются работать. При попытке подключения на свой же CUPS по по адресу \u003Ccode\u003Ehttp:\u002F\u002Flinux1:631\u002F\u003C\u002Fcode\u003E будет сообщение \"Запрещено\" или \"Bad Request\". Это известная и толком не решенная на множестве форумов интернета проблема. \u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003EВ большинстве инструкций по введению Linux в домен одним из пунктов является приведение файла \u003Cem\u003E\u002Fetc\u002Fhosts\u003C\u002Fem\u003E приблизительно к такому виду:\u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Cpre\u003E\u003Ccode class=\"plaintext\"\u003E127.0.0.1       localhost\n127.0.1.1    linux1.example.com linux1\n# The following lines are desirable for IPv6 capable hosts\n::1     ip6-localhost ip6-loopback\nfe02::2 ip6-localnet\nff00::0 ip6-mcastprefix\nff02::1 ip6-allnodes\nff02::2 ip6-allrouters\u003C\u002Fcode\u003E\u003C\u002Fpre\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003EПочему то CUPS не в силах ассоциировать обращение через 127.0.1.1, то есть через Loopback интерфейс, с именем хоста.\u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003EИсправляется эта ошибка двумя способами. Если в вашей сети IP адреса статичные, то в файле \u003Cem\u003E\u002Fetc\u002Fhosts\u003C\u002Fem\u003E исправьте 127.0.1.1 на IP адрес внешнего сетевого интерфейса клиентской машины, например:\u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Cpre\u003E\u003Ccode class=\"plaintext\"\u003E127.0.0.1       localhost\n192.168.1.50   linux1.example.com linux1\u003C\u002Fcode\u003E\u003C\u002Fpre\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003EЛибо же, раз уж вы вводите Linux в домен, то это предполагает, что в вашей сети работает DHCP и DNS сервер Active Directory. В таком случае просто закомментируйте данную строчку:\u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Cpre\u003E\u003Ccode class=\"plaintext\"\u003E127.0.0.1       localhost\n# 127.0.1.1   linux1.example.com linux1\u003C\u002Fcode\u003E\u003C\u002Fpre\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003EРазницы в работоспособности или проблем от данного действия пока обнаружено не было.\u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Ch3 id=\"nastroyka-adresov-proslushivaniya-podklyucheniy-k-cups-u-klientskih-mashin-linux\"\u003EНастройка адресов прослушивания подключений к CUPS у клиентских машин Linux\u003C\u002Fh3\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003EЗаходим на \u003Cstrong\u003Elinux1\u003C\u002Fstrong\u003E любым удобным способом. Редактируем файл \u003Cem\u003E\u002Fetc\u002Fcups\u002Fcupsd.conf\u003C\u002Fem\u003E:\u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Cpre\u003E\u003Ccode class=\"plaintext\"\u003Euser@linux1:~$ sudo nano \u002Fetc\u002Fcups\u002Fcupsd.conf\u003C\u002Fcode\u003E\u003C\u002Fpre\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003EНаходим, добавляем или изменяем в нем строки:\u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Cpre\u003E\u003Ccode class=\"plaintext\"\u003E\nDefaultLanguage ru         # Если язык присутствует в папке \u002Fusr\u002Fshare\u002Fcups\u002Flocale\n\nServerAlias linux1.example.com linux1 [CNAME псевдоним присвоенный на DNS сервере]\nили\nServerAlias *              # Если неохота вникать в особенности\n\nListen \u002Frun\u002Fcups\u002Fcups.sock \nListen localhost:631           # Слушать localhost\nListen 10.10.100.50:631    # IP адрес нашего принтсервера.\nListen cupsserver:631        # Доменное имя принтсервера. Рекомендую чтобы его IP тоже был, на всякий случай\nListen linux1:631          # \nили\nPort 631                   # Будет слушать подключения со всех адресов\nListen \u002Frun\u002Fcups\u002Fcups.sock\n\nBrowsing off                          # Выключено. Машина будет посылать информацию только принтсерверу\n\nDefaultAuthType Basic      # Без изменений. Есть вариант с авторизацией Kerberos, но там много подводных камней\u003C\u002Fcode\u003E\u003C\u002Fpre\u003E\u003Cbr\u002F\u003E\r\n\u003Ch3 id=\"nastroyka-adresov-proslushivaniya-podklyucheniy-k-cups\"\u003EНастройка адресов прослушивания подключений к CUPS\u003C\u002Fh3\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003EВ предыдущем блоке мы настроили возможность подключения к CUPS. Теперь перейдем к настройке разрешений на доступ к печати, а также к административным страницам сервиса CUPS на хосте \u003Cstrong\u003Elinux1\u003C\u002Fstrong\u003E. Вновь открываем, если закрыли, файл \u003Cem\u003E\u002Fetc\u002Fcups\u002Fcupsd.conf\u003C\u002Fem\u003E и переходим к редактированию блоков \u003Cstrong\u003E&lt;Location \u002F\u003E\u003C\u002Fstrong\u003E, \u003Cstrong\u003E&lt;Location \u002Fadmin\u003E\u003C\u002Fstrong\u003E, \u003Cstrong\u003E&lt;Location \u002Fadmin\u002Fconf\u003E\u003C\u002Fstrong\u003E, \u003Cstrong\u003E&lt;Location \u002Fadmin\u002Flog\u003E\u003C\u002Fstrong\u003E:\u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Cpre\u003E\u003Ccode class=\"plaintext\"\u003E\n# Restrict access to the server...\n&lt;Location \u002F\u003E\n  Order allow,deny        # Определяет политику доступа \"Что не разрешено, то запрещено\"\n  Allow from localhost    # Позволяет печатать самой linux1\n  Allow from linux1       # Печать на свое имя хоста. Проблемы этого действия описаны выше\n  Allow from cupsserver   # Если CUPS нормально взаимодействует с DNS, то сработает. Увы, не всегда это так\n  Allow from cupsserver.example.com   # FQDN принтсервера\n  Allow from 10.10.100.50 # Разрешение на печать с IP принтсервера **cupsserver**\n&lt;\u002FLocation\u003E\n\n# Restrict access to the admin pages...\n&lt;Location \u002Fadmin\u003E\n  Order allow,deny        # Аналогично предыдущему\n  Allow from localhost    # Необходимо для возможности добавлять принтеры\n  Allow from linux1       # Аналогично предыдущему\n  Allow from 10.10.101.71 # Предположим, это IP админа\n  Allow from 10.20.50.*   # Предположим, это подсеть вашего IT отдела\n  AuthType Default        # То есть CUPS спросит логин и пароль. Подробнее ниже\n  Require user @SYSTEM    # Определение группы доступа к CUPS\n&lt;\u002FLocation\u003E\n\n# Restrict access to configuration files...\n&lt;Location \u002Fadmin\u002Fconf\u003E\n#Блок идентичен предыдущему\n  Order allow,deny        # Аналогично предыдущему\n  Allow from localhost    # Необходимо для возможности добавлять принтеры\n  Allow from linux1       # Аналогично предыдущему\n  Allow from 10.10.101.71 # Предположим, это IP админа\n  Allow from 10.20.50.*   # Предположим, это подсеть вашего IT отдела\n  AuthType Default        # То есть CUPS спросит логин и пароль. Подробнее ниже\n  Require user @SYSTEM    # Определение группы доступа к CUPS\n&lt;\u002FLocation\u003E\n\n# Restrict access to log files...\n&lt;Location \u002Fadmin\u002Flog\u003E\n#Блок идентичен предыдущему\n  Order allow,deny        # Аналогично предыдущему\n  Allow from localhost    # Необходимо для возможности добавлять принтеры\n  Allow from linux1       # Аналогично предыдущему\n  Allow from 10.10.101.71 # Предположим, это IP админа\n  Allow from 10.20.50.*   # Предположим, это подсеть вашего IT отдела\n  AuthType Default        # То есть CUPS спросит логин и пароль. Подробнее ниже\n  Require user @SYSTEM    # Определение группы доступа к CUPS\n&lt;\u002FLocation\u003E\u003C\u002Fcode\u003E\u003C\u002Fpre\u003E\u003Cbr\u002F\u003E\r\n\u003Ch3 id=\"nastroyka-razdachi-i-polucheniya-shirokoveschatelnoy-rassylki-setevyh-printerov\"\u003EНастройка раздачи и получения широковещательной рассылки сетевых принтеров\u003C\u002Fh3\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003EЕще у клиетской машины Linux, в данном случае \u003Cstrong\u003E\u003Cem\u003Elinux1\u003C\u002Fem\u003E\u003C\u002Fstrong\u003E, необходимо отредактировать файл \u003Cem\u003E\u002Fetc\u002Fcups\u002Fcups-browsed.conf\u003C\u002Fem\u003E:\u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Cpre\u003E\u003Ccode class=\"plaintext\"\u003Euser@linux1:~$ sudo nano \u002Fetc\u002Fcups\u002Fcups-browsed.conf \n\n  BrowseRemoteProtocols none # Пишем none чтобы не получить кучу принтеров автоматически. \n\n  BrowseLocalProtocols cups  # Показывать подключеные принтеры в сеть. DNSSD указывать не надо, его директива в cupsd.conf\n\n  BrowseOrder Allow,Deny             # Аналогично директиве Order в cupsd.conf - необходимо явно указать, куда МОЖНО посылать информацию о подключенных принтерах\n  BrowseAllow 10.10.100.50           # IP принтсервера\n  BrowseAllow cupsserver             # Имя хоста принтсервера\n  BrowseAllow cupsserver.example.com # Полное доменное имя принтсервера\u003C\u002Fcode\u003E\u003C\u002Fpre\u003E\u003Cbr\u002F\u003E\r\n\u003Ch3 id=\"nastroyka-administrativnogo-dostupa\"\u003EНастройка административного доступа\u003C\u002Fh3\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003EЕще пару слов по поводу административного доступа, как на WEB-интерфейс CUPS на принтсервере, так и на любой клиентской машине Linux. Даже при условии наличия 30-50 компьютеров нужно унифицировать авторизацию на CUPS, а не держать в голове или еще где пароли каждой машины. И это важно на всех Linux машинах, ведь чтобы добавить принтер на сервер, его сперва нужно установить локально. Я вижу несколько путей.\u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003EПервый — на каждой системе Linux создать пользователя \u003Cstrong\u003Eprinteradmin\u003C\u002Fstrong\u003E (например) и добавить в группу \u003Cstrong\u003Elpadmin\u003C\u002Fstrong\u003E:\u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Cpre\u003E\u003Ccode class=\"plaintext\"\u003Euser@linux1:~$ sudo usermod -a -G lpamin printeradmin \u003C\u002Fcode\u003E\u003C\u002Fpre\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003Eи авторизовываться на \u003Ccode\u003Ehttp:\u002F\u002Fимя_хоста:631\u002Fadmin\u003C\u002Fcode\u003E c помощью его учетных данных.\u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003EВторой вариант практически идентичен и предлагает создать группу в системе, например, \u003Cstrong\u003Eprintersadmins\u003C\u002Fstrong\u003E, добавить туда требуемого администратора CUPS (\u003Cstrong\u003Eprinteradmin\u003C\u002Fstrong\u003E, \u003Cstrong\u003Euser\u003C\u002Fstrong\u003E):\u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Cpre\u003E\u003Ccode class=\"plaintext\"\u003Euser@linux1:~$ sudo groupadd printersadmins\nuser@linux1:~$ sudo usermod -a -G printersadmins printeradmin\nuser@linux1:~$ sudo usermod -a -G printersadmins user\u003C\u002Fcode\u003E\u003C\u002Fpre\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003EЗатем нужно найти в файле \u003Cem\u003E\u002Fetc\u002Fcups\u002Fcups-files.conf\u003C\u002Fem\u003E строку\u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Cpre\u003E\u003Ccode class=\"plaintext\"\u003E# Administrator user group, used to match @SYSTEM in cupsd.conf policy rules...\n# This cannot contain the Group value for security reasons...\nSystemGroup lpadmin\u003C\u002Fcode\u003E\u003C\u002Fpre\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003Eи добавить через пробел одну или несколько групп пользователей с правом администрировать CUPS.\u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Cpre\u003E\u003Ccode class=\"plaintext\"\u003E# Administrator user group, used to match @SYSTEM in cupsd.conf policy rules...\n# This cannot contain the Group value for security reasons...\nSystemGroup lpadmin printersadmins somegroup\u003C\u002Fcode\u003E\u003C\u002Fpre\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003EИ наконец, третий вариант. Сделать администраторами принтсервера и CUPS'ов клиентских машин доменную группу пользователей. Для этого принтсервер и клиентские машины Linux должны быть присоединены к домену AD. Есть несколько методов подключения Linux к домену Windows, но, насколько я знаю, основные это подключение с помощью winbind и с помощью SSSD(realmd). Описание данных методов не входит в статью, поэтому остановлюсь только на моментах которые касаются конкретно CUPS'а. \u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Ch3 id=\"nastroyka-ispolzovaniya-domennyh-grupp-polzovateley-dlya-administrirovaniya-cups\"\u003EНастройка использования доменных групп пользователей для администрирования CUPS\u003C\u002Fh3\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003EКаждый метод присоединения к системе централизованной авторизации в Linux создает специальный файл-\"трубу\" (pipe), сквозь который приложения могут посмотреть список пользователей домена. Чтобы так мог сделать CUPS, нужно разрешить ему использовать pipe в AppArmor'е для аутентификации пользователей. AppArmor — модуль безопасности Linux по управлению доступом. Ограничивает определенные программы набором перечисленных в его политиках файлов. Чтобы добавить CUPS'у право использовать пользователей и группы домена через winbindd, нужно добавить в файл \u003Cem\u003E\u002Fetc\u002Fapparmod.d\u002Flocal\u002Fusr.sbin.cupsd\u003C\u002Fem\u003E такую строку:\u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Cpre\u003E\u003Ccode class=\"plaintext\"\u003E\u002Fvar\u002Flib\u002Fsamba\u002Fwinbindd_privileged\u002Fpipe rw\u003C\u002Fcode\u003E\u003C\u002Fpre\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003EЕсли Linux введен в домен через SSSD, то необходимо указать расположение его pipe в \u003Cem\u003E\u002Fetc\u002Fapparmod.d\u002Flocal\u002Fusr.sbin.cupsd\u003C\u002Fem\u003E, добавив туда строку:\u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Cpre\u003E\u003Ccode class=\"plaintext\"\u003E\u002Fvar\u002Flib\u002Fsss\u002Fpipes\u002Fprivate\u002Fpam rw\u003C\u002Fcode\u003E\u003C\u002Fpre\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003EК тому же, в случае с SSSD это позволяет пройти аутентификацию (узнать кто заходит), но чтобы пройти авторизацию (узнать есть ли право у пользователя управлять CUPS) необходимо также добавить в файл конфигурации SSSD \u003Cem\u003E\u002Fetc\u002Fsssd\u002Fsssd.conf\u003C\u002Fem\u003E строку:\u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Cpre\u003E\u003Ccode class=\"plaintext\"\u003Ead_gpo_map_interactive = +cups\u003C\u002Fcode\u003E\u003C\u002Fpre\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003EЭто, условно выражаюсь, дает CUPS'у право \"заглядывать\" в SSSD.\u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003EК тому же, в силу того, что CUPS теперь зависит от сервиса SSSD, нужно указать CUPS'у что он должен запускаться после SSSD, иначе он будет отваливаться при включении и его будет необходимо каждый раз включать вручную. \u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003EДобавим CUPS'у указание грузиться после SSSD. Отредактируем файл сервиса \u003Cem\u003Ecups.service\u003C\u002Fem\u003E по пути \u003Cem\u003E\u002Flib\u002Fsystemd\u002Fsystem\u002F\u003C\u002Fem\u003E, добавив инструкцию \u003Cstrong\u003EAfter\u003C\u002Fstrong\u003E в секцию \u003Cstrong\u003E[Unit]\u003C\u002Fstrong\u003E:\u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Cpre\u003E\u003Ccode class=\"plaintext\"\u003E[Unit]\nDescription=CUPS Scheduler\nDocumentation=man:cupsd(8)\nAfter=sssd.service\u003C\u002Fcode\u003E\u003C\u002Fpre\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003EТаким образом CUPS настроен на Basic авторизацию через домен, то есть авторизацию с помощью ввода логина и пароля доменного пользователя с правом администрирования CUPS. \u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003EАвторизация может быть настроена и иначе, но принцип (pipe-файл) в целом универсален и есть шанс настроить и для LDAP, FreeIPA и прочих служб каталогов по аналогии.\u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Ch3 id=\"ustanovka-printera-v-linux\"\u003EУстановка принтера в Linux\u003C\u002Fh3\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003EУстановить принтер на Linux это часто специфическая задача, разная для разных марок и даже моделей. Поэтому не вижу смысла описывать установку принтера и примем за факт, что на хосте \u003Cstrong\u003Elinux1\u003C\u002Fstrong\u003E установлен принтер Kyocera-1024FP с именем \u003Cstrong\u003EKyocera-1024FP\u003C\u002Fstrong\u003E, и страница принтера доступна по ссылке \u003Ccode\u003Ehttp:\u002F\u002Flinux1:631\u002Fprinters\u002FKyocera-1024FP\u003C\u002Fcode\u003E.\u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003EТеперь, когда сервер и клиенские машины Linux настроены, к некоторым из них присоединены принтеры, а также есть машины на Windows, которым и с которых нужно печатать, и вся эта система должна быть стабильной и в случае, если на одном из ПК необходимо заменить принтер, то это не должно повлечь за собой перенастройку доброй половины всех ПК, если не всех. К тому же нужно как можно меньше проблем с драйверами. И это вполне возможно.\u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Ch3 id=\"gruppy-printerov-classes\"\u003EГруппы принтеров (Classes)\u003C\u002Fh3\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003EВыше мы описывали подключение \u003Cstrong\u003ECanon-MF4400\u003C\u002Fstrong\u003E c хоста \u003Cstrong\u003Ewindows1\u003C\u002Fstrong\u003E через протокол LPD. Принтер все еще подключен и его статус можно посмотреть на странице \u003Ccode\u003Ehttp:\u002F\u002Fcupsserver:631\u002Fprinters\u002FCanon-MF4400\u003C\u002Fcode\u003E. А теперь обратим пристальное внимание на главную страницу администрирования \u003Cstrong\u003Ecupsserver\u003C\u002Fstrong\u003E \u003Ccode\u003Ehttp:\u002F\u002Fcupsserver:631\u002Fadmin\u003C\u002Fcode\u003E. На этой странице есть кнопка \"Добавить группу\" [Add Class]. Нажмем на нее. В ней вы увидите поля \"Название\", \"Описание\", \"Расположение\", аналогичные таким же при настройке обычного принтера. В нижнем же блоке вы увидите список всех подключенных к принтсерверу принтеров. Выберите \u003Cstrong\u003ECanon-MF4400\u003C\u002Fstrong\u003E или любой который хотите, затем в поле \"Название\" впишите, например \u003Cstrong\u003Eprinter-windows1\u003C\u002Fstrong\u003E, \"Описание\" и \"Расположение\" на ваше усмотрение, и нажмите \"Добавить группу\". \u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003EТеперь у нас есть группа \u003Cstrong\u003Eprinter-windows1\u003C\u002Fstrong\u003E с принтером \u003Cstrong\u003ECanon-MF4400\u003C\u002Fstrong\u003E в ней. Страница этой группы доступна так же как и страница принтера \u003Cstrong\u003ECanon-MF4400\u003C\u002Fstrong\u003E с оговоркой на немного другой путь — \u003Ccode\u003Ehttp:\u002F\u002Fcupsserver:631\u002Fclasses\u002Fprinter-windows1\u003C\u002Fcode\u003E. \u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003EЕще у нас все еще есть подключенный к \u003Cstrong\u003Elinux1\u003C\u002Fstrong\u003E принтер Kyocera-1024FP. Подключим его к принтсерверу по HTTP. Выбираем метод подключения \"Протокол интернет печати (http)\" [Internet Printing Protocol (http)], из списка драйверов выбираем марку \"Generic\", модель \"IPP Everywhere\". Называем его как угодно, мы назовем так же как на хосте \u003Cstrong\u003Elinux1\u003C\u002Fstrong\u003E — \u003Cstrong\u003EKyocera-1024FP\u003C\u002Fstrong\u003E. Теперь принтер доступен на принтсервере по ссылке \u003Ccode\u003Ehttp:\u002F\u002Fcupsserver:631\u002Fprinters\u002FKyocera-1024FP\u003C\u002Fcode\u003E. Аналогично настройке группы \u003Cstrong\u003Eprinter-windows1\u003C\u002Fstrong\u003E создаем группу \u003Cstrong\u003Eprinter-linux1\u003C\u002Fstrong\u003E c принтером \u003Cstrong\u003EKyocera-1024FP\u003C\u002Fstrong\u003E в ней. Ее ссылка соответственно \u003Ccode\u003Ehttp:\u002F\u002Fcupsserver:631\u002Fclasses\u002Fprinter-linux1\u003C\u002Fcode\u003E.\u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003EТеперь подключим принтер \u003Cstrong\u003EKyocera-1024FP\u003C\u002Fstrong\u003E с хоста \u003Cstrong\u003Elinux1\u003C\u002Fstrong\u003E через принтсервер \u003Cstrong\u003Ecupsserver\u003C\u002Fstrong\u003E к хосту \u003Cstrong\u003Ewindows1\u003C\u002Fstrong\u003E с системой Windows 8 на борту без какой либо дополнительной(!) установки драйверов. Для этого мы при подключении принтера выбираем \"Выбрать общий принтер по имени\". В \u003Cstrong\u003Eобщем\u003C\u002Fstrong\u003E случае мы пишем \u003Ccode\u003Ehttp:\u002F\u002Fимя_принтcервера:631\u002Fclasses\u002Fназвание_группы\u003C\u002Fcode\u003E. В нашем конкретном случае — \u003Ccode\u003Ehttp:\u002F\u002Fcupsserver:631\u002Fclasses\u002Fprinter-linux1\u003C\u002Fcode\u003E. При запросе на выбор драйвера указываем марку \"Generic\", модель — \"MS Publisher Imagesetter\". Все подтверждаем далее, и имеем подключенный принтер с название вроде \u003Ccode\u003Eprinter-linux1 на http:\u002F\u002Fcupsserver:631\u003C\u002Fcode\u003E. Если до сих пор никаких ошибок и подводных камней при настойке не возникло, то попытка пробной печати приведет к успешной печати на Kyocera-1024FP.\u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003EТеперь подключим принтер \u003Cstrong\u003ECanon-MF4400\u003C\u002Fstrong\u003E с хоста \u003Cstrong\u003Ewindows1\u003C\u002Fstrong\u003E через принтсервер \u003Cstrong\u003Ecupsserver\u003C\u002Fstrong\u003E к хосту \u003Cstrong\u003Elinux1\u003C\u002Fstrong\u003E с системой Linux на борту без какой либо дополнительной(!) установки драйверов. Для этого мы при подключении принтера действуем аналогично тому, как подключали \u003Cstrong\u003EKyocera-1024FP\u003C\u002Fstrong\u003E к принтсерверу \u003Cstrong\u003Ecupsserver\u003C\u002Fstrong\u003E. То есть при добавлении принтера на \u003Cstrong\u003Elinux1\u003C\u002Fstrong\u003E выбираем метод подключения \"Протокол интернет печати (http)\", в качестве расположения принтера (\u003Cstrong\u003ECanon-MF4400\u003C\u002Fstrong\u003E) ссылку на его группу на принтсервере — \u003Ccode\u003Ehttp:\u002F\u002Fcupsserver:631\u002Fclasses\u002Fprinter-windows1\u003C\u002Fcode\u003E. При запросе на выбор драйвера указываем марку \"Generic\", модель — \"IPP Everywhere\". Называем его как угодно, можно назвать так же как группу — \u003Cstrong\u003Eprinter-windows1\u003C\u002Fstrong\u003E. Теперь принтер доступен на \u003Cstrong\u003Elinux1\u003C\u002Fstrong\u003E по ссылке \u003Ccode\u003Ehttp:\u002F\u002Flinux1:631\u002Fprinters\u002Fprinter-windows1\u003C\u002Fcode\u003E, и мы уже можем отправлять на печать документы.\u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003EГлавная прелесть данного метода в том, что если на любом из ПК заменяется принтер, заменяется сам компьютер, или то и другое сразу, то это никак не влияет на тех, кто был к ним подключен через группу на принтсервере. Единственная настройка производится на принтсервере — к принтсерверу подключается новый принтер, затем из группы, в которой состоял старый принтер, он удаляется, и добавляется новый принтер на замену старому. И никаких дополнительных настроек на любом количестве ПК, только на принтсервере и собственно ПК на котором меняли принтер. Драйвера \"IPP Everywhere\" и \"MS Publisher Imagesetter\" содержат большое количество настроек бумаги, печати и т.д., так что нет проблем настроить нужный вид печати через них.\u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Ch3 id=\"zaklyuchenie\"\u003EЗаключение\u003C\u002Fh3\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003EТема слишком обширна, чтобы изложить сколько-нибудь подробно, и даже так статья вышла крайне объемной. Любые уточнения, указания на ошибки, нераскрытые вопросы и советы, данные в комментариях к данной статье, будут приняты во внимание и в случае необходимости включены в статью.\u003C\u002Fp\u003E\u003C\u002Fdiv\u003E","tags":[{"titleHtml":"CUPS"},{"titleHtml":"Linux"},{"titleHtml":"принтсервер"},{"titleHtml":"доменная авторизация"},{"titleHtml":"SSSD"},{"titleHtml":"Winbind"}],"metadata":{"stylesUrls":[],"scriptUrls":[],"shareImageUrl":"https:\u002F\u002Fhabr.com\u002Fshare\u002Fpublication\u002F443094\u002F4a1e9a17205a6a8ebbfcd516b828be69\u002F","shareImageWidth":1200,"shareImageHeight":630,"vkShareImageUrl":"https:\u002F\u002Fhabr.com\u002Fshare\u002Fpublication\u002F443094\u002F4a1e9a17205a6a8ebbfcd516b828be69\u002F?format=vk","schemaJsonLd":"{\"@context\":\"http:\\\u002F\\\u002Fschema.org\",\"@type\":\"Article\",\"mainEntityOfPage\":{\"@type\":\"WebPage\",\"@id\":\"https:\\\u002F\\\u002Fhabr.com\\\u002Fru\\\u002Fpost\\\u002F443094\\\u002F\"},\"headline\":\"Настройка с нуля принтсервера CUPS с доменной авторизацией и без нее в сети с разными ОС\",\"datePublished\":\"2019-03-09T19:58:16+03:00\",\"dateModified\":\"2020-11-24T18:37:25+03:00\",\"author\":{\"@type\":\"Person\",\"name\":\"melichronsoul\"},\"publisher\":{\"@type\":\"Organization\",\"name\":\"Habr\",\"logo\":{\"@type\":\"ImageObject\",\"url\":\"https:\\\u002F\\\u002Fhabrastorage.org\\\u002Fwebt\\\u002Fa_\\\u002Flk\\\u002F9m\\\u002Fa_lk9mjkccjox-zccjrpfolmkmq.png\"}},\"description\":\"Настройка с нуля принтсервера CUPS с доменной авторизацией и без нее в сети с разными ОС Вступление Итак. Предположительно, сервис печати CUPS &mdash; это мощное решен...\",\"url\":\"https:\\\u002F\\\u002Fhabr.com\\\u002Fru\\\u002Fpost\\\u002F443094\\\u002F#post-content-body\",\"about\":[\"h_linux\",\"h_sys_admin\",\"h_nix\",\"f_admin\"],\"image\":[\"https:\\\u002F\\\u002Fhabr.com\\\u002Fshare\\\u002Fpublication\\\u002F443094\\\u002F4a1e9a17205a6a8ebbfcd516b828be69\\\u002F\"]}","metaDescription":"Настройка с нуля принтсервера CUPS с доменной авторизацией и без нее в сети с разными ОС\r\nВступление\r\nИтак. Предположительно, сервис печати CUPS — это мощное решение, позволяющее организовать...","mainImageUrl":null,"amp":false,"customTrackerLinks":[]},"polls":[],"commentsEnabled":true,"rulesRemindEnabled":false,"votesEnabled":true,"status":"published","plannedPublishTime":null,"checked":null,"isEditorial":false}},"articlesIds":{},"isLoading":false,"pagesCount":{},"route":{},"reasonsList":null,"view":"cards","lastVisitedRoute":{},"ssrCommentsArticleIds":["343614"],"karma":{}},"authorContribution":{"authors":{}},"betaTest":{"currentAnnouncement":null,"announcements":{},"announcementCards":null,"announcementComments":{},"announcementCommentThreads":{},"announcementCommentingStatuses":{},"archivedList":[]},"authorStatistics":{"articleRefs":{},"articleIds":{},"pagesCount":{},"route":{},"viewsCount":[],"maxStatsCount":{}},"career":{"seoLandings":[{"title":"DevOps инженер","vacanciesCount":99,"itemUrl":"https:\u002F\u002Fcareer.habr.com\u002Fvacancies\u002Fdevops","itemHubs":["devops","build_automation","sys_admin","virtualization","kubernetes"]},{"title":"Системный администратор","vacanciesCount":155,"itemUrl":"https:\u002F\u002Fcareer.habr.com\u002Fvacancies\u002Fsistemnij_administrator","itemHubs":["it-infrastructure","s_admin","server_side_optimization","sys_admin"]}],"hubs":"linux,sys_admin,nix"},"comments":{"articleComments":{},"searchCommentsResults":null,"previewComment":null,"pagesCount":null,"commentAccess":{},"scrollParents":{},"pageArticleComments":{"lastViewedComment":0,"postId":null,"lastCommentTimestamp":"","moderated":[],"moderatedIds":[],"commentRoute":""}},"companies":{"companyRefs":{},"companyIds":{},"companyTopIds":{},"pagesCount":{},"companyProfiles":{},"companiesCategories":[],"companiesCategoriesTotalCount":0,"companiesWidgets":{},"companiesWorkers":{},"companiesFans":{},"route":{},"isLoading":false,"companyWorkersLoading":false,"companyFansLoading":false,"vacancies":{}},"companiesContribution":{"hubs":{},"flows":{},"companyRefs":{}},"companyHubsContribution":{"contributionRefs":{"hubRefs":{},"hubIds":{}}},"conversation":{"messages":[],"respondent":null,"isLoadMore":false},"conversations":{"conversations":[],"unreadCount":0,"pagesCount":0,"isLoadMore":false},"desktopState":{"desktopFl":null,"desktopHl":null,"isChecked":false,"isLoginDemanded":false},"docs":{"menu":{},"articles":{},"mainMenu":[],"loading":{"main":false,"dropdown":false,"article":false}},"feature":{"isProbablyVisible":"true"},"flows":{"flows":[{"alias":"develop","id":1,"route":{"name":"FLOW_PAGE","params":{"flowName":"develop"}}},{"alias":"admin","id":6,"route":{"name":"FLOW_PAGE","params":{"flowName":"admin"}}},{"alias":"design","id":2,"route":{"name":"FLOW_PAGE","params":{"flowName":"design"}}},{"alias":"management","id":3,"route":{"name":"FLOW_PAGE","params":{"flowName":"management"}}},{"alias":"marketing","id":4,"route":{"name":"FLOW_PAGE","params":{"flowName":"marketing"}}},{"alias":"popsci","id":7,"route":{"name":"FLOW_PAGE","params":{"flowName":"popsci"}}}]},"global":{"isPwa":false,"device":"desktop","isHabrCom":true},"hubs":{"hubRefs":{},"hubIds":{},"pagesCount":{},"isLoading":false,"route":{}},"hubsBlock":{"hubRefs":{},"hubIds":{}},"i18n":{"fl":"ru","hl":"ru"},"info":{"infoPage":{},"isLoading":true},"location":{"urlStruct":{"protocol":null,"slashes":null,"auth":null,"host":null,"port":null,"hostname":null,"hash":null,"search":null,"query":{},"pathname":null,"path":null,"href":""},"searchQuery":null},"me":{"user":null,"ppgDemanded":false,"karmaResetInfo":{"canReincarnate":null,"wasReincarnated":null,"currentScore":null},"notes":null},"mostReadingList":{"mostReadingListIds":[],"mostReadingListRefs":null,"promoPost":null},"pinnedPost":{"pinnedPost":null},"ppa":{"articles":{},"card":null,"transactions":null,"totalTransactions":null,"isAccessible":null},"projectsBlocks":{"activeBlocks":{}},"promoData":{"isLoading":false,"hasLoaded":false,"featurer":null,"megaposts":null,"promoLinks":null,"promoPosts":null},"pullRefresh":{"shouldRefresh":false},"sandbox":{"articleIds":[],"articleRefs":{},"pagesCount":null,"route":{},"lastVisitedRoute":{},"isLoading":false},"search":{"searchQueryError":null},"settingsOther":{"inputs":{"uiLang":{"errors":[],"ref":null,"value":""},"articlesLangEnglish":{"errors":[],"ref":null,"value":false},"articlesLangRussian":{"errors":[],"ref":null,"value":false},"agreement":{"errors":[],"ref":null,"value":false},"email":{"errors":[],"ref":null,"value":true},"digest":{"errors":[],"ref":null,"value":true}}},"similarList":{"similarListIds":[],"similarListRefs":null},"ssr":{"error":null,"isDataLoaded":false,"isDataLoading":false,"isHydrationFailed":false,"isServer":false},"technotext":{"nominationsList":[]},"userHubsContribution":{"contributionRefs":{"hubRefs":{},"hubIds":{}}},"userInvites":{"availableInvites":0,"usedInvitesIds":[],"usedInvitesRefs":{},"usedInvitesPagesCount":0,"unusedInvitesIds":[],"unusedInvitesRefs":{},"unusedInvitesPagesCount":0},"users":{"authorRefs":{},"authorIds":{},"pagesCount":{},"authorProfiles":{},"userHubs":{},"userInvitations":{},"authorFollowers":{},"authorFollowed":{},"userSpecialization":{},"karmaStats":[],"statistics":null,"isLoading":false,"authorFollowersLoading":false,"authorFollowedLoading":false,"userHubsLoading":false,"userInvitationsLoading":false,"route":{}},"viewport":{"prevScrollY":{},"scrollY":0,"width":0},"tracker":{"items":{},"pagesCache":{},"markedViewedSilently":{},"markedRead":{},"unreadCounters":{"applications":null,"system":null,"mentions":null,"subscribers":null,"posts_and_comments":null},"unviewedCounters":{"applications":null,"system":null,"mentions":null,"subscribers":null,"posts_and_comments":null}}};(function(){var s;(s=document.currentScript||document.scripts[document.scripts.length-1]).parentNode.removeChild(s);}());</script>
+<script src="https://assets.habr.com/habr-web/js/chunk-vendors.4722dff8.js" defer></script><script src="https://assets.habr.com/habr-web/js/app.20f8c25a.js" defer></script>
+
+
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    </script>
+  
+  <script type="text/javascript" >
+    (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+    m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+    (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+    ym(24049213, "init", {
+      defer:true,
+      trackLinks:true,
+      accurateTrackBounce:true,
+      webvisor:false,
+    });
+  </script>
+  <noscript>
+    <div>
+      <img src="https://mc.yandex.ru/watch/24049213" style="position:absolute; left:-9999px;" alt="" />
+    </div>
+  </noscript>
+  
+    <script type="text/javascript">
+      window.addEventListener('load', function () {
+        setTimeout(() => {
+          const img = new Image();
+          img.src = 'https://vk.com/rtrg?p=VK-RTRG-421343-57vKE';
+        }, 0);
+      });
+    </script>
+  
+<script src="/js/ads.js" onload="window['zhY4i4nJ9K'] = true"></script>
+</body>
+</html>
