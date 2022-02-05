@@ -109,6 +109,16 @@ h1 {
   color:white;
 
 }
+.box-a1:hover {
+  background: #FF0835FF;
+  color:white;
+
+}
+.box-a2:hover {
+  background: #FF0835FF;
+  color:white;
+
+}
 
 .html_sav{
     -webkit-column-width: 49,2%;
