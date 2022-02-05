@@ -1,0 +1,1281 @@
+<!DOCTYPE html>
+<!--(c) PHP Portal | https://www.kobzarev.com-->
+<html lang="ru-RU" prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# article: http://ogp.me/ns/article#">
+<head>
+	<meta charset="UTF-8" />
+	<meta http-equiv="imagetoolbar" content="false" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, user-scalable=yes"/>
+	<meta name="application-name" content="PHP::Portal" />
+	<meta name="format-detection" content="telephone=no" />
+
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f2f2f2">
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#333333">
+
+			<base href="https://www.kobzarev.com/makeup/normalization-of-css-with-normalize-css/" />
+	
+	<link rel="alternate" type="application/rss+xml" title="PHP Portal RSS Feed" href="https://www.kobzarev.com/feed/" />
+
+	<meta name="geo.placename" content="Россия, г. Тула" />
+	<meta name="geo.position" content="54.2048,37.6185" />
+	<meta name="geo.region" content="RU-Тула" />
+	<meta name="ICBM" content="54.2048,37.6185" />
+	<meta name="pmail-verification" content="0b603d9f20742f43aed94139e7e8368d" />
+    <meta name="msvalidate.01" content="EA08663A8D49ADCB1D515E7AD29755C3" />
+	<title>Нормализация CSS при помощи Normalize.css</title><style id="rocket-critical-css">#wpdcom *{box-sizing:border-box;line-height:initial}#wpdcom i{margin:0}#comments #wpdcom span,#wpdcom span{display:inline;letter-spacing:inherit;text-transform:none;font-size:1em}#wpdcom form{margin:0px;padding:0px;border:none;background:none}#wpdcom input:required{box-shadow:0px 0px 1px #555}#wpdcom button{min-height:auto;min-width:auto;max-width:auto;min-height:auto;display:inline-block;font-weight:normal;text-transform:none}#wpdcom .wpdiscuz-hidden{display:none}#wpdcom .wpd-clear,#wpdcom .clearfix{clear:both}#wpdcom .wpd-social-login i{opacity:0.8;font-size:12px;color:#ffffff;text-align:center;line-height:22px;width:22px;height:22px;border-radius:50%;display:inline-block;margin:0 2px}#wpdcom .wpdiscuz-social-login-spinner{display:none}#wpdcom .wpd-social-login-agreement{width:100%;margin-top:15px;margin-bottom:0;font-size:12px;padding:20px 30px 10px 30px;background-color:#F8F8F8;border:1px dotted #dddddd;clear:both;line-height:normal}#wpdcom .wpd-social-login-agreement .wpd-agreement-title{font-weight:bold;margin-bottom:5px;font-size:15px}#wpdcom .wpd-social-login-agreement .wpd-agreement-button{text-transform:uppercase;padding:3px 20px;margin:5px 0 0 15px;font-size:12px;line-height:20px;color:#00B38F;display:inline-block}#wpdcom .wpd-social-login-agreement .wpd-agreement-button.wpd-agreement-button-agree{border:1px dotted #00B38F;color:#00B38F}#wpdcom .wpd-social-login-agreement .wpd-agreement-button.wpd-agreement-button-disagree{border:1px dotted #ff312f;color:#ff312f}#wpdcom .wpd-social-login-agreement .wpd-agreement-buttons{margin-top:4px}#wpdcom .wpd-social-login-agreement .wpd-agreement-buttons-right{float:right}#wpdcom .wpd-secondary-forms-social-content .wpd-social-login-agreement{padding:20px}#wpdcom .wpdiscuz-subscribe-bar{width:100%;box-sizing:border-box;padding:15px 0px 5px 0px;margin-bottom:0px}#wpdcom .wpdiscuz-subscribe-bar form{display:flex;flex-wrap:wrap;justify-content:flex-start;flex-direction:row;align-items:center;margin-bottom:10px}#wpdcom .wpdiscuz-subscribe-form-intro{font-size:14px;display:block;padding:3px 10px 3px 1px;line-height:20px;box-sizing:border-box;white-space:nowrap}#wpdcom .wpdiscuz-subscribe-form-option{flex-grow:1;font-size:13px;display:block;padding-right:5px;box-sizing:border-box}#wpdcom .wpdiscuz-subscribe-form-email{font-size:14px;display:block;padding:0 5px 0 0;box-sizing:border-box;width:30%}#wpdcom .wpdiscuz-subscribe-form-button{font-size:14px;display:block;box-sizing:border-box}#wpdcom .wpdiscuz-subscribe-form-email input[type="email"]{font-size:13px!important;padding:3px!important;width:100%!important;height:auto!important;line-height:20px!important;box-sizing:border-box!important;clear:both;float:none;margin:0}#wpdcom .wpdiscuz-subscribe-form-button input[type="submit"]{font-size:16px!important;min-height:29px!important;height:29px!important;padding:1px 3px 5px 3px!important;min-width:40px;line-height:14px!important;box-sizing:border-box!important;border:1px solid #ddd;clear:both;float:none;margin:0}#wpdcom .wpdiscuz-subscribe-agreement{font-size:12px;display:block;clear:left;padding-top:10px;width:92%}#wpdcom .wpdiscuz-subscribe-agreement label{display:inline;font-size:13px;margin:0 4px}#wpdcom .wpdiscuz-subscribe-bar #wpdiscuz_subscription_button{box-shadow:none;font-weight:bold;letter-spacing:0}#wpdcom .wpd-form.wpd-secondary-form-wrapper{margin-bottom:25px}#wpdcom input[type="submit"],#wpdcom button{margin:inherit}#wpdcom .wpd-prim-button{border:none;font-family:"Arial Hebrew",Arial,sans-serif;font-size:14px;line-height:24px;padding:4px 20px;letter-spacing:1px;box-shadow:1px 1px 3px -1px #bbb;border-radius:3px;max-width:none;max-width:none}.wpdiscuz_select{background:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAANCAYAAAC+ct6XAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6RjBBRUQ1QTQ1QzkxMTFFMDlDNDdEQzgyNUE1RjI4MTEiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6RjBBRUQ1QTU1QzkxMTFFMDlDNDdEQzgyNUE1RjI4MTEiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDpGMEFFRDVBMjVDOTExMUUwOUM0N0RDODI1QTVGMjgxMSIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDpGMEFFRDVBMzVDOTExMUUwOUM0N0RDODI1QTVGMjgxMSIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/Pk5mU4QAAACUSURBVHjaYmRgYJD6////MwY6AyaGAQIspCieM2cOjKkIxCFA3A0TSElJoZ3FUCANxAeAWA6IOYG4iR5BjWwpCDQCcSnNgxoIVJCDFwnwA/FHWlp8EIpHSKoGgiggLkITewrEcbQO6mVAbAbE+VD+a3IsJTc7FQAxDxD7AbEzEF+jR1DDywtoCr9DbhwzDlRZDRBgACYqHJO9bkklAAAAAElFTkSuQmCC") #fefefe no-repeat scroll right center!important;border-radius:0;border:1px solid lightgray!important;box-shadow:none!important;height:28px!important;padding:3px 22px 3px 8px!important;font-size:13px!important;-moz-appearance:none!important;-webkit-appearance:none!important;outline:0 none!important;text-indent:.01px;text-overflow:""!important;width:100%!important;box-sizing:border-box!important;line-height:20px!important;clear:both;float:none!important;margin:0!important}#wpdcom .wpd-thread-list .wpd-load-more-submit-wrap{display:flex;flex-direction:row;justify-content:center;padding:10px}#wpd-bubble-wrapper{display:none;position:fixed;z-index:99;text-align:center;opacity:0.9;bottom:80px}#wpd-bubble-wrapper #wpd-bubble-all-comments-count{font-size:15px;font-weight:600;font-family:sans-serif}#wpd-bubble-wrapper>div{display:none;border:1px solid #fff;box-shadow:0px 0px 15px #aaa;width:64px;height:64px;border-radius:50%;color:#fff;align-items:center;justify-content:center;position:relative}#wpd-bubble-wrapper svg{width:60%;height:60%}#wpd-bubble-wrapper #wpd-bubble-count svg,#wpd-bubble-wrapper #wpd-bubble-notification svg{margin-left:3px;margin-top:3px}#wpd-bubble-wrapper #wpd-bubble svg{margin-left:2px}#wpd-bubble-wrapper path.wpd-bubble-count-first{fill:#fff}#wpd-bubble-wrapper path.wpd-bubble-count-second{fill:transparent}#wpd-bubble-wrapper path.wpd-bubble-plus-first{fill:#fff}#wpd-bubble-wrapper path.wpd-bubble-plus-second{fill:transparent}#wpd-bubble-wrapper>#wpd-bubble-count{display:flex}#wpd-bubble-wrapper>#wpd-bubble #wpd-bubble-add-message{width:400px;height:46px;position:absolute;top:50%;left:75px;border-radius:5px;padding:7px;transform:translateY(-50%);display:flex;align-items:center;justify-content:center;font-size:16px}#wpd-bubble-wrapper.wpd-right-corner>#wpd-bubble #wpd-bubble-add-message{left:-412px}#wpd-bubble-wrapper>#wpd-bubble #wpd-bubble-add-message::before{content:'';border:9px solid transparent;position:absolute;top:50%;left:-9px;transform:translateY(-50%);border-left:none}#wpd-bubble-wrapper.wpd-right-corner>#wpd-bubble #wpd-bubble-add-message::before{left:400px;border-left:9px solid;border-right:none}#wpd-bubble-wrapper>#wpd-bubble-count .wpd-new-comments-count{display:none}#wpd-bubble-wrapper>#wpd-bubble-notification{background-color:#fe7617}#wpd-bubble-wrapper>#wpd-bubble-notification path.wpd-bubble-notification-first{fill:#fff}#wpd-bubble-wrapper>#wpd-bubble-notification path.wpd-bubble-notification-second{fill:transparent}#wpd-bubble-wrapper #wpd-bubble-notification-message{display:none;width:430px;height:100%;position:absolute;background-color:#fbfbfb;top:0;left:75px;border:1px solid #b2b2b2;box-shadow:0px 0px 10px #bbb;border-radius:5px;padding:7px}#wpd-bubble-wrapper.wpd-right-corner #wpd-bubble-notification-message{left:-446px}#wpd-bubble-wrapper #wpd-bubble-notification-message #wpd-bubble-author,#wpd-bubble-wrapper #wpd-bubble-notification-message #wpd-bubble-comment{display:flex;align-items:center;height:50%}#wpd-bubble-wrapper #wpd-bubble-notification-message #wpd-bubble-author{justify-content:space-between}#wpd-bubble-wrapper #wpd-bubble-notification-message #wpd-bubble-author>div{display:flex;align-items:center}#wpd-bubble-wrapper #wpd-bubble-notification-message #wpd-bubble-comment{font-size:12px}#wpd-bubble-wrapper #wpd-bubble-notification-message span:not(.wpd-bubble-spans){display:inline-block;margin:5px}#wpd-bubble-wrapper #wpd-bubble-notification-message #wpd-bubble-author-avatar{width:20px;height:20px;line-height:16px}#wpd-bubble-wrapper #wpd-bubble-notification-message #wpd-bubble-author-name{color:#4e9f93;font-size:14px;font-weight:600}#wpd-bubble-wrapper #wpd-bubble-notification-message #wpd-bubble-comment-date{color:#fe7617;font-size:10px}#wpd-bubble-wrapper #wpd-bubble-notification-message #wpd-bubble-comment,#wpd-bubble-wrapper #wpd-bubble-notification-message #wpd-bubble-comment-reply-link a{color:#333}#wpd-bubble-wrapper #wpd-bubble-notification-message #wpd-bubble-comment-reply-link a{color:#777}#wpd-bubble-wrapper #wpd-bubble-notification-message #wpd-bubble-comment-text{font-size:12px;margin-left:7px}#wpd-bubble-wrapper #wpd-bubble-notification-message::before{content:'';border:9px solid transparent;position:absolute;top:20px;left:-10px;border-left:none;padding:0;border-right-color:#b2b2b2}#wpd-bubble-wrapper #wpd-bubble-notification-message::after{content:'';border:9px solid transparent;position:absolute;top:20px;left:-9px;border-left:none;border-right-color:#fbfbfb}#wpd-bubble-wrapper.wpd-right-corner #wpd-bubble-notification-message::before{left:429px;border-right:none;border-left:9px solid #b2b2b2}#wpd-bubble-wrapper.wpd-right-corner #wpd-bubble-notification-message::after{left:428px;border-right:none;border-left:9px solid #fbfbfb}#wpd-bubble-wrapper #wpd-bubble-comment-close a{color:#333;text-decoration:none}#wpd-bubble-wrapper #wpd-bubble-add-message-close{display:inline-block;top:0px;right:10px;position:absolute}#wpd-bubble-wrapper #wpd-bubble-add-message-close a{color:#fff;text-decoration:none;display:inline-block}#wpdcom .wpdiscuz-sort-buttons{display:none;position:absolute;flex-direction:column;background-color:#fff;border:1px solid #ccc;padding:5px;border-radius:3px;width:100%;left:0;top:32px;z-index:9}#wpdcom .wpdiscuz-sort-buttons .wpdiscuz-sort-button{padding:5px 0}#wpdiscuz-comment-message{position:fixed;top:38px;right:5px;width:400px;z-index:99999;font-size:14px;line-height:20px}#wpd-editor-source-code-wrapper-bg{display:none;position:fixed;top:0;left:0;background-color:rgba(0,0,0,.6);width:100%;z-index:9999999;height:100%}#wpd-editor-source-code-wrapper{display:none;width:50%;height:350px;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background-color:#fff;z-index:99999991;justify-content:center;align-items:center;padding:5px;border-radius:5px;text-align:right}#wpd-editor-source-code{height:300px;width:100%;resize:none}#wpd-insert-source-code{padding:3px 40px;margin-top:5px}#wpdiscuz-loading-bar{position:fixed;top:6px;right:12px;width:32px;height:25px;border:0;background-image:url(https://www.kobzarev.com/wp-content/plugins/wpdiscuz/assets/img/loading.gif);z-index:999999;display:none}#wpdcom .wpd-comment-info-bar{display:none;padding:10px;margin:20px auto 0 auto;flex-direction:row;justify-content:space-between;font-size:14px}#wpdcom .wpd-current-view{padding:3px;color:#555}#wpdcom .wpd-comment-info-bar .wpd-current-view i{margin-right:6px;font-size:18px}#wpdcom .wpd-filter-view-all{color:#fff;background:#999;padding:5px 20px;font-size:13px;border-radius:3px}@media screen and (max-width:1024px){#wpd-bubble-wrapper>div{width:40px;height:40px}#wpd-bubble-wrapper #wpd-bubble-all-comments-count{font-size:13px}#wpd-bubble-wrapper>#wpd-bubble #wpd-bubble-add-message{height:auto;padding:7px 14px;justify-content:flex-start;font-size:14px}#wpd-bubble-wrapper.wpd-right-corner>#wpd-bubble #wpd-bubble-add-message{left:auto;right:55px}#wpd-bubble-wrapper.wpd-right-corner>#wpd-bubble #wpd-bubble-add-message::before{left:auto;right:-9px}}@media screen and (max-width:600px){#wpd-bubble-wrapper{bottom:20px}#wpd-bubble-wrapper>#wpd-bubble #wpd-bubble-add-message{width:270px}#wpdcom .wpd-form.wpd-form-wrapper{padding-right:5px}#wpdcom .wpdiscuz_select{font-size:16px!important}#wpdcom .wpdiscuz-subscribe-form-email{font-size:16px;display:block;padding:10px 0 0 0;width:98%;margin:0 auto}#wpdcom .wpdiscuz-subscribe-form-email input[type="email"]{font-size:16px!important}#wpdcom select{font-size:16px!important;height:auto}#wpdiscuz-comment-message{width:97%}#wpdcom .wpdiscuz-subscribe-form-button{width:99%;margin-top:8px}#wpdcom .wpdiscuz-subscribe-bar #wpdiscuz_subscription_button{width:100%;min-height:20px!important;height:26px!important}}.fas{-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased;display:inline-block;font-style:normal;font-variant:normal;text-rendering:auto;line-height:1}.fa-pulse{-webkit-animation:fa-spin 1s steps(8) infinite;animation:fa-spin 1s steps(8) infinite}@-webkit-keyframes fa-spin{0%{-webkit-transform:rotate(0deg);transform:rotate(0deg)}to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}}@keyframes fa-spin{0%{-webkit-transform:rotate(0deg);transform:rotate(0deg)}to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}}.fa-quote-left:before{content:"\f10d"}.fa-spinner:before{content:"\f110"}.fas{font-family:"Font Awesome 5 Free"}.fas{font-weight:900}#cboxCurrent{bottom:0;font-size:15px}.lity-hide{display:none}.wpd-clear{clear:both}#colorbox,#cboxOverlay,#cboxWrapper{position:absolute;top:0;left:0;z-index:9999;overflow:hidden;-webkit-transform:translate3d(0,0,0)}#cboxWrapper{max-width:none}#cboxOverlay{position:fixed;width:100%;height:100%}#cboxMiddleLeft,#cboxBottomLeft{clear:left}#cboxContent{position:relative}#cboxTitle{margin:0}#cboxLoadingOverlay,#cboxLoadingGraphic{position:absolute;top:0;left:0;width:100%;height:100%}#colorbox,#cboxContent{box-sizing:content-box;-moz-box-sizing:content-box;-webkit-box-sizing:content-box}#cboxOverlay{background:url(https://www.kobzarev.com/wp-content/plugins/wpdiscuz/assets/third-party/colorbox/images/overlay.png) repeat 0 0;opacity:.9;filter:alpha(opacity = 90)}#colorbox{outline:0}#cboxTopLeft{width:21px;height:21px;background:url(https://www.kobzarev.com/wp-content/plugins/wpdiscuz/assets/third-party/colorbox/images/controls.png) no-repeat -101px 0}#cboxTopRight{width:21px;height:21px;background:url(https://www.kobzarev.com/wp-content/plugins/wpdiscuz/assets/third-party/colorbox/images/controls.png) no-repeat -130px 0}#cboxBottomLeft{width:21px;height:21px;background:url(https://www.kobzarev.com/wp-content/plugins/wpdiscuz/assets/third-party/colorbox/images/controls.png) no-repeat -101px -29px}#cboxBottomRight{width:21px;height:21px;background:url(https://www.kobzarev.com/wp-content/plugins/wpdiscuz/assets/third-party/colorbox/images/controls.png) no-repeat -130px -29px}#cboxMiddleLeft{width:21px;background:url(https://www.kobzarev.com/wp-content/plugins/wpdiscuz/assets/third-party/colorbox/images/controls.png) left top repeat-y}#cboxMiddleRight{width:21px;background:url(https://www.kobzarev.com/wp-content/plugins/wpdiscuz/assets/third-party/colorbox/images/controls.png) right top repeat-y}#cboxTopCenter{height:21px;background:url(https://www.kobzarev.com/wp-content/plugins/wpdiscuz/assets/third-party/colorbox/images/border.png) 0 0 repeat-x}#cboxBottomCenter{height:21px;background:url(https://www.kobzarev.com/wp-content/plugins/wpdiscuz/assets/third-party/colorbox/images/border.png) 0 -29px repeat-x}#cboxContent{background:#fff;overflow:hidden}#cboxTitle{position:absolute;bottom:4px;left:0;text-align:center;width:100%;color:#949494}#cboxCurrent{position:absolute;bottom:4px;left:58px;color:#949494}#cboxLoadingOverlay{background:url(https://www.kobzarev.com/wp-content/plugins/wpdiscuz/assets/third-party/colorbox/images/loading_background.png) no-repeat center center}#cboxLoadingGraphic{background:url(https://www.kobzarev.com/wp-content/plugins/wpdiscuz/assets/third-party/colorbox/images/loading.gif) no-repeat center center}#cboxPrevious,#cboxNext,#cboxSlideshow{border:0;padding:0;margin:0;overflow:visible;width:auto;background:none}#cboxSlideshow{position:absolute;bottom:4px;right:30px;color:#0092ef}#cboxPrevious{position:absolute;bottom:0;left:0;background:url(https://www.kobzarev.com/wp-content/plugins/wpdiscuz/assets/third-party/colorbox/images/controls.png) no-repeat -75px 0;width:25px;height:25px;text-indent:-9999px}#cboxNext{position:absolute;bottom:0;left:27px;background:url(https://www.kobzarev.com/wp-content/plugins/wpdiscuz/assets/third-party/colorbox/images/controls.png) no-repeat -50px 0;width:25px;height:25px;text-indent:-9999px}html,body{padding:0;margin:0;border:none;scroll-behavior:smooth}html{-webkit-box-sizing:border-box;box-sizing:border-box}::-webkit-scrollbar{-webkit-appearance:none}::-webkit-scrollbar-corner{background:transparent}::-webkit-scrollbar:vertical{width:14px}::-webkit-scrollbar:horizontal{height:14px}::-webkit-scrollbar-thumb{min-height:20px;background-color:rgba(0,0,0,.3);border-radius:10px;border:3px solid #fff;background-clip:content-box}::-webkit-scrollbar-thumb:hover{background-color:rgba(0,0,0,.5)}::-webkit-scrollbar-track{border-radius:1px;background-color:#fff}*,*:before,*:after{-webkit-box-sizing:inherit;box-sizing:inherit}html{font-size:62.5%}body{background:#f2f2f2;color:#333;font-family:-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";font-size:1.8em;line-height:1.4;text-align:left;-webkit-font-smoothing:subpixel-antialiased!important;-moz-osx-font-smoothing:grayscale;-webkit-backface-visibility:hidden;-moz-backface-visibility:hidden;-webkit-text-size-adjust:none;-moz-text-size-adjust:none;-ms-text-size-adjust:none}.hidden{display:none!important}.clearfix:after{visibility:hidden;display:block;font-size:0;content:" ";clear:both;height:0}.visually-hidden,.screen-reader-text{clip:rect(1px,1px,1px,1px);position:absolute!important;height:1px;width:1px;overflow:hidden}#wrap{position:relative;padding-top:20px;text-align:left;width:1240px;margin:0 auto}#content{font-size:1.1em;float:left;width:920px}div.post{margin-bottom:20px;background-color:#fff;padding:10px 20px 20px 20px}#sidebar{float:right;width:300px}::-webkit-input-placeholder{color:#999}:-moz-placeholder{color:#999}:-ms-input-placeholder{color:#999}a,a:before{color:#415ECB;text-decoration:underline;text-decoration-skip-ink:auto}a:visited{color:#415ECB}h1,h4{font-weight:normal;margin:0 0 15px 0}.entrytitle{text-align:left}.entrytitle h1{font-size:27px;text-align:left;word-wrap:break-word}.entrytitle h1{line-height:30px;font-size:28px;margin-bottom:15px}.entrytitle h1:first-letter{color:#415ECB}.entry{margin-bottom:0}.entrytitle_wrap{padding-bottom:1.8em}#sidebar h4{color:#151515;font-size:1.5em;margin-bottom:15px;clear:both}.sidebar__item{padding:20px 20px 5px 20px;background-color:#fff;margin-bottom:20px}.screen-reader-text{display:none}.breadcrumbs{font-size:14px}.breadcrumbs__trail{margin-left:0;padding-left:0;margin-bottom:30px}.breadcrumbs__crumb{display:inline-block;margin-right:5px}.breadcrumbs__crumb:after{content:'/';margin-left:5px}.breadcrumbs__crumb:last-child:after{display:none}:target{-webkit-animation:target-fade 3s 1;-moz-animation:target-fade 3s 1;animation:target-fade 3s 1}@-webkit-keyframes target-fade{0%{background-color:yellow}100%{background-color:white}}@-moz-keyframes target-fade{0%{background-color:yellow}100%{background-color:white}}@keyframes target-fade{0%{background-color:yellow}100%{background-color:white}}.svg-icon{display:inline-flex;align-self:center;position:relative;height:1em;width:1em;margin-right:3px}.svg-icon svg{height:1em;width:1em}.svg-icon.svg-baseline svg{bottom:-0.125em;position:absolute}.algolia-autocomplete{width:400px!important;top:82px!important;left:auto!important;right:calc((100% - 1240px)/2)!important}@media (max-width:544px){.hidden-xs{display:none!important}#wrap{width:100vw}#content{width:100vw;float:none}#sidebar{display:none}.post__header{width:100vw!important}.post__header img{height:100%!important}.post__reading-time{display:none}}.modal{display:none;position:fixed;top:0;right:0;bottom:0;left:0;background-color:rgba(0,0,0,0.8);z-index:9999}.modal__content{position:absolute;width:300px;left:50%;top:50%;transform:translate(-50%,-50%);background-color:#fff;color:#333;padding:20px}.modal__content label{display:block}.modal__content .input{width:260px;height:40px;font-size:26px;border:1px solid #dadada;border-radius:4px;background-color:#fafeba}.modal__content .button{width:260px;height:40px;font-size:20px;background-color:#415ECB;border:0;color:#fff;border-radius:4px}.modal__footer{text-align:center}.modal__close{border-bottom:1px dotted #415ECB;text-decoration:none;font-size:0.8em}.share-button{margin-bottom:20px;display:inline-flex;align-items:center;justify-content:center;height:auto;color:#777;text-align:center;font-size:14px;font-weight:500;line-height:1.1;letter-spacing:2px;text-transform:capitalize;text-decoration:none;white-space:nowrap;border-radius:4px;border:1px solid #ddd;padding:8px 30px}.share-button svg{margin-right:7px}.header{position:relative;background-color:#333}.header__inner{max-width:1240px;height:50px;margin-left:auto;margin-right:auto;display:grid;grid-auto-flow:column;grid-template-columns:min-content 1fr min-content;column-gap:20px;align-items:center;-moz-backface-visibility:visible}.header__logo{position:relative;overflow:hidden}.custom-logo-link{position:relative}.custom-logo{width:auto;height:30px;display:block}.toggle-nav{display:none;text-decoration:none;font-size:1.5em;color:#fff;width:30px;height:30px;position:relative}.toggle-nav:before{content:"";position:absolute;left:0;top:0.21em;bottom:0.21em;width:1em;background:linear-gradient(to bottom,white,white 20%,black 20%,black 40%,white 40%,white 60%,black 60%,black 80%,white 80%,white 100%)}.header__nav ul{padding:0;margin:0;list-style:none;position:relative}.header__nav li{padding:0;display:inline-block;margin:0 1px 0 0}.header__nav a{color:#fff;text-decoration:none;display:block;padding:0 10px;height:50%;line-height:50px;font-size:0.78em}.toggle-search{display:none}.toggle-search svg{width:auto;height:24px}.header__search .search-form{display:grid;grid-auto-flow:column;grid-template-columns:1fr min-content;column-gap:10px;align-items:center}.header__search .search-field{border:none;background-color:#fff;width:225px;height:30px;margin:0;padding:0 10px;font-family:inherit}.header__search .search-submit{border:none;background-color:#f2f2f2;height:30px;margin:0;padding:0 10px;font-family:inherit}@media (max-width:544px){.algolia-autocomplete{width:calc(100vw - 20px)!important;left:10px!important;right:10px!important;top:100px!important}.header__inner{justify-items:center;padding-left:10px;padding-right:10px}.header__logo{order:2}.custom-logo-link{margin-left:auto;margin-right:auto}.toggle-nav{display:block}.header__nav{order:3}.header__nav .header__menu{position:absolute;left:0;right:0;top:50px;width:100vw;z-index:100;background-color:#333}.header__nav li{display:block}.header__nav a{line-height:40px;padding:0 10px}.header__search{order:1}.toggle-search{display:block}.header__search .search-form{background-color:#333;position:absolute;left:0;right:0;top:50px;padding:10px;z-index:100}.header__search .search-field{width:100%}}.algolia-autocomplete{z-index:999999!important}.aa-dropdown-menu{font-family:sans-serif;background-color:#fff;border-top:none;border-bottom-left-radius:4px;border-bottom-right-radius:4px;box-shadow:0 1px 2px rgba(0,0,0,.25),0 0 1px rgba(0,0,0,.35)}.aa-dropdown-menu:after{content:" ";display:block;clear:both}.aa-dropdown-menu{color:#1a1a1a;font-size:12px}.screen-reader-text{border:0;clip:rect(1px,1px,1px,1px);-webkit-clip-path:inset(50%);clip-path:inset(50%);height:1px;margin:-1px;overflow:hidden;padding:0;position:absolute;width:1px;word-wrap:normal!important}.likely *{visibility:hidden}.likely *{display:inline-block}.likely__counter{text-decoration:none;text-rendering:optimizeLegibility;margin:0;outline:0}.likely__counter{display:none;position:relative}.likely__counter{vertical-align:top}.likely__counter{line-height:inherit}.likely__counter{text-align:center}.likely .likely__counter{background-size:1px 1px;background-repeat:repeat-y;background-image:linear-gradient(90deg,rgba(0,0,0,.2) 0,transparent .5px,transparent)}.likely .likely__counter{padding:1px 4px}</style><link rel="preload" href="https://www.kobzarev.com/wp-content/cache/min/1/b3575aa1ab3f5cf0f8d9dc6409274503.css" data-rocket-async="style" as="style" onload="this.onload=null;this.rel='stylesheet'" media="all" data-minify="1" />
+	<!-- Google Tag Manager -->
+	<script>
+		(function(w,d,s,l,i){
+			w[l]=w[l]||[];
+			w[l].push({
+				'gtm.start': new Date().getTime(),event:'gtm.js'
+			});
+			var f=d.getElementsByTagName(s)[0],
+				j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';
+
+			j.async=true;
+			j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+		})(window,document,'script','dataLayer','GTM-NS4PLD');
+	</script>
+	<!-- End Google Tag Manager -->
+	
+<!-- The SEO Framework Создано Сибрэ Вайэр -->
+<meta name="robots" content="max-snippet:-1,max-image-preview:standard,max-video-preview:-1" />
+<meta name="description" content="Возможности Сохраняет полезные стили по умолчанию, в отличие от многих reset проектов (например, reset.css от Эрика Мейера) Нормализует стили для широкого диапазона элементов Исправляет ошибки" />
+<meta property="og:image" content="https://www.kobzarev.com/wp-content/uploads/2011/08/Normalize.css.jpg" />
+<meta property="og:image:width" content="640" />
+<meta property="og:image:height" content="410" />
+<meta property="og:locale" content="ru_RU" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Нормализация CSS при помощи Normalize.css" />
+<meta property="og:description" content="Возможности Сохраняет полезные стили по умолчанию, в отличие от многих reset проектов (например, reset.css от Эрика Мейера) Нормализует стили для широкого диапазона элементов Исправляет ошибки" />
+<meta property="og:url" content="https://www.kobzarev.com/makeup/normalization-of-css-with-normalize-css/" />
+<meta property="og:site_name" content="PHP Portal" />
+<meta property="og:updated_time" content="2016-10-11T16:28+00:00" />
+<meta property="article:published_time" content="2016-10-11T19:28:25+03:00" />
+<meta property="article:modified_time" content="2016-10-11T16:28+00:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@mihdan_dev" />
+<meta name="twitter:title" content="Нормализация CSS при помощи Normalize.css" />
+<meta name="twitter:description" content="Возможности Сохраняет полезные стили по умолчанию, в отличие от многих reset проектов (например, reset.css от Эрика Мейера) Нормализует стили для широкого диапазона элементов Исправляет ошибки" />
+<meta name="twitter:image" content="https://www.kobzarev.com/wp-content/uploads/2011/08/Normalize.css.jpg" />
+<meta name="twitter:image:width" content="640" />
+<meta name="twitter:image:height" content="410" />
+<link rel="shortlink" href="https://www.kobzarev.com/?p=2274" />
+<link rel="canonical" href="https://www.kobzarev.com/makeup/normalization-of-css-with-normalize-css/" />
+<meta name="google-site-verification" content="KWzD9lrvYGA22kZ0ZrOhJxAK-UASP7A1C-hKrYrQr74" />
+<meta name="msvalidate.01" content="192DB0D8AA0155C696C961BB3C74F9F8" />
+<meta name="yandex-verification" content="687bb647b2f8da81" />
+<!-- / The SEO Framework Создано Сибрэ Вайэр | 6.77ms meta | 2.10ms boot -->
+
+<link rel='dns-prefetch' href='//pagead2.googlesyndication.com' />
+<link rel='dns-prefetch' href='//ajax.googleapis.com' />
+
+<link href='https://mc.webvisor.org' crossorigin='crossorigin' rel='preconnect' />
+<link href='https://www.google-analytics.com' crossorigin='crossorigin' rel='preconnect' />
+<link href='https://cdn.jsdelivr.net' crossorigin='crossorigin' rel='preconnect' />
+<link href='https://tpc.googlesyndication.com' crossorigin='crossorigin' rel='preconnect' />
+<link href='https://www.gstatic.com' crossorigin='crossorigin' rel='preconnect' />
+<link href='https://googleads.g.doubleclick.net' crossorigin='crossorigin' rel='preconnect' />
+<link href='https://www.googletagservices.com' crossorigin='crossorigin' rel='preconnect' />
+<link href='https://pagead2.googlesyndication.com' crossorigin='crossorigin' rel='preconnect' />
+<link rel="alternate" type="application/rss+xml" title="PHP Portal &raquo; Лента" href="https://www.kobzarev.com/feed/" />
+<link rel="alternate" type="application/rss+xml" title="PHP Portal &raquo; Лента комментариев" href="https://www.kobzarev.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="PHP Portal &raquo; Лента комментариев к &laquo;Нормализация CSS при помощи Normalize.css&raquo;" href="https://www.kobzarev.com/makeup/normalization-of-css-with-normalize-css/feed/" />
+
+<style id='leurdo-caniuse-block-style-inline-css' type='text/css'>
+
+
+</style>
+<style id='global-styles-inline-css' type='text/css'>
+body{--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: #abb8c3;--wp--preset--color--white: #ffffff;--wp--preset--color--pale-pink: #f78da7;--wp--preset--color--vivid-red: #cf2e2e;--wp--preset--color--luminous-vivid-orange: #ff6900;--wp--preset--color--luminous-vivid-amber: #fcb900;--wp--preset--color--light-green-cyan: #7bdcb5;--wp--preset--color--vivid-green-cyan: #00d084;--wp--preset--color--pale-cyan-blue: #8ed1fc;--wp--preset--color--vivid-cyan-blue: #0693e3;--wp--preset--color--vivid-purple: #9b51e0;--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg,rgba(6,147,227,1) 0%,rgb(155,81,224) 100%);--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg,rgb(122,220,180) 0%,rgb(0,208,130) 100%);--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg,rgba(252,185,0,1) 0%,rgba(255,105,0,1) 100%);--wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg,rgba(255,105,0,1) 0%,rgb(207,46,46) 100%);--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg,rgb(238,238,238) 0%,rgb(169,184,195) 100%);--wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg,rgb(74,234,220) 0%,rgb(151,120,209) 20%,rgb(207,42,186) 40%,rgb(238,44,130) 60%,rgb(251,105,98) 80%,rgb(254,248,76) 100%);--wp--preset--gradient--blush-light-purple: linear-gradient(135deg,rgb(255,206,236) 0%,rgb(152,150,240) 100%);--wp--preset--gradient--blush-bordeaux: linear-gradient(135deg,rgb(254,205,165) 0%,rgb(254,45,45) 50%,rgb(107,0,62) 100%);--wp--preset--gradient--luminous-dusk: linear-gradient(135deg,rgb(255,203,112) 0%,rgb(199,81,192) 50%,rgb(65,88,208) 100%);--wp--preset--gradient--pale-ocean: linear-gradient(135deg,rgb(255,245,203) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);--wp--preset--gradient--electric-grass: linear-gradient(135deg,rgb(202,248,128) 0%,rgb(113,206,126) 100%);--wp--preset--gradient--midnight: linear-gradient(135deg,rgb(2,3,129) 0%,rgb(40,116,252) 100%);--wp--preset--duotone--dark-grayscale: url('#wp-duotone-dark-grayscale');--wp--preset--duotone--grayscale: url('#wp-duotone-grayscale');--wp--preset--duotone--purple-yellow: url('#wp-duotone-purple-yellow');--wp--preset--duotone--blue-red: url('#wp-duotone-blue-red');--wp--preset--duotone--midnight: url('#wp-duotone-midnight');--wp--preset--duotone--magenta-yellow: url('#wp-duotone-magenta-yellow');--wp--preset--duotone--purple-green: url('#wp-duotone-purple-green');--wp--preset--duotone--blue-orange: url('#wp-duotone-blue-orange');--wp--preset--font-size--small: 13px;--wp--preset--font-size--medium: 20px;--wp--preset--font-size--large: 36px;--wp--preset--font-size--x-large: 42px;--wp--preset--font-size--paragraph: 16px;--wp--preset--font-size--h-6: 18px;--wp--preset--font-size--h-5: 20px;--wp--preset--font-size--h-4: 22px;--wp--preset--font-size--h-3: 26px;--wp--preset--font-size--h-2: 28px;--wp--preset--font-size--h-1: 50px;}body { margin: 0; }body{background-color: #f2f2f2;color: #333;font-family: Helvetica Neue, Helvetica, Arial, sans-serif;font-size: 18px;line-height: 1.4em;--wp--style--block-gap: 2.1em;}.wp-site-blocks > .alignleft { float: left; margin-right: 2em; }.wp-site-blocks > .alignright { float: right; margin-left: 2em; }.wp-site-blocks > .aligncenter { justify-content: center; margin-left: auto; margin-right: auto; }.wp-site-blocks > * { margin-top: 0; margin-bottom: 0; }.wp-site-blocks > * + * { margin-top: var( --wp--style--block-gap ); }a{text-decoration: none;}.wp-block-quote{background-color: #fafbfc;border-color: #415ECB;border-width: 0 0 0 5px;border-style: solid;padding-top: 20px;padding-right: 20px;padding-bottom: 20px;padding-left: 20px;}p{font-size: 18px;line-height: 1.4em;}.wp-block-post-title{font-size: 50px;line-height: 1.2em;}h1 h2,h2 h2,h3 h2,h4 h2,h5 h2,h6 h2{font-size: 40px;}.has-black-color{color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-color{color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-color{color: var(--wp--preset--color--white) !important;}.has-pale-pink-color{color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-color{color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-color{color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-color{color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-color{color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-color{color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-color{color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-color{color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-color{color: var(--wp--preset--color--vivid-purple) !important;}.has-black-background-color{background-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-background-color{background-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-background-color{background-color: var(--wp--preset--color--white) !important;}.has-pale-pink-background-color{background-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-background-color{background-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-background-color{background-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-background-color{background-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-background-color{background-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-background-color{background-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-background-color{background-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-background-color{background-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-background-color{background-color: var(--wp--preset--color--vivid-purple) !important;}.has-black-border-color{border-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-border-color{border-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-border-color{border-color: var(--wp--preset--color--white) !important;}.has-pale-pink-border-color{border-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-border-color{border-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-border-color{border-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-border-color{border-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-border-color{border-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-border-color{border-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-border-color{border-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-border-color{border-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-border-color{border-color: var(--wp--preset--color--vivid-purple) !important;}.has-vivid-cyan-blue-to-vivid-purple-gradient-background{background: var(--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple) !important;}.has-light-green-cyan-to-vivid-green-cyan-gradient-background{background: var(--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan) !important;}.has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange) !important;}.has-luminous-vivid-orange-to-vivid-red-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-orange-to-vivid-red) !important;}.has-very-light-gray-to-cyan-bluish-gray-gradient-background{background: var(--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray) !important;}.has-cool-to-warm-spectrum-gradient-background{background: var(--wp--preset--gradient--cool-to-warm-spectrum) !important;}.has-blush-light-purple-gradient-background{background: var(--wp--preset--gradient--blush-light-purple) !important;}.has-blush-bordeaux-gradient-background{background: var(--wp--preset--gradient--blush-bordeaux) !important;}.has-luminous-dusk-gradient-background{background: var(--wp--preset--gradient--luminous-dusk) !important;}.has-pale-ocean-gradient-background{background: var(--wp--preset--gradient--pale-ocean) !important;}.has-electric-grass-gradient-background{background: var(--wp--preset--gradient--electric-grass) !important;}.has-midnight-gradient-background{background: var(--wp--preset--gradient--midnight) !important;}.has-small-font-size{font-size: var(--wp--preset--font-size--small) !important;}.has-medium-font-size{font-size: var(--wp--preset--font-size--medium) !important;}.has-large-font-size{font-size: var(--wp--preset--font-size--large) !important;}.has-x-large-font-size{font-size: var(--wp--preset--font-size--x-large) !important;}.has-paragraph-font-size{font-size: var(--wp--preset--font-size--paragraph) !important;}.has-h-6-font-size{font-size: var(--wp--preset--font-size--h-6) !important;}.has-h-5-font-size{font-size: var(--wp--preset--font-size--h-5) !important;}.has-h-4-font-size{font-size: var(--wp--preset--font-size--h-4) !important;}.has-h-3-font-size{font-size: var(--wp--preset--font-size--h-3) !important;}.has-h-2-font-size{font-size: var(--wp--preset--font-size--h-2) !important;}.has-h-1-font-size{font-size: var(--wp--preset--font-size--h-1) !important;}
+</style>
+
+<style id='wpdiscuz-frontend-css-inline-css' type='text/css'>
+ #wpdcom .wpd-blog-administrator .wpd-comment-label{color:#ffffff;background-color:#415ECB;border:none}#wpdcom .wpd-blog-administrator .wpd-comment-author, #wpdcom .wpd-blog-administrator .wpd-comment-author a{color:#415ECB}#wpdcom.wpd-layout-1 .wpd-comment .wpd-blog-administrator .wpd-avatar img{border-color:#415ECB}#wpdcom.wpd-layout-2 .wpd-comment.wpd-reply .wpd-comment-wrap.wpd-blog-administrator{border-left:3px solid #415ECB}#wpdcom.wpd-layout-2 .wpd-comment .wpd-blog-administrator .wpd-avatar img{border-bottom-color:#415ECB}#wpdcom.wpd-layout-3 .wpd-blog-administrator .wpd-comment-subheader{border-top:1px dashed #415ECB}#wpdcom.wpd-layout-3 .wpd-reply .wpd-blog-administrator .wpd-comment-right{border-left:1px solid #415ECB}#wpdcom .wpd-blog-editor .wpd-comment-label{color:#ffffff;background-color:#415ECB;border:none}#wpdcom .wpd-blog-editor .wpd-comment-author, #wpdcom .wpd-blog-editor .wpd-comment-author a{color:#415ECB}#wpdcom.wpd-layout-1 .wpd-comment .wpd-blog-editor .wpd-avatar img{border-color:#415ECB}#wpdcom.wpd-layout-2 .wpd-comment.wpd-reply .wpd-comment-wrap.wpd-blog-editor{border-left:3px solid #415ECB}#wpdcom.wpd-layout-2 .wpd-comment .wpd-blog-editor .wpd-avatar img{border-bottom-color:#415ECB}#wpdcom.wpd-layout-3 .wpd-blog-editor .wpd-comment-subheader{border-top:1px dashed #415ECB}#wpdcom.wpd-layout-3 .wpd-reply .wpd-blog-editor .wpd-comment-right{border-left:1px solid #415ECB}#wpdcom .wpd-blog-author .wpd-comment-label{color:#ffffff;background-color:#415ECB;border:none}#wpdcom .wpd-blog-author .wpd-comment-author, #wpdcom .wpd-blog-author .wpd-comment-author a{color:#415ECB}#wpdcom.wpd-layout-1 .wpd-comment .wpd-blog-author .wpd-avatar img{border-color:#415ECB}#wpdcom.wpd-layout-2 .wpd-comment .wpd-blog-author .wpd-avatar img{border-bottom-color:#415ECB}#wpdcom.wpd-layout-3 .wpd-blog-author .wpd-comment-subheader{border-top:1px dashed #415ECB}#wpdcom.wpd-layout-3 .wpd-reply .wpd-blog-author .wpd-comment-right{border-left:1px solid #415ECB}#wpdcom .wpd-blog-contributor .wpd-comment-label{color:#ffffff;background-color:#415ECB;border:none}#wpdcom .wpd-blog-contributor .wpd-comment-author, #wpdcom .wpd-blog-contributor .wpd-comment-author a{color:#415ECB}#wpdcom.wpd-layout-1 .wpd-comment .wpd-blog-contributor .wpd-avatar img{border-color:#415ECB}#wpdcom.wpd-layout-2 .wpd-comment .wpd-blog-contributor .wpd-avatar img{border-bottom-color:#415ECB}#wpdcom.wpd-layout-3 .wpd-blog-contributor .wpd-comment-subheader{border-top:1px dashed #415ECB}#wpdcom.wpd-layout-3 .wpd-reply .wpd-blog-contributor .wpd-comment-right{border-left:1px solid #415ECB}#wpdcom .wpd-blog-subscriber .wpd-comment-label{color:#ffffff;background-color:#415ECB;border:none}#wpdcom .wpd-blog-subscriber .wpd-comment-author, #wpdcom .wpd-blog-subscriber .wpd-comment-author a{color:#415ECB}#wpdcom.wpd-layout-2 .wpd-comment .wpd-blog-subscriber .wpd-avatar img{border-bottom-color:#415ECB}#wpdcom.wpd-layout-3 .wpd-blog-subscriber .wpd-comment-subheader{border-top:1px dashed #415ECB}#wpdcom .wpd-blog-bbp_keymaster .wpd-comment-label{color:#ffffff;background-color:#00B38F;border:none}#wpdcom .wpd-blog-bbp_keymaster .wpd-comment-author, #wpdcom .wpd-blog-bbp_keymaster .wpd-comment-author a{color:#00B38F}#wpdcom.wpd-layout-1 .wpd-comment .wpd-blog-bbp_keymaster .wpd-avatar img{border-color:#00B38F}#wpdcom.wpd-layout-2 .wpd-comment .wpd-blog-bbp_keymaster .wpd-avatar img{border-bottom-color:#00B38F}#wpdcom.wpd-layout-3 .wpd-blog-bbp_keymaster .wpd-comment-subheader{border-top:1px dashed #00B38F}#wpdcom.wpd-layout-3 .wpd-reply .wpd-blog-bbp_keymaster .wpd-comment-right{border-left:1px solid #00B38F}#wpdcom .wpd-blog-bbp_spectator .wpd-comment-label{color:#ffffff;background-color:#00B38F;border:none}#wpdcom .wpd-blog-bbp_spectator .wpd-comment-author, #wpdcom .wpd-blog-bbp_spectator .wpd-comment-author a{color:#00B38F}#wpdcom.wpd-layout-1 .wpd-comment .wpd-blog-bbp_spectator .wpd-avatar img{border-color:#00B38F}#wpdcom.wpd-layout-2 .wpd-comment .wpd-blog-bbp_spectator .wpd-avatar img{border-bottom-color:#00B38F}#wpdcom.wpd-layout-3 .wpd-blog-bbp_spectator .wpd-comment-subheader{border-top:1px dashed #00B38F}#wpdcom.wpd-layout-3 .wpd-reply .wpd-blog-bbp_spectator .wpd-comment-right{border-left:1px solid #00B38F}#wpdcom .wpd-blog-bbp_blocked .wpd-comment-label{color:#ffffff;background-color:#00B38F;border:none}#wpdcom .wpd-blog-bbp_blocked .wpd-comment-author, #wpdcom .wpd-blog-bbp_blocked .wpd-comment-author a{color:#00B38F}#wpdcom.wpd-layout-1 .wpd-comment .wpd-blog-bbp_blocked .wpd-avatar img{border-color:#00B38F}#wpdcom.wpd-layout-2 .wpd-comment .wpd-blog-bbp_blocked .wpd-avatar img{border-bottom-color:#00B38F}#wpdcom.wpd-layout-3 .wpd-blog-bbp_blocked .wpd-comment-subheader{border-top:1px dashed #00B38F}#wpdcom.wpd-layout-3 .wpd-reply .wpd-blog-bbp_blocked .wpd-comment-right{border-left:1px solid #00B38F}#wpdcom .wpd-blog-bbp_moderator .wpd-comment-label{color:#ffffff;background-color:#00B38F;border:none}#wpdcom .wpd-blog-bbp_moderator .wpd-comment-author, #wpdcom .wpd-blog-bbp_moderator .wpd-comment-author a{color:#00B38F}#wpdcom.wpd-layout-1 .wpd-comment .wpd-blog-bbp_moderator .wpd-avatar img{border-color:#00B38F}#wpdcom.wpd-layout-2 .wpd-comment .wpd-blog-bbp_moderator .wpd-avatar img{border-bottom-color:#00B38F}#wpdcom.wpd-layout-3 .wpd-blog-bbp_moderator .wpd-comment-subheader{border-top:1px dashed #00B38F}#wpdcom.wpd-layout-3 .wpd-reply .wpd-blog-bbp_moderator .wpd-comment-right{border-left:1px solid #00B38F}#wpdcom .wpd-blog-bbp_participant .wpd-comment-label{color:#ffffff;background-color:#00B38F;border:none}#wpdcom .wpd-blog-bbp_participant .wpd-comment-author, #wpdcom .wpd-blog-bbp_participant .wpd-comment-author a{color:#00B38F}#wpdcom.wpd-layout-1 .wpd-comment .wpd-blog-bbp_participant .wpd-avatar img{border-color:#00B38F}#wpdcom.wpd-layout-2 .wpd-comment .wpd-blog-bbp_participant .wpd-avatar img{border-bottom-color:#00B38F}#wpdcom.wpd-layout-3 .wpd-blog-bbp_participant .wpd-comment-subheader{border-top:1px dashed #00B38F}#wpdcom.wpd-layout-3 .wpd-reply .wpd-blog-bbp_participant .wpd-comment-right{border-left:1px solid #00B38F}#wpdcom .wpd-blog-translator .wpd-comment-label{color:#ffffff;background-color:#00B38F;border:none}#wpdcom .wpd-blog-translator .wpd-comment-author, #wpdcom .wpd-blog-translator .wpd-comment-author a{color:#00B38F}#wpdcom.wpd-layout-1 .wpd-comment .wpd-blog-translator .wpd-avatar img{border-color:#00B38F}#wpdcom.wpd-layout-2 .wpd-comment .wpd-blog-translator .wpd-avatar img{border-bottom-color:#00B38F}#wpdcom.wpd-layout-3 .wpd-blog-translator .wpd-comment-subheader{border-top:1px dashed #00B38F}#wpdcom.wpd-layout-3 .wpd-reply .wpd-blog-translator .wpd-comment-right{border-left:1px solid #00B38F}#wpdcom .wpd-blog-social_subscriber .wpd-comment-label{color:#ffffff;background-color:#00B38F;border:none}#wpdcom .wpd-blog-social_subscriber .wpd-comment-author, #wpdcom .wpd-blog-social_subscriber .wpd-comment-author a{color:#00B38F}#wpdcom.wpd-layout-1 .wpd-comment .wpd-blog-social_subscriber .wpd-avatar img{border-color:#00B38F}#wpdcom.wpd-layout-2 .wpd-comment .wpd-blog-social_subscriber .wpd-avatar img{border-bottom-color:#00B38F}#wpdcom.wpd-layout-3 .wpd-blog-social_subscriber .wpd-comment-subheader{border-top:1px dashed #00B38F}#wpdcom.wpd-layout-3 .wpd-reply .wpd-blog-social_subscriber .wpd-comment-right{border-left:1px solid #00B38F}#wpdcom .wpd-blog-shop_manager .wpd-comment-label{color:#ffffff;background-color:#00B38F;border:none}#wpdcom .wpd-blog-shop_manager .wpd-comment-author, #wpdcom .wpd-blog-shop_manager .wpd-comment-author a{color:#00B38F}#wpdcom.wpd-layout-1 .wpd-comment .wpd-blog-shop_manager .wpd-avatar img{border-color:#00B38F}#wpdcom.wpd-layout-2 .wpd-comment .wpd-blog-shop_manager .wpd-avatar img{border-bottom-color:#00B38F}#wpdcom.wpd-layout-3 .wpd-blog-shop_manager .wpd-comment-subheader{border-top:1px dashed #00B38F}#wpdcom.wpd-layout-3 .wpd-reply .wpd-blog-shop_manager .wpd-comment-right{border-left:1px solid #00B38F}#wpdcom .wpd-blog-shop_accountant .wpd-comment-label{color:#ffffff;background-color:#00B38F;border:none}#wpdcom .wpd-blog-shop_accountant .wpd-comment-author, #wpdcom .wpd-blog-shop_accountant .wpd-comment-author a{color:#00B38F}#wpdcom.wpd-layout-1 .wpd-comment .wpd-blog-shop_accountant .wpd-avatar img{border-color:#00B38F}#wpdcom.wpd-layout-2 .wpd-comment .wpd-blog-shop_accountant .wpd-avatar img{border-bottom-color:#00B38F}#wpdcom.wpd-layout-3 .wpd-blog-shop_accountant .wpd-comment-subheader{border-top:1px dashed #00B38F}#wpdcom.wpd-layout-3 .wpd-reply .wpd-blog-shop_accountant .wpd-comment-right{border-left:1px solid #00B38F}#wpdcom .wpd-blog-shop_worker .wpd-comment-label{color:#ffffff;background-color:#00B38F;border:none}#wpdcom .wpd-blog-shop_worker .wpd-comment-author, #wpdcom .wpd-blog-shop_worker .wpd-comment-author a{color:#00B38F}#wpdcom.wpd-layout-1 .wpd-comment .wpd-blog-shop_worker .wpd-avatar img{border-color:#00B38F}#wpdcom.wpd-layout-2 .wpd-comment .wpd-blog-shop_worker .wpd-avatar img{border-bottom-color:#00B38F}#wpdcom.wpd-layout-3 .wpd-blog-shop_worker .wpd-comment-subheader{border-top:1px dashed #00B38F}#wpdcom.wpd-layout-3 .wpd-reply .wpd-blog-shop_worker .wpd-comment-right{border-left:1px solid #00B38F}#wpdcom .wpd-blog-shop_vendor .wpd-comment-label{color:#ffffff;background-color:#00B38F;border:none}#wpdcom .wpd-blog-shop_vendor .wpd-comment-author, #wpdcom .wpd-blog-shop_vendor .wpd-comment-author a{color:#00B38F}#wpdcom.wpd-layout-1 .wpd-comment .wpd-blog-shop_vendor .wpd-avatar img{border-color:#00B38F}#wpdcom.wpd-layout-2 .wpd-comment .wpd-blog-shop_vendor .wpd-avatar img{border-bottom-color:#00B38F}#wpdcom.wpd-layout-3 .wpd-blog-shop_vendor .wpd-comment-subheader{border-top:1px dashed #00B38F}#wpdcom.wpd-layout-3 .wpd-reply .wpd-blog-shop_vendor .wpd-comment-right{border-left:1px solid #00B38F}#wpdcom .wpd-blog-customer .wpd-comment-label{color:#ffffff;background-color:#00B38F;border:none}#wpdcom .wpd-blog-customer .wpd-comment-author, #wpdcom .wpd-blog-customer .wpd-comment-author a{color:#00B38F}#wpdcom.wpd-layout-1 .wpd-comment .wpd-blog-customer .wpd-avatar img{border-color:#00B38F}#wpdcom.wpd-layout-2 .wpd-comment .wpd-blog-customer .wpd-avatar img{border-bottom-color:#00B38F}#wpdcom.wpd-layout-3 .wpd-blog-customer .wpd-comment-subheader{border-top:1px dashed #00B38F}#wpdcom.wpd-layout-3 .wpd-reply .wpd-blog-customer .wpd-comment-right{border-left:1px solid #00B38F}#wpdcom .wpd-blog-post_author .wpd-comment-label{color:#ffffff;background-color:#415ECB;border:none}#wpdcom .wpd-blog-post_author .wpd-comment-author, #wpdcom .wpd-blog-post_author .wpd-comment-author a{color:#415ECB}#wpdcom .wpd-blog-post_author .wpd-avatar img{border-color:#415ECB}#wpdcom.wpd-layout-1 .wpd-comment .wpd-blog-post_author .wpd-avatar img{border-color:#415ECB}#wpdcom.wpd-layout-2 .wpd-comment.wpd-reply .wpd-comment-wrap.wpd-blog-post_author{border-left:3px solid #415ECB}#wpdcom.wpd-layout-2 .wpd-comment .wpd-blog-post_author .wpd-avatar img{border-bottom-color:#415ECB}#wpdcom.wpd-layout-3 .wpd-blog-post_author .wpd-comment-subheader{border-top:1px dashed #415ECB}#wpdcom.wpd-layout-3 .wpd-reply .wpd-blog-post_author .wpd-comment-right{border-left:1px solid #415ECB}#wpdcom .wpd-blog-guest .wpd-comment-label{color:#ffffff;background-color:#415ECB;border:none}#wpdcom .wpd-blog-guest .wpd-comment-author, #wpdcom .wpd-blog-guest .wpd-comment-author a{color:#415ECB}#wpdcom.wpd-layout-3 .wpd-blog-guest .wpd-comment-subheader{border-top:1px dashed #415ECB}#comments, #respond, .comments-area, #wpdcom{}#wpdcom .ql-editor > *{color:#777777}#wpdcom .ql-editor::before{}#wpdcom .ql-toolbar{border:1px solid #DDDDDD;border-top:none}#wpdcom .ql-container{border:1px solid #DDDDDD;border-bottom:none}#wpdcom .wpd-form-row .wpdiscuz-item input[type="text"], #wpdcom .wpd-form-row .wpdiscuz-item input[type="email"], #wpdcom .wpd-form-row .wpdiscuz-item input[type="url"], #wpdcom .wpd-form-row .wpdiscuz-item input[type="color"], #wpdcom .wpd-form-row .wpdiscuz-item input[type="date"], #wpdcom .wpd-form-row .wpdiscuz-item input[type="datetime"], #wpdcom .wpd-form-row .wpdiscuz-item input[type="datetime-local"], #wpdcom .wpd-form-row .wpdiscuz-item input[type="month"], #wpdcom .wpd-form-row .wpdiscuz-item input[type="number"], #wpdcom .wpd-form-row .wpdiscuz-item input[type="time"], #wpdcom textarea, #wpdcom select{border:1px solid #DDDDDD;color:#777777}#wpdcom .wpd-form-row .wpdiscuz-item textarea{border:1px solid #DDDDDD}#wpdcom input::placeholder, #wpdcom textarea::placeholder, #wpdcom input::-moz-placeholder, #wpdcom textarea::-webkit-input-placeholder{}#wpdcom .wpd-comment-text{color:#777777}#wpdcom .wpd-thread-head .wpd-thread-info{border-bottom:2px solid #415ECB}#wpdcom .wpd-thread-head .wpd-thread-info.wpd-reviews-tab svg{fill:#415ECB}#wpdcom .wpd-thread-head .wpdiscuz-user-settings{border-bottom:2px solid #415ECB}#wpdcom .wpd-thread-head .wpdiscuz-user-settings:hover{color:#415ECB}#wpdcom .wpd-comment .wpd-follow-link:hover{color:#415ECB}#wpdcom .wpd-comment-status .wpd-sticky{color:#415ECB}#wpdcom .wpd-thread-filter .wpdf-active{color:#415ECB;border-bottom-color:#415ECB}#wpdcom .wpd-comment-info-bar{border:1px dashed #677fd6;background:#eceffa}#wpdcom .wpd-comment-info-bar .wpd-current-view i{color:#415ECB}#wpdcom .wpd-filter-view-all:hover{background:#415ECB}#wpdcom .wpdiscuz-item .wpdiscuz-rating > label{color:#DDDDDD}#wpdcom .wpdiscuz-item .wpdiscuz-rating:not(:checked) > label:hover, .wpdiscuz-rating:not(:checked) > label:hover ~ label{}#wpdcom .wpdiscuz-item .wpdiscuz-rating > input ~ label:hover, #wpdcom .wpdiscuz-item .wpdiscuz-rating > input:not(:checked) ~ label:hover ~ label, #wpdcom .wpdiscuz-item .wpdiscuz-rating > input:not(:checked) ~ label:hover ~ label{color:#FFED85}#wpdcom .wpdiscuz-item .wpdiscuz-rating > input:checked ~ label:hover, #wpdcom .wpdiscuz-item .wpdiscuz-rating > input:checked ~ label:hover, #wpdcom .wpdiscuz-item .wpdiscuz-rating > label:hover ~ input:checked ~ label, #wpdcom .wpdiscuz-item .wpdiscuz-rating > input:checked + label:hover ~ label, #wpdcom .wpdiscuz-item .wpdiscuz-rating > input:checked ~ label:hover ~ label, .wpd-custom-field .wcf-active-star, #wpdcom .wpdiscuz-item .wpdiscuz-rating > input:checked ~ label{color:#FFD700}#wpd-post-rating .wpd-rating-wrap .wpd-rating-stars svg .wpd-star{fill:#DDDDDD}#wpd-post-rating .wpd-rating-wrap .wpd-rating-stars svg .wpd-active{fill:#FFD700}#wpd-post-rating .wpd-rating-wrap .wpd-rate-starts svg .wpd-star{fill:#DDDDDD}#wpd-post-rating .wpd-rating-wrap .wpd-rate-starts:hover svg .wpd-star{fill:#FFED85}#wpd-post-rating.wpd-not-rated .wpd-rating-wrap .wpd-rate-starts svg:hover ~ svg .wpd-star{fill:#DDDDDD}.wpdiscuz-post-rating-wrap .wpd-rating .wpd-rating-wrap .wpd-rating-stars svg .wpd-star{fill:#DDDDDD}.wpdiscuz-post-rating-wrap .wpd-rating .wpd-rating-wrap .wpd-rating-stars svg .wpd-active{fill:#FFD700}#wpdcom .wpd-comment .wpd-follow-active{color:#ff7a00}#wpdcom .page-numbers{color:#555;border:#555 1px solid}#wpdcom span.current{background:#555}#wpdcom.wpd-layout-1 .wpd-new-loaded-comment > .wpd-comment-wrap > .wpd-comment-right{background:#FFFAD6}#wpdcom.wpd-layout-2 .wpd-new-loaded-comment.wpd-comment > .wpd-comment-wrap > .wpd-comment-right{background:#FFFAD6}#wpdcom.wpd-layout-2 .wpd-new-loaded-comment.wpd-comment.wpd-reply > .wpd-comment-wrap > .wpd-comment-right{background:transparent}#wpdcom.wpd-layout-2 .wpd-new-loaded-comment.wpd-comment.wpd-reply > .wpd-comment-wrap{background:#FFFAD6}#wpdcom.wpd-layout-3 .wpd-new-loaded-comment.wpd-comment > .wpd-comment-wrap > .wpd-comment-right{background:#FFFAD6}#wpdcom .wpd-follow:hover i, #wpdcom .wpd-unfollow:hover i, #wpdcom .wpd-comment .wpd-follow-active:hover i{color:#415ECB}#wpdcom .wpdiscuz-readmore{cursor:pointer;color:#415ECB}.wpd-custom-field .wcf-pasiv-star, #wpcomm .wpdiscuz-item .wpdiscuz-rating > label{color:#DDDDDD}.wpd-wrapper .wpd-list-item.wpd-active{border-top:3px solid #415ECB}#wpdcom.wpd-layout-2 .wpd-comment.wpd-reply.wpd-unapproved-comment .wpd-comment-wrap{border-left:3px solid #FFFAD6}#wpdcom.wpd-layout-3 .wpd-comment.wpd-reply.wpd-unapproved-comment .wpd-comment-right{border-left:1px solid #FFFAD6}#wpdcom .wpd-prim-button{background-color:#07B290;color:#FFFFFF}#wpdcom .wpd_label__check i.wpdicon-on{color:#07B290;border:1px solid #83d9c8}#wpd-bubble-wrapper #wpd-bubble-all-comments-count{color:#1DB99A}#wpd-bubble-wrapper > div{background-color:#1DB99A}#wpd-bubble-wrapper > #wpd-bubble #wpd-bubble-add-message{background-color:#1DB99A}#wpd-bubble-wrapper > #wpd-bubble #wpd-bubble-add-message::before{border-left-color:#1DB99A;border-right-color:#1DB99A}#wpd-bubble-wrapper.wpd-right-corner > #wpd-bubble #wpd-bubble-add-message::before{border-left-color:#1DB99A;border-right-color:#1DB99A}.wpd-inline-icon-wrapper path.wpd-inline-icon-first{fill:#1DB99A}.wpd-inline-icon-count{background-color:#1DB99A}.wpd-inline-icon-count::before{border-right-color:#1DB99A}.wpd-inline-form-wrapper::before{border-bottom-color:#1DB99A}.wpd-inline-form-question{background-color:#1DB99A}.wpd-inline-form{background-color:#1DB99A}.wpd-last-inline-comments-wrapper{border-color:#1DB99A}.wpd-last-inline-comments-wrapper::before{border-bottom-color:#1DB99A}.wpd-last-inline-comments-wrapper .wpd-view-all-inline-comments{background:#1DB99A}.wpd-last-inline-comments-wrapper .wpd-view-all-inline-comments:hover,.wpd-last-inline-comments-wrapper .wpd-view-all-inline-comments:active,.wpd-last-inline-comments-wrapper .wpd-view-all-inline-comments:focus{background-color:#1DB99A}#wpdcom .ql-snow .ql-tooltip[data-mode="link"]::before{content:"Введите ссылку:"}#wpdcom .ql-snow .ql-tooltip.ql-editing a.ql-action::after{content:"Сохранить"}.comments-area{width:auto}
+</style>
+
+
+
+<script type='text/javascript' src='https://www.kobzarev.com/wp-content/themes/mihdan/js/jquery-3.5.1.min.js?ver=3.5.1.min' id='jquery-js'></script>
+<link rel="https://api.w.org/" href="https://www.kobzarev.com/wp-json/" /><link rel="alternate" type="application/json" href="https://www.kobzarev.com/wp-json/wp/v2/posts/2274" /><link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://www.kobzarev.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://www.kobzarev.com/wp-includes/wlwmanifest.xml" /> 
+<link rel="alternate" type="application/json+oembed" href="https://www.kobzarev.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.kobzarev.com%2Fmakeup%2Fnormalization-of-css-with-normalize-css%2F" />
+<link rel="alternate" type="text/xml+oembed" href="https://www.kobzarev.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.kobzarev.com%2Fmakeup%2Fnormalization-of-css-with-normalize-css%2F&#038;format=xml" />
+<!-- Schema optimized by Schema Pro --><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.kobzarev.com/makeup/normalization-of-css-with-normalize-css/"},"headline":"Нормализация CSS при помощи Normalize.css","image":{"@type":"ImageObject","url":"https://www.kobzarev.com/wp-content/uploads/2011/08/Normalize.css.jpg","width":640,"height":410},"datePublished":"2011-08-13T17:44:50","dateModified":"2016-10-11T19:28:25","author":{"@type":"Person","name":"Кобзарёв Михаил","url":"https://www.kobzarev.com"},"publisher":{"@type":"Organization","name":"PHP Portal","logo":{"@type":"ImageObject","url":"https://www.kobzarev.com/wp-content/uploads/2020/11/php-portal-logo-desktop.svg"}},"description":"Normalize.css представляет собой настраиваемый CSS файл, при помощи которого браузеры начинают отображать все элементы более последовательно и в соответствии с современными стандартами. Были проведены исследования для выявления различий между стилями браузеров по умолчанию для того, чтобы нормализовать только те стили, которые отличаются друг от друга."}</script><!-- / Schema optimized by Schema Pro --><!-- site-navigation-element Schema optimized by Schema Pro --><script type="application/ld+json">{"@context":"https:\/\/schema.org","@graph":[{"@context":"https:\/\/schema.org","@type":"SiteNavigationElement","id":"site-navigation","name":"\u0410\u0432\u0442\u043e\u0440\u0430!","url":"https:\/\/www.kobzarev.com\/author\/"},{"@context":"https:\/\/schema.org","@type":"SiteNavigationElement","id":"site-navigation","name":"\u0423\u0441\u043b\u0443\u0433\u0438","url":"https:\/\/www.kobzarev.com\/services\/"},{"@context":"https:\/\/schema.org","@type":"SiteNavigationElement","id":"site-navigation","name":"\u041f\u0440\u043e\u0435\u043a\u0442\u044b","url":"https:\/\/www.kobzarev.com\/category\/projects\/"},{"@context":"https:\/\/schema.org","@type":"SiteNavigationElement","id":"site-navigation","name":"\u0428\u043f\u043e\u0440\u044b","url":"https:\/\/www.kobzarev.com\/cheatsheets\/"},{"@context":"https:\/\/schema.org","@type":"SiteNavigationElement","id":"site-navigation","name":"\u0424\u0430\u0439\u043b\u044b","url":"https:\/\/www.kobzarev.com\/downloads\/"},{"@context":"https:\/\/schema.org","@type":"SiteNavigationElement","id":"site-navigation","name":"\u041a\u043e\u043d\u0442\u0430\u043a\u0442\u044b","url":"https:\/\/www.kobzarev.com\/contacts\/"},{"@context":"https:\/\/schema.org","@type":"SiteNavigationElement","id":"site-navigation","name":"\u0421\u043a\u0430\u0437\u0430\u0442\u044c \u0421\u043f\u0430\u0441\u0438\u0431\u043e!","url":"https:\/\/www.kobzarev.com\/donate\/"}]}</script><!-- / site-navigation-element Schema optimized by Schema Pro --><!-- sitelink-search-box Schema optimized by Schema Pro --><script type="application/ld+json">{"@context":"https:\/\/schema.org","@type":"WebSite","name":"PHP Portal","url":"https:\/\/www.kobzarev.com","potentialAction":[{"@type":"SearchAction","target":"https:\/\/www.kobzarev.com\/?s={search_term_string}","query-input":"required name=search_term_string"}]}</script><!-- / sitelink-search-box Schema optimized by Schema Pro -->		<!-- Fonts preload. -->
+		            <link rel="preload" href="https://www.kobzarev.com/wp-content/uploads/2011/08/Normalize.css.jpg" as="image" />
+		        		<style>
+			.algolia-search-highlight {
+				background-color: #fffbcc;
+				border-radius: 2px;
+				font-style: normal;
+			}
+		</style>
+					<style id="wpsp-style-frontend"></style>
+			<link rel="icon" href="https://www.kobzarev.com/wp-content/uploads/2018/07/apple-touch-icon.jpg" sizes="32x32" />
+<link rel="icon" href="https://www.kobzarev.com/wp-content/uploads/2018/07/apple-touch-icon.jpg" sizes="192x192" />
+<link rel="apple-touch-icon" href="https://www.kobzarev.com/wp-content/uploads/2018/07/apple-touch-icon.jpg" />
+<meta name="msapplication-TileImage" content="https://www.kobzarev.com/wp-content/uploads/2018/07/apple-touch-icon.jpg" />
+				<script type="application/ld+json">
+					{"@context":"http://schema.org","@type":"MediaObject","aggregateRating":{"@type":"AggregateRating","bestRating":"5","ratingCount":23,"ratingValue":"4.9"},"image":"https://www.kobzarev.com/wp-content/uploads/2011/08/Normalize.css.jpg","name":"Нормализация CSS при помощи Normalize.css","description":"Normalize.css представляет собой настраиваемый CSS файл, при помощи которого браузеры начинают отображать все элементы более последовательно и в соответствии с современными стандартами. Были проведены исследования для выявления различий между стилями браузеров по умолчанию для того, чтобы нормализовать только те стили, которые отличаются друг от друга."}				</script>
+				<script>
+/*! loadCSS rel=preload polyfill. [c]2017 Filament Group, Inc. MIT License */
+(function(w){"use strict";if(!w.loadCSS){w.loadCSS=function(){}}
+var rp=loadCSS.relpreload={};rp.support=(function(){var ret;try{ret=w.document.createElement("link").relList.supports("preload")}catch(e){ret=!1}
+return function(){return ret}})();rp.bindMediaToggle=function(link){var finalMedia=link.media||"all";function enableStylesheet(){link.media=finalMedia}
+if(link.addEventListener){link.addEventListener("load",enableStylesheet)}else if(link.attachEvent){link.attachEvent("onload",enableStylesheet)}
+setTimeout(function(){link.rel="stylesheet";link.media="only x"});setTimeout(enableStylesheet,3000)};rp.poly=function(){if(rp.support()){return}
+var links=w.document.getElementsByTagName("link");for(var i=0;i<links.length;i++){var link=links[i];if(link.rel==="preload"&&link.getAttribute("as")==="style"&&!link.getAttribute("data-loadcss")){link.setAttribute("data-loadcss",!0);rp.bindMediaToggle(link)}}};if(!rp.support()){rp.poly();var run=w.setInterval(rp.poly,500);if(w.addEventListener){w.addEventListener("load",function(){rp.poly();w.clearInterval(run)})}else if(w.attachEvent){w.attachEvent("onload",function(){rp.poly();w.clearInterval(run)})}}
+if(typeof exports!=="undefined"){exports.loadCSS=loadCSS}
+else{w.loadCSS=loadCSS}}(typeof global!=="undefined"?global:this))
+</script></head>
+
+<body class="post-template-default single single-post postid-2274 single-format-standard wp-custom-logo wp-schema-pro-2.7.2 desktop category-makeup" id="body">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 0 0" width="0" height="0" focusable="false" role="none" style="visibility: hidden; position: absolute; left: -9999px; overflow: hidden;" ><defs><filter id="wp-duotone-dark-grayscale"><feColorMatrix color-interpolation-filters="sRGB" type="matrix" values=" .299 .587 .114 0 0 .299 .587 .114 0 0 .299 .587 .114 0 0 .299 .587 .114 0 0 " /><feComponentTransfer color-interpolation-filters="sRGB" ><feFuncR type="table" tableValues="0 0.49803921568627" /><feFuncG type="table" tableValues="0 0.49803921568627" /><feFuncB type="table" tableValues="0 0.49803921568627" /><feFuncA type="table" tableValues="1 1" /></feComponentTransfer><feComposite in2="SourceGraphic" operator="in" /></filter></defs></svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 0 0" width="0" height="0" focusable="false" role="none" style="visibility: hidden; position: absolute; left: -9999px; overflow: hidden;" ><defs><filter id="wp-duotone-grayscale"><feColorMatrix color-interpolation-filters="sRGB" type="matrix" values=" .299 .587 .114 0 0 .299 .587 .114 0 0 .299 .587 .114 0 0 .299 .587 .114 0 0 " /><feComponentTransfer color-interpolation-filters="sRGB" ><feFuncR type="table" tableValues="0 1" /><feFuncG type="table" tableValues="0 1" /><feFuncB type="table" tableValues="0 1" /><feFuncA type="table" tableValues="1 1" /></feComponentTransfer><feComposite in2="SourceGraphic" operator="in" /></filter></defs></svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 0 0" width="0" height="0" focusable="false" role="none" style="visibility: hidden; position: absolute; left: -9999px; overflow: hidden;" ><defs><filter id="wp-duotone-purple-yellow"><feColorMatrix color-interpolation-filters="sRGB" type="matrix" values=" .299 .587 .114 0 0 .299 .587 .114 0 0 .299 .587 .114 0 0 .299 .587 .114 0 0 " /><feComponentTransfer color-interpolation-filters="sRGB" ><feFuncR type="table" tableValues="0.54901960784314 0.98823529411765" /><feFuncG type="table" tableValues="0 1" /><feFuncB type="table" tableValues="0.71764705882353 0.25490196078431" /><feFuncA type="table" tableValues="1 1" /></feComponentTransfer><feComposite in2="SourceGraphic" operator="in" /></filter></defs></svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 0 0" width="0" height="0" focusable="false" role="none" style="visibility: hidden; position: absolute; left: -9999px; overflow: hidden;" ><defs><filter id="wp-duotone-blue-red"><feColorMatrix color-interpolation-filters="sRGB" type="matrix" values=" .299 .587 .114 0 0 .299 .587 .114 0 0 .299 .587 .114 0 0 .299 .587 .114 0 0 " /><feComponentTransfer color-interpolation-filters="sRGB" ><feFuncR type="table" tableValues="0 1" /><feFuncG type="table" tableValues="0 0.27843137254902" /><feFuncB type="table" tableValues="0.5921568627451 0.27843137254902" /><feFuncA type="table" tableValues="1 1" /></feComponentTransfer><feComposite in2="SourceGraphic" operator="in" /></filter></defs></svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 0 0" width="0" height="0" focusable="false" role="none" style="visibility: hidden; position: absolute; left: -9999px; overflow: hidden;" ><defs><filter id="wp-duotone-midnight"><feColorMatrix color-interpolation-filters="sRGB" type="matrix" values=" .299 .587 .114 0 0 .299 .587 .114 0 0 .299 .587 .114 0 0 .299 .587 .114 0 0 " /><feComponentTransfer color-interpolation-filters="sRGB" ><feFuncR type="table" tableValues="0 0" /><feFuncG type="table" tableValues="0 0.64705882352941" /><feFuncB type="table" tableValues="0 1" /><feFuncA type="table" tableValues="1 1" /></feComponentTransfer><feComposite in2="SourceGraphic" operator="in" /></filter></defs></svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 0 0" width="0" height="0" focusable="false" role="none" style="visibility: hidden; position: absolute; left: -9999px; overflow: hidden;" ><defs><filter id="wp-duotone-magenta-yellow"><feColorMatrix color-interpolation-filters="sRGB" type="matrix" values=" .299 .587 .114 0 0 .299 .587 .114 0 0 .299 .587 .114 0 0 .299 .587 .114 0 0 " /><feComponentTransfer color-interpolation-filters="sRGB" ><feFuncR type="table" tableValues="0.78039215686275 1" /><feFuncG type="table" tableValues="0 0.94901960784314" /><feFuncB type="table" tableValues="0.35294117647059 0.47058823529412" /><feFuncA type="table" tableValues="1 1" /></feComponentTransfer><feComposite in2="SourceGraphic" operator="in" /></filter></defs></svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 0 0" width="0" height="0" focusable="false" role="none" style="visibility: hidden; position: absolute; left: -9999px; overflow: hidden;" ><defs><filter id="wp-duotone-purple-green"><feColorMatrix color-interpolation-filters="sRGB" type="matrix" values=" .299 .587 .114 0 0 .299 .587 .114 0 0 .299 .587 .114 0 0 .299 .587 .114 0 0 " /><feComponentTransfer color-interpolation-filters="sRGB" ><feFuncR type="table" tableValues="0.65098039215686 0.40392156862745" /><feFuncG type="table" tableValues="0 1" /><feFuncB type="table" tableValues="0.44705882352941 0.4" /><feFuncA type="table" tableValues="1 1" /></feComponentTransfer><feComposite in2="SourceGraphic" operator="in" /></filter></defs></svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 0 0" width="0" height="0" focusable="false" role="none" style="visibility: hidden; position: absolute; left: -9999px; overflow: hidden;" ><defs><filter id="wp-duotone-blue-orange"><feColorMatrix color-interpolation-filters="sRGB" type="matrix" values=" .299 .587 .114 0 0 .299 .587 .114 0 0 .299 .587 .114 0 0 .299 .587 .114 0 0 " /><feComponentTransfer color-interpolation-filters="sRGB" ><feFuncR type="table" tableValues="0.098039215686275 1" /><feFuncG type="table" tableValues="0 0.66274509803922" /><feFuncB type="table" tableValues="0.84705882352941 0.41960784313725" /><feFuncA type="table" tableValues="1 1" /></feComponentTransfer><feComposite in2="SourceGraphic" operator="in" /></filter></defs></svg>
+<a id="topofpage" class="visually-hidden">Верх страницы</a>
+
+<header class="header">
+    <div class="header__inner">
+        <div class="header__logo">
+            <a href="https://www.kobzarev.com/" class="custom-logo-link" rel="home"><img width="165" height="50" src="https://www.kobzarev.com/wp-content/uploads/2020/11/php-portal-logo.png" class="custom-logo" alt="PHP Portal" /></a>        </div>
+	                <nav class="header__nav">
+                <label for="show-nav-header" class="toggle-nav"></label>
+                <ul class="header__menu hidden-xs">
+                    <li id="menu-item-2696" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2696"><a href="https://www.kobzarev.com/author/">Автора!</a></li>
+<li id="menu-item-8994" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8994"><a href="https://www.kobzarev.com/services/">Услуги</a></li>
+<li id="menu-item-8661" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-8661"><a href="https://www.kobzarev.com/category/projects/">Проекты</a></li>
+<li id="menu-item-2699" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2699"><a href="https://www.kobzarev.com/cheatsheets/">Шпоры</a></li>
+<li id="menu-item-2701" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2701"><a href="https://www.kobzarev.com/downloads/">Файлы</a></li>
+<li id="menu-item-12795" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-12795"><a href="https://www.kobzarev.com/contacts/">Контакты</a></li>
+<li id="menu-item-11575" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-11575"><a href="https://www.kobzarev.com/donate/">Сказать Спасибо!</a></li>
+                </ul>
+            </nav>
+	            <div class="header__search">
+            <a href="https://www.kobzarev.com/?s=" class="toggle-search">
+                <svg width="30" height="30" viewBox="0 0 512 512">
+                    <path fill="#fff" d="M501.9 453.7L371.9 323c23.6-33.1 37.8-74 37.8-118.2C409.7 91.4 317.6 0 204.9 0S.1 92.2.1 204.8s92.2 204.8 204.8 204.8c44.1 0 85.1-14.2 118.2-37.8l130.8 130c6.3 7.1 15.8 10.2 23.6 10.2s18.1-3.2 23.6-10.2c14.2-13.4 14.2-34.7.8-48.1zm-297-88.2c-88.2 0-160.7-71.7-160.7-160.7S115.9 44.1 204.9 44.1s160.7 71.7 160.7 160.7-72.4 160.7-160.7 160.7z"/>
+                </svg>
+            </a>
+            <div class="search-form hidden-xs">
+    <form role="search" method="get" class="search-form__form" action="https://www.kobzarev.com/">
+        <label>
+            <span class="screen-reader-text">Поиск</span>
+            <input type="search" class="search-form__input search-field" placeholder="Поиск &hellip;" value="" name="s" />
+        </label>
+        <input type="submit" class="search-form__button search-submit" value="🔎" title="Искать" />
+    </form>
+</div>
+        </div>
+    </div>
+</header>
+<div id="wrap">
+	<!--script src="//s.electerious.com/basicScroll/dist/basicScroll.min.js"></script-->
+	<style>
+
+		.post__header {
+			position: relative;
+			color: #fff;
+			font-size: 12px;
+			z-index: 10;
+            margin-bottom: 20px;
+		}
+		.post__header:before {
+			content: ' ';
+			display: block;
+			padding-top: 56.25%;
+			/*pointer-events: none;*/
+		}
+		.post__header img {
+			width: 100%;
+			height: 100%;
+			position: absolute;
+			left: 0;
+			top: 0;
+			z-index: 11;
+			object-fit: cover;
+		}
+		.post__header:after {
+			content: ' ';
+			position: absolute;
+			left: 0;
+			top: 0;
+			width: 100%;
+			height: 100%;
+			background: url('https://www.kobzarev.com/wp-content/themes/mihdan/images/header-pattern.png') 0 0/2px 2px;
+			z-index: 12;
+			pointer-events: none;
+		}
+		.post__reading-time {
+			position: absolute;
+			right: 20px;
+			bottom: 20px;
+			background-color: rgba(0, 0, 0, .7);
+			padding: 5px 8px;
+			border-radius: 3px;
+			z-index: 15;
+		}
+		.post__date {
+			position: absolute;
+			bottom: 20px;
+			left: 20px;
+			background-color: rgba(0, 0, 0, .7);
+			padding: 5px 8px;
+			border-radius: 3px;
+			line-height: 12px;
+			z-index: 15;
+		}
+		.post__amalker {
+			background-color: #d2d2d2;
+			height: 250px;
+			margin-bottom: 20px;
+		}
+        @media (max-width: 544px) {
+            /*.post__header {
+                display: none;
+            }*/
+        }
+	</style>
+
+	<div class="post__header">
+		<img width="640" height="410" src="https://www.kobzarev.com/wp-content/uploads/2011/08/Normalize.css.jpg" class="attachment-large size-large wp-post-image" alt="Обложка к записи Нормализация CSS при помощи Normalize.css" decoding="async" data-exclude="true" srcset="https://www.kobzarev.com/wp-content/uploads/2011/08/Normalize.css.jpg 640w, https://www.kobzarev.com/wp-content/uploads/2011/08/Normalize.css-600x384.jpg 600w, https://www.kobzarev.com/wp-content/uploads/2011/08/Normalize.css-300x192.jpg 300w, https://www.kobzarev.com/wp-content/uploads/2011/08/Normalize.css-94x60.jpg 94w" sizes="(max-width: 640px) 100vw, 640px" />		<div class="post__date" title="13.08.2011">
+			<div class="svg-icon svg-baseline">
+				<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="12" height="12" viewBox="0 0 16 16"><path fill="#ffffff" d="M10.3 11.7l-3.3-3.3v-4.4h2v3.6l2.7 2.7zM8 0c-4.4 0-8 3.6-8 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zM8 14c-3.3 0-6-2.7-6-6s2.7-6 6-6c3.3 0 6 2.7 6 6s-2.7 6-6 6z"/></svg>
+			</div>
+			10 лет			назад, <!--br>
+            <div class="svg-icon svg-baseline" title="Количество комментариев">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="#ffffff" d="M144 208c-17.7 0-32 14.3-32 32s14.3 32 32 32 32-14.3 32-32-14.3-32-32-32zm112 0c-17.7 0-32 14.3-32 32s14.3 32 32 32 32-14.3 32-32-14.3-32-32-32zm112 0c-17.7 0-32 14.3-32 32s14.3 32 32 32 32-14.3 32-32-14.3-32-32-32zM256 32C114.6 32 0 125.1 0 240c0 47.6 19.9 91.2 52.9 126.3C38 405.7 7 439.1 6.5 439.5c-6.6 7-8.4 17.2-4.6 26S14.4 480 24 480c61.5 0 110-25.7 139.1-46.3C192 442.8 223.2 448 256 448c141.4 0 256-93.1 256-208S397.4 32 256 32zm0 368c-26.7 0-53.1-4.1-78.4-12.1l-22.7-7.2-19.5 13.8c-14.3 10.1-33.9 21.4-57.5 29 7.3-12.1 14.4-25.7 19.9-40.2l10.6-28.1-20.6-21.8C69.7 314.1 48 282.2 48 240c0-88.2 93.3-160 208-160s208 71.8 208 160-93.3 160-208 160z"/></svg>
+            </div>
+            комментариев 2 <br-->
+						<div class="svg-icon svg-baseline">
+				<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="12" height="12" x="0px" y="0px" viewBox="0 0 1792 1792"><path fill="#ffffff" d="M588.277,896v692.375H280.555V896H588.277z M1049.86,630.363v958.012h-307.72V630.363H1049.86z M1511.446,203.625v1384.75h-307.725V203.625H1511.446z"/></svg>
+			</div>
+			просмотров <span class="pageviews-placeholder" data-key="2274">999</span>					</div>
+		<div class="post__reading-time">
+			Время для прочтения: 0 мин. 10 сек.		</div>
+	</div>
+
+    <div class="grid">
+        <div id="content">
+           <div class="post-2274 post type-post status-publish format-standard has-post-thumbnail category-makeup tag-css tag-normalize-css">
+
+	<div class="entry">
+        <nav class="breadcrumbs" role="navigation" aria-label="Breadcrumbs" itemprop="breadcrumb"><ul class="breadcrumbs__trail" itemscope itemtype="https://schema.org/BreadcrumbList"><li class="breadcrumbs__crumb breadcrumbs__crumb--home" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="https://www.kobzarev.com/" itemprop="item"><span itemprop="name">Главная</span></a><meta itemprop="position" content="1"/></li><li class="breadcrumbs__crumb breadcrumbs__crumb--term" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="https://www.kobzarev.com/category/makeup/" itemprop="item"><span itemprop="name">Верстка</span></a><meta itemprop="position" content="2"/></li><li class="breadcrumbs__crumb breadcrumbs__crumb--post" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><span itemscope itemid="https://www.kobzarev.com/makeup/normalization-of-css-with-normalize-css/" itemtype="https://schema.org/WebPage" itemprop="item"><span itemprop="name">Нормализация CSS при помощи Normalize.css</span></span><meta itemprop="position" content="3"/></li></ul></nav>		<div class="entrytitle_wrap">
+			<div class="entrytitle">
+
+				
+					<h1>
+													Нормализация CSS при помощи Normalize.css											</h1>
+			</div>
+		</div>
+
+		<div class="entrybody" id="entrybody">
+												<p><code>Normalize.css</code> представляет собой настраиваемый CSS файл, при помощи которого браузеры начинают отображать все элементы более последовательно и в соответствии с современными стандартами. Были проведены исследования для выявления различий между стилями браузеров по умолчанию для того, чтобы нормализовать только те стили, которые отличаются друг от друга.</p>
+										<h3><span id="vozmoznosti">Возможности</span></h3><div class="lwptoc lwptoc-baseItems lwptoc-light lwptoc-notInherit" data-smooth-scroll="0"><div class="lwptoc_i"><header class="lwptoc_items lwptoc_items-visible">
+    <nav aria-label="Навигация по странице" itemscope itemtype="https://schema.org/SiteNavigationElement">
+        <ul class="lwptoc_itemWrap"><li class="lwptoc_item">    <a itemprop="url" href="#vozmoznosti">
+                <span class="lwptoc_item_label">Возможности</span>
+    </a>
+    </li><li class="lwptoc_item">    <a itemprop="url" href="#kak-ispolzovat">
+                <span class="lwptoc_item_label">Как использовать</span>
+    </a>
+    </li><li class="lwptoc_item">    <a itemprop="url" href="#podderzka-brauzerov">
+                <span class="lwptoc_item_label">Поддержка браузеров</span>
+    </a>
+    </li><li class="lwptoc_item">    <a itemprop="url" href="#licenzia">
+                <span class="lwptoc_item_label">Лицензия</span>
+    </a>
+    </li><li class="lwptoc_item">    <a itemprop="url" href="#blagodarnosti">
+                <span class="lwptoc_item_label">Благодарности</span>
+    </a>
+    </li><li class="lwptoc_item">    <a itemprop="url" href="#ssylki">
+                <span class="lwptoc_item_label">Ссылки</span>
+    </a>
+    </li></ul>    </nav>
+</header>
+</div></div>
+<ul><li>Сохраняет полезные стили по умолчанию, в отличие от многих reset проектов (например, <a href="/makeup/eric-meyer-updated-his-reset-css.html">reset.css</a> от Эрика Мейера)</li>
+<li>Нормализует стили для широкого диапазона элементов</li>
+<li>Исправляет ошибки и общие несоответствия браузеров</li>
+<li>Повышает юзабильность</li>
+<li>Хорошо и подробно откомментирован</li>
+<li>Поддерживает мобильные устройства и HTML5</li>
+</ul><h3><span id="kak-ispolzovat">Как использовать</span></h3>
+<p>Внимательно изучите код и комментарии к нему в файле <!--noindex--><a target="_blank" rel="nofollow" href="https://www.kobzarev.com/external/aHR0cHM6Ly9naXRodWIuY29tL25lY29sYXMvbm9ybWFsaXplLmNzcy9ibG9iL21hc3Rlci9ub3JtYWxpemUuY3Nz">normalize.css</a><!--/noindex-->, чтобы понять для, чего необходимо каждое из правил. Пусть он не будет для вас «черным ящиком».</p>
+<p>Если форматирование файла по каким-то причинам вам не подходит, оформите его в соответствии с вашими правилами: расставьте скобки и отступы. Для уменьшения размера файла перед публикацией удалите ненужные комментарии и минимизируйте его при помощи <!--noindex--><a target="_blank" rel="nofollow" href="https://www.kobzarev.com/external/aHR0cDovL2RldmVsb3Blci55YWhvby5jb20veXVpL2NvbXByZXNzb3Iv">YUI Compressor</a><!--/noindex--> или <!--noindex--><a target="_blank" rel="nofollow" href="https://www.kobzarev.com/external/aHR0cDovL2Nzc3RpZHkuc291cmNlZm9yZ2UubmV0Lw==">CSSTidy</a><!--/noindex-->.</p>
+<p>Затем до инициализации основного файла стилей подключите normalize.css</p>
+   
+<pre class="brush: xml; title: ; notranslate" title="">
+&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;css/normalize.css&quot; /&gt;
+&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;css/styles.css&quot; /&gt;
+</pre>
+
+<p>Собственно, все ?</p>
+<h3><span id="podderzka-brauzerov">Поддержка браузеров</span></h3>
+<ul><li>Google Chrome</li>
+<li>Mozilla Firefox 3+</li>
+<li>Apple Safari 4+</li>
+<li>Opera 10+</li>
+<li>Internet Explorer 6+</li>
+</ul><h3><span id="licenzia">Лицензия</span></h3>
+<p>Public Domain (Общественное достояние) — совокупность творческих произведений, авторские права на которые истекли или никогда не существовали. Также «общественным достоянием» иногда называют изобретения, срок патента на которые истёк. Распространять и использовать общественное достояние могут все без ограничений.</p>
+<h3><span id="blagodarnosti">Благодарности</span></h3>
+<p>Normalize.css — это проект Николаса Галахера (<!--noindex--><a target="_blank" rel="nofollow" href="https://www.kobzarev.com/external/aHR0cDovL2dpdGh1Yi5jb20vbmVjb2xhcw==">Nicolas Gallagher</a><!--/noindex-->) и Джонатана Нила (<!--noindex--><a target="_blank" rel="nofollow" href="https://www.kobzarev.com/external/aHR0cDovL2dpdGh1Yi5jb20vam9uYXRoYW50bmVhbA==">Jonathan Neal</a><!--/noindex-->)</p>
+
+<h3><span id="ssylki">Ссылки</span></h3>
+<ul><li><!--noindex--><a target="_blank" rel="nofollow" href="https://www.kobzarev.com/external/aHR0cHM6Ly9naXRodWIuY29tL25lY29sYXMvbm9ybWFsaXplLmNzcw==">Проект на github</a><!--/noindex--></li>
+<li><!--noindex--><a target="_blank" rel="nofollow" href="https://www.kobzarev.com/external/aHR0cDovL25lY29sYXMuZ2l0aHViLmNvbS9ub3JtYWxpemUuY3NzL2RlbW8uaHRtbA==">Демонстрация работы</a><!--/noindex--></li>
+<li><!--noindex--><a target="_blank" rel="nofollow" href="https://www.kobzarev.com/external/aHR0cDovL3d3dy5pZWNzcy5jb20v">Стили по умолчанию для IE</a><!--/noindex--></li>
+<li><!--noindex--><a target="_blank" rel="nofollow" href="https://www.kobzarev.com/external/aHR0cDovL3RyYWMud2Via2l0Lm9yZy9icm93c2VyL3RydW5rL1NvdXJjZS9XZWJDb3JlL2Nzcy9odG1sLmNzcw==">Стили по умолчанию для WebKit</a><!--/noindex--></li>
+<li><!--noindex--><a target="_blank" rel="nofollow" href="https://www.kobzarev.com/external/aHR0cDovL214ci5tb3ppbGxhLm9yZy9tb3ppbGxhL3NvdXJjZS9sYXlvdXQvc3R5bGUvaHRtbC5jc3M=">Стили по умолчанию для Mozilla</a><!--/noindex-->
+</li><li><!--noindex--><a target="_blank" rel="nofollow" href="https://www.kobzarev.com/external/aHR0cDovL3J1Lndpa2lwZWRpYS5vcmcvd2lraS8lRDAlOUUlRDAlQjElRDElODklRDAlQjUlRDElODElRDElODIlRDAlQjIlRDAlQjUlRDAlQkQlRDAlQkQlRDAlQkUlRDAlQjVfJUQwJUI0JUQwJUJFJUQxJTgxJUQxJTgyJUQwJUJFJUQxJThGJUQwJUJEJUQwJUI4JUQwJUI1">Лицензия Public Domain</a><!--/noindex--></li>
+</ul><div class="likely-share">
+			<div class="likely hidden_">
+				<div class="vkontakte" tabindex="0" role="link" aria-label="Поделиться ВКонтакте">ВКонтакте</div>
+				<div class="twitter" tabindex="0" role="link" aria-label="Поделиться в Твиттере" data-via="mihdan_dev">Twitter</div>
+				<div class="facebook" tabindex="0" role="link" aria-label="Поделиться в Фейсбуке">Facebook</div>
+				<div class="odnoklassniki" data-counter="true" tabindex="0" role="link" aria-label="Поделиться в Одноклассниках">Одноклассники</div>
+				<!--div class="linkedin" tabindex="0" role="link" aria-label="Поделиться в Linkedin">Linkedin</div-->
+				<div class="telegram" tabindex="0" role="link" aria-label="Поделиться через Телеграм">Telegram</div>
+				<!--div class="whatsapp" tabindex="0" role="link" aria-label="Поделиться в WhatsApp">WhatsApp</div-->
+			</div>		
+			<button type="button" class="share share-button hidden" id="btn-share"><svg width="20" height="20" id="share-icon" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-share"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path><polyline points="16 6 12 2 8 6"></polyline><line x1="12" y1="2" x2="12" y2="15"></line></svg> Поделиться</button>
+		</div>
+		<p class="tags" itemprop="keywords"><a href="https://www.kobzarev.com/tag/css/" rel="tag">CSS</a> <a href="https://www.kobzarev.com/tag/normalize-css/" rel="tag">Normalize.css</a></p>		</div>
+	</div>
+	<div style="clear: left"></div>
+
+    <!--section class="author">
+        <div class="author__photo">
+	        <img alt='' src='https://secure.gravatar.com/avatar/baae25d14deaa717f2a6a9229c158bf5?s=80&#038;d=monsterid&#038;r=g' srcset='https://secure.gravatar.com/avatar/baae25d14deaa717f2a6a9229c158bf5?s=160&#038;d=monsterid&#038;r=g 2x' class='avatar avatar-80 photo' height='80' width='80' />        </div>
+        <div class="author__data">
+            <div class="author__name">Автор: Кобзарёв Михаил</div>
+            <div class="author__bio"><p>Суровый русский тимлид. Жил в Магадане, в офисе московских веб студий и в Тульской деревне. Виртуозно знает WordPress, PHP, ООП, Vue.js и вот это вот все.</p>
+<p>Делает крутые высоконагруженные сайты, поэтому уже почти захватил весь рынок WordPress разработки в России. Не дает никому делать сайты без спроса.</p>
+<p>Ведет блог о разработке, <a href="https://t.me/wordpress_digest">дайджест в телеграмме</a> и в <a href="https://vk.com/wordpress_digest">ВК</a>.</p>
+</div>
+        </div>
+    </section-->
+
+    
+			<div class="commentsblock">
+			<div class="h2">Комментарии</div>
+			    <div class="wpdiscuz_top_clearing"></div>
+    <div id='comments' class='comments-area'><div id='respond' style='width: 0;height: 0;clear: both;margin: 0;padding: 0;'></div>    <div id="wpdcom" class="wpdiscuz_unauth wpd-default wpd-layout-1 wpd-comments-open">
+                    <div class="wc_social_plugin_wrapper">
+                            </div>
+            <div class="wpd-form-wrap">
+                <div class="wpd-form-head">
+                                            <div class="wpd-sbs-toggle">
+                            <i class="far fa-envelope"></i> <span class="wpd-sbs-title">Подписаться</span> <i class="fas fa-caret-down"></i>
+                        </div>
+                                            <div class="wpd-auth">
+                        <div class='wpd-social-login'><span class='wpd-connect-with'>Войти через</span><span class='wpdsn wpdsn-fb wpdiscuz-login-button' wpd-tooltip='Facebook'><i class='fab fa-facebook'></i></span><span class='wpdsn wpdsn-gg wpdiscuz-login-button' wpd-tooltip='Google'><i class='fab fa-google'></i></span><span class='wpdsn wpdsn-wp wpdiscuz-login-button' wpd-tooltip='WordPress'><i class='fab fa-wordpress-simple'></i></span><span class='wpdsn wpdsn-yandex wpdiscuz-login-button' wpd-tooltip='Yandex'><i class='fab fa-yandex-international'></i></span><span class='wpdsn wpdsn-vk wpdiscuz-login-button' wpd-tooltip='VKontakte'><i class='fab fa-vk'></i></span><span class='wpdsn wpdsn-mailru wpdiscuz-login-button' wpd-tooltip='Mail.ru'><i class='fas fa-at'></i></span><div class='wpdiscuz-social-login-spinner'><i class='fas fa-spinner fa-pulse'></i></div><div class='wpd-clear'></div></div>                        <div class="wpd-login">
+                                                    </div>
+                    </div>
+                </div>
+                                                    <div class="wpdiscuz-subscribe-bar wpdiscuz-hidden">
+                                                    <form action="https://www.kobzarev.com/wp-admin/admin-ajax.php?action=wpdAddSubscription" method="post" id="wpdiscuz-subscribe-form">
+                                <div class="wpdiscuz-subscribe-form-intro">Уведомить о </div>
+                                <div class="wpdiscuz-subscribe-form-option" style="width:40%;">
+                                    <select class="wpdiscuz_select" name="wpdiscuzSubscriptionType" >
+                                                                                    <option value="post">новых последующих комментариях</option>
+                                                                                                                                <option value="all_comment" >новых ответах на мои комментарии</option>
+                                                                                </select>
+                                </div>
+                                                                    <div class="wpdiscuz-item wpdiscuz-subscribe-form-email">
+                                        <input  class="email" type="email" name="wpdiscuzSubscriptionEmail" required="required" value="" placeholder="Email"/>
+                                    </div>
+                                                                    <div class="wpdiscuz-subscribe-form-button">
+                                    <input id="wpdiscuz_subscription_button" class="wpd-prim-button" type="submit" value="&rsaquo;" name="wpdiscuz_subscription_button" />
+                                </div> 
+                                                                    <div class="wpdiscuz-subscribe-agreement">
+                                        <input id="show_subscription_agreement" type="checkbox" required="required" name="show_subscription_agreement" value="1">
+                                        <label for="show_subscription_agreement">Я разрешаю использовать свой адрес электронной почты и отправлять уведомления о новых комментариях и ответах (вы можете отказаться от подписки в любое время).</label>
+                                    </div>
+                                    <input type="hidden" id="wpdiscuz_subscribe_form_nonce" name="wpdiscuz_subscribe_form_nonce" value="91a51a9614" /><input type="hidden" name="_wp_http_referer" value="/makeup/normalization-of-css-with-normalize-css/" />                            </form>
+                                                </div>
+                            <div class="wpd-form wpd-form-wrapper wpd-main-form-wrapper" id='wpd-main-form-wrapper-0_0'>
+                                        <form class="wpd_comm_form wpd_main_comm_form" method="post" enctype="multipart/form-data">
+                    <div class="wpd-field-comment">
+                        <div class="wpdiscuz-item wc-field-textarea">
+                            <div class="wpdiscuz-textarea-wrap ">
+                                                                                                        <div class="wpd-avatar">
+                                        <img alt='guest' src='https://secure.gravatar.com/avatar/?s=56&#038;d=monsterid&#038;r=g' srcset='https://secure.gravatar.com/avatar/?s=112&#038;d=monsterid&#038;r=g 2x' class='avatar avatar-56 photo avatar-default' height='56' width='56' />                                    </div>
+                                                <div id="wpd-editor-wraper-0_0" style="display: none;">
+                <div id="wpd-editor-char-counter-0_0" class="wpd-editor-char-counter"></div>
+                <label style="display: none;" for="wc-textarea-0_0">Label</label>
+                <textarea id="wc-textarea-0_0" required name="wc_comment" class="wc_comment wpd-field"></textarea>
+                <div id="wpd-editor-0_0"></div>
+                        <div id="wpd-editor-toolbar-0_0">
+                            <button title="Жирный" class="ql-bold"  ></button>
+                                <button title="Курсив" class="ql-italic"  ></button>
+                                <button title="Подчеркивание" class="ql-underline"  ></button>
+                                <button title="Зачеркивание" class="ql-strike"  ></button>
+                                <button title="Упорядоченный список" class="ql-list" value='ordered' ></button>
+                                <button title="Неупорядоченный список" class="ql-list" value='bullet' ></button>
+                                <button title="Цитата" class="ql-blockquote"  ></button>
+                                <button title="Блок кода" class="ql-code-block"  ></button>
+                                <button title="Ссылка" class="ql-link"  ></button>
+                                <button title="Исходный код" class="ql-sourcecode"  data-wpde_button_name='sourcecode'>{}</button>
+                                <button title="Спойлер" class="ql-spoiler"  data-wpde_button_name='spoiler'>[+]</button>
+                            <div class="wpd-editor-buttons-right">
+                <span class='wmu-upload-wrap' wpd-tooltip='Прикрепить изображение к этому комментарию' wpd-tooltip-position='left'><label class='wmu-add'><i class='far fa-image'></i><input style='display:none;' class='wmu-add-files' type='file' name='wmu_files[]'  accept='image/*'/></label></span>            </div>
+        </div>
+                    </div>
+                                        </div>
+                        </div>
+                    </div>
+                    <div class="wpd-form-foot" >
+                        <div class="wpdiscuz-textarea-foot">
+                                                        <div class="wpdiscuz-button-actions"><div class='wmu-action-wrap'><div class='wmu-tabs wmu-images-tab wmu-hide'></div></div></div>
+                        </div>
+                                <div class="wpd-form-row">
+                    <div class="wpd-form-col-left">
+                        <div class="wpdiscuz-item wc_name-wrapper wpd-has-icon">
+                                    <div class="wpd-field-icon"><i class="fas fa-user"></i></div>
+                                    <input id="wc_name-0_0" value="" required='required' aria-required='true' class="wc_name wpd-field" type="text" name="wc_name" placeholder="Имя*" maxlength="20" pattern='.{3,20}' title="">
+                <label for="wc_name-0_0" class="wpdlb">Имя*</label>
+                            </div>
+                        <div class="wpdiscuz-item wc_email-wrapper wpd-has-icon">
+                                    <div class="wpd-field-icon"><i class="fas fa-at"></i></div>
+                                    <input id="wc_email-0_0" value=""  class="wc_email wpd-field" type="email" name="wc_email" placeholder="Email" />
+                <label for="wc_email-0_0" class="wpdlb">Email</label>
+                            </div>
+                    </div>
+                <div class="wpd-form-col-right">
+                    <div class="wc-field-submit">
+                                            
+                                            <label class="wpd_label" wpd-tooltip="Сообщать о всех новых ответах на мои комментарии">
+                            <input id="wc_notification_new_comment-0_0" class="wc_notification_new_comment-0_0 wpd_label__checkbox" value="comment" type="checkbox" name="wpdiscuz_notification_type" checked='checked'/>
+                            <span class="wpd_label__text">
+                                <span class="wpd_label__check">
+                                    <i class="fas fa-bell wpdicon wpdicon-on"></i>
+                                    <i class="fas fa-bell-slash wpdicon wpdicon-off"></i>
+                                </span>
+                            </span>
+                        </label>
+                                                                <input id="wpd-field-submit-0_0" class="wc_comm_submit wpd_not_clicked wpd-prim-button" type="submit" name="submit" value="Комментировать" />
+        </div>
+                </div>
+                    <div class="clearfix"></div>
+        </div>
+                            </div>
+                                        <input type="hidden" class="wpdiscuz_unique_id" value="0_0" name="wpdiscuz_unique_id">
+                </form>
+                        </div>
+                <div id="wpdiscuz_hidden_secondary_form" style="display: none;">
+                    <div class="wpd-form wpd-form-wrapper wpd-secondary-form-wrapper" id='wpd-secondary-form-wrapper-wpdiscuzuniqueid' style='display: none;'>
+                            <div class="wpd-secondary-forms-social-content"></div><div class="clearfix"></div>
+                                        <form class="wpd_comm_form wpd-secondary-form-wrapper" method="post" enctype="multipart/form-data">
+                    <div class="wpd-field-comment">
+                        <div class="wpdiscuz-item wc-field-textarea">
+                            <div class="wpdiscuz-textarea-wrap ">
+                                                                                                        <div class="wpd-avatar">
+                                        <img alt='guest' src='https://secure.gravatar.com/avatar/?s=56&#038;d=monsterid&#038;r=g' srcset='https://secure.gravatar.com/avatar/?s=112&#038;d=monsterid&#038;r=g 2x' class='avatar avatar-56 photo avatar-default' height='56' width='56' />                                    </div>
+                                                <div id="wpd-editor-wraper-wpdiscuzuniqueid" style="display: none;">
+                <div id="wpd-editor-char-counter-wpdiscuzuniqueid" class="wpd-editor-char-counter"></div>
+                <label style="display: none;" for="wc-textarea-wpdiscuzuniqueid">Label</label>
+                <textarea id="wc-textarea-wpdiscuzuniqueid" required name="wc_comment" class="wc_comment wpd-field"></textarea>
+                <div id="wpd-editor-wpdiscuzuniqueid"></div>
+                        <div id="wpd-editor-toolbar-wpdiscuzuniqueid">
+                            <button title="Жирный" class="ql-bold"  ></button>
+                                <button title="Курсив" class="ql-italic"  ></button>
+                                <button title="Подчеркивание" class="ql-underline"  ></button>
+                                <button title="Зачеркивание" class="ql-strike"  ></button>
+                                <button title="Упорядоченный список" class="ql-list" value='ordered' ></button>
+                                <button title="Неупорядоченный список" class="ql-list" value='bullet' ></button>
+                                <button title="Цитата" class="ql-blockquote"  ></button>
+                                <button title="Блок кода" class="ql-code-block"  ></button>
+                                <button title="Ссылка" class="ql-link"  ></button>
+                                <button title="Исходный код" class="ql-sourcecode"  data-wpde_button_name='sourcecode'>{}</button>
+                                <button title="Спойлер" class="ql-spoiler"  data-wpde_button_name='spoiler'>[+]</button>
+                            <div class="wpd-editor-buttons-right">
+                <span class='wmu-upload-wrap' wpd-tooltip='Прикрепить изображение к этому комментарию' wpd-tooltip-position='left'><label class='wmu-add'><i class='far fa-image'></i><input style='display:none;' class='wmu-add-files' type='file' name='wmu_files[]'  accept='image/*'/></label></span>            </div>
+        </div>
+                    </div>
+                                        </div>
+                        </div>
+                    </div>
+                    <div class="wpd-form-foot" >
+                        <div class="wpdiscuz-textarea-foot">
+                                                        <div class="wpdiscuz-button-actions"><div class='wmu-action-wrap'><div class='wmu-tabs wmu-images-tab wmu-hide'></div></div></div>
+                        </div>
+                                <div class="wpd-form-row">
+                    <div class="wpd-form-col-left">
+                        <div class="wpdiscuz-item wc_name-wrapper wpd-has-icon">
+                                    <div class="wpd-field-icon"><i class="fas fa-user"></i></div>
+                                    <input id="wc_name-wpdiscuzuniqueid" value="" required='required' aria-required='true' class="wc_name wpd-field" type="text" name="wc_name" placeholder="Имя*" maxlength="20" pattern='.{3,20}' title="">
+                <label for="wc_name-wpdiscuzuniqueid" class="wpdlb">Имя*</label>
+                            </div>
+                        <div class="wpdiscuz-item wc_email-wrapper wpd-has-icon">
+                                    <div class="wpd-field-icon"><i class="fas fa-at"></i></div>
+                                    <input id="wc_email-wpdiscuzuniqueid" value=""  class="wc_email wpd-field" type="email" name="wc_email" placeholder="Email" />
+                <label for="wc_email-wpdiscuzuniqueid" class="wpdlb">Email</label>
+                            </div>
+                    </div>
+                <div class="wpd-form-col-right">
+                    <div class="wc-field-submit">
+                                            
+                                            <label class="wpd_label" wpd-tooltip="Сообщать о всех новых ответах на мои комментарии">
+                            <input id="wc_notification_new_comment-wpdiscuzuniqueid" class="wc_notification_new_comment-wpdiscuzuniqueid wpd_label__checkbox" value="comment" type="checkbox" name="wpdiscuz_notification_type" checked='checked'/>
+                            <span class="wpd_label__text">
+                                <span class="wpd_label__check">
+                                    <i class="fas fa-bell wpdicon wpdicon-on"></i>
+                                    <i class="fas fa-bell-slash wpdicon wpdicon-off"></i>
+                                </span>
+                            </span>
+                        </label>
+                                                                <input id="wpd-field-submit-wpdiscuzuniqueid" class="wc_comm_submit wpd_not_clicked wpd-prim-button" type="submit" name="submit" value="Комментировать" />
+        </div>
+                </div>
+                    <div class="clearfix"></div>
+        </div>
+                            </div>
+                                        <input type="hidden" class="wpdiscuz_unique_id" value="wpdiscuzuniqueid" name="wpdiscuz_unique_id">
+                </form>
+                        </div>
+                </div>
+                    </div>
+                        <div id="wpd-threads" class="wpd-thread-wrapper">
+                <div class="wpd-thread-head">
+                    <div class="wpd-thread-info " data-comments-count="2">
+                        <span class='wpdtc' title='2'>2</span> комментариев                    </div>
+                                        <div class="wpd-space"></div>
+                    <div class="wpd-thread-filter">
+                                                    <div class="wpd-filter wpdf-sorting">
+                                                                        <span class="wpdiscuz-sort-button wpdiscuz-date-sort-asc wpdiscuz-sort-button-active" data-sorting="oldest">Старые</span>
+                                                                        <i class="fas fa-sort-down"></i>
+                                <div class="wpdiscuz-sort-buttons">
+                                                                            <span class="wpdiscuz-sort-button wpdiscuz-date-sort-desc" data-sorting="newest">Новые</span>
+                                                                                <span class="wpdiscuz-sort-button wpdiscuz-vote-sort-up" data-sorting="by_vote">Популярные</span>
+                                                                        </div>
+                            </div>
+                                                </div>
+                </div>
+                <div class="wpd-comment-info-bar">
+                    <div class="wpd-current-view"><i class="fas fa-quote-left"></i> Межтекстовые Отзывы </div>
+                    <div class="wpd-filter-view-all">Посмотреть все комментарии</div>
+                </div>
+                                <div class="wpd-thread-list">
+                    <div id='wpd-comm-11871_0' class='wpd-comment wpd_comment_level-1'><div class="wpd-comment-wrap wpd-blog-guest">
+    <div class="wpd-comment-left ">
+    <div class="wpd-avatar ">
+    <img alt='Sergunik' src='https://secure.gravatar.com/avatar/6b0a518df2351556fb8dbaa3119035cb?s=64&#038;d=monsterid&#038;r=g' srcset='https://secure.gravatar.com/avatar/6b0a518df2351556fb8dbaa3119035cb?s=128&#038;d=monsterid&#038;r=g 2x' class='avatar avatar-64 photo' height='64' width='64' />
+</div>
+    
+    
+</div>
+    <div id="comment-11871" class="wpd-comment-right">
+    <div class="wpd-comment-header">
+    <div class="wpd-comment-author ">
+    <a href='http://www.sergunik.name' rel='noreferrer ugc nofollow' target='_blank'>Sergunik</a>
+</div>
+    <div class="wpd-comment-date" title="13.09.2011 18:20">
+    <i class='far fa-clock' aria-hidden='true'></i>
+    10 лет назад
+</div>
+    
+    <div class="wpd-comment-share wpd-hidden wpd-tooltip wpd-top">
+    <i class='fas fa-share-alt' aria-hidden='true'></i>
+    <div class="wpd-tooltip-content">
+        <a class='wc_vk' rel='noreferrer' target='_blank' href='https://vk.com/share.php?url=https://www.kobzarev.com/makeup/normalization-of-css-with-normalize-css/' title='Поделиться через Вконтакте'><i class='fab fa-vk wpf-cta' aria-hidden='true'></i></a><a class='wc_ok' rel='noreferrer' target='_blank' href='https://connect.ok.ru/offer?url=https://www.kobzarev.com/makeup/normalization-of-css-with-normalize-css/' title='Поделиться через Одноклассники'><i class='fab fa-odnoklassniki wpf-cta' aria-hidden='true'></i></a>
+    </div>
+</div>
+    <div class="wpd-space"></div>
+    <div class="wpd-comment-link wpd-hidden">
+    <span wpd-tooltip='Ссылка на комментарий' wpd-tooltip-position='left'><i class='fas fa-link' aria-hidden='true' data-wpd-clipboard='https://www.kobzarev.com/makeup/normalization-of-css-with-normalize-css/#comment-11871'></i></span>
+</div>
+</div>
+    
+    <div class="wpd-comment-text">
+    <p>уже когда-то писал об этом <!--noindex--><a target="_blank" rel="nofollow" href="https://www.kobzarev.com/external/aHR0cDovL3d3dy5zZXJndW5pay5uYW1lLz9wPTE1OA=="  rel="nofollow ugc">http://www.sergunik.name/?p=158</a><!--/noindex--></p>
+
+</div>
+    <div class="wpd-comment-footer">
+    <div class="wpd-vote">
+    <div class="wpd-vote-up wpd_not_clicked">
+        <svg xmlns='https://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='none' d='M0 0h24v24H0V0z'/><path d='M1 21h4V9H1v12zm22-11c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.59 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-2z'/></svg>
+    </div>
+    <div class='wpd-vote-result' title='0'>0</div>
+    <div class="wpd-vote-down wpd_not_clicked wpd-dislike-hidden">
+        <svg xmlns='https://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='none' d='M0 0h24v24H0z'/><path d='M15 3H6c-.83 0-1.54.5-1.84 1.22l-3.02 7.05c-.09.23-.14.47-.14.73v2c0 1.1.9 2 2 2h6.31l-.95 4.57-.03.32c0 .41.17.79.44 1.06L9.83 23l6.59-6.59c.36-.36.58-.86.58-1.41V5c0-1.1-.9-2-2-2zm4 0v12h4V3h-4z'/></svg>
+    </div>
+</div>
+    <div class="wpd-reply-button">
+    <svg xmlns='https://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M10 9V5l-7 7 7 7v-4.1c5 0 8.5 1.6 11 5.1-1-5-4-10-11-11z'/><path d='M0 0h24v24H0z' fill='none'/></svg>
+    <span>Ответить</span>
+</div>
+    <div class="wpd-space"></div>
+    
+    <div class="wpd-toggle wpd-hidden wpd_not_clicked" wpd-tooltip="Спрятать ответы" wpd-tooltip-position='left'>
+    <i class='fas fa-chevron-up'></i>
+</div>
+</div>
+</div>
+</div><div id='wpdiscuz_form_anchor-11871_0'></div><div id='wpd-comm-11873_11871' class='wpd-comment wpd-reply wpd_comment_level-2'><div class="wpd-comment-wrap wpd-blog-user wpd-blog-post_author">
+    <div class="wpd-comment-left ">
+    <div class="wpd-avatar ">
+    <a href='https://www.kobzarev.com/author/mihdan/' target='_blank' rel='noreferrer ugc'><img alt='Кобзарёв Михаил' src='https://secure.gravatar.com/avatar/baae25d14deaa717f2a6a9229c158bf5?s=64&#038;d=monsterid&#038;r=g' srcset='https://secure.gravatar.com/avatar/baae25d14deaa717f2a6a9229c158bf5?s=128&#038;d=monsterid&#038;r=g 2x' class='avatar avatar-64 photo' height='64' width='64' /></a>
+</div>
+    <div class="wpd-comment-label" wpd-tooltip="Автор" wpd-tooltip-position="right">
+    <span>Автор</span>
+</div>
+    
+</div>
+    <div id="comment-11873" class="wpd-comment-right">
+    <div class="wpd-comment-header">
+    <div class="wpd-comment-author ">
+    <a href='https://www.kobzarev.com/' rel='noreferrer ugc' target='_blank'>Кобзарёв Михаил</a>
+</div>
+    <div class="wpd-comment-date" title="13.09.2011 18:24">
+    <i class='far fa-clock' aria-hidden='true'></i>
+    10 лет назад
+</div>
+    
+    <div class="wpd-comment-share wpd-hidden wpd-tooltip wpd-top">
+    <i class='fas fa-share-alt' aria-hidden='true'></i>
+    <div class="wpd-tooltip-content">
+        <a class='wc_vk' rel='noreferrer' target='_blank' href='https://vk.com/share.php?url=https://www.kobzarev.com/makeup/normalization-of-css-with-normalize-css/' title='Поделиться через Вконтакте'><i class='fab fa-vk wpf-cta' aria-hidden='true'></i></a><a class='wc_ok' rel='noreferrer' target='_blank' href='https://connect.ok.ru/offer?url=https://www.kobzarev.com/makeup/normalization-of-css-with-normalize-css/' title='Поделиться через Одноклассники'><i class='fab fa-odnoklassniki wpf-cta' aria-hidden='true'></i></a>
+    </div>
+</div>
+    <div class="wpd-space"></div>
+    <div class="wpd-comment-link wpd-hidden">
+    <span wpd-tooltip='Ссылка на комментарий' wpd-tooltip-position='left'><i class='fas fa-link' aria-hidden='true' data-wpd-clipboard='https://www.kobzarev.com/makeup/normalization-of-css-with-normalize-css/#comment-11873'></i></span>
+</div>
+</div>
+    <div class="wpd-reply-to">
+    <i class='far fa-comments'></i>
+    Ответить на&nbsp;
+    <a href="#comment-11871">
+        Sergunik
+    </a>
+</div>
+    <div class="wpd-comment-text">
+    <p>Не увидел ничего про Normalize.css в вашем посте 🙂</p>
+
+</div>
+    <div class="wpd-comment-footer">
+    <div class="wpd-vote">
+    <div class="wpd-vote-up wpd_not_clicked">
+        <svg xmlns='https://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='none' d='M0 0h24v24H0V0z'/><path d='M1 21h4V9H1v12zm22-11c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.59 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-2z'/></svg>
+    </div>
+    <div class='wpd-vote-result wpd-up' title='1'>1</div>
+    <div class="wpd-vote-down wpd_not_clicked wpd-dislike-hidden">
+        <svg xmlns='https://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='none' d='M0 0h24v24H0z'/><path d='M15 3H6c-.83 0-1.54.5-1.84 1.22l-3.02 7.05c-.09.23-.14.47-.14.73v2c0 1.1.9 2 2 2h6.31l-.95 4.57-.03.32c0 .41.17.79.44 1.06L9.83 23l6.59-6.59c.36-.36.58-.86.58-1.41V5c0-1.1-.9-2-2-2zm4 0v12h4V3h-4z'/></svg>
+    </div>
+</div>
+    <div class="wpd-reply-button">
+    <svg xmlns='https://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M10 9V5l-7 7 7 7v-4.1c5 0 8.5 1.6 11 5.1-1-5-4-10-11-11z'/><path d='M0 0h24v24H0z' fill='none'/></svg>
+    <span>Ответить</span>
+</div>
+    <div class="wpd-space"></div>
+    
+    
+</div>
+</div>
+</div><div id='wpdiscuz_form_anchor-11873_11871'></div></div></div><!-- // From wpDiscuz's Caches // -->                    <div class="wpdiscuz-comment-pagination">
+                                            </div>
+                </div>
+            </div>
+                </div>
+        </div>
+    <div id="wpdiscuz-loading-bar" class="wpdiscuz-loading-bar-unauth"></div>
+    <div id="wpdiscuz-comment-message" class="wpdiscuz-comment-message-unauth"></div>
+    			<div style="clear: left"></div>
+		</div>
+	
+    
+	        <section class="yarpp">
+            <div class='yarpp yarpp-related yarpp-related-website yarpp-template-yarpp-template-mihdan-thumbnail'>
+	<div class="clearfix"></div>
+	<div class="similar-posts">
+		<h2 class="h2">Смотрите также</h2>
+
+		<ol>
+							<li class="similar-posts__item">
+					<a class="similar-posts__anchor" href="https://www.kobzarev.com/makeup/prefix-or-posthack/" rel="bookmark" title="Префикс или постхак">
+                        <span class="similar-posts__image">
+                            <img width="300" height="300" src="https://www.kobzarev.com/wp-content/uploads/2011/02/blogmars_css-300x300.jpg" class="attachment-thumbnail size-thumbnail wp-post-image" alt="" srcset="https://www.kobzarev.com/wp-content/uploads/2011/02/blogmars_css.jpg 300w, https://www.kobzarev.com/wp-content/uploads/2011/02/blogmars_css-60x60.jpg 60w" sizes="(max-width: 300px) 100vw, 300px" decoding="async" loading="lazy" />                        </span>
+						<span class="similar-posts__title">Префикс или постхак</span>
+					</a>
+				</li>
+							<li class="similar-posts__item">
+					<a class="similar-posts__anchor" href="https://www.kobzarev.com/programming/xmlhttprequest-description-application-frequent-problems/" rel="bookmark" title="XML HTTPRequest: описание, применение, частые проблемы">
+                        <span class="similar-posts__image">
+                            <img width="300" height="169" src="https://www.kobzarev.com/wp-content/uploads/2010/05/flash-300x169.jpg" class="attachment-thumbnail size-thumbnail wp-post-image" alt="" srcset="https://www.kobzarev.com/wp-content/uploads/2010/05/flash-300x169.jpg 300w, https://www.kobzarev.com/wp-content/uploads/2010/05/flash-600x338.jpg 600w, https://www.kobzarev.com/wp-content/uploads/2010/05/flash-768x432.jpg 768w, https://www.kobzarev.com/wp-content/uploads/2010/05/flash-1536x864.jpg 1536w, https://www.kobzarev.com/wp-content/uploads/2010/05/flash-1000x562.jpg 1000w, https://www.kobzarev.com/wp-content/uploads/2010/05/flash-107x60.jpg 107w, https://www.kobzarev.com/wp-content/uploads/2010/05/flash.jpg 1600w" sizes="(max-width: 300px) 100vw, 300px" decoding="async" loading="lazy" />                        </span>
+						<span class="similar-posts__title">XML HTTPRequest: описание, применение, частые проблемы</span>
+					</a>
+				</li>
+							<li class="similar-posts__item">
+					<a class="similar-posts__anchor" href="https://www.kobzarev.com/makeup/godlike-css/" rel="bookmark" title="godlike.css">
+                        <span class="similar-posts__image">
+                            <img width="300" height="169" src="https://www.kobzarev.com/wp-content/uploads/2017/01/facepalm-300x169.jpg" class="attachment-thumbnail size-thumbnail wp-post-image" alt="" srcset="https://www.kobzarev.com/wp-content/uploads/2017/01/facepalm-300x169.jpg 300w, https://www.kobzarev.com/wp-content/uploads/2017/01/facepalm-600x338.jpg 600w, https://www.kobzarev.com/wp-content/uploads/2017/01/facepalm-768x432.jpg 768w, https://www.kobzarev.com/wp-content/uploads/2017/01/facepalm-1536x864.jpg 1536w, https://www.kobzarev.com/wp-content/uploads/2017/01/facepalm-1000x562.jpg 1000w, https://www.kobzarev.com/wp-content/uploads/2017/01/facepalm-107x60.jpg 107w, https://www.kobzarev.com/wp-content/uploads/2017/01/facepalm.jpg 1600w" sizes="(max-width: 300px) 100vw, 300px" decoding="async" loading="lazy" />                        </span>
+						<span class="similar-posts__title">godlike.css</span>
+					</a>
+				</li>
+							<li class="similar-posts__item">
+					<a class="similar-posts__anchor" href="https://www.kobzarev.com/browser/opera-speed-dial-enhancements/" rel="bookmark" title="Выделите свой сайт в Экспресс-панели Opera">
+                        <span class="similar-posts__image">
+                            <img width="300" height="263" src="https://www.kobzarev.com/wp-content/uploads/2010/07/opera-300x263.jpg" class="attachment-thumbnail size-thumbnail wp-post-image" alt="" srcset="https://www.kobzarev.com/wp-content/uploads/2010/07/opera-300x263.jpg 300w, https://www.kobzarev.com/wp-content/uploads/2010/07/opera-69x60.jpg 69w, https://www.kobzarev.com/wp-content/uploads/2010/07/opera.jpg 400w" sizes="(max-width: 300px) 100vw, 300px" decoding="async" loading="lazy" />                        </span>
+						<span class="similar-posts__title">Выделите свой сайт в Экспресс-панели Opera</span>
+					</a>
+				</li>
+							<li class="similar-posts__item">
+					<a class="similar-posts__anchor" href="https://www.kobzarev.com/makeup/new-clearfix-hack/" rel="bookmark" title="Новый способ очистки «плавающих» блоков">
+                        <span class="similar-posts__image">
+                            <img width="300" height="169" src="https://www.kobzarev.com/wp-content/uploads/2011/06/clearfix-300x169.jpg" class="attachment-thumbnail size-thumbnail wp-post-image" alt="" srcset="https://www.kobzarev.com/wp-content/uploads/2011/06/clearfix-300x169.jpg 300w, https://www.kobzarev.com/wp-content/uploads/2011/06/clearfix-600x338.jpg 600w, https://www.kobzarev.com/wp-content/uploads/2011/06/clearfix-768x432.jpg 768w, https://www.kobzarev.com/wp-content/uploads/2011/06/clearfix-1536x864.jpg 1536w, https://www.kobzarev.com/wp-content/uploads/2011/06/clearfix-1000x562.jpg 1000w, https://www.kobzarev.com/wp-content/uploads/2011/06/clearfix-107x60.jpg 107w, https://www.kobzarev.com/wp-content/uploads/2011/06/clearfix.jpg 1600w" sizes="(max-width: 300px) 100vw, 300px" decoding="async" loading="lazy" />                        </span>
+						<span class="similar-posts__title">Новый способ очистки «плавающих» блоков</span>
+					</a>
+				</li>
+							<li class="similar-posts__item">
+					<a class="similar-posts__anchor" href="https://www.kobzarev.com/projects/ajax-edit-comments/" rel="bookmark" title="Ajax Edit Comments">
+                        <span class="similar-posts__image">
+                            <img width="300" height="169" src="https://www.kobzarev.com/wp-content/uploads/2020/01/ajax-edit-comments-300x169.jpg" class="attachment-thumbnail size-thumbnail wp-post-image" alt="" srcset="https://www.kobzarev.com/wp-content/uploads/2020/01/ajax-edit-comments-300x169.jpg 300w, https://www.kobzarev.com/wp-content/uploads/2020/01/ajax-edit-comments-600x338.jpg 600w, https://www.kobzarev.com/wp-content/uploads/2020/01/ajax-edit-comments-768x432.jpg 768w, https://www.kobzarev.com/wp-content/uploads/2020/01/ajax-edit-comments-1536x864.jpg 1536w, https://www.kobzarev.com/wp-content/uploads/2020/01/ajax-edit-comments-1000x562.jpg 1000w, https://www.kobzarev.com/wp-content/uploads/2020/01/ajax-edit-comments-107x60.jpg 107w, https://www.kobzarev.com/wp-content/uploads/2020/01/ajax-edit-comments.jpg 1544w" sizes="(max-width: 300px) 100vw, 300px" decoding="async" loading="lazy" />                        </span>
+						<span class="similar-posts__title">Ajax Edit Comments</span>
+					</a>
+				</li>
+							<li class="similar-posts__item">
+					<a class="similar-posts__anchor" href="https://www.kobzarev.com/browser/undress-your-trello-links/" rel="bookmark" title="Как &#171;раздеть&#187; ссылки в Trello">
+                        <span class="similar-posts__image">
+                            <img width="300" height="153" src="https://www.kobzarev.com/wp-content/uploads/2017/07/undress-trello-300x153.jpg" class="attachment-thumbnail size-thumbnail wp-post-image" alt="" srcset="https://www.kobzarev.com/wp-content/uploads/2017/07/undress-trello-300x153.jpg 300w, https://www.kobzarev.com/wp-content/uploads/2017/07/undress-trello-600x306.jpg 600w, https://www.kobzarev.com/wp-content/uploads/2017/07/undress-trello-118x60.jpg 118w, https://www.kobzarev.com/wp-content/uploads/2017/07/undress-trello.jpg 663w" sizes="(max-width: 300px) 100vw, 300px" decoding="async" loading="lazy" />                        </span>
+						<span class="similar-posts__title">Как &#171;раздеть&#187; ссылки в Trello</span>
+					</a>
+				</li>
+							<li class="similar-posts__item">
+					<a class="similar-posts__anchor" href="https://www.kobzarev.com/makeup/ie10-css-hacks/" rel="bookmark" title="CSS: хаки для IE10 (обновлено)">
+                        <span class="similar-posts__image">
+                            <img width="300" height="162" src="https://www.kobzarev.com/wp-content/uploads/2012/11/ie10-300x162.jpg" class="attachment-thumbnail size-thumbnail wp-post-image" alt="" srcset="https://www.kobzarev.com/wp-content/uploads/2012/11/ie10-300x162.jpg 300w, https://www.kobzarev.com/wp-content/uploads/2012/11/ie10-600x324.jpg 600w, https://www.kobzarev.com/wp-content/uploads/2012/11/ie10-111x60.jpg 111w, https://www.kobzarev.com/wp-content/uploads/2012/11/ie10.jpg 650w" sizes="(max-width: 300px) 100vw, 300px" decoding="async" loading="lazy" />                        </span>
+						<span class="similar-posts__title">CSS: хаки для IE10 (обновлено)</span>
+					</a>
+				</li>
+							<li class="similar-posts__item">
+					<a class="similar-posts__anchor" href="https://www.kobzarev.com/wordpress/chudo-mockery-dlya-zaglushek-v-unit-testah/" rel="bookmark" title="Чудо Mockery для заглушек в unit тестах">
+                        <span class="similar-posts__image">
+                            <img width="300" height="169" src="https://www.kobzarev.com/wp-content/uploads/2020/12/mockery-300x169.jpg" class="attachment-thumbnail size-thumbnail wp-post-image" alt="" srcset="https://www.kobzarev.com/wp-content/uploads/2020/12/mockery-300x169.jpg 300w, https://www.kobzarev.com/wp-content/uploads/2020/12/mockery-600x338.jpg 600w, https://www.kobzarev.com/wp-content/uploads/2020/12/mockery-768x432.jpg 768w, https://www.kobzarev.com/wp-content/uploads/2020/12/mockery-1000x562.jpg 1000w, https://www.kobzarev.com/wp-content/uploads/2020/12/mockery.jpg 1365w" sizes="(max-width: 300px) 100vw, 300px" decoding="async" loading="lazy" />                        </span>
+						<span class="similar-posts__title">Чудо Mockery для заглушек в unit тестах</span>
+					</a>
+				</li>
+							<li class="similar-posts__item">
+					<a class="similar-posts__anchor" href="https://www.kobzarev.com/makeup/getting-rid-of-css-hacks-in-internet-explorer/" rel="bookmark" title="Избавляемся от CSS хаков в Internet Explorer">
+                        <span class="similar-posts__image">
+                            <img width="300" height="300" src="https://www.kobzarev.com/wp-content/uploads/2011/02/blogmars_css-300x300.jpg" class="attachment-thumbnail size-thumbnail wp-post-image" alt="" srcset="https://www.kobzarev.com/wp-content/uploads/2011/02/blogmars_css.jpg 300w, https://www.kobzarev.com/wp-content/uploads/2011/02/blogmars_css-60x60.jpg 60w" sizes="(max-width: 300px) 100vw, 300px" decoding="async" loading="lazy" />                        </span>
+						<span class="similar-posts__title">Избавляемся от CSS хаков в Internet Explorer</span>
+					</a>
+				</li>
+							<li class="similar-posts__item">
+					<a class="similar-posts__anchor" href="https://www.kobzarev.com/makeup/horizontal-sub-nav-with-css-jquery/" rel="bookmark" title="Горизонтальное Dropline меню на CSS и jQuery">
+                        <span class="similar-posts__image">
+                            <img width="600" height="338" src="https://www.kobzarev.com/wp-content/uploads/2020/11/php-portal-placeholder-600x338.jpg" class="attachment-medium size-medium" alt="" srcset="https://www.kobzarev.com/wp-content/uploads/2020/11/php-portal-placeholder-600x338.jpg 600w, https://www.kobzarev.com/wp-content/uploads/2020/11/php-portal-placeholder-300x169.jpg 300w, https://www.kobzarev.com/wp-content/uploads/2020/11/php-portal-placeholder-768x432.jpg 768w, https://www.kobzarev.com/wp-content/uploads/2020/11/php-portal-placeholder-1536x864.jpg 1536w, https://www.kobzarev.com/wp-content/uploads/2020/11/php-portal-placeholder-1000x562.jpg 1000w, https://www.kobzarev.com/wp-content/uploads/2020/11/php-portal-placeholder.jpg 1600w" sizes="(max-width: 600px) 100vw, 600px" decoding="async" loading="lazy" />                        </span>
+						<span class="similar-posts__title">Горизонтальное Dropline меню на CSS и jQuery</span>
+					</a>
+				</li>
+							<li class="similar-posts__item">
+					<a class="similar-posts__anchor" href="https://www.kobzarev.com/makeup/graaf/" rel="bookmark" title="Graaf &#8212; направляющие для CSS сеток">
+                        <span class="similar-posts__image">
+                            <img width="300" height="158" src="https://www.kobzarev.com/wp-content/uploads/2017/02/graaf-300x158.jpg" class="attachment-thumbnail size-thumbnail wp-post-image" alt="" srcset="https://www.kobzarev.com/wp-content/uploads/2017/02/graaf-300x158.jpg 300w, https://www.kobzarev.com/wp-content/uploads/2017/02/graaf-600x315.jpg 600w, https://www.kobzarev.com/wp-content/uploads/2017/02/graaf-768x403.jpg 768w, https://www.kobzarev.com/wp-content/uploads/2017/02/graaf-1536x806.jpg 1536w, https://www.kobzarev.com/wp-content/uploads/2017/02/graaf-1000x525.jpg 1000w, https://www.kobzarev.com/wp-content/uploads/2017/02/graaf-114x60.jpg 114w, https://www.kobzarev.com/wp-content/uploads/2017/02/graaf.jpg 1600w" sizes="(max-width: 300px) 100vw, 300px" decoding="async" loading="lazy" />                        </span>
+						<span class="similar-posts__title">Graaf &#8212; направляющие для CSS сеток</span>
+					</a>
+				</li>
+					</ol>
+	</div>
+	<style>
+		.similar-posts {
+			position: relative;
+		}
+		.similar-posts ol {
+			/*margin: 0 -9px 0 -9px;*/
+			padding: 0;
+			list-style: none;
+			position: relative;
+			display: grid;
+			gap: 20px;
+			grid-gap: 20px;
+			grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+			grid-auto-rows: 220px;
+		}
+		.similar-posts ol li {
+			/*float: left;*/
+			display: block;
+			/*width: 194px;*/
+			/*height: 170px;*/
+			/*margin: 10px 9px;*/
+		}
+		.similar-posts ol li a {
+			position: relative;
+			display: block;
+			width: 100%;
+			height: 100%;
+			background-color: #fff;
+			color: #333;
+			overflow: hidden;
+            text-decoration: none;
+		}
+        .similar-posts__image {
+            display: block;
+            margin-bottom: 10px;
+            height: 115px;
+            background-color: #ddd;
+            overflow: hidden;
+        }
+        .similar-posts__image img {
+            object-fit: cover;
+            object-position: center top;
+            height: 115px;
+            width: 100%;
+            max-width: none !important;
+        }
+		.similar-posts ol li a:hover {
+			color: #CA2E35;
+		}
+		.similar-posts__title {
+			font-weight: normal;
+			font-size: 20px;
+			line-height: 1.2em;
+			display: block;
+			margin-bottom: 15px;
+		}
+		.similar-posts__excerpt {
+			font-weight: normal;
+			font-size: 16px;
+			line-height: 1.4em;
+			display: block;
+		}
+		@media (max-width : 544px) {
+			.similar-posts ol {
+				grid-auto-rows: inherit;
+			}
+            .similar-posts__image {
+                height: 190px;
+            }
+            .similar-posts__image img {
+                height: 190px;
+            }
+		}
+	</style>
+</div>
+        </section>
+	
+</div>        </div>
+        <div id="sidebar" class="sidebar">
+
+		    <div class="sidebar__item">
+        <h4>Категории</h4>
+        <ul class="categories">
+				<li class="cat-item cat-item-3"><a href="https://www.kobzarev.com/category/programming/">Программирование</a> (267)
+</li>
+	<li class="cat-item cat-item-264"><a href="https://www.kobzarev.com/category/wordpress/">WordPress</a> (121)
+</li>
+	<li class="cat-item cat-item-31"><a href="https://www.kobzarev.com/category/makeup/">Верстка</a> (108)
+</li>
+	<li class="cat-item cat-item-25"><a href="https://www.kobzarev.com/category/browser/">Браузеры</a> (85)
+</li>
+	<li class="cat-item cat-item-57"><a href="https://www.kobzarev.com/category/linux/">Linux</a> (75)
+</li>
+	<li class="cat-item cat-item-33"><a href="https://www.kobzarev.com/category/news/">Новости</a> (60)
+</li>
+	<li class="cat-item cat-item-24"><a href="https://www.kobzarev.com/category/other/">Разное</a> (55)
+</li>
+	<li class="cat-item cat-item-22"><a href="https://www.kobzarev.com/category/soft/">Soft</a> (53)
+</li>
+	<li class="cat-item cat-item-7"><a href="https://www.kobzarev.com/category/jquery/">jQuery</a> (29)
+</li>
+	<li class="cat-item cat-item-342"><a href="https://www.kobzarev.com/category/projects/">Проекты</a> (15)
+</li>
+	<li class="cat-item cat-item-19"><a href="https://www.kobzarev.com/category/windows/">Windows</a> (9)
+</li>
+	<li class="cat-item cat-item-394"><a href="https://www.kobzarev.com/category/dev-tips/">Dev Tips</a> (9)
+</li>
+	<li class="cat-item cat-item-36"><a href="https://www.kobzarev.com/category/virus/">Вирус</a> (6)
+</li>
+	<li class="cat-item cat-item-478"><a href="https://www.kobzarev.com/category/plugins/">Плагины WordPress</a> (5)
+</li>
+	<li class="cat-item cat-item-655"><a href="https://www.kobzarev.com/category/phpstorm-tips/">PhpStorm Tips</a> (4)
+</li>
+	<li class="cat-item cat-item-667"><a href="https://www.kobzarev.com/category/technical-seo/">Техническое SEO</a> (2)
+</li>
+            <li class="cat-item">
+                <a href="https://www.kobzarev.com/favorites/">Лучшие плагины 2021</a> (300)
+            </li>
+        </ul>
+    </div>
+
+    <aside class="sidebar__item sidebar__item_ads sidebar__item_ads2 sticky" data-sticky-top="50">
+        <div id="recommendations__container" itemscope itemtype="https://schema.org/WPAdBlock" class="__sticky">
+
+           <div class="amalker-loader">
+                <!-- kobzarev.com: Sticky в правой колонке -->
+                <ins class="adsbygoogle"
+                     style="display:block;width:300px;height:600px"
+                     data-ad-client="ca-pub-5918572536943456"
+                     data-ad-slot="7826303235"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+           </div>
+        </div>
+    </aside>
+
+    <!--script src="//widget.loading.express/ps.js" async></script-->
+</div>
+    </div>
+
+<div class="clearfix"></div>
+
+</div><!--#wrap-->
+
+<div id="footer">
+	<div id="footer_wrap">
+		<div class="footer__column footer__column_left">
+	        <div id="credits">&copy; PHP Portal - Дайджест свежих материалов из мира веб-разработки, 2022 <br>Воровство публикаций сайта без указания обратной ссылки анально наказуемо.</div>
+			<div id="footer_links">
+				<a href="https://twitter.com/mihdan" target="_blank">Twitter</a>,
+				<a href="https://www.kobzarev.com/privacy-policy/">Пользовательское соглашение</a>,
+				<a href="https://www.kobzarev.com/donate/">Помочь проекту</a>,<br><br>
+
+				<a href="https://feeds.feedburner.com/phportal" target="_blank">Подписать по RSS</a>,
+				<a href="https://feedly.com/#subscription/feed/http://feeds.feedburner.com/phportal" target="_blank">Читать в Feedly</a>,
+				<a href="https://feedburner.google.com/fb/a/mailverify?uri=phportal" target="_blank">Подписаться по Email</a>,
+				<a href="https://www.kobzarev.com/sitemap/">Карта</a>,<br><br>
+
+				На правах рекламы:<br>
+                <a href="https://wp-digest.com/" target="_blank">Дайджест свежих материалов из мира WordPress</a><br><br>
+
+									<!--noindex-->
+					<a data-toggle="modal" data-target="#modal-login" class="login-url" rel="nofollow" href="https://www.kobzarev.com/wp-login.php?redirect_to=%2Fmakeup%2Fnormalization-of-css-with-normalize-css%2F" title="Вход для администратора">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path fill-rule="evenodd" stroke="none" clip-rule="evenodd" d="M11 6h-1V4a4 4 0 0 0-8 0v2H1C0 6 0 7 0 7v7.999C0 15.998 1 16 1 16h10s1 0 1-1V7s0-1-1-1zM8 6H4V4a2 2 0 0 1 4 0v2z"/></svg>
+					</a>
+					<!--/noindex-->
+							</div>
+		</div>
+		<div class="footer__column footer__column_right">
+			<a href="https://www.kobzarev.com/r/beget" target="_blank" style="text-decoration: none">
+				Хостинг сайта <br>
+				<img src="/wp-content/uploads/adv/beget.png" width="93" height="42" alt="Логотип Beget">
+			</a>
+		</div>
+	</div>
+</div>
+		
+        <a href='javascript:void(0);' id='wpdUserContentInfoAnchor' style='display:none;' rel='#wpdUserContentInfo' data-wpd-lity>wpDiscuz</a><div id='wpdUserContentInfo' style='overflow:auto;background:#FDFDF6;padding:20px;width:600px;max-width:100%;border-radius:6px;' class='lity-hide'></div><div id='wpd-editor-source-code-wrapper-bg'></div><div id='wpd-editor-source-code-wrapper'><textarea id='wpd-editor-source-code'></textarea><button id='wpd-insert-source-code'>Insert</button><input type='hidden' id='wpd-editor-uid' /></div>			<div id="modal-login" class="modal">
+			<div class="modal__content">
+                
+		<form name="loginform" id="loginform" action="https://www.kobzarev.com/wp-login.php" method="post">
+			
+			<p class="login-username">
+				<label for="user_login">Логин:</label>
+				<input type="text" name="log" id="user_login" class="input" value="" size="20" />
+			</p>
+			<p class="login-password">
+				<label for="user_pass">Пароль:</label>
+				<input type="password" name="pwd" id="user_pass" class="input" value="" size="20" />
+			</p>
+			
+			<p class="login-remember"><label><input name="rememberme" type="checkbox" id="rememberme" value="forever" checked="checked" /> Запомнить меня</label></p>
+			<p class="login-submit">
+				<input type="submit" name="wp-submit" id="wp-submit" class="button button-primary" value="Войти" />
+				<input type="hidden" name="redirect_to" value="https://www.kobzarev.com/makeup/normalization-of-css-with-normalize-css/" />
+			</p>
+			
+		</form>                <div class="modal__footer">
+                    <a class="modal__close" title="Закрыть окно авторизации">Закрыть</a>
+                </div>
+            </div>
+		</div>
+		
+<script type="text/html" id="tmpl-autocomplete-header">
+	<div class="autocomplete-header">
+		<div class="autocomplete-header-title">{{{ data.label }}}</div>
+		<div class="clear"></div>
+	</div>
+</script>
+
+<script type="text/html" id="tmpl-autocomplete-post-suggestion">
+	<a class="suggestion-link" href="{{ data.permalink }}" title="{{ data.post_title }}">
+		<# if ( data.images.thumbnail ) { #>
+			<img class="suggestion-post-thumbnail" src="{{ data.images.thumbnail.url }}" alt="{{ data.post_title }}">
+		<# } #>
+		<div class="suggestion-post-attributes">
+			<span class="suggestion-post-title">{{{ data._highlightResult.post_title.value }}}</span>
+			<# if ( data._snippetResult['content'] ) { #>
+				<span class="suggestion-post-content">{{{ data._snippetResult['content'].value }}}</span>
+			<# } #>
+		</div>
+	</a>
+</script>
+
+<script type="text/html" id="tmpl-autocomplete-term-suggestion">
+	<a class="suggestion-link" href="{{ data.permalink }}" title="{{ data.name }}">
+		<svg viewBox="0 0 21 21" width="21" height="21">
+			<svg width="21" height="21" viewBox="0 0 21 21">
+				<path
+					d="M4.662 8.72l-1.23 1.23c-.682.682-.68 1.792.004 2.477l5.135 5.135c.7.693 1.8.688 2.48.005l1.23-1.23 5.35-5.346c.31-.31.54-.92.51-1.36l-.32-4.29c-.09-1.09-1.05-2.06-2.15-2.14l-4.3-.33c-.43-.03-1.05.2-1.36.51l-.79.8-2.27 2.28-2.28 2.27zm9.826-.98c.69 0 1.25-.56 1.25-1.25s-.56-1.25-1.25-1.25-1.25.56-1.25 1.25.56 1.25 1.25 1.25z"
+					fill-rule="evenodd"></path>
+			</svg>
+		</svg>
+		<span class="suggestion-post-title">{{{ data._highlightResult.name.value }}}</span>
+	</a>
+</script>
+
+<script type="text/html" id="tmpl-autocomplete-user-suggestion">
+	<a class="suggestion-link user-suggestion-link" href="{{ data.posts_url }}" title="{{ data.display_name }}">
+		<# if ( data.avatar_url ) { #>
+			<img class="suggestion-user-thumbnail" src="{{ data.avatar_url }}" alt="{{ data.display_name }}">
+		<# } #>
+		<span class="suggestion-post-title">{{{ data._highlightResult.display_name.value }}}</span>
+	</a>
+</script>
+
+<script type="text/html" id="tmpl-autocomplete-footer">
+	<div class="autocomplete-footer">
+		<div class="autocomplete-footer-branding">
+			<a href="#" class="algolia-powered-by-link" title="Algolia">
+				<svg width="130" viewBox="0 0 130 18" xmlns="http://www.w3.org/2000/svg">
+					<title>Search by Algolia</title>
+					<defs>
+						<linearGradient x1="-36.868%" y1="134.936%" x2="129.432%" y2="-27.7%" id="a">
+							<stop stop-color="#00AEFF" offset="0%"/>
+							<stop stop-color="#3369E7" offset="100%"/>
+						</linearGradient>
+					</defs>
+					<g fill="none" fill-rule="evenodd">
+						<path
+							d="M59.399.022h13.299a2.372 2.372 0 0 1 2.377 2.364V15.62a2.372 2.372 0 0 1-2.377 2.364H59.399a2.372 2.372 0 0 1-2.377-2.364V2.381A2.368 2.368 0 0 1 59.399.022z"
+							fill="url(#a)"/>
+						<path
+							d="M66.257 4.56c-2.815 0-5.1 2.272-5.1 5.078 0 2.806 2.284 5.072 5.1 5.072 2.815 0 5.1-2.272 5.1-5.078 0-2.806-2.279-5.072-5.1-5.072zm0 8.652c-1.983 0-3.593-1.602-3.593-3.574 0-1.972 1.61-3.574 3.593-3.574 1.983 0 3.593 1.602 3.593 3.574a3.582 3.582 0 0 1-3.593 3.574zm0-6.418v2.664c0 .076.082.131.153.093l2.377-1.226c.055-.027.071-.093.044-.147a2.96 2.96 0 0 0-2.465-1.487c-.055 0-.11.044-.11.104l.001-.001zm-3.33-1.956l-.312-.311a.783.783 0 0 0-1.106 0l-.372.37a.773.773 0 0 0 0 1.101l.307.305c.049.049.121.038.164-.011.181-.245.378-.479.597-.697.225-.223.455-.42.707-.599.055-.033.06-.109.016-.158h-.001zm5.001-.806v-.616a.781.781 0 0 0-.783-.779h-1.824a.78.78 0 0 0-.783.779v.632c0 .071.066.12.137.104a5.736 5.736 0 0 1 1.588-.223c.52 0 1.035.071 1.534.207a.106.106 0 0 0 .131-.104z"
+							fill="#FFF"/>
+						<path
+							d="M102.162 13.762c0 1.455-.372 2.517-1.123 3.193-.75.676-1.895 1.013-3.44 1.013-.564 0-1.736-.109-2.673-.316l.345-1.689c.783.163 1.819.207 2.361.207.86 0 1.473-.174 1.84-.523.367-.349.548-.866.548-1.553v-.349a6.374 6.374 0 0 1-.838.316 4.151 4.151 0 0 1-1.194.158 4.515 4.515 0 0 1-1.616-.278 3.385 3.385 0 0 1-1.254-.817 3.744 3.744 0 0 1-.811-1.351c-.192-.539-.29-1.504-.29-2.212 0-.665.104-1.498.307-2.054a3.925 3.925 0 0 1 .904-1.433 4.124 4.124 0 0 1 1.441-.926 5.31 5.31 0 0 1 1.945-.365c.696 0 1.337.087 1.961.191a15.86 15.86 0 0 1 1.588.332v8.456h-.001zm-5.954-4.206c0 .893.197 1.885.592 2.299.394.414.904.621 1.528.621.34 0 .663-.049.964-.142a2.75 2.75 0 0 0 .734-.332v-5.29a8.531 8.531 0 0 0-1.413-.18c-.778-.022-1.369.294-1.786.801-.411.507-.619 1.395-.619 2.223zm16.12 0c0 .719-.104 1.264-.318 1.858a4.389 4.389 0 0 1-.904 1.52c-.389.42-.854.746-1.402.975-.548.229-1.391.36-1.813.36-.422-.005-1.26-.125-1.802-.36a4.088 4.088 0 0 1-1.397-.975 4.486 4.486 0 0 1-.909-1.52 5.037 5.037 0 0 1-.329-1.858c0-.719.099-1.411.318-1.999.219-.588.526-1.09.92-1.509.394-.42.865-.741 1.402-.97a4.547 4.547 0 0 1 1.786-.338 4.69 4.69 0 0 1 1.791.338c.548.229 1.019.55 1.402.97.389.42.69.921.909 1.509.23.588.345 1.28.345 1.999h.001zm-2.191.005c0-.921-.203-1.689-.597-2.223-.394-.539-.948-.806-1.654-.806-.707 0-1.26.267-1.654.806-.394.539-.586 1.302-.586 2.223 0 .932.197 1.558.592 2.098.394.545.948.812 1.654.812.707 0 1.26-.272 1.654-.812.394-.545.592-1.166.592-2.098h-.001zm6.962 4.707c-3.511.016-3.511-2.822-3.511-3.274L113.583.926l2.142-.338v10.003c0 .256 0 1.88 1.375 1.885v1.792h-.001zm3.774 0h-2.153V5.072l2.153-.338v9.534zm-1.079-10.542c.718 0 1.304-.578 1.304-1.291 0-.714-.581-1.291-1.304-1.291-.723 0-1.304.578-1.304 1.291 0 .714.586 1.291 1.304 1.291zm6.431 1.013c.707 0 1.304.087 1.786.262.482.174.871.42 1.156.73.285.311.488.735.608 1.182.126.447.186.937.186 1.476v5.481a25.24 25.24 0 0 1-1.495.251c-.668.098-1.419.147-2.251.147a6.829 6.829 0 0 1-1.517-.158 3.213 3.213 0 0 1-1.178-.507 2.455 2.455 0 0 1-.761-.904c-.181-.37-.274-.893-.274-1.438 0-.523.104-.855.307-1.215.208-.36.487-.654.838-.883a3.609 3.609 0 0 1 1.227-.49 7.073 7.073 0 0 1 2.202-.103c.263.027.537.076.833.147v-.349c0-.245-.027-.479-.088-.697a1.486 1.486 0 0 0-.307-.583c-.148-.169-.34-.3-.581-.392a2.536 2.536 0 0 0-.915-.163c-.493 0-.942.06-1.353.131-.411.071-.75.153-1.008.245l-.257-1.749c.268-.093.668-.185 1.183-.278a9.335 9.335 0 0 1 1.66-.142l-.001-.001zm.181 7.731c.657 0 1.145-.038 1.484-.104v-2.168a5.097 5.097 0 0 0-1.978-.104c-.241.033-.46.098-.652.191a1.167 1.167 0 0 0-.466.392c-.121.169-.175.267-.175.523 0 .501.175.79.493.981.323.196.75.289 1.293.289h.001zM84.109 4.794c.707 0 1.304.087 1.786.262.482.174.871.42 1.156.73.29.316.487.735.608 1.182.126.447.186.937.186 1.476v5.481a25.24 25.24 0 0 1-1.495.251c-.668.098-1.419.147-2.251.147a6.829 6.829 0 0 1-1.517-.158 3.213 3.213 0 0 1-1.178-.507 2.455 2.455 0 0 1-.761-.904c-.181-.37-.274-.893-.274-1.438 0-.523.104-.855.307-1.215.208-.36.487-.654.838-.883a3.609 3.609 0 0 1 1.227-.49 7.073 7.073 0 0 1 2.202-.103c.257.027.537.076.833.147v-.349c0-.245-.027-.479-.088-.697a1.486 1.486 0 0 0-.307-.583c-.148-.169-.34-.3-.581-.392a2.536 2.536 0 0 0-.915-.163c-.493 0-.942.06-1.353.131-.411.071-.75.153-1.008.245l-.257-1.749c.268-.093.668-.185 1.183-.278a8.89 8.89 0 0 1 1.66-.142l-.001-.001zm.186 7.736c.657 0 1.145-.038 1.484-.104v-2.168a5.097 5.097 0 0 0-1.978-.104c-.241.033-.46.098-.652.191a1.167 1.167 0 0 0-.466.392c-.121.169-.175.267-.175.523 0 .501.175.79.493.981.318.191.75.289 1.293.289h.001zm8.682 1.738c-3.511.016-3.511-2.822-3.511-3.274L89.461.926l2.142-.338v10.003c0 .256 0 1.88 1.375 1.885v1.792h-.001z"
+							fill="#182359"/>
+						<path
+							d="M5.027 11.025c0 .698-.252 1.246-.757 1.644-.505.397-1.201.596-2.089.596-.888 0-1.615-.138-2.181-.414v-1.214c.358.168.739.301 1.141.397.403.097.778.145 1.125.145.508 0 .884-.097 1.125-.29a.945.945 0 0 0 .363-.779.978.978 0 0 0-.333-.747c-.222-.204-.68-.446-1.375-.725-.716-.29-1.221-.621-1.515-.994-.294-.372-.44-.82-.44-1.343 0-.655.233-1.171.698-1.547.466-.376 1.09-.564 1.875-.564.752 0 1.5.165 2.245.494l-.408 1.047c-.698-.294-1.321-.44-1.869-.44-.415 0-.73.09-.945.271a.89.89 0 0 0-.322.717c0 .204.043.379.129.524.086.145.227.282.424.411.197.129.551.299 1.063.51.577.24.999.464 1.268.671.269.208.466.442.591.704.125.261.188.569.188.924l-.001.002zm3.98 2.24c-.924 0-1.646-.269-2.167-.808-.521-.539-.782-1.281-.782-2.226 0-.97.242-1.733.725-2.288.483-.555 1.148-.833 1.993-.833.784 0 1.404.238 1.858.714.455.476.682 1.132.682 1.966v.682H7.357c.018.577.174 1.02.467 1.329.294.31.707.465 1.241.465.351 0 .678-.033.98-.099a5.1 5.1 0 0 0 .975-.33v1.026a3.865 3.865 0 0 1-.935.312 5.723 5.723 0 0 1-1.08.091l.002-.001zm-.231-5.199c-.401 0-.722.127-.964.381s-.386.625-.432 1.112h2.696c-.007-.491-.125-.862-.354-1.115-.229-.252-.544-.379-.945-.379l-.001.001zm7.692 5.092l-.252-.827h-.043c-.286.362-.575.608-.865.739-.29.131-.662.196-1.117.196-.584 0-1.039-.158-1.367-.473-.328-.315-.491-.761-.491-1.337 0-.612.227-1.074.682-1.386.455-.312 1.148-.482 2.079-.51l1.026-.032v-.317c0-.38-.089-.663-.266-.851-.177-.188-.452-.282-.824-.282-.304 0-.596.045-.876.134a6.68 6.68 0 0 0-.806.317l-.408-.902a4.414 4.414 0 0 1 1.058-.384 4.856 4.856 0 0 1 1.085-.132c.756 0 1.326.165 1.711.494.385.329.577.847.577 1.552v4.002h-.902l-.001-.001zm-1.88-.859c.458 0 .826-.128 1.104-.384.278-.256.416-.615.416-1.077v-.516l-.763.032c-.594.021-1.027.121-1.297.298s-.406.448-.406.814c0 .265.079.47.236.615.158.145.394.218.709.218h.001zm7.557-5.189c.254 0 .464.018.628.054l-.124 1.176a2.383 2.383 0 0 0-.559-.064c-.505 0-.914.165-1.227.494-.313.329-.47.757-.47 1.284v3.105h-1.262V7.218h.988l.167 1.047h.064c.197-.354.454-.636.771-.843a1.83 1.83 0 0 1 1.023-.312h.001zm4.125 6.155c-.899 0-1.582-.262-2.049-.787-.467-.525-.701-1.277-.701-2.259 0-.999.244-1.767.733-2.304.489-.537 1.195-.806 2.119-.806.627 0 1.191.116 1.692.349l-.381 1.015c-.534-.208-.974-.312-1.321-.312-1.028 0-1.542.682-1.542 2.046 0 .666.128 1.166.384 1.501.256.335.631.502 1.125.502a3.23 3.23 0 0 0 1.595-.419v1.101a2.53 2.53 0 0 1-.722.285 4.356 4.356 0 0 1-.932.086v.002zm8.277-.107h-1.268V9.506c0-.458-.092-.8-.277-1.026-.184-.226-.477-.338-.878-.338-.53 0-.919.158-1.168.475-.249.317-.373.848-.373 1.593v2.949h-1.262V4.801h1.262v2.122c0 .34-.021.704-.064 1.09h.081a1.76 1.76 0 0 1 .717-.666c.306-.158.663-.236 1.072-.236 1.439 0 2.159.725 2.159 2.175v3.873l-.001-.001zm7.649-6.048c.741 0 1.319.269 1.732.806.414.537.62 1.291.62 2.261 0 .974-.209 1.732-.628 2.275-.419.542-1.001.814-1.746.814-.752 0-1.336-.27-1.751-.811h-.086l-.231.704h-.945V4.801h1.262v1.987l-.021.655-.032.553h.054c.401-.591.992-.886 1.772-.886zm-.328 1.031c-.508 0-.875.149-1.098.448-.224.299-.339.799-.346 1.501v.086c0 .723.115 1.247.344 1.571.229.324.603.486 1.123.486.448 0 .787-.177 1.018-.532.231-.354.346-.867.346-1.536 0-1.35-.462-2.025-1.386-2.025l-.001.001zm3.244-.924h1.375l1.209 3.368c.183.48.304.931.365 1.354h.043c.032-.197.091-.436.177-.717.086-.281.541-1.616 1.364-4.004h1.364l-2.541 6.73c-.462 1.235-1.232 1.853-2.31 1.853-.279 0-.551-.03-.816-.091v-.999c.19.043.406.064.65.064.609 0 1.037-.353 1.284-1.058l.22-.559-2.385-5.941h.001z"
+							fill="#1D3657"/>
+					</g>
+				</svg>
+			</a>
+		</div>
+	</div>
+</script>
+
+<script type="text/html" id="tmpl-autocomplete-empty">
+	<div class="autocomplete-empty">
+		No results matched your query 		<span class="empty-query">"{{ data.query }}"</span>
+	</div>
+</script>
+
+<script type="text/javascript">
+	jQuery( function () {
+		/* Initialize Algolia client */
+		var client = algoliasearch( algolia.application_id, algolia.search_api_key );
+
+		/**
+		 * Algolia hits source method.
+		 *
+		 * This method defines a custom source to use with autocomplete.js.
+		 *
+		 * @param object $index Algolia index object.
+		 * @param object $params Options object to use in search.
+		 */
+		var algoliaHitsSource = function( index, params ) {
+			return function( query, callback ) {
+				index
+					.search( query, params )
+					.then( function( response ) {
+						callback( response.hits, response );
+					})
+					.catch( function( error ) {
+						callback( [] );
+					});
+			}
+		}
+
+		/* Setup autocomplete.js sources */
+		var sources = [];
+		jQuery.each( algolia.autocomplete.sources, function ( i, config ) {
+			var suggestion_template = wp.template( config[ 'tmpl_suggestion' ] );
+			sources.push( {
+				source: algoliaHitsSource( client.initIndex( config[ 'index_name' ] ), {
+					hitsPerPage: config[ 'max_suggestions' ],
+					attributesToSnippet: [
+						'content:10'
+					],
+					highlightPreTag: '__ais-highlight__',
+					highlightPostTag: '__/ais-highlight__'
+				} ),
+				templates: {
+					header: function () {
+						return wp.template( 'autocomplete-header' )( {
+							label: _.escape( config[ 'label' ] )
+						} );
+					},
+					suggestion: function ( hit ) {
+						if ( hit.escaped === true ) {
+							return suggestion_template( hit );
+						}
+						hit.escaped = true;
+
+						for ( var key in hit._highlightResult ) {
+							/* We do not deal with arrays. */
+							if ( typeof hit._highlightResult[ key ].value !== 'string' ) {
+								continue;
+							}
+							hit._highlightResult[ key ].value = _.escape( hit._highlightResult[ key ].value );
+							hit._highlightResult[ key ].value = hit._highlightResult[ key ].value.replace( /__ais-highlight__/g, '<em>' ).replace( /__\/ais-highlight__/g, '</em>' );
+						}
+
+						for ( var key in hit._snippetResult ) {
+							/* We do not deal with arrays. */
+							if ( typeof hit._snippetResult[ key ].value !== 'string' ) {
+								continue;
+							}
+
+							hit._snippetResult[ key ].value = _.escape( hit._snippetResult[ key ].value );
+							hit._snippetResult[ key ].value = hit._snippetResult[ key ].value.replace( /__ais-highlight__/g, '<em>' ).replace( /__\/ais-highlight__/g, '</em>' );
+						}
+
+						return suggestion_template( hit );
+					}
+				}
+			} );
+
+		} );
+
+		/* Setup dropdown menus */
+		jQuery( algolia.autocomplete.input_selector ).each( function ( i ) {
+			var $searchInput = jQuery( this );
+
+			var config = {
+				debug: algolia.debug,
+				hint: false,
+				openOnFocus: true,
+				appendTo: 'body',
+				templates: {
+					empty: wp.template( 'autocomplete-empty' )
+				}
+			};
+
+			if ( algolia.powered_by_enabled ) {
+				config.templates.footer = wp.template( 'autocomplete-footer' );
+			}
+
+			/* Instantiate autocomplete.js */
+			var autocomplete = algoliaAutocomplete( $searchInput[ 0 ], config, sources )
+				.on( 'autocomplete:selected', function ( e, suggestion ) {
+					/* Redirect the user when we detect a suggestion selection. */
+					window.location.href = suggestion.permalink;
+				} );
+
+			/* Force the dropdown to be re-drawn on scroll to handle fixed containers. */
+			jQuery( window ).on( 'scroll', function() {
+				if ( autocomplete.autocomplete.getWrapper().style.display === "block" ) {
+					autocomplete.autocomplete.close();
+					autocomplete.autocomplete.open();
+				}
+			} );
+		} );
+
+		jQuery( document ).on( "click", ".algolia-powered-by-link", function ( e ) {
+			e.preventDefault();
+			window.location = "https://www.algolia.com/?utm_source=WordPress&utm_medium=extension&utm_content=" + window.location.hostname + "&utm_campaign=poweredby";
+		} );
+	} );
+</script>
+		<!-- Pageviews SDK -->
+		
+		<script type='text/javascript' src='https://www.kobzarev.com/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shCore.js?ver=3.0.9b' id='syntaxhighlighter-core-js'></script>
+<script type='text/javascript' src='https://www.kobzarev.com/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushBash.js?ver=3.0.9b' id='syntaxhighlighter-brush-bash-js'></script>
+<script type='text/javascript' src='https://www.kobzarev.com/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushCss.js?ver=3.0.9b' id='syntaxhighlighter-brush-css-js'></script>
+<script type='text/javascript' src='https://www.kobzarev.com/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushJScript.js?ver=3.0.9b' id='syntaxhighlighter-brush-jscript-js'></script>
+<script type='text/javascript' src='https://www.kobzarev.com/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushPhp.js?ver=3.0.9b' id='syntaxhighlighter-brush-php-js'></script>
+<script type='text/javascript' src='https://www.kobzarev.com/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushPlain.js?ver=3.0.9b' id='syntaxhighlighter-brush-plain-js'></script>
+<script type='text/javascript' src='https://www.kobzarev.com/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushSql.js?ver=3.0.9b' id='syntaxhighlighter-brush-sql-js'></script>
+<script type='text/javascript' src='https://www.kobzarev.com/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushXml.js?ver=3.0.9b' id='syntaxhighlighter-brush-xml-js'></script>
+<script type='text/javascript' src='https://www.kobzarev.com/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushYaml.js?ver=3.0.9b' id='syntaxhighlighter-brush-yaml-js'></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "https://www.kobzarev.com/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.9b";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.head.appendChild( corecss );
+		var themecssurl = "https://www.kobzarev.com/wp-content/themes/mihdan/css/darcula.css?ver=1587544613";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		document.head.appendChild( themecss );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ расширить источник';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Не удается найти кисть для: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Пакет не был настроен для опции html-script: ';
+	SyntaxHighlighter.defaults['pad-line-numbers'] = true;
+	SyntaxHighlighter.defaults['smart-tabs'] = false;
+	SyntaxHighlighter.defaults['tab-size'] = 2;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.defaults['quick-code'] = false;
+	SyntaxHighlighter.all();
+
+	// Infinite scroll support
+	if ( typeof( jQuery ) !== 'undefined' ) {
+		jQuery( function( $ ) {
+			$( document.body ).on( 'post-load', function() {
+				SyntaxHighlighter.highlight();
+			} );
+		} );
+	}
+</script>
+
+
+
+
+<script type='text/javascript' id='eafl-public-js-extra'>
+/* <![CDATA[ */
+var eafl_public = {"home_url":"https:\/\/www.kobzarev.com\/","ajax_url":"https:\/\/www.kobzarev.com\/wp-admin\/admin-ajax.php","nonce":"be0ee2e7bf"};
+/* ]]> */
+</script>
+
+
+<script type='text/javascript' src='https://www.kobzarev.com/wp-content/plugins/mihdan-lite-youtube-embed/assets/dist/js/lozad.js?ver=1.6.8.1' id='mihdan-lozad-js'></script>
+
+<script type='text/javascript' id='wpdiscuz-combo-js-js-extra'>
+/* <![CDATA[ */
+var wpdiscuzAjaxObj = {"wc_hide_replies_text":"\u0421\u043f\u0440\u044f\u0442\u0430\u0442\u044c \u043e\u0442\u0432\u0435\u0442\u044b","wc_show_replies_text":"\u041f\u0440\u043e\u0441\u043c\u043e\u0442\u0440 \u043e\u0442\u0432\u0435\u0442\u043e\u0432","wc_msg_required_fields":"\u0417\u0430\u043f\u043e\u043b\u043d\u0438\u0442\u0435 \u043d\u0435\u043e\u0431\u0445\u043e\u0434\u0438\u043c\u044b\u0435 \u043f\u043e\u043b\u044f","wc_invalid_field":"\u041d\u0435\u043a\u043e\u0442\u043e\u0440\u044b\u0435 \u043f\u043e\u043b\u044f \u0437\u0430\u043f\u043e\u043b\u043d\u0435\u043d\u044b \u043d\u0435\u0432\u0435\u0440\u043d\u043e","wc_error_empty_text":"\u043f\u043e\u0436\u0430\u043b\u0443\u0439\u0441\u0442\u0430, \u0437\u0430\u043f\u043e\u043b\u043d\u0438\u0442\u0435 \u044d\u0442\u043e \u043f\u043e\u043b\u0435, \u0447\u0442\u043e\u0431\u044b \u043a\u043e\u043c\u043c\u0435\u043d\u0442\u0438\u0440\u043e\u0432\u0430\u0442\u044c","wc_error_url_text":"url \u043d\u0435\u0434\u0435\u0439\u0441\u0442\u0432\u0438\u0442\u0435\u043b\u044c\u043d\u044b\u0439","wc_error_email_text":"\u0430\u0434\u0440\u0435\u0441 \u044d\u043b\u0435\u043a\u0442\u0440\u043e\u043d\u043d\u043e\u0439 \u043f\u043e\u0447\u0442\u044b \u043d\u0435\u0432\u0435\u0440\u0435\u043d","wc_invalid_captcha":"\u041d\u0435\u0432\u0435\u0440\u043d\u043e \u0432\u0432\u0435\u0434\u0435\u043d \u043a\u043e\u0434","wc_login_to_vote":"\u0412\u044b \u0434\u043e\u043b\u0436\u043d\u044b \u0432\u043e\u0439\u0442\u0438 , \u0447\u0442\u043e\u0431\u044b \u043f\u0440\u043e\u0433\u043e\u043b\u043e\u0441\u043e\u0432\u0430\u0442\u044c","wc_deny_voting_from_same_ip":"\u0412\u044b \u043d\u0435 \u043c\u043e\u0436\u0435\u0442\u0435 \u0433\u043e\u043b\u043e\u0441\u043e\u0432\u0430\u0442\u044c \u0437\u0430 \u044d\u0442\u043e\u0442 \u043a\u043e\u043c\u043c\u0435\u043d\u0442\u0430\u0440\u0438\u0439","wc_self_vote":"\u0412\u044b \u043d\u0435 \u043c\u043e\u0436\u0435\u0442\u0435 \u0433\u043e\u043b\u043e\u0441\u043e\u0432\u0430\u0442\u044c \u0437\u0430 \u0441\u0432\u043e\u0439 \u043a\u043e\u043c\u043c\u0435\u043d\u0442\u0430\u0440\u0438\u0439","wc_vote_only_one_time":"\u0412\u044b \u0443\u0436\u0435 \u0433\u043e\u043b\u043e\u0441\u043e\u0432\u0430\u043b\u0438 \u0437\u0430 \u044d\u0442\u043e\u0442 \u043a\u043e\u043c\u043c\u0435\u043d\u0442\u0430\u0440\u0438\u0439","wc_voting_error":"\u041e\u0448\u0438\u0431\u043a\u0430 \u0433\u043e\u043b\u043e\u0441\u043e\u0432\u0430\u043d\u0438\u044f","wc_comment_edit_not_possible":"\u0418\u0437\u0432\u0438\u043d\u0438\u0442\u0435, \u044d\u0442\u043e\u0442 \u043a\u043e\u043c\u043c\u0435\u043d\u0442\u0430\u0440\u0438\u0439 \u0431\u043e\u043b\u044c\u0448\u0435 \u043d\u0435\u043b\u044c\u0437\u044f \u0440\u0435\u0434\u0430\u043a\u0442\u0438\u0440\u043e\u0432\u0430\u0442\u044c","wc_comment_not_updated":"\u0418\u0437\u0432\u0438\u043d\u0438\u0442\u0435, \u043a\u043e\u043c\u043c\u0435\u043d\u0442\u0430\u0440\u0438\u0439 \u043d\u0435 \u0431\u044b\u043b \u043e\u0431\u043d\u043e\u0432\u043b\u0435\u043d","wc_comment_not_edited":"\u0412\u044b \u043d\u0435 \u0441\u0434\u0435\u043b\u0430\u043b\u0438 \u043d\u0438\u043a\u0430\u043a\u0438\u0445 \u0438\u0437\u043c\u0435\u043d\u0435\u043d\u0438\u0439","wc_msg_input_min_length":"\u0412\u0432\u043e\u0434 \u0441\u043b\u0438\u0448\u043a\u043e\u043c \u043a\u043e\u0440\u043e\u0442\u043a\u0438\u0439","wc_msg_input_max_length":"\u0412\u0432\u043e\u0434 \u0441\u043b\u0438\u0448\u043a\u043e\u043c \u0434\u043b\u0438\u043d\u043d\u044b\u0439","wc_spoiler_title":"\u041d\u0430\u0437\u0432\u0430\u043d\u0438\u0435 \u0441\u043f\u043e\u0439\u043b\u0435\u0440\u0430","wc_cannot_rate_again":"\u0412\u044b \u043d\u0435 \u043c\u043e\u0436\u0435\u0442\u0435 \u0441\u043d\u043e\u0432\u0430 \u043e\u0446\u0435\u043d\u0438\u0442\u044c","wc_not_allowed_to_rate":"\u0412\u0430\u043c \u043d\u0435 \u0440\u0430\u0437\u0440\u0435\u0448\u0435\u043d\u043e \u0441\u0442\u0430\u0432\u0438\u0442\u044c \u0437\u0434\u0435\u0441\u044c \u043e\u0446\u0435\u043d\u043a\u0443","wc_follow_user":"\u041f\u043e\u0434\u043f\u0438\u0441\u0430\u0442\u044c\u0441\u044f \u043d\u0430 \u044d\u0442\u043e\u0433\u043e \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044f","wc_unfollow_user":"\u041e\u0442\u043f\u0438\u0441\u0430\u0442\u044c\u0441\u044f \u043e\u0442 \u044d\u0442\u043e\u0433\u043e \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044f","wc_follow_success":"\u0412\u044b \u043f\u043e\u0434\u043f\u0438\u0441\u0430\u043b\u0438\u0441\u044c \u043d\u0430 \u043a\u043e\u043c\u043c\u0435\u043d\u0442\u0430\u0440\u0438\u0438 \u044d\u0442\u043e\u0433\u043e \u0430\u0432\u0442\u043e\u0440\u0430","wc_follow_canceled":"\u0412\u044b \u043f\u0440\u0438\u043e\u0441\u0442\u0430\u043d\u043e\u0432\u0438\u043b\u0438 \u043f\u043e\u0434\u043f\u0438\u0441\u043a\u0443 \u043d\u0430 \u043a\u043e\u043c\u043c\u0435\u043d\u0442\u0430\u0440\u0438\u0438 \u044d\u0442\u043e\u0433\u043e \u0430\u0432\u0442\u043e\u0440\u0430.","wc_follow_email_confirm":"\u041f\u043e\u0436\u0430\u043b\u0443\u0439\u0441\u0442\u0430, \u043f\u0440\u043e\u0432\u0435\u0440\u044c\u0442\u0435 \u0441\u0432\u043e\u0439 email \u0438 \u043f\u043e\u0434\u0442\u0432\u0435\u0440\u0434\u0438\u0442\u0435 \u0437\u0430\u043f\u0440\u043e\u0441 \u043d\u0430 \u043f\u043e\u0434\u043f\u0438\u0441\u043a\u0443.","wc_follow_email_confirm_fail":"\u041e\u0447\u0435\u043d\u044c \u0436\u0430\u043b\u044c, \u043d\u043e \u043c\u044b \u043d\u0435 \u043c\u043e\u0436\u0435\u043c \u043e\u0442\u043f\u0440\u0430\u0432\u0438\u0442\u044c \u043f\u0438\u0441\u044c\u043c\u043e \u043f\u043e\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0435\u043d\u0438\u044f.","wc_follow_login_to_follow":"\u0410\u0432\u0442\u043e\u0440\u0438\u0437\u0443\u0439\u0442\u0435\u0441\u044c \u0447\u0442\u043e\u0431\u044b \u043f\u043e\u0434\u043f\u0438\u0441\u044b\u0432\u0430\u0442\u044c\u0441\u044f \u043d\u0430 \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u0435\u0439.","wc_follow_impossible":"\u041e\u0447\u0435\u043d\u044c \u0436\u0430\u043b\u044c, \u043d\u043e \u0432\u044b \u043d\u0435 \u043c\u043e\u0436\u0435\u0442\u0435 \u043f\u043e\u0434\u043f\u0438\u0441\u0430\u0442\u044c\u0441\u044f \u043d\u0430 \u044d\u0442\u043e\u0433\u043e \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044f.","wc_follow_not_added":"\u041f\u043e\u0434\u043f\u0438\u0441\u0430\u0442\u044c\u0441\u044f \u043d\u0435 \u0443\u0434\u0430\u043b\u043e\u0441\u044c. \u041f\u043e\u0436\u0430\u043b\u0443\u0439\u0441\u0442\u0430, \u043f\u043e\u043f\u0440\u043e\u0431\u0443\u0439\u0442\u0435 \u043f\u043e\u0437\u0436\u0435.","is_user_logged_in":"","commentListLoadType":"3","commentListUpdateType":"0","commentListUpdateTimer":"30","liveUpdateGuests":"0","wordpressThreadCommentsDepth":"10","wordpressIsPaginate":"","commentTextMaxLength":"0","replyTextMaxLength":"0","commentTextMinLength":"1","replyTextMinLength":"1","storeCommenterData":"100000","socialLoginAgreementCheckbox":"0","enableFbLogin":"1","fbUseOAuth2":"1","enableFbShare":"0","facebookAppID":"1176569969096484","facebookUseOAuth2":"1","enableGoogleLogin":"1","googleClientID":"897070311426-klgin42ammp2k9ann69rkvo76skro7h2.apps.googleusercontent.com","googleClientSecret":"uq30J3vF-wKoluqyDfL_cSeJ","cookiehash":"7182a1b15a3e92c3b849486b5beff8a5","isLoadOnlyParentComments":"0","scrollToComment":"1","commentFormView":"expanded","enableDropAnimation":"1","isNativeAjaxEnabled":"1","enableBubble":"0","bubbleLiveUpdate":"0","bubbleHintTimeout":"15","bubbleHintHideTimeout":"10","cookieHideBubbleHint":"wpdiscuz_hide_bubble_hint","bubbleShowNewCommentMessage":"1","bubbleLocation":"right_corner","firstLoadWithAjax":"0","wc_copied_to_clipboard":"\u0421\u043a\u043e\u043f\u0438\u0440\u043e\u0432\u0430\u043d \u0432 \u0431\u0443\u0444\u0435\u0440 \u043e\u0431\u043c\u0435\u043d\u0430.","inlineFeedbackAttractionType":"disable","loadRichEditor":"1","wpDiscuzReCaptchaSK":"","wpDiscuzReCaptchaTheme":"light","wpDiscuzReCaptchaVersion":"2.0","wc_captcha_show_for_guest":"0","wc_captcha_show_for_members":"0","wpDiscuzIsShowOnSubscribeForm":"0","wmuEnabled":"1","wmuInput":"wmu_files","wmuMaxFileCount":"1","wmuMaxFileSize":"2097152","wmuPostMaxSize":"1047527424","wmuIsLightbox":"1","wmuMimeTypes":{"jpg":"image\/jpeg","jpeg":"image\/jpeg","jpe":"image\/jpeg","gif":"image\/gif","png":"image\/png"},"wmuPhraseConfirmDelete":"\u0412\u044b \u0443\u0432\u0435\u0440\u0435\u043d\u044b, \u0447\u0442\u043e \u0445\u043e\u0442\u0438\u0442\u0435 \u0443\u0434\u0430\u043b\u0438\u0442\u044c \u044d\u0442\u043e \u0432\u043b\u043e\u0436\u0435\u043d\u0438\u0435?","wmuPhraseNotAllowedFile":"\u041d\u0435\u0434\u043e\u043f\u0443\u0441\u0442\u0438\u043c\u044b\u0439 \u0442\u0438\u043f \u0444\u0430\u0439\u043b\u0430","wmuPhraseMaxFileCount":"\u041c\u0430\u043a\u0441\u0438\u043c\u0430\u043b\u044c\u043d\u043e\u0435 \u043a\u043e\u043b\u0438\u0447\u0435\u0441\u0442\u0432\u043e \u0437\u0430\u0433\u0440\u0443\u0436\u0430\u0435\u043c\u044b\u0445 \u0444\u0430\u0439\u043b\u043e\u0432 1","wmuPhraseMaxFileSize":"\u041c\u0430\u043a\u0441\u0438\u043c\u0430\u043b\u044c\u043d\u044b\u0439 \u0440\u0430\u0437\u043c\u0435\u0440 \u0437\u0430\u0433\u0440\u0443\u0436\u0430\u0435\u043c\u043e\u0433\u043e \u0444\u0430\u0439\u043b\u0430 2MB","wmuPhrasePostMaxSize":"\u041c\u0430\u043a\u0441\u0438\u043c\u0430\u043b\u044c\u043d\u044b\u0439 \u0440\u0430\u0437\u043c\u0435\u0440 \u0441\u043e\u043e\u0431\u0449\u0435\u043d\u0438\u044f 999MB","msgEmptyFile":"File is empty. Please upload something more substantial. This error could also be caused by uploads being disabled in your php.ini or by post_max_size being defined as smaller than upload_max_filesize in php.ini.","msgPostIdNotExists":"ID \u0437\u0430\u043f\u0438\u0441\u0438 \u043d\u0435 \u0441\u0443\u0449\u0435\u0441\u0442\u0432\u0443\u0435\u0442","msgUploadingNotAllowed":"\u0418\u0437\u0432\u0438\u043d\u0438\u0442\u0435, \u0437\u0430\u0433\u0440\u0443\u0437\u043a\u0430 \u0434\u043b\u044f \u044d\u0442\u043e\u0433\u043e \u043f\u043e\u0441\u0442\u0430 \u0437\u0430\u043f\u0440\u0435\u0449\u0435\u043d\u0430","msgPermissionDenied":"\u0423 \u0432\u0430\u0441 \u043d\u0435\u0434\u043e\u0441\u0442\u0430\u0442\u043e\u0447\u043d\u043e \u043f\u0440\u0430\u0432 \u0434\u043b\u044f \u0432\u044b\u043f\u043e\u043b\u043d\u0435\u043d\u0438\u044f \u044d\u0442\u043e\u0433\u043e \u0434\u0435\u0439\u0441\u0442\u0432\u0438\u044f","wmuKeyImages":"images","wmuSingleImageWidth":"auto","wmuSingleImageHeight":"200","version":"7.3.11","wc_post_id":"2274","isCookiesEnabled":"1","loadLastCommentId":"0","dataFilterCallbacks":[],"phraseFilters":[],"scrollSize":"32","is_email_field_required":"0","url":"https:\/\/www.kobzarev.com\/wp-admin\/admin-ajax.php","customAjaxUrl":"https:\/\/www.kobzarev.com\/wp-content\/plugins\/wpdiscuz\/utils\/ajax\/wpdiscuz-ajax.php","bubbleUpdateUrl":"https:\/\/www.kobzarev.com\/wp-json\/wpdiscuz\/v1\/update","restNonce":"3c830752c8","validateNonceForGuests":""};
+var wpdiscuzUCObj = {"msgConfirmDeleteComment":"\u0412\u044b \u0445\u043e\u0442\u0438\u0442\u0435 \u0443\u0434\u0430\u043b\u0438\u0442\u044c \u044d\u0442\u043e\u0442 \u043a\u043e\u043c\u043c\u0435\u043d\u0442\u0430\u0440\u0438\u0439?","msgConfirmCancelSubscription":"\u0412\u044b \u0445\u043e\u0442\u0438\u0442\u0435 \u043e\u0442\u043c\u0435\u043d\u0438\u0442\u044c \u044d\u0442\u0443 \u043f\u043e\u0434\u043f\u0438\u0441\u043a\u0443?","msgConfirmCancelFollow":"\u0423\u0432\u0435\u0440\u0435\u043d\u044b, \u0447\u0442\u043e \u0445\u043e\u0442\u0438\u0442\u0435 \u043e\u0442\u043c\u0435\u043d\u0438\u0442\u044c \u043f\u043e\u0434\u043f\u0438\u0441\u043a\u0443?","additionalTab":"0"};
+/* ]]> */
+</script>
+
+
+<script type='text/javascript' crossorigin='anonymous' async='async' onload='console.log("Adsense loaded")' src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5918572536943456' id='amalker-loader-js'></script>
+
+<script type='text/javascript' src='https://www.kobzarev.com/wp-includes/js/underscore.min.js?ver=1.13.1' id='underscore-js'></script>
+<script type='text/javascript' id='wp-util-js-extra'>
+/* <![CDATA[ */
+var _wpUtilSettings = {"ajax":{"url":"\/wp-admin\/admin-ajax.php"}};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://www.kobzarev.com/wp-includes/js/wp-util.min.js?ver=5.8.3' id='wp-util-js'></script>
+
+
+
+
+
+<style>.lwptoc .lwptoc_i{background-color:#eef3fa;}.lwptoc .lwptoc_i A{color:#415ecb;}.lwptoc .lwptoc_i A:hover,.lwptoc .lwptoc_i A:focus,.lwptoc .lwptoc_i A:active{color:#ca2e35;border-color:#ca2e35;}</style>			
+			<script>"use strict";var wprRemoveCPCSS=function wprRemoveCPCSS(){var elem;document.querySelector('link[data-rocket-async="style"][rel="preload"]')?setTimeout(wprRemoveCPCSS,200):(elem=document.getElementById("rocket-critical-css"))&&"remove"in elem&&elem.remove()};window.addEventListener?window.addEventListener("load",wprRemoveCPCSS):window.attachEvent&&window.attachEvent("onload",wprRemoveCPCSS);</script><script src="https://www.kobzarev.com/wp-content/cache/min/1/9af12f31c356649028202fb4ac1cb8c1.js" data-minify="1"></script><noscript><link rel="stylesheet" href="https://www.kobzarev.com/wp-content/cache/min/1/b3575aa1ab3f5cf0f8d9dc6409274503.css" media="all" data-minify="1" /></noscript></body>
+</html>
+<!-- Cached for great performance - Debug: cached@1644023958 -->
