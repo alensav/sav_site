@@ -1,3 +1,4 @@
+@import "bourbon/bourbon";
 h1 {
 	color: white;
 	font-size: 30px;
@@ -73,6 +74,20 @@ h1 {
 	text-align: center;
 	background: #FFC652FF;
 	
+
+}
+.box-a1 {
+  display: block;
+  float: left;
+  border-radius: 10px;
+  margin: 20px;
+  height: 30px;
+  width: 80px;
+  border:2px solid #0B23FFFF;
+  padding: 5px;
+  text-align: center;
+  background: #FFC652FF;
+  
 
 }
 .box-a:hover {

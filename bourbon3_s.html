@@ -1,0 +1,232 @@
+<!DOCTYPE html><html lang="ru-RU"><head><meta content="text/html; charset=utf-8" http-equiv="Content-Type" /><title>Bourbon - SASS библиотека для быстрого создания дизайна сайтов - Bourbon/Neat/Bitters/Refills в Ruby on Rails</title><link rel="stylesheet" media="all" href="/assets/application-fbe8582004244fbac974517f34afae6ed9767f264b4fc6e8431a5429c61b4871.css" /><script src="/assets/application-704de85d2dc60d84be244c4e79f38f3f12ce1bcdd8298ec6cba08edeecbce8ec.js"></script><meta name="csrf-param" content="authenticity_token" />
+<meta name="csrf-token" content="NummFTfPQs7DafJlUa5e+1/307MGW3X+YtBkrEHuEOCF+5UaOZ7fmFE4YzTeQa3dB2PexsTQ5j3wcUdPqLCB5A==" /><link href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic&amp;subset=latin,cyrillic" rel="stylesheet" type="text/css" /><meta content="width=device-width, initial-scale=1" name="viewport" /><meta content="blog" property="og:type" /><meta content="Bourbon - SASS библиотека для быстрого создания дизайна сайтов" property="og:title" /><meta content="http://blog.phpworld.ru/assets/leonidlukin-bf494045735ace13d3c749b4fd97b4b5e69997d971ba3e55f1472f5654320682.png" property="og:image" /><meta content="
+ 
+ 
+ 
+ Для начала - что такое 
+ Bourbon (Бурбон). Bourbon - это простая и очень &quot;легкая&quot; (в смысле размера в байтах) библиотека mixin-ов для SASS (некий..." property="og:description" /><meta content="Блог Леонид Лукина" property="og:site_name" /><meta content="http://blog.phpworld.ru/web-tehnologii/bourbon" property="og:url" /><meta content="https://www.facebook.com/leolukin" property="article:author" /><meta content="ru_RU" property="og:locale" /><meta content="summary" name="twitter:card" /><meta content="@leolukin" name="twitter:site" /><meta content="Bourbon - SASS библиотека для быстрого создания дизайна сайтов" name="twitter:title" /><meta content="
+ 
+ 
+ 
+ Для начала - что такое 
+ Bourbon (Бурбон). Bourbon - это простая и очень &quot;легкая&quot; (в смысле размера в байтах) библиотека mixin-ов для SASS (некий..." name="twitter:description" /><meta content="http://blog.phpworld.ru/assets/leonidlukin-bf494045735ace13d3c749b4fd97b4b5e69997d971ba3e55f1472f5654320682.png" name="twitter:image" /></head><body><!-- Google Tag Manager -->
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-5PHCC4"
+                  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        '//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-5PHCC4');</script>
+<!-- End Google Tag Manager --><div class="wrapper"><header class="navigation" role="banner">
+  <div class="navigation-wrapper">
+    <a href="/" class="logo nav-link">
+      Блог Леонида Лукина
+    </a>
+    <a href="javascript:void(0)" class="navigation-menu-button" id="js-mobile-menu">МЕНЮ</a>
+    <nav role="navigation">
+      <ul id="js-navigation-menu" class="navigation-menu show">
+        <li class="nav-link"><a href="/leonid-lukin">Обо мне</a></li>
+        
+        
+        </li>
+        <!-- li class="nav-link"><a href="javascript:void(0)">Контакты</a></li -->
+      </ul>
+    </nav>
+    <!-- div class="navigation-tools">
+      <div class="search-bar">
+        <form role="search">
+          <input type="search" placeholder="Поиск по блогу" />
+          <button type="submit">
+            <img src="/assets/search-icon.png" alt="Search Icon">
+          </button>
+        </form>
+      </div>
+    </div -->
+  </div>
+</header>
+<section class="main" itemscope="itemscope" itemtype="http://schema.org/Article"><section class="posts"><div class="breadcrumb"><a href="/" style="border-right-width: 0">Главная</a><a href="/web-tehnologii"><span itemprop="articleSection">Web-технологии</span></a></div><article class="postcard"><ul class="bullets"><li class="bullet"><div class="bullet-icon bullet-icon-1"><img alt="Web-технологии" src="/assets/placeholder_logo_2-37dd7f28615c845ab80e306128196a8444130e90af171417952f69c144263a13.png" /></div><div class="bullet-content"><h1 itemprop="headline">Bourbon - SASS библиотека для быстрого создания дизайна сайтов</h1><div itemprop="articleBody"><p>
+	<img src="/system/redactor_assets/pictures/223/bourbon.jpg" alt="" style="float: left; margin: 0px 10px 10px 0px;">
+</p>
+<p>
+	Для начала - что такое 
+	<strong>Bourbon</strong> (Бурбон). Bourbon - это простая и очень "легкая" (в смысле размера в байтах) библиотека mixin-ов для SASS (некий аналог Compass). Другими словами, это возможность легко и просто делать сложные вещи на CSS (естественно, если для генерации CSS вы используете именно SASS). Использовать ее можно в любых веб-проектах, особенно же удобно использовать его в связке с <strong>Ruby on Rails</strong>.<br>
+</p>
+<p>
+	В каких браузерах может работать эта библиотека:
+</p>
+<p>
+	Chrome 26+
+	<br>
+	Firefox 29+
+	<br>
+	Internet Explorer 9+
+	<br>
+	Opera 15+
+	<br>
+	Safari 6.1+
+</p>
+<p>
+	Другими словами, сейчас Бурбон будет работать практически у всех.
+</p>
+<h2>Установка Bourbon</h2>
+<p>
+	Установка может быть легко проведена используя менеджер пакетов RubyGems:
+</p>
+<pre><code>$ gem install bourbon</code></pre>
+<p>
+	Альтернативно Бурбон можно поставить и при помощи Bower:
+</p>
+<pre><code>$ bower install bourbon</code></pre>
+<p>
+	Ставим файлы библиотеки в текущую директорию (вы уж сами решите, в какой папке проекта вам удобно их хранить):
+</p>
+<pre><code>$ bourbon install</code></pre>
+<p>
+	Все установлено, теперь для использования библиотеки миксинов сделайте импорт в начале вашего стилевого файла:
+</p>
+<pre><code>@import "bourbon/bourbon";</code></pre>
+<p>
+	Примечание: строго не рекомендуетя изменять файлы библиотеки Bourbon для того, чтобы потом иметь возможность обновлять ее без особых проблем:
+</p>
+<pre><code>$ bourbon update</code></pre>
+<h2>Установка Bourbon в Ruby on Rails 3+ проект</h2>
+<p>
+	Для Рельсов установка Bourbon еще быстрее и проще. Пишем в Gemfile проекта:
+</p>
+<pre><code>gem 'bourbon'</code></pre>
+<p>
+	Запускаем:
+</p>
+<pre><code>$ bundle install</code></pre>
+<p>
+	Перезапускаем сервер и переименовываем application.css в application.scss (если этого не было сделано ранее):
+</p>
+<pre><code>$ mv app/assets/stylesheets/application.css 
+     app/assets/stylesheets/application.scss</code></pre>
+<p>
+	Удаляем все(!!!) директивы Sprockets в application.scss и в дальнейшем используем только нативный импорт SASS - директиву @import.
+</p>
+<p>
+	Импортируем Bourbon в самом начале application.scss. Все другие стилевые файлы приложения можно будет импортировать уже только после импорта Bourbon:
+</p>
+<pre><code>@import "bourbon";
+@import "home";
+@import "users";</code></pre>
+<h2>Использование Bourbon</h2>
+<p>
+	Очень большое преимущество возникает при использовании Bourbon не саму по себе, как библиотеку, а как "опорный" код для Neat (CSS/SASS-фреймворк для создания макетов страниц, гридов), Bitters (скаффолд для быстрого создания дизайна страниц) и Refills (готовые шаблонные компоненты элементов веб-страниц), совместное использование которых дает такой же результат, как и использование CSS-фреймворков аналогов: 960 Grid System, Twitter Bootstrap, Foundation и пр. И группа 
+	<strong>Bourbon/Neat/Bitters/Refills</strong> имеет множество преимуществ перед конкурентами - логичная и стройная семантика, скорость разработки, гибкость, оптимальный-минимальный объем кода на выходе, легкость поддержки кода и пр.
+</p>
+<p>
+	Об этих фреймворках я еще расскажу в будущем, но вернемся сугубо к Бурбону.
+</p>
+<p>
+	Маленький пример использования. Допустим нам необходимо сделать красивую кнопку. Пишем просто HTML код кнопки:
+</p>
+<pre><code>&lt;button&gt;Pill Button&lt;/button&gt;</code></pre>
+<p>
+	А в стилевом файле подгружаем для нее соответствующий миксин от Бурбона:
+</p>
+<pre><code>button {
+ @include button(pill);
+}</code></pre>
+<p>
+	И на выходе получаем кнопку вида:
+</p>
+<pre><code><button>Pill Button</button></code></pre>
+<!--p>
+	<img src="/system/redactor_assets/pictures/222/pill-button.png">
+</p-->
+<h2>Различные интересные миксины, на которые стоит обратить внимание</h2>
+<p>
+	<strong>Animation</strong> - различные виды и типа CSS-анимации
+</p>
+<p>
+	<strong>Background</strong> - сложные случае указания фона<br>
+	<strong>Background Image</strong> - фоновые изображения<br>
+	<strong>Border Image</strong> - изображения в качестве рамки элемента<br>
+	<strong>Font Face</strong> - задание шрифтов для текста<br>
+	<strong>Image Rendering </strong>- оптимизация скорости загрузки изображения на веб-страницу<br>
+	<strong>Linear Gradient</strong> - реализация линейного градиента методами CSS<br>
+	<strong>Radial Gradient</strong> - аналогично, но радиальный градиент<br>
+	<strong>Border Radius</strong> - создание скругленных рамок<br>
+	<strong>Triangle</strong> - создание треугольников на CSS
+</p>
+<p>
+	Список всех остальных максинов от Bourbon, SASS-функций и SASS-плагинов этой библиотеки можно посмотреть по ссылке, указанной ниже.
+</p>
+<h2>Полезные ссылки</h2>
+<ul>
+	<li><a href="http://bourbon.io" target="_blank">http://bourbon.io</a> - основная страница проекта</li>
+	<li><a href="http://bourbon.io/docs/" target="_blank">http://bourbon.io/docs/</a> - описание все миксинов Bourbon</li>
+	<li><a href="https://github.com/thoughtbot/bourbon" target="_blank">https://github.com/thoughtbot/bourbon</a> - исходный код библиотеки</li>
+</ul>
+<p>
+	<br>
+</p></div><div>Опубликовано: <span class="badge-notice" content="2015-06-08" itemprop="datePublished">08.06.2015</span>Категория: <span class="badge-alert"><a href="/web-tehnologii">Web-технологии</a></span>Комментарии: <span class="badge-error">0</span></div><div class="share">Поделиться: <script charset="utf-8" src="//yastatic.net/share/share.js" type="text/javascript"></script><div class="yashare-auto-init" data-yashareL10n="ru" data-yashareQuickServices="facebook,twitter,gplus,vkontakte," data-yashareTheme="counter" data-yashareType="big" style="display: inline"></div></div></div><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Responsive -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-1604643267632642"
+     data-ad-slot="7553115612"
+     data-ad-format="horizontal"></ins>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+<br><h2>Комментарии</h2><p>Пока нет комментариев.</p><a name="add_comment"></a><h3 class="comment-form">Оставьте свой комментарий</h3><form class="new_blog_comment" id="new_blog_comment" action="/web-tehnologii/bourbon#add_comment" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="sCMKJ0kEutioQt+sL7VobBa5d+ncCW4zNqphtJs5Rs8DMTkoR1UnjjoTTv2gWptKTi16nB6C/fCkC0JXcmfXyw==" /><textarea rows="8" cols="60" style="width: 100%; margin-right: 10px" name="blog_comment[text]" id="blog_comment_text">
+</textarea>Ваше имя: <input style="width: 200px; margin-right: 10px" type="text" name="blog_comment[author]" id="blog_comment_author" />Email: <input style="width: 200px; margin-right: 10px" type="text" name="blog_comment[email]" id="blog_comment_email" /><span style="font-style: italic; font-size: 85%">Оставьте свой email, если хотите получать уведомления о комментариях на этой странице. Ваш email не будет опубликован на сайте.</span><br /><input type="submit" name="commit" value="Добавить комментарий" id="blog_comment_submit" style="margin-top: 20px" /><input type="hidden" value="0" name="blog_comment[parent_id]" id="blog_comment_parent_id" /><input type="hidden" name="authenticity_token" id="authenticity_token" value="caTCmiLXh/8mq12QKlC1odOhtNPYj3DAPM12wBw0BCrCtvGVLIYaqbT6zMGlv0aHizW5phoE4wOubFUj9WqVLg==" /></form></li></ul></article><article class="postcard">
+  <ul class="bullets">
+    <li class="bullet">
+      <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+      <!-- blog-new-bottom-links -->
+      <ins class="adsbygoogle"
+           style="display:inline-block;width:468px;height:15px"
+           data-ad-client="ca-pub-1604643267632642"
+           data-ad-slot="4041246016"></ins>
+      <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+    </li>
+  </ul>
+</article></section><aside class="left"><div class="sticky_column"><img alt="Леонид Лукин" class="optimize-speed" itemprop="image" src="/assets/leonidlukin-bf494045735ace13d3c749b4fd97b4b5e69997d971ba3e55f1472f5654320682.png" /><div class="post_link" style="margin-top: 15px; margin-bottom: 0"><a href="/leonid-lukin"><span itemprop="author" itemscope="" itemtype="http://schema.org/Person"><span itemprop="name">Леонид Лукин</span></span></a></div><p>Интернет-маркетинг: поисковое продвижение и оптимизация сайтов (SEO), ведение контекстной рекламы в Яндексе и Google, SEO-аудит сайтов.</p><p>Разработка сайтов: Ruby on Rails, PHP/Zend Framework, ASP.Net. Создание мобильных версий сайтов.</p><p style="font-style: italic">Сертификаты и звания:</p><div class="certs"><img alt="Zend Certified Engineer - первая тысяча специалистов, сдавшая экзамен по PHP" width="73" height="50" class="borderless" src="/assets/ZCE1000-small-e7f16c13776a5afa5d320ef0a4c42e04f0346ea3658cfd094b5790b38becd764.gif" /><img alt="Microsoft Certified Professional" width="110" height="51" class="border" src="/assets/mcp_logo_small-25c0290e094f0d2f2e26c3d338a9f175f107fea77338d225c003e1fe2037fd66.gif" /><br /><img alt="Certified Internet Webmaster Professional " width="104" height="53" class="border" src="/assets/ciw_professional-23d097995be58be1149b69cb20be4dfc4fe155ca957ecc50555207e9a7baa588.gif" /><img alt="Certified Internet Webmaster Associate" width="104" height="48" class="border" src="/assets/CIW_Associate-202ad49c6db7d3fa9b78f675c5e14ad5cb6358e8e9b0eaa8d4f96e9a42e2ef38.gif" /><img alt="Certified Internet Webmaster Certified Instructor" width="125" height="68" class="border" src="/assets/logo_ciw_ci-6634c09f64d24aeb58366c41020f7c303e25e6e070b0b35dc17d0636a4b27839.gif" /><img alt="International Webmaster Association Member" width="115" height="87" class="border" src="/assets/iwagry-19b676e7f6f190b63ac8a98e31fd9c45ae49d2c804ab119503075d2eec723378.gif" /><img alt="Brainbench Certificated Master HTML 4.0" width="170" height="50" class="borderless" src="/assets/brainbench_master_html_4.0-572511235a26c0645bc79aef03105f224506a1ee284a9dcb69b2e765dc337297.gif" /><img alt="Brainbench Certificated JavaScript" width="170" height="50" class="borderless" src="/assets/javascriptprogrammer-40ddd40404521a9f1a9add546e9c31e77a06cf79638a892ed65bdf0700320940.gif" /><p>Google AdWords Certified Specialist</p><div style="min-height: 350px;"><div style="margin-top: 15px"><a class="twitter-timeline" data-widget-id="639666904530092032" href="https://twitter.com/leolukin"><Tweets>by @leolukin</Tweets></a><script>!function (d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https';
+  if (!d.getElementById(id)) {
+    js = d.createElement(s);
+    js.id = id;
+    js.src = p + "://platform.twitter.com/widgets.js";
+    fjs.parentNode.insertBefore(js, fjs);
+  }
+}(document, "script", "twitter-wjs");</script></div></div></div></div></aside><aside class="right"><div class="sticky_column"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- blog-right -->
+<ins class="adsbygoogle"
+     style="display:block; margin-bottom: 20px"
+     data-ad-client="ca-pub-1604643267632642"
+     data-ad-slot="2564512814"
+     data-ad-format="auto"></ins>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+</script><div><h3>Популярные сообщения</h3><ul class="list"><li><a href="/raznoe/matematika-peterson-chast-2">Математика Петерсон, часть 2</a><br />Комментарии: <span class="badge-error">10816</span></li><li><a href="/raznoe/nachalo">Начало </a><br />Комментарии: <span class="badge-error">7118</span></li><li><a href="/web-tehnologii/bourbon">Bourbon - SASS библиотека для быстрого создания дизайна сайтов</a><br />Комментарии: <span class="badge-error">5290</span></li><li><a href="/web-tehnologii/chto-takoe-bitriks-nesluchaynyy-otzyv">Что такое Битрикс - неслучайный отзыв</a><br />Комментарии: <span class="badge-error">3294</span></li></ul></div><div><h3>Последний комментарий</h3><p class="last_comment">Maksim1990, к сообщению: <a href="/web-tehnologii/mobilnaja-versija-sajta-ili-adaptivnyj-dizajn">Мобильная версия сайта или адаптивная верстка?</a>: <br />У адаптивного дизайна действительно множество преимуществ, таких как удобство разработки и один URL. Если и есть недостатки, то они незначительны,...<a href="/web-tehnologii/mobilnaja-versija-sajta-ili-adaptivnyj-dizajn#comment_18142"> (читать далее)</a><br />Оcтавлено: <span class="badge-notice">07.10.2017</span></p></div><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- blog-new-left -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-1604643267632642"
+     data-ad-slot="9309050415"
+     data-ad-format="rectangle"></ins>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+</script></div></aside></section><footer class="footer-2" role="contentinfo"><div class="footer-logo">&copy; <a href="/leonid-lukin">Леонид Лукин</a>, 2005-2022 </div><ul><li><a href="/">В начало блога</a></li><li><a href="javascript:$(&#39;html, body&#39;).animate({ scrollTop: 0 }, &#39;slow&#39;);void(0)">В начало страницы</a></li></ul></footer><script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Person",
+  "name" : "Leonid Lukin",
+  "url" : "http://blog.phpworld.ru",
+  "sameAs" : [
+    "https://www.facebook.com/leolukin",
+    "https://twitter.com/leolukin",
+    "https://instagram.com/leolukin/",
+    "https://ru.linkedin.com/in/leolukin",
+    "http://www.youtube.com/user/leolukin",
+    "https://www.google.com/+LeonidLukinPhD"
+  ]
+}
+</script></div></body></html>

@@ -1,0 +1,183 @@
+<!DOCTYPE html> <html lang="ru"> <head> <meta charset="utf-8"> <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> <meta http-equiv="X-UA-Compatible" content="IE=edge"> <meta name="viewport" content="width=device-width, initial-scale=1"> <link rel="apple-touch-icon" sizes="57x57" href="/images/favicon/apple-icon-57x57.png"> <link rel="apple-touch-icon" sizes="60x60" href="/images/favicon/apple-icon-60x60.png"> <link rel="apple-touch-icon" sizes="72x72" href="/images/favicon/apple-icon-72x72.png"> <link rel="apple-touch-icon" sizes="76x76" href="/images/favicon/apple-icon-76x76.png"> <link rel="apple-touch-icon" sizes="114x114" href="/images/favicon/apple-icon-114x114.png"> <link rel="apple-touch-icon" sizes="120x120" href="/images/favicon/apple-icon-120x120.png"> <link rel="apple-touch-icon" sizes="144x144" href="/images/favicon/apple-icon-144x144.png"> <link rel="apple-touch-icon" sizes="152x152" href="/images/favicon/apple-icon-152x152.png"> <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-icon-180x180.png"> <link rel="icon" type="image/png" sizes="192x192" href="/images/favicon/android-icon-192x192.png"> <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png"> <link rel="icon" type="image/png" sizes="96x96" href="/images/favicon/favicon-96x96.png"> <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png"> <link rel="manifest" href="/images/favicon/manifest.json"> <meta name="msapplication-TileColor" content="#ffffff"> <meta name="msapplication-TileImage" content="/images/favicon/ms-icon-144x144.png"> <meta name="theme-color" content="#ffffff"> <meta name="msvalidate.01" content="F34FD0093D04052D38754E18AC0F06D4" /> <meta name="google-site-verification" content="1sv4ffgnLcR8LaWDKMiDEJ18oS1SYX0jdZmUabp3n3s" /> <title>Семантические сетки с Sass, Bourbon и Neat</title> <meta name="description" content="Сеточная система Neat это часть экосистемы Bourbon, упрощающая верстку."> <meta name="twitter:card" content="summary"> <meta name="twitter:site" content="Прогрессор"> <meta name="twitter:creator" content="@prgssr"> <meta name="twitter:title" content="Семантические сетки с Sass, Bourbon и Neat"> <meta name="twitter:url" content="http://prgssr.ru/development/semanticheskie-setki-s-sass-bourbon-i-neat.html"> <meta name="twitter:description" content="Сеточная система Neat это часть экосистемы Bourbon, упрощающая верстку."> <meta name="twitter:image:src" content="http://prgssr.ru/images/thoughtbot.png"> <meta name="og:image" content="http://prgssr.ru/images/thoughtbot.png" /> <meta property="og:site_name" content="Прогрессор"/> <meta property="og:type" content="blog"/> <meta name="og:url" content="http://prgssr.ru/development/semanticheskie-setki-s-sass-bourbon-i-neat.html" /> <meta name="og:title" content="Семантические сетки с Sass, Bourbon и Neat" /> <meta name="og:description" content="Сеточная система Neat это часть экосистемы Bourbon, упрощающая верстку." /> <link rel="stylesheet" href="/css/main.css"> <link rel="canonical" href="http://prgssr.ru/development/semanticheskie-setki-s-sass-bourbon-i-neat.html"> <link rel="dns-prefetch" href="//disqus.com"> <link rel="dns-prefetch" href="//a.disquscdn.com/"> <link rel="alternate" type="application/rss+xml" title="Прогрессор" href="http://prgssr.ru/feed.xml" /> <script> (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){ (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o), m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m) })(window,document,'script','//www.google-analytics.com/analytics.js','ga'); ga('create', 'UA-64674967-1', 'auto'); ga('send', 'pageview'); </script> <link rel="stylesheet" href="/css/prism.css"> <script src="/js/prism.js"></script> </head> <body> <div class="page-wrap"> <header class="site-header"> <div class="wrapper"> <a class="site-title" href="/">Прогрессор</a> <nav class="site-nav"> <a href="#" class="menu-icon" data-proofer-ignore> <svg viewBox="0 0 18 15" height="15px" width="18px"> <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/> <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/> <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/> </svg> </a> <div class="trigger"> <a class="page-link" href="/about/">О сайте</a> <a class="page-link" href="/documentation/">Документация Jekyll</a> <a class="page-link" href="/articles/">Статьи</a> <a class="page-link" href="/development/">Переводы</a> </div> </nav> </div> </header> <div class="page-content"> <div class="wrapper"> <div itemscope itemtype="http://schema.org/BlogPosting" class="post"> <meta itemprop="keywords" content="Статья о SASS,библиотека bourbon,сеточная система,Перевод,Sitepoint" /> <meta itemprop="description" content="Сеточная система Neat это часть экосистемы Bourbon, упрощающая верстку." /> <header class="post-header"> <h1 class="post-title" itemprop="headline">Семантические сетки с Sass, Bourbon и Neat</h1> <p class="post-meta"> <time class="published" itemprop="datePublished" datetime="2015-11-15"> 15 Ноября 2015 </time> </p> </header> <p> <span class="original-author">Автор: <a href="https://twitter.com/mdavidgreen"> М.Дэвид Грин</a></span> </p> <p> <span class="original">Оригинал статьи: <a href="http://www.sitepoint.com/sass-bourbon-neat-lightweight-semantic-grids/">Sass and Bourbon Neat for Lightweight Semantic Grids</a></span> </p> <span class="toc-title">Оглавление:</span> <ul class="toc-list"> <li class="toc-item"> <a href="#heading-section">Модульный подход</a> <ul class="toc-list"> </ul> </li> <li class="toc-item"> <a href="#heading-section-1">Что такое семантичная сетка?</a> <ul class="toc-list"> </ul> </li> <li class="toc-item"> <a href="#heading-section-2">Отзывчивая раскладка страницы</a> <ul class="toc-list"> </ul> </li> <li class="toc-item"> <a href="#heading-section-3">Упорядочивание по приоритету контента</a> <ul class="toc-list"> </ul> </li> <li class="toc-item"> <a href="#heading-section-4">Кастомизация настроек</a> <ul class="toc-list"> </ul> </li> <li class="toc-item"> <a href="#heading-section-5">Вложенные сетки</a> <ul class="toc-list"> </ul> </li> <li class="toc-item"> <a href="#heading-section-6">Настраиваемые и ненавязчивые</a> <ul class="toc-list"> </ul> </li> </ul> <article itemprop="articleBody" class="post-content"> <meta itemprop="image" content="http://prgssr.ru/images/thoughtbot.png"> <p>Если вы уже являетесь поклонником <a href="http://sass-lang.com/">Sass</a> и <a href="http://bourbon.io/">Bourbon</a>, то вам придется по душе и <a href="http://neat.bourbon.io/">Neat</a>. Это легковесная семантичная система сеток, прекрасно интегрированная в экосистему Sass и Bourbon, созданная авторами Bourbon — компанией <a href="http://thoughtbot.com/">Thoughtbot</a>.</p> <p>Если же вы еще не в курсе, то Sass это препроцессор CSS, позволяющий вам значительно улучшить рабочий процесс. Bourbon это набор миксинов для Sass, улучшающий и расширяющий возможности Sass. Ознакомиться с ними можно в моей <a href="/development/5-sposobov-uluchshit-sass-s-pomoshyu-bourbon.html">предыдущей статье</a>. После прочтения вы будете готовы к тому, чтобы ознакомиться с Neat.</p> <h2 id="heading-section">Модульный подход</h2> <p>Одной из задач фреймворка Bourbon является сохранение модульности, вас никто не заставляет подключать код, который вы не будете использовать. Именно с учетом этого, разработчики Bourbon выпустили сеточную систему Neat как отдельное дополнение к Bourbon. Они хотели создать небольшую семантичную сеточную систему, решающую большую часть задач по созданию раскладки страницы без лишней догматичности.</p> <p>Целью было создать такой компонент, который дает все необходимые преимущества, но который вовсе необязательно подключать, если она не нужна. Neat можно подключить к проекту Bourbon, но пока вы ее не примените, она ничего не добавит к итоговому коду CSS.</p> <h2 id="heading-section-1">Что такое семантичная сетка?</h2> <p>Семантика это термин, который очень часто используется в веб-разработке. Для Neat семантика это прежде всего способность сеточной системы работать с HTML элементами, не изменяя их нативные классы и использовать их в соответствии с предназначением, оставляя разметку чистой.</p> <p>Разберем это на быстром примере.</p> <p>Представьте, что вы верстаете страницу, на которой надо вывести <code>article</code> и <code>aside</code> внутри <code>section</code>. Вы хотите использовать предназначенные для этого элементы HTML и не хотите загромождать страницу лишними классами или элементами-обертками. Вы хотите, чтобы <code>aside</code> был спозиционирован влево от статьи на дисплее десктопа и чтобы у вас оставалась возможность изменить расположение элементов на других устройствах.</p> <p>Начнем с простого HTML:</p><pre><code class="language-markup">&lt;section&gt;
+  &lt;aside&gt;
+    &lt;p&gt;Highlighted information&lt;/p&gt;
+  &lt;/aside&gt;
+  &lt;article&gt;
+    &lt;p&gt;This is the content of the article&lt;/p&gt;
+  &lt;/article&gt;
+&lt;/section&gt;
+</code></pre><p>Без CSS содержимое <code>aside</code> окажется сверху, а под ним будет <code>article</code>. Чтобы разместить их странице в нужных местах, вам нужно лишь применить к ним миксины Neat. Сначала вы определяете, что элемент <code>section</code> является контейнером, а затем указываете, сколько колонок (из 12 дефолтных) займет каждый из элементов-потомков (<code>aside</code> и <code>article</code>, соответственно).</p><pre><code class="language-scss">@import bourbon/bourbon
+@import neat/neat
+
+section {
+  @include outer-container;
+  aside {
+    @include span-columns(3);
+  }
+  article {
+    @include span-columns(9);
+  }
+}
+</code></pre><p>Это безупречно работает с любым кодом Sass и Bourbon, с любыми классами и CSS селекторами. И если вы хотите, вы можете привязать этот код к конкретным классам CSS, Neat просто сделает свою работу. Вот разметка:</p><pre><code class="language-markup">&lt;section class="article-container"&gt;
+  &lt;aside class="interesting-insight"&gt;
+    &lt;p&gt;Highlighted information&lt;/p&gt;
+  &lt;/aside&gt;
+  &lt;article class="syndicated-content"&gt;
+    &lt;p&gt;This is the content of the article&lt;/p&gt;
+  &lt;/article&gt;
+&lt;/section&gt;
+</code></pre><p>Сетка Neat работает точно также (мы подразумеваем, что вы скопировали директивы <code>@import</code> из предыдущего фрагмента):</p><pre><code class="language-scss">.article-container {
+  @include outer-container;
+  .interesting-insight {
+    @include span-columns(3);
+  }
+  .syndicated-content {
+    @include span-columns(9);
+  }
+}
+</code></pre><h2 id="heading-section-2">Отзывчивая раскладка страницы</h2> <p>На странице, сверстанной с кодом из предыдущих примеров, содержимое <code>aside</code> всегда будет слева от <code>article</code> независимо от размеров окна. Но, что делать, если вам нужно, чтобы на дисплеях меньше 500 пикселей выводился на всю ширину сверху?</p> <p>Вы можете это сделать, задав контрольную точку <code>$mobile</code> равной 500px с помощью функции Neat <code>new-breakpoint()</code>. Эта функция также позволяет вам определить общее количество колонок при таком размере экрана для всех элементов в данном контексте:</p><pre><code class="language-scss">$mobile: new-breakpoint(max-width 500px 4);
+
+section {
+  @include outer-container;
+  aside {
+    @include span-columns(3);
+    @include media($mobile) {
+      @include span-columns(4);
+    }
+  }
+  article {
+    @include span-columns(9);
+    @include media($mobile) {
+      @include span-columns(4);
+    }
+  }
+}
+</code></pre><p>Теперь <code>aside</code> и <code>article</code> будут идти друг за другом, занимая всю ширину экрана, если дисплей равен 500px или меньше. На больших дисплеях будет все та же раскладка со статьей и боковой колонкой.</p> <p>Давайте теперь посмотрим на CSS, сгенерированный для этой базовой отзывчивой раскладки:</p><pre><code class="language-css">* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+section {
+  max-width: 68em;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+section:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+section aside {
+  float: left;
+  display: block;
+  margin-right: 2.35765%;
+  width: 23.23176%;
+}
+
+section aside:last-child {
+  margin-right: 0;
+}
+
+@media screen and (max-width: 500px) {
+  section aside {
+    float: left;
+    display: block;
+    margin-right: 7.42297%;
+    width: 100%;
+  }
+
+  section aside:last-child {
+    margin-right: 0;
+  }
+}
+
+section article {
+  float: left;
+  display: block;
+  margin-right: 2.35765%;
+  width: 74.41059%;
+}
+
+section article:last-child {
+  margin-right: 0;
+}
+
+@media screen and (max-width: 500px) {
+  section article {
+    float: left;
+    display: block;
+    margin-right: 7.42297%;
+    width: 100%;
+  }
+
+  section article:last-child {
+    margin-right: 0;
+  }
+}
+</code></pre><p>Существует множество лучших практик и CSS-трюков, делающих получаемые стили надежными. Например, Bourbon и Neat берут на себя отмену обтекания, удаление правого отступа у последних элементов и расчет ширины элементов и отступов в процентах с точностью до 5 десятичных символов для всех заданных размеров экрана. Это значительно уменьшает трудоемкость верстки.</p> <h2 id="heading-section-3">Упорядочивание по приоритету контента</h2> <p>Если вы хотите переключить порядок вывода элементов, без изменения разметки HTML, Neat поддерживает удобный метод отрицательного позиционирования. Вы можете легко сдвинуть каждую колонку относительно ее родительского элемента:</p><pre><code class="language-scss">section {
+  @include outer-container;
+  aside {
+    @include span-columns(3);
+    @include shift(-12);
+  }
+  article {
+    @include span-columns(9);
+    @include shift(3);
+  }
+}
+</code></pre><p>Теперь элемент <code>article</code> будет слева, а <code>aside</code> справа. И вы точно также сможете добавить для них “мобильные стили” как и в предыдущем примере:</p><pre><code class="language-scss">$mobile: new-breakpoint(max-width 500px 4);
+
+section {
+  @include outer-container;
+  aside {
+    @include span-columns(3);
+    @include shift(-12);
+    @include media($mobile) {
+      @include span-columns(4);
+    }
+  }
+  article {
+    @include span-columns(9);
+    @include shift(3);
+    @include media($mobile) {
+      @include span-columns(4);
+    }
+  }
+}
+</code></pre><h2 id="heading-section-4">Кастомизация настроек</h2> <p>Одним из реальных преимуществ Neat является гибкость конфигурирования. Neat позволяет вам устанавливать собственные значения почти для всего, что вы хотите настроить в ходе разработки сайта, но при этом в ней есть практичные настройки по умолчанию, такие как число колонок и ширина отступов между ними.</p> <p>По умолчанию число колонок равно 12, что дает достаточную гибкость в большинстве раскладок, но вы можете изменить это число, задав новое значение переменной <code>$grid-columns</code>, например, 16.</p><pre><code class="language-scss">$grid-columns: 16;
+
+section {
+  @include outer-container;
+  aside {
+    @include span-columns(4);
+  }
+  article {
+    @include span-columns(12);
+  }
+}
+</code></pre><h2 id="heading-section-5">Вложенные сетки</h2> <p>В Neat есть возможность создавать вложенные сетки, используя элементы макета в качестве контейнеров. Это позволяет создавать гибкие презентации, используя множество элементов, спозиционированных внутри вложенного элемента. Все, что вам нужно, это задать число колонок для внутренних элементов относительно их количества, занимаемого внешним элементом.</p> <p>Например, вот элемент <code>article</code> с тремя вложенными элементами <code>div</code>:</p><pre><code class="language-markup">&lt;section&gt;
+  &lt;aside&gt;
+    &lt;p&gt;Highlighted information&lt;/p&gt;
+  &lt;/aside&gt;
+  &lt;article&gt;
+    &lt;div&gt;This is the first sub-nested element&lt;/div&gt;
+    &lt;div&gt;This is the second sub-nested element&lt;/div&gt;
+    &lt;div&gt;This is the third sub-nested element&lt;/div&gt;
+  &lt;/article&gt;
+&lt;/section&gt;
+</code></pre><p>Теперь вы просто указываете сколько колонок от общей ширины <code>article</code> занимает каждый из <code>div</code>:</p><pre><code class="language-scss">section {
+  @include outer-container;
+  aside {
+    @include span-columns(3);
+  }
+  article {
+    @include span-columns(9);
+    div {
+      @include span-columns(3 of 9);
+    }
+  }
+}
+</code></pre><p>И так как Bourbon и Neat являются расширениями Sass, они могут быть полностью модифицированы с использованием стандартных техник разработки Sass.</p> <h2 id="heading-section-6">Настраиваемые и ненавязчивые</h2> <p>Сетки Neat достаточно гибки и просты, для реализации большинства стандартных подходов к созданию раскладки страницы. Если вы хотите реализовать методику “сначала мобильные” с одной колонкой на смартфоне, двумя на планшете и тремя колонками на десктопе; добавить или убрать отступы между колонками; вложить несколько рядов элементов в контейнер — Neat справится со всем этим.</p> <p>Изучите <a href="http://neat.bourbon.io/docs/">документацию Neat</a> и рассмотрите <a href="http://neat.bourbon.io/examples/">примеры на сайте</a>, чтобы найти вдохновение для своего следующего проекта. С Bourbon и Neat, Sass дает вам возможности для широких экспериментов с дизайном раскладки страницы, не раздувая код и не нарушая семантику разметки.</p> </article> <div> <h6>Серия статей: "Библиотека Bourbon":</h6> <ol> <li> <a href="/development/nachinaem-rabotu-s-sass-i-bourbon.html">Начинаем работу с Sass и Bourbon</a> </li> <li> <a href="/development/5-sposobov-uluchshit-sass-s-pomoshyu-bourbon.html">5 способов улучшить Sass с помощью Bourbon</a> </li> <li> <span>Семантические сетки с Sass, Bourbon и Neat</span> </li> <li> <a href="/development/dobavlyaem-bitters-k-bourbon-i-sass.html">Добавляем Bitters к Bourbon и Sass</a> </li> <li> <a href="/development/bourbon-refills-gotovye-komponenty-dlya-uskoreniya-razrabotki.html">Bourbon Refills - готовые компоненты для ускорения разработки</a> </li> </ol> <p class="post-meta" <time class="published" datetime="2015-11-15"> 15 Ноября 2015 </time> </p> <p class="post-tags" <span> Теги: <a href="/tag/sass">#sass</a>, <a href="/tag/bourbon">#bourbon</a>, <a href="/tag/grid">#grid</a>, <a href="/tag/sitepoint">#sitepoint</a> </span> </p> <div id="disqus_thread"></div> <script type="text/javascript"> /* * * CONFIGURATION VARIABLES * * */ var disqus_shortname = 'prgssr'; /* * * DON'T EDIT BELOW THIS LINE * * */ (function() { var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true; dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js'; (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq); })(); </script> <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript> </div> </div> </div> </div> </div> <footer class="site-footer"> <div class="wrapper"> <ul class="social-media-list"> <li> <a href="/feed.xml" title="http://prgssr.ru/feed.xml"> <span class="icon"> <svg class="icon-rss" viewBox="0 0 512 512" width="32px" height="32px"><path d="M201.8 347.2c0 20.3-16.5 36.8-36.8 36.8 -20.3 0-36.8-16.5-36.8-36.8s16.5-36.8 36.8-36.8C185.3 310.4 201.8 326.8 201.8 347.2zM128.2 204.7v54.5c68.5 0.7 124 56.3 124.7 124.7h54.5C306.7 285.3 226.9 205.4 128.2 204.7zM128.2 166.6c57.9 0.3 112.3 22.9 153.2 63.9 41 41 63.7 95.5 63.9 153.5h54.5c-0.3-149.9-121.7-271.4-271.6-271.9V166.6L128.2 166.6z"/></svg> </span> </a> </li> <li> <a href="https://twitter.com/@prgssr" title="https://twitter.com/@prgssr"> <span class="icon"> <svg class="icon-twitter" viewBox="0 0 512 512" width="32px" height="32px"><path d="M419.6 168.6c-11.7 5.2-24.2 8.7-37.4 10.2 13.4-8.1 23.8-20.8 28.6-36 -12.6 7.5-26.5 12.9-41.3 15.8 -11.9-12.6-28.8-20.6-47.5-20.6 -42 0-72.9 39.2-63.4 79.9 -54.1-2.7-102.1-28.6-134.2-68 -17 29.2-8.8 67.5 20.1 86.9 -10.7-0.3-20.7-3.3-29.5-8.1 -0.7 30.2 20.9 58.4 52.2 64.6 -9.2 2.5-19.2 3.1-29.4 1.1 8.3 25.9 32.3 44.7 60.8 45.2 -27.4 21.4-61.8 31-96.4 27 28.8 18.5 63 29.2 99.8 29.2 120.8 0 189.1-102.1 185-193.6C399.9 193.1 410.9 181.7 419.6 168.6z"/></svg> </span> </a> </li> </ul> </div> </footer> <script type="application/ld+json"> { "@context" : "http://schema.org", "@type" : "WebSite", "name" : "Прогрессор", "url" : "http://prgssr.ru" } </script> <!-- Yandex.Metrika counter --> <script type="text/javascript" data-proofer-ignore> (function (d, w, c) { (w[c] = w[c] || []).push(function() { try { w.yaCounter32557520 = new Ya.Metrika({ id:32557520, clickmap:true, trackLinks:true, accurateTrackBounce:true }); } catch(e) { } }); var n = d.getElementsByTagName("script")[0], s = d.createElement("script"), f = function () { n.parentNode.insertBefore(s, n); }; s.type = "text/javascript"; s.async = true; s.src = "https://mc.yandex.ru/metrika/watch.js"; if (w.opera == "[object Opera]") { d.addEventListener("DOMContentLoaded", f, false); } else { f(); } })(document, window, "yandex_metrika_callbacks"); </script> <noscript><div><img src="https://mc.yandex.ru/watch/32557520" style="position:absolute; left:-9999px;" alt="ym" /></div></noscript> <!-- /Yandex.Metrika counter --> </body> </html>
