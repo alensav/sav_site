@@ -1,0 +1,907 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Как сделать вертикальное меню вкладок</title>
+<meta name="Description" content="Создание и Пример  вертикальное меню вкладок">
+<meta name="Keywords" content="вертикальное меню вкладок примеры как сделать создание на jquery html html5 css css3 хтмл js bootstrap ajax">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../zlib/4/w3.css">
+<link rel="stylesheet" href="../zlib/4/2.css">
+<link rel="icon" href="/favicon.png" type="image/png">
+</head>
+<body>
+<div itemscope itemtype="http://schema.org/WebPage">
+<div itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
+<meta itemprop="ratingValue" content="4.9">
+<meta itemprop="ratingCount" content="449">
+</div></div>
+<div class='w3-container top'>
+<a class='html5cssru-logo' href='/'>HTML<span class='dotcom'>5</span>CSS<span class='dotcom'>.ru</span></a>
+<div class='w3-right w3-hide-small w3-wide toptext' style="font-family:'Segoe UI',Arial,sans-serif">ЛУЧШИЙ САЙТ ДЛЯ РАЗРАБОТЧИКОВ</div>
+</div>
+<div style='display:none;position:absolute;z-index:4;right:52px;height:44px;background-color:#5f5f5f;letter-spacing:normal;' id='googleSearch'>
+<div class='gcse-search'></div>
+</div>
+<div style='display:none;position:absolute;z-index:3;right:111px;height:44px;background-color:#5f5f5f;text-align:right;padding-top:9px;' id='google_translate_element'></div>
+<div class="w3-card-2 topnav" id="topnav" style="position: relative; top: 0px;">
+<div style="overflow:auto;">
+<div class="w3-bar w3-left" style="width:100%;overflow:hidden;height:44px">
+<a href="javascript:void(0);" class="topnav-icons fa fa-menu w3-hide-large w3-left w3-bar-item w3-button" onclick="open_menu()" title=""></a>
+<a href='/' class='topnav-icons fa fa-home w3-left w3-bar-item w3-button' title=''></a>
+<a class="w3-bar-item w3-button" href='/tags/default.php' title=''>Теги HTML</a>
+<a class="w3-bar-item w3-button" href='/html/default.php' title=''>HTML учебник</a>
+<a class="w3-bar-item w3-button" href='/cssref/default.php' title=''>Теги CSS</a>
+<a class="w3-bar-item w3-button" href='/css/default.php' title=''>CSS учебник</a>
+<a class="w3-bar-item w3-button" href='/js/default.php' title=''>JavaScript учебник</a>
+<a class="w3-bar-item w3-button" href='/php/default.php' title=''>PHP учебник</a>
+<a class="w3-bar-item w3-button" href='/sql/default.php' title=''>SQL учебник</a>
+<a class="w3-bar-item w3-button" href='/bootstrap4/default.php' title=''>Bootstrap 4</a>
+
+<a class="w3-bar-item w3-button" id="topnavbtn_tutorials" href="javascript:void(0);" onclick="w3_open_nav(&quot;tutorials&quot;)" title="Tutorials">Еще <i class="fa fa-caret-down" style="display: inline;"></i><i class="fa fa-caret-up" style="display: none;"></i></a>
+<a href="javascript:void(0);" class="topnav-icons fa w3-right w3-bar-item w3-button" onclick="open_search(this)" title=""><i class='fa fa-search'></i></a>
+
+</div>
+
+<div id="nav_tutorials" class="w3-bar-block w3-card-2" style="display: none;">
+<span onclick="w3_close_nav(&quot;tutorials&quot;)" class="w3-button w3-xlarge w3-right" style="position:absolute;right:0;font-weight:bold;">×</span>
+<div class="w3-row-padding" style="padding:24px 48px">
+<div class="w3-col l3 m6">
+<h3>HTML/CSS/JS</h3>
+<a class="w3-bar-item w3-button active2" href='/tags/default.php' title='HTML Tutorial'>Теги HTML</a>
+<a class="w3-bar-item w3-button" href='/cssref/default.php' title='CSS Tutorial'>Теги CSS</a>
+<a class="w3-bar-item w3-button" href='/html/default.php' title='HTML Tutorial'>Примеры и уроки HTML</a>
+<a class="w3-bar-item w3-button" href='/css/default.php' title='CSS Tutorial'>Примеры и уроки CSS</a>
+<a class="w3-bar-item w3-button" href='/colors/1-kody-cvetov-html.php' title='Коды цветов html'>Коды цветов html</a>
+<a class="w3-bar-item w3-button" href='/howto/default.php' rel='nofollow' title='How To HTML'>Как сделать</a>
+<a class="w3-bar-item w3-button" href='/jsref/default.php' rel='nofollow' title='JS'>JS</a>
+<a class="w3-bar-item w3-button" href='/js/default.php' rel='nofollow' title='JAVASCRIPT'>JavaScript учебник</a>
+<a class="w3-bar-item w3-button" href='/jquery/default.php' title='JQuery'>JQuery</a>
+</div>
+<div class="w3-col l3 m6">
+<h3>Bootstrap</h3>
+<a class="w3-bar-item w3-button" href='/bootstrap4/default.php' title='Bootstrap'>Bootstrap 4</a>
+<a class="w3-bar-item w3-button" href='/bootstrap/default.php' title='BS'>Bootstrap 3</a>
+</div>
+<div class="w3-col l3 m6">
+<h3>PHP / SQL</h3>
+<a class="w3-bar-item w3-button" href='/php/default.php' title=''>PHP примеры</a>
+<a class="w3-bar-item w3-button" href='/sql/default.php' title='SQL'>MySql / SQL примеры</a>
+</div>
+
+<div class="w3-col l3 m6">
+<h3>Редакторы</h3>
+<a class="w3-bar-item w3-button" href="/edithtm/index.php" target="_blank">HTML CSS редактор онлайн</a>
+<a class="w3-bar-item w3-button" href="/go.php?url=https://phpsandbox.html5css.ru/index.php" rel='nofollow' target="_blank">PHP 5/7 Sandbox Редактор</a>
+
+</div>
+<div class="w3-col l3 m6">
+<h3>SEO</h3>
+<a class="w3-bar-item w3-button" href="/go.php?url=https://seo-mob.html5css.ru/seo-optimizacija-prodvizhenie/0-vvedenie-seo.php" rel='nofollow' target="_blank">Продвижение сайтов</a>
+<a class="w3-bar-item w3-button" href="/go.php?url=https://seo-mob.html5css.ru/seo-mobile-optimizacija-prodvizhenie/0-vvedenie.php" rel='nofollow' target="_blank">Продвижение сайтов для телефонов</a>
+</div>
+<div class="w3-col l3 m6">
+<h3>Администрирование</h3>
+<a class="w3-bar-item w3-button" href="/vps-admin-2019/" target="_blank">Настройка VPS/VDS сервера</a>
+</div>
+<div class="w3-col l3 m6">
+
+
+</div>
+</div>
+</div>
+<div id="nav_references" class="w3-bar-block w3-card-2" style="display: none;">
+<span onclick="w3_close_nav(&quot;references&quot;)" class="w3-button w3-xlarge w3-right" style="position:absolute;right:0;font-weight:bold;">×</span>
+</div>
+<div id="nav_examples" class="w3-bar-block w3-card-2" style="display: none;">
+<span onclick="w3_close_nav(&quot;examples&quot;)" class="w3-button w3-xlarge w3-right" style="position:absolute;right:0;font-weight:bold;">×</span>
+</div>
+
+</div>
+</div>
+<div class='w3-sidebar w3-collapse' id='sidenav'>
+<div id='leftmenuinner'>
+<div class='w3-light-grey' id='leftmenuinnerinner'>
+<a href='javascript:void(0)' onclick='close_menu()' class='w3-button w3-hide-large w3-large w3-display-topright' style='right:16px;padding:3px 12px;font-weight:bold;'>&times;</a>
+<script>
+function filterContent(elmnt) {
+  var x, i, val, show, showh2, showbr;
+  val = elmnt.value;
+  x = document.getElementById("leftmenuinnerinner").getElementsByTagName("*");
+  for (i = 1; i < x.length; i++) {
+    if (x[i].tagName == "H2") {
+      if (showh2) {
+        if (show == false) {
+          showh2.style.display = "none";
+        } else {
+          showh2.style.display = "block";
+        }
+      }
+      show = false;
+      showh2 = x[i];
+    }
+    if (x[i].tagName == "BR") {
+      if (showbr) {
+        if (show == false) {
+          showbr.style.display = "none";
+        } else {
+          showbr.style.display = "block";
+        }
+      }
+      showbr = x[i];
+    }
+    if (x[i].tagName == "A") {
+      if (x[i].innerHTML.toUpperCase().indexOf(val.toUpperCase()) == -1) {
+        x[i].style.display = "none";
+      } else {
+        x[i].style.display = "block";
+        show = true;
+      }
+    }
+    if (showh2) {
+      if (show == false) {
+        showh2.style.display = "none";
+      } else {
+        showh2.style.display = "block";
+      }
+    }      
+  }
+}
+</script>
+<input class="searchinput" placeholder="Поиск..." oninput="filterContent(this)">
+<h2 class="left">КАК Сделать</h2>
+<a target="_top" href="default.php">Главная</a>
+<br>
+<h2>Меню</h2>
+<a target="_top" href="howto_css_icon_bar.php">Панель значков</a>
+<a target="_top" href="howto_css_menu_icon.php">Значок меню</a>
+<a target="_top" href="howto_js_accordion.php">Аккордеон</a>
+<a target="_top" href="howto_js_tabs.php">Вкладки</a>
+<a target="_top" href="howto_js_vertical_tabs.php" class="active">Вертикальные вкладки</a>
+<a target="_top" href="howto_js_tab_header.php">Заголовки вкладок</a>
+<a target="_top" href="howto_js_full_page_tabs.php">Вкладки полной страницы</a>
+<a target="_top" href="howto_js_topnav.php">Вверх Навигация</a>
+<a target="_top" href="howto_js_topnav_responsive.php">Отзывчивый Topnav</a>
+<a target="_top" href="howto_css_searchbar.php">Панель поиска</a>
+<a target="_top" href="howto_css_fixed_sidebar.php">Исправлена ​​боковая панель</a>
+<a target="_top" href="howto_js_sidenav.php">Боковая навигация</a>
+<a target="_top" href="howto_js_fullscreen_overlay.php">Полноэкранная навигация</a>
+<a target="_top" href="howto_js_off-canvas.php">Меню Off-Canvas</a>
+<a target="_top" href="howto_css_sidenav_buttons.php">Наведение с помощью кнопок</a>
+<a target="_top" href="howto_css_menu_horizontal_scroll.php">Меню горизонтальной прокрутки</a>
+<a target="_top" href="howto_css_vertical_menu.php">Вертикальное меню</a>
+<a target="_top" href="howto_css_bottom_nav.php">Нижняя навигация</a>
+<a target="_top" href="howto_js_bottom_nav_responsive.php">Отзывчивый снимок Nav</a>
+<a target="_top" href="howto_css_navbar_border.php">Ссылки на нижнюю границу</a>
+<a target="_top" href="howto_css_topnav_right.php">Ссылки справа</a>
+<a target="_top" href="howto_css_topnav_centered.php">Центрированные ссылки меню</a>
+<a target="_top" href="howto_css_fixed_menu.php">Исправлено меню</a>
+<a target="_top" href="howto_js_navbar_slide.php">Слайд-шоу в прокрутке</a>
+<a target="_top" href="howto_js_navbar_hide_scroll.php">Скрыть Navbar в прокрутке</a>
+<a target="_top" href="howto_js_navbar_sticky.php">Прикрепленное Navbar</a>
+<a target="_top" href="howto_css_dropdown.php">Выпадающие окна Hover</a>
+<a target="_top" href="howto_js_dropdown.php">Нажмите «Раскрывающиеся окна»</a>
+<a target="_top" href="howto_css_dropdown_navbar.php">Раскрытие в Топнаве</a>
+<a target="_top" href="howto_js_dropdown_sidenav.php">Распространение в Сидене</a>
+<a target="_top" href="howto_js_responsive_navbar_dropdown.php">Откроется панель Navbar</a>
+<a target="_top" href="howto_css_dropup.php">Dropup</a>
+<a target="_top" href="howto_css_mega_menu.php">Mega Menu</a>
+<a target="_top" href="howto_css_pagination.php">пагинация</a>
+<a target="_top" href="howto_css_breadcrumbs.php">Панировочные сухари</a>
+<a target="_top" href="howto_css_button_group.php">Группа кнопок</a>
+<a target="_top" href="howto_css_button_group_vertical.php">Группа вертикальных кнопок</a>
+<a target="_top" href="howto_css_sticky_social_bar.php">Важная социальная панель</a>
+<a target="_top" href="howto_css_responsive_header.php">Отзывчивый заголовок</a>
+<br>
+<h2>Изображения</h2>
+<a target="_top" href="howto_js_slideshow.php">Слайд-шоу</a>
+<a target="_top" href="howto_js_slideshow_gallery.php">Галерея слайд-шоу</a>
+<a target="_top" href="howto_css_modal_images.php">Модальные изображения</a>
+<a target="_top" href="howto_js_lightbox.php">Лайтбокс</a>
+<a target="_top" href="howto_css_image_grid_responsive.php">Адаптивная Сетка изображения</a>
+<a target="_top" href="howto_js_image_grid.php">Сетка изображения</a>
+<a target="_top" href="howto_js_tab_img_gallery.php">Галерея вкладок</a>
+<a target="_top" href="howto_css_image_overlay.php">Оверлей изображения</a>
+<a target="_top" href="howto_css_image_overlay_slide.php">Слайд с наложенным изображением</a>
+<a target="_top" href="howto_css_image_overlay_zoom.php">Масштабирование наложения изображения</a>
+<a target="_top" href="howto_css_image_overlay_title.php">Название наложения изображения</a>
+<a target="_top" href="howto_css_image_overlay_icon.php">Значок наложения изображения</a>
+<a target="_top" href="howto_css_image_effects.php">Эффекты изображения</a>
+<a target="_top" href="howto_css_image_bw.php">Черно-белое изображение</a>
+<a target="_top" href="howto_css_image_text.php">Текст изображения</a>
+<a target="_top" href="howto_css_image_text_blocks.php">Текстовые блоки изображений</a>
+<a target="_top" href="howto_css_image_transparent.php">Прозрачный текст изображения</a>
+<a target="_top" href="howto_css_full_page.php">Полное изображение страницы</a>
+<a target="_top" href="howto_css_form_on_image.php">Форма на картинке</a>
+<a target="_top" href="howto_css_hero_image.php">Герой изображение</a>
+<a target="_top" href="howto_css_images_side_by_side.php">Параллельные изображения</a>
+<a target="_top" href="howto_css_rounded_images.php">Округленные изображения</a>
+<a target="_top" href="howto_css_image_avatar.php">Аватар изображения</a>
+<a target="_top" href="howto_css_image_responsive.php">Адаптивные образы</a>
+<a target="_top" href="howto_css_image_center.php">Центрировать изображения</a>
+<a target="_top" href="howto_css_thumbnail.php">Миниатюры</a>
+<a target="_top" href="howto_css_team.php">Познакомьтесь с командой</a>
+<a target="_top" href="howto_css_image_sticky.php">Липкое изображение</a>
+<a target="_top" href="howto_css_flip_image.php">Отражение изображения</a>
+<a target="_top" href="howto_css_shake_image.php">Встряхните изображение</a>
+<a target="_top" href="howto_css_portfolio_gallery.php">Портфолио галерея</a>
+<a target="_top" href="howto_js_portfolio_filter.php">Портфолио с фильтрацией</a>
+<a target="_top" href="howto_js_image_zoom.php">Масштабирование изображения</a>
+<a target="_top" href="howto_js_image_magnifier_glass.php">Изображение увеличительное стекло</a>
+<a target="_top" href="howto_js_image_comparison.php">Ползунок сравнения изображений</a>
+<br>
+<h2>Кнопки</h2>
+<a target="_top" href="howto_css_alert_buttons.php">Кнопки оповещения</a>
+<a target="_top" href="howto_css_outline_buttons.php">Кнопки структуры</a>
+<a target="_top" href="howto_css_button_split.php">Кнопки разделения</a>
+<a target="_top" href="howto_css_animate_buttons.php">Анимированные кнопки</a>
+<a target="_top" href="howto_css_fading_buttons.php">Кнопки затухания</a>
+<a target="_top" href="howto_css_button_on_image.php">Кнопка на картинке</a>
+<a target="_top" href="howto_css_social_media_buttons.php">Кнопки социальных сетей</a>
+<a target="_top" href="howto_css_loading_buttons.php">Кнопки загрузки</a>
+<a target="_top" href="howto_css_download_button.php">Кнопки загрузки</a>
+<a target="_top" href="howto_css_icon_buttons.php">Значки</a>
+<a target="_top" href="howto_css_next_prev.php">Кнопки «Далее»/«предыдущий»</a>
+<a target="_top" href="howto_css_block_buttons.php">Кнопки блокировки</a>
+<a target="_top" href="howto_css_text_buttons.php">Текстовые кнопки</a>
+<a target="_top" href="howto_css_round_buttons.php">Круглые пуговицы</a>
+<a target="_top" href="howto_js_scroll_to_top.php">Прокрутка к верхней кнопке</a>
+<br>
+<h2>Формы</h2>
+<a target="_top" href="howto_css_login_form.php">Форма входа</a>
+<a target="_top" href="howto_css_signup_form.php">Форма регистрации</a>
+<a target="_top" href="howto_css_checkout_form.php">Бланк заказа</a>
+<a target="_top" href="howto_css_contact_form.php">Контактная форма</a>
+<a target="_top" href="howto_css_social_login.php">Форма для входа в социальную систему</a>
+<a target="_top" href="howto_css_register_form.php">Форма регистрации</a>
+<a target="_top" href="howto_css_form_icon.php">Форма с иконками</a>
+<a target="_top" href="howto_css_newsletter.php">Бюллетень</a>
+<a target="_top" href="howto_css_responsive_form.php">Адаптивная форма</a>
+<a target="_top" href="howto_html_clear_input.php">Очистить поле ввода</a>
+<a target="_top" href="howto_js_copy_clipboard.php">Копировать текст в буфер обмена</a>
+<a target="_top" href="howto_css_animated_search.php">Анимированный Поиск</a>
+<a target="_top" href="howto_css_search_button.php">Кнопка поиска</a>
+<a target="_top" href="howto_css_fullscreen_search.php">Полноэкранный Поиск</a>
+<a target="_top" href="howto_css_custom_checkbox.php">Настраиваемый флажок/Радио</a>
+<a target="_top" href="howto_custom_select.php">Выборочный выбор</a>
+<a target="_top" href="howto_css_switch.php">Тумблер</a>
+<a target="_top" href="howto_js_display_checkbox_text.php">Установите флажок</a>
+<a target="_top" href="howto_js_password_validation.php">Проверка пароля</a>
+<a target="_top" href="howto_js_toggle_password.php">Переключение видимости паролей</a>
+<a target="_top" href="howto_js_form_steps.php">Форма с несколькими шагами</a>
+<a target="_top" href="howto_js_autocomplete.php">Автозаполнения</a>
+<br>
+<h2>Фильтры</h2>
+<a target="_top" href="howto_js_filter_lists.php">Список фильтров</a>
+<a target="_top" href="howto_js_filter_table.php">Таблица фильтров</a>
+<a target="_top" href="howto_js_filter_elements.php">Фильтрующие элементы</a>
+<a target="_top" href="howto_js_filter_dropdown.php">Фильтр раскрывающегося списка</a>
+<a target="_top" href="howto_js_sort_list.php">Сортировать список</a>
+<a target="_top" href="howto_js_sort_table.php">Сортировка таблицы</a>
+<br>
+<h2>Таблицы</h2>
+<a target="_top" href="howto_css_table_zebra.php">Зебра полосатые таблицы</a>
+<a target="_top" href="howto_css_table_responsive.php">Адаптивные таблицы</a>
+<a target="_top" href="howto_css_comparison_table.php">Сравнительная таблица</a>
+<br>
+<h2>Больше</h2>
+<a target="_top" href="howto_css_fullscreen_video.php">Fullscreen Video</a>
+<a target="_top" href="howto_css_modals.php">Модальные коробки</a>
+<a target="_top" href="howto_css_timeline.php">Шкала</a>
+<a target="_top" href="howto_js_scroll_indicator.php">Индикатор прокрутки</a>
+<a target="_top" href="howto_js_progressbar.php">Строки хода выполнения</a>
+<a target="_top" href="howto_css_skill_bar.php">Панель умений</a>
+<a target="_top" href="howto_js_rangeslider.php">Ползунки диапазона</a>
+<a target="_top" href="howto_css_tooltip.php">Подсказки</a>
+<a target="_top" href="howto_js_popup.php">Popups</a>
+<a target="_top" href="howto_js_collapsible.php">Складной</a>
+<a target="_top" href="howto_css_calendar.php">Календарь</a>
+<a target="_top" href="howto_html_include.php">HTML вставка</a>
+<a target="_top" href="howto_js_todolist.php">Список</a>
+<a target="_top" href="howto_css_loader.php">Погрузчики</a>
+<a target="_top" href="howto_css_star_rating.php">Звездв</a>
+<a target="_top" href="howto_css_user_rating.php">Рейтинг пользователей</a>
+<a target="_top" href="howto_css_overlay.php">Эффект наложения</a>
+<a target="_top" href="howto_css_contact_chips.php">Контактные фишки</a>
+<a target="_top" href="howto_css_cards.php">Карты</a>
+<a target="_top" href="howto_css_profile_card.php">Карточка профиля</a>
+<a target="_top" href="howto_js_alert.php">Оповещения</a>
+<a target="_top" href="howto_css_notes.php">Заметки</a>
+<a target="_top" href="howto_css_labels.php">Метки</a>
+<a target="_top" href="howto_css_circles.php">Круги</a>
+<a target="_top" href="howto_css_coupon.php">Купон</a>
+<a target="_top" href="howto_css_responsive_text.php">Отзывчивый текст</a>
+<a target="_top" href="howto_css_fixed_footer.php">Фиксированный нижний колонтитул</a>
+<a target="_top" href="howto_css_sticky_element.php">Липкий элемент</a>
+<a target="_top" href="howto_css_equal_height.php">Одинаковая высота</a>
+<a target="_top" href="howto_css_clearfix.php">Clearfix</a>
+<a target="_top" href="howto_js_snackbar.php">Снэк-бар</a>
+<a target="_top" href="howto_js_scrolldrawing.php">Прокрутка рисунка</a>
+<a target="_top" href="howto_js_sticky_header.php">Липкий заголовок</a>
+<a target="_top" href="howto_css_pricing_table.php">Таблица цен</a>
+<a target="_top" href="howto_css_parallax.php">Параллакс</a>
+<a target="_top" href="howto_css_aspect_ratio.php">Пропорции</a>
+<a target="_top" href="howto_js_toggle_like.php">Переключение типа/не нравится</a>
+<a target="_top" href="howto_js_toggle_hide_show.php">Включить скрытие/отображение</a>
+<a target="_top" href="howto_js_toggle_text.php">Переключение текста</a>
+<a target="_top" href="howto_js_toggle_class.php">Переключение класса</a>
+<a target="_top" href="howto_js_add_class.php">Добавить класс</a>
+<a target="_top" href="howto_js_remove_class.php">Удалить класс</a>
+<a target="_top" href="howto_js_active_element.php">Активный класс</a>
+<a target="_top" href="howto_css_zoom_hover.php">Увеличить Hover</a>
+<a target="_top" href="howto_css_transition_hover.php">Переход при наведении</a>
+<a target="_top" href="howto_css_arrows.php">Стрелки</a>
+<a target="_top" href="howto_css_shapes.php">Формы</a>
+<a target="_top" href="howto_css_browser_window.php">Окно браузера</a>
+<a target="_top" href="howto_css_custom_scrollbar.php">Настраиваемая полоса прокрутки</a>
+
+<a target="_top" href="howto_css_placeholder.php">Цвет заполнителя</a>
+<a target="_top" href="howto_css_vertical_line.php">Вертикальная линия</a>
+<a target="_top" href="howto_js_animate_icons.php">Анимация значков</a>
+<a target="_top" href="howto_js_countdown.php">Таймер обратного отсчета</a>
+<a target="_top" href="howto_js_typewriter.php">Машинку</a>
+<a target="_top" href="howto_css_coming_soon.php">Скоро страница</a>
+<a target="_top" href="howto_css_chat.php">Сообщения чата</a>
+<a target="_top" href="howto_css_split_screen.php">Разделить экран</a>
+<a target="_top" href="howto_css_testimonials.php">Отзывы</a>
+<a target="_top" href="howto_js_quotes_slideshow.php">Цитаты слайд-шоу</a>
+<a target="_top" href="howto_js_close_list_items.php">Закрываемые элементы списка</a>
+<a target="_top" href="howto_css_media_query_breakpoints.php">Типичные точки останова устройства</a>
+<a target="_top" href="howto_js_draggable.php">Перетаскивание HTML-элемента</a>
+<a target="_top" href="howto_js_trigger_button_enter.php">Кнопка спуска на входе</a>
+<a target="_top" href="howto_js_media_queries.php">JS медиа запросы</a>
+
+<a target="_top" href="howto_js_animate.php">JS анимации</a>
+<a target="_top" href="howto_js_element_iframe.php">Получить элементы IFRAME</a>
+<br>
+<h2>Сайт</h2>
+<a target="_top" href="howto_make_a_website.php">Создать веб-сайт</a>
+
+<a target="_top" href="howto_website_bootstrap.php">Создать веб-сайт (BS3)</a>
+<a target="_top" href="howto_website_bootstrap4.php">Создать веб-сайт (BS4)</a>
+<a target="_top" href="howto_css_center_website.php">Веб-сайт центра</a>
+<a target="_top" href="howto_css_contact_section.php">Контактная Секция</a>
+<br>
+<h2>Сетка</h2>
+<a target="_top" href="howto_css_two_columns.php">2 расположение колонок</a>
+<a target="_top" href="howto_css_three_columns.php">3 Расположение колонок</a>
+<a target="_top" href="howto_css_four_columns.php">4 расположение колонок</a>
+<a target="_top" href="howto_js_expanding_grid.php">Разворачивание сетки</a>
+<a target="_top" href="howto_js_list_grid_view.php">Представление сетки списка</a>
+<a target="_top" href="howto_css_mixed_columns.php">Компоновка смешанных столбцов</a>
+<a target="_top" href="howto_css_blog_layout.php">Макет блога</a>
+<br>
+<h2>Google</h2>
+<a target="_top" href="howto_google_maps.php">Карты Google</a>
+<a target="_top" href="howto_google_maps_bw.php">Карты Google BW</a>
+<a target="_top" href="howto_google_translate.php">Google перевести</a>
+<a target="_top" href="howto_google_charts.php">Google чарты</a>
+<a target="_top" href="howto_google_fonts.php">Google шрифты</a>
+<br>
+<h2>Конвертеры</h2>
+<a target="_top" href="howto_js_weight_converter.php">Преобразовать вес</a>
+<a target="_top" href="howto_js_temperature_converter.php">Преобразовать температуру</a>
+<a target="_top" href="howto_js_length_converter.php">Преобразовать длину</a>
+<a target="_top" href="howto_js_speed_converter.php">Конвертировать скорость</a>
+
+<br><br>
+</div>
+</div>
+</div>
+<div class='w3-main w3-light-grey' id='belowtopnav' style='margin-left:220px;'>
+<div class='w3-row w3-white'>
+<div class='w3-col l10 m12' id='main'>
+
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1464971406755683" data-ad-slot="5544535523" data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+<br>
+  
+<style>
+ul.tab {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+}
+
+/* Float the list items side by side */
+ul.tab li {float: left;}
+
+/* Style the links inside the list items */
+ul.tab li a {
+    font-family: "Lato", sans-serif;
+    display: inline-block;
+    color: black;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    transition: 0.3s;
+    font-size: 17px;
+}
+
+/* Change background color of links on hover */
+ul.tab li a:hover {
+    background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+ul.tab li a:focus, .active {
+    background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+    display: none;
+    padding: 6px 12px;
+    -webkit-animation: fadeEffect 1s;
+    animation: fadeEffect 1s;
+}
+
+@-webkit-keyframes fadeEffect {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+@keyframes fadeEffect {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+</style>
+<h1>Как сделать - вертикальное меню вкладок</h1>
+<div class="w3-clear nextprev">
+<a class="w3-left w3-btn" href="howto_js_tabs.php">&#10094; Назад</a>
+<a class="w3-right w3-btn" href="howto_js_tab_header.php">Дальше &#10095;</a>
+</div>
+<hr>
+<p class="intro">Узнайте, как создать вертикальное меню вкладок с CSS и JavaScript.</p>
+<hr>
+<h2>Вертикальные вкладки</h2>
+<p style="font-family: 'Lato', sans-serif;font-size:16px">Вкладки идеально подходят для веб-приложений с одной страницей или для веб-страниц, способных отображать различные темы.</p>
+<iframe src="tryhow_js_vertical_tabs.htm" style="width:100%;height:360px;border:none;margin:0 -8px"></iframe>
+<p style="margin-top:2px"><form target="_blank" action="https://html5css.ru/edithtm/index.php" method="post">
+<input type="hidden" name="postcode" value='
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+* {box-sizing: border-box}
+body {font-family: "Lato", sans-serif;}
+
+/* Style the tab */
+.tab {
+    float: left;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+    width: 30%;
+    height: 300px;
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+    display: block;
+    background-color: inherit;
+    color: black;
+    padding: 22px 16px;
+    width: 100%;
+    border: none;
+    outline: none;
+    text-align: left;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 17px;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+    background-color: #ddd;
+}
+
+/* Create an active/current "tab button" class */
+.tab button.active {
+    background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+    float: left;
+    padding: 0px 12px;
+    border: 1px solid #ccc;
+    width: 70%;
+    border-left: none;
+    height: 300px;
+}
+</style>
+</head>
+<body>
+
+<p>Нажмите на кнопки внутри меню с вкладками:</p>
+
+<div class="tab">
+  <button class="tablinks" onclick="openCity(event, &apos;London&apos;)" id="defaultOpen">London</button>
+  <button class="tablinks" onclick="openCity(event, &apos;Paris&apos;)">Paris</button>
+  <button class="tablinks" onclick="openCity(event, &apos;Tokyo&apos;)">Tokyo</button>
+</div>
+
+<div id="London" class="tabcontent">
+  <h3>London</h3>
+  <p>London is the capital city of England.</p>
+</div>
+
+<div id="Paris" class="tabcontent">
+  <h3>Paris</h3>
+  <p>Paris is the capital of France.</p> 
+</div>
+
+<div id="Tokyo" class="tabcontent">
+  <h3>Tokyo</h3>
+  <p>Tokyo is the capital of Japan.</p>
+</div>
+
+<script>
+function openCity(evt, cityName) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(cityName).style.display = "block";
+    evt.currentTarget.className += " active";
+}
+
+// Get the element with id="defaultOpen" and click on it
+document.getElementById("defaultOpen").click();
+</script>
+     
+</body>
+</html> 
+
+
+'>
+<button type="submit" class="w3-btn w3-margin-bottom">Просмотр демо в редакторе</button>
+</form></p>
+<hr>
+<h2>Создание переключенных вертикальных вкладок</h2>
+<h5>Шаг 1) добавить HTML:</h5>
+<div class="w3-example">
+<h3>Пример</h3>
+<div class="w3-code notranslate htmlHigh">
+&lt;div class=&quot;tab&quot;&gt;<br>&nbsp; &lt;button class=&quot;tablinks&quot; onclick=&quot;openCity(event,
+'London')&quot;&gt;London&lt;/button&gt;<br>&nbsp; &lt;button class=&quot;tablinks&quot; onclick=&quot;openCity(event,
+'Paris')&quot;&gt;Paris&lt;/button&gt;<br>&nbsp; &lt;button class=&quot;tablinks&quot; onclick=&quot;openCity(event,
+'Tokyo')&quot;&gt;Tokyo&lt;/button&gt;<br>
+&lt;/div&gt;<br><br>&lt;div id=&quot;London&quot; class=&quot;tabcontent&quot;&gt;<br>&nbsp; &lt;h3&gt;London&lt;/h3&gt;<br>&nbsp;
+&lt;p&gt;London is the capital city of England.&lt;/p&gt;<br>&lt;/div&gt;<br><br>&lt;div
+id=&quot;Paris&quot; class=&quot;tabcontent&quot;&gt;<br>&nbsp; &lt;h3&gt;Paris&lt;/h3&gt;<br>&nbsp; &lt;p&gt;Paris
+is the capital of France.&lt;/p&gt; <br>&lt;/div&gt;<br><br>&lt;div id=&quot;Tokyo&quot; class=&quot;tabcontent&quot;&gt;<br>&nbsp;
+&lt;h3&gt;Tokyo&lt;/h3&gt;<br>&nbsp; &lt;p&gt;Tokyo is the capital of Japan.&lt;/p&gt;<br>&lt;/div&gt;</div>
+</div>
+<p>Create buttons to open the specific
+tab content. All &lt;div&gt; elements with <code class="w3-codespan">class=&quot;tabcontent&quot;</code> are hidden by default
+(with CSS &amp; JS) - when the user clicks on a button - it will open the tab content
+that &quot;matches&quot; this button.</p>
+<hr>
+<h5>Шаг 2) добавить CSS:</h5>
+<p>Стиль кнопок и содержимое вкладки:</p>
+<div class="w3-example">
+<h3>Пример</h3>
+<div class="w3-code notranslate cssHigh">
+/* Style the tab */<br>.tab {<br>&nbsp;&nbsp;&nbsp; float: left;<br>&nbsp;&nbsp;&nbsp;
+border: 1px solid #ccc;<br>&nbsp;&nbsp;&nbsp; background-color: #f1f1f1;<br>&nbsp;&nbsp;&nbsp;
+width: 30%;<br>&nbsp;&nbsp;&nbsp; height: 300px;<br>}<br>
+<br>/* Style the buttons that are used to open the tab content */<br>.tab button {<br>&nbsp;&nbsp;&nbsp;
+display: block;<br>&nbsp;&nbsp;&nbsp; background-color: inherit;<br>&nbsp;&nbsp;&nbsp;
+color: black;<br>&nbsp;&nbsp;&nbsp; padding: 22px 16px;<br>&nbsp;&nbsp;&nbsp;
+width: 100%;<br>&nbsp;&nbsp;&nbsp; border: none;<br>&nbsp;&nbsp;&nbsp;
+outline: none;<br>&nbsp;&nbsp;&nbsp; text-align: left;<br>&nbsp;&nbsp;&nbsp;
+cursor: pointer;<br>&nbsp;&nbsp;&nbsp; transition: 0.3s;<br>}<br><br>/* Change
+background color of buttons on hover */<br>.tab button:hover {<br>&nbsp;&nbsp;&nbsp;
+background-color: #ddd;<br>}<br><br>/* Create an active/current &quot;tab button&quot;
+class */<br>.tab button.active {<br>&nbsp;&nbsp;&nbsp; background-color:
+#ccc;<br>}<br><br>/* Style the tab content */<br>.tabcontent {<br>&nbsp;&nbsp;&nbsp;
+float: left;<br>&nbsp;&nbsp;&nbsp; padding: 0px 12px;<br>&nbsp;&nbsp;&nbsp;
+border: 1px solid #ccc;<br>&nbsp;&nbsp;&nbsp; width: 70%;<br>&nbsp;&nbsp;&nbsp;
+border-left: none;<br>&nbsp;&nbsp;&nbsp; height: 300px;<br>}</div>
+</div>
+<hr>
+<div style="overflow:auto;text-align:center">
+
+<div id='div-gpt-ad-14s45hg099ghgsaaaa-0' style="display: inline-block">
+</div>
+</div>
+<hr>
+<h5>Шаг 3) добавить JavaScript:</h5>
+<div class="w3-example">
+<h3>Пример</h3>
+<div class="w3-code notranslate jsHigh">
+function openCity(evt, cityName) {<br>&nbsp;&nbsp;&nbsp; // Declare all
+variables<br>&nbsp;&nbsp;&nbsp; var i, tabcontent, tablinks;<br><br>&nbsp;&nbsp;&nbsp;
+// Get all elements with class=&quot;tabcontent&quot; and hide them<br>&nbsp;&nbsp;&nbsp; tabcontent
+= document.getElementsByClassName(&quot;tabcontent&quot;);<br>&nbsp;&nbsp;&nbsp; for (i = 0; i &lt; tabcontent.length; i++) {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; tabcontent[i].style.display = &quot;none&quot;;<br>&nbsp;&nbsp;&nbsp; }<br>
+<br>&nbsp;&nbsp;&nbsp; // Get all elements with class=&quot;tablinks&quot; and remove
+the class &quot;active&quot;<br>
+&nbsp;&nbsp;&nbsp;
+tablinks = document.getElementsByClassName(&quot;tablinks&quot;);<br>&nbsp;&nbsp;&nbsp; for (i = 0; i &lt;
+tablinks.length; i++) {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tablinks[i].className = tablinks[i].className.replace(&quot; active&quot;, &quot;&quot;);<br>&nbsp;&nbsp;&nbsp; }<br>
+<br>&nbsp;&nbsp;&nbsp; // Show the current tab, and add an &quot;active&quot; class to
+the link that opened the tab<br>
+&nbsp;&nbsp;&nbsp;
+document.getElementById(cityName).style.display = &quot;block&quot;;<br>
+&nbsp;&nbsp;&nbsp;
+evt.currentTarget.className += &quot; active&quot;;<br>}</div>
+<form target="_blank" action="https://html5css.ru/edithtm/index.php" method="post">
+<input type="hidden" name="postcode" value='
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+* {box-sizing: border-box}
+body {font-family: "Lato", sans-serif;}
+
+/* Style the tab */
+.tab {
+    float: left;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+    width: 30%;
+    height: 300px;
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+    display: block;
+    background-color: inherit;
+    color: black;
+    padding: 22px 16px;
+    width: 100%;
+    border: none;
+    outline: none;
+    text-align: left;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 17px;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+    background-color: #ddd;
+}
+
+/* Create an active/current "tab button" class */
+.tab button.active {
+    background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+    float: left;
+    padding: 0px 12px;
+    border: 1px solid #ccc;
+    width: 70%;
+    border-left: none;
+    height: 300px;
+}
+</style>
+</head>
+<body>
+
+<p>Нажмите на кнопки внутри меню с вкладками:</p>
+
+<div class="tab">
+  <button class="tablinks" onclick="openCity(event, &apos;London&apos;)" id="defaultOpen">London</button>
+  <button class="tablinks" onclick="openCity(event, &apos;Paris&apos;)">Paris</button>
+  <button class="tablinks" onclick="openCity(event, &apos;Tokyo&apos;)">Tokyo</button>
+</div>
+
+<div id="London" class="tabcontent">
+  <h3>London</h3>
+  <p>London is the capital city of England.</p>
+</div>
+
+<div id="Paris" class="tabcontent">
+  <h3>Paris</h3>
+  <p>Paris is the capital of France.</p> 
+</div>
+
+<div id="Tokyo" class="tabcontent">
+  <h3>Tokyo</h3>
+  <p>Tokyo is the capital of Japan.</p>
+</div>
+
+<script>
+function openCity(evt, cityName) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(cityName).style.display = "block";
+    evt.currentTarget.className += " active";
+}
+
+// Get the element with id="defaultOpen" and click on it
+document.getElementById("defaultOpen").click();
+</script>
+     
+</body>
+</html> 
+
+
+'>
+<button type="submit" class="w3-btn w3-margin-bottom">Просмотр демо в редакторе</button>
+</form>
+</div>
+<p><strong>Совет:</strong> Также проверьте, <a href="howto_js_tabs.php">как создать горизонтальные вкладки</a>.</p>
+<br>
+<div class="w3-clear nextprev">
+<a class="w3-left w3-btn" href="howto_js_tabs.php">&#10094; Назад</a>
+<a class="w3-right w3-btn" href="howto_js_tab_header.php">Дальше &#10095;</a>
+</div>
+</div>
+<div class="w3-col l2 m12" id="right">
+
+
+<div id="yandex_rtb_R-A-334388-1"></div>
+<script type="text/javascript">
+    (function(w, d, n, s, t) {
+        w[n] = w[n] || [];
+        w[n].push(function() {
+            Ya.Context.AdvManager.render({
+                blockId: "R-A-334388-1",
+                renderTo: "yandex_rtb_R-A-334388-1",
+                async: true
+            });
+        });
+        t = d.getElementsByTagName("script")[0];
+        s = d.createElement("script");
+        s.type = "text/javascript";
+        s.src = "//an.yandex.ru/system/context.js";
+        s.async = true;
+        t.parentNode.insertBefore(s, t);
+    })(this, this.document, "yandexContextAsyncCallbacks");
+</script>
+<br>
+
+<style>
+img {
+    border-radius: 8px;
+}
+</style>
+
+
+
+<div class="sidesection">
+<h4><a href="/howto/default.php" rel='nofollow'>Как сделать</a></h4>
+<p>
+<a href="/howto/howto_js_tabs.php" rel='nofollow'>Вкладки</a><br>
+<a href="/howto/howto_css_dropdown.php" rel='nofollow'>Выпадающие</a><br>
+<a href="/howto/howto_js_accordion.php" rel='nofollow'>Аккордеоны</a><br>
+<a href="/howto/howto_js_weight_converter.php" rel='nofollow'>Конвертер</a><br>
+<a href="/howto/howto_css_animate_buttons.php" rel='nofollow'>Анимированные кнопки</a><br>
+<a href="/howto/howto_js_sidenav.php" rel='nofollow'>Боковая Навигация</a><br>
+<a href="/howto/howto_js_topnav.php" rel='nofollow'>Верхняя навигация</a><br>
+<a href="/howto/howto_css_modals.php" rel='nofollow'>Модальные коробки</a><br>
+<a href="/howto/howto_js_progressbar.php" rel='nofollow'>Строки хода выполнения</a><br>
+<a href="/howto/howto_css_parallax.php" rel='nofollow'>Параллакс</a><br>
+<a href="/howto/howto_css_login_form.php" rel='nofollow'>Форма входа</a><br>
+<a href="/howto/howto_html_include.php" rel='nofollow'>HTML вставка</a><br>
+<a href="/howto/howto_google_maps.php" rel='nofollow'>Google Карты</a><br>
+<a href="/howto/howto_js_rangeslider.php" rel='nofollow'>Ползунки диапазона</a><br>
+<a href="/howto/howto_css_tooltip.php" rel='nofollow'>Подсказки</a><br>
+<a href="/howto/howto_js_slideshow.php" rel='nofollow'>Слайдшоу</a><br>
+<a href="/howto/howto_js_filter_lists.php" rel='nofollow'>Список фильтров</a><br>
+<a href="/howto/howto_js_sort_list.php" rel='nofollow'>Сортировать список</a><br>
+<a href="/html/html_images.php">html картинка</a><br>
+<a href="/html/html_images.php">как вставить картинку в html</a><br>
+<a href="/html/html_colors.php">цвет текста фона</a><br>
+<a href="/css/css_font.php">размер текста html</a><br>
+<a href="/css/css_font.php">цвет размер шрифта html</a><br>
+<a href="/html/html_forms.php">формы html</a><br>
+<a href="/html/html_lists.php">список html</a><br>
+<a href="/html/html_tables.php">таблица html</a><br>
+<a href="/html/html_links.php">как сделать ссылку в html</a><br>
+<a href="/html/html_elements.php">html элементы</a><br>
+</p>
+</div>
+</div>
+</div>
+<div id="footer" class="footer w3-container w3-white">
+<hr>
+
+
+<div id="yandex_rtb_R-A-334388-3"></div>
+<script type="text/javascript">
+    (function(w, d, n, s, t) {
+        w[n] = w[n] || [];
+        w[n].push(function() {
+            Ya.Context.AdvManager.render({
+                blockId: "R-A-334388-3",
+                renderTo: "yandex_rtb_R-A-334388-3",
+                async: true
+            });
+        });
+        t = d.getElementsByTagName("script")[0];
+        s = d.createElement("script");
+        s.type = "text/javascript";
+        s.src = "//an.yandex.ru/system/context.js";
+        s.async = true;
+        t.parentNode.insertBefore(s, t);
+    })(this, this.document, "yandexContextAsyncCallbacks");
+</script>
+ 
+<hr>
+<div class="w3-center w3-small w3-opacity">
+Copyright 2018-2020 HTML5CSS.ru<br> <br>
+<br>
+<a href="/info/terms-and-conditions.php" rel="nofollow">Правила и Условия</a> <a href="/info/privacy-policy.php" rel="nofollow">Политика конфиденциальности </a>
+<a href="/info/about.php" rel="nofollow">О нас</a>
+<a href="/info/contacts.php" rel="nofollow">Контакты </a>
+</div>
+<br><br>
+</div>
+</div>
+<script src="../zlib/4/1.js"></script>
+<!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>  
+<![endif]-->
+
+<script src="https://use.fontawesome.com/4ac70bcd9c.js"></script>
+
+
+<script type="text/javascript">
+    (function (d, w, c) {
+        (w[c] = w[c] || []).push(function() {
+            try {
+                w.yaCounter48895634 = new Ya.Metrika({
+                    id:48895634,
+                    clickmap:true,
+                    trackLinks:true,
+                    accurateTrackBounce:true
+                });
+            } catch(e) { }
+        });
+
+        var n = d.getElementsByTagName("script")[0],
+            s = d.createElement("script"),
+            f = function () { n.parentNode.insertBefore(s, n); };
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = "https://cdn.jsdelivr.net/npm/yandex-metrica-watch/watch.js";
+
+        if (w.opera == "[object Opera]") {
+            d.addEventListener("DOMContentLoaded", f, false);
+        } else { f(); }
+    })(document, window, "yandex_metrika_callbacks");
+</script>
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-121240875-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-121240875-1');
+</script>
+</body>
+</html>

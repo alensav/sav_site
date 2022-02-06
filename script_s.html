@@ -1,0 +1,305 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ru" lang="ru" dir="ltr"> 
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Создание своего скрипта автозапуска при загрузке компьютера | Русскоязычная документация по Ubuntu</title><link rel="shortcut icon" href="/lib/tpl/ubuntu-portal/images/favicon.ico" />
+<link rel="apple-touch-icon" href="/lib/tpl/ubuntu-portal/images/apple-touch-icon.png" />
+        <link href='https://fonts.googleapis.com/css?family=Ubuntu:400,700,400italic,700italic&subset=latin,cyrillic'
+              rel='stylesheet' type='text/css'>
+                <link rel="stylesheet" type="text/css" href="https://s.ubuntu.ru/portal/ubuntu-portal.css?alarm"/>
+        <meta name="generator" content="DokuWiki"/>
+<meta name="robots" content="index,follow"/>
+<meta name="keywords" content="скрипты,tips"/>
+<link rel="search" type="application/opensearchdescription+xml" href="/lib/exe/opensearch.php" title="Русскоязычная документация по Ubuntu"/>
+<link rel="start" href="/"/>
+<link rel="contents" href="/wiki/%D1%81%D0%BE%D0%B7%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5_%D1%81%D0%BA%D1%80%D0%B8%D0%BF%D1%82%D0%B0_%D0%B0%D0%B2%D1%82%D0%BE%D0%B7%D0%B0%D0%BF%D1%83%D1%81%D0%BA%D0%B0?do=index" title="Все страницы"/>
+<link rel="alternate" type="application/rss+xml" title="Недавние изменения" href="/feed.php"/>
+<link rel="alternate" type="application/rss+xml" title="Текущее пространство имён" href="/feed.php?mode=list&amp;ns=wiki"/>
+<link rel="alternate" type="text/html" title="Простой HTML" href="/_export/xhtml/wiki/%D1%81%D0%BE%D0%B7%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5_%D1%81%D0%BA%D1%80%D0%B8%D0%BF%D1%82%D0%B0_%D0%B0%D0%B2%D1%82%D0%BE%D0%B7%D0%B0%D0%BF%D1%83%D1%81%D0%BA%D0%B0"/>
+<link rel="alternate" type="text/plain" title="вики-разметка" href="/_export/raw/wiki/%D1%81%D0%BE%D0%B7%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5_%D1%81%D0%BA%D1%80%D0%B8%D0%BF%D1%82%D0%B0_%D0%B0%D0%B2%D1%82%D0%BE%D0%B7%D0%B0%D0%BF%D1%83%D1%81%D0%BA%D0%B0"/>
+<link rel="canonical" href="https://help.ubuntu.ru/wiki/%D1%81%D0%BE%D0%B7%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5_%D1%81%D0%BA%D1%80%D0%B8%D0%BF%D1%82%D0%B0_%D0%B0%D0%B2%D1%82%D0%BE%D0%B7%D0%B0%D0%BF%D1%83%D1%81%D0%BA%D0%B0"/>
+<link rel="stylesheet" type="text/css" href="/lib/exe/css.php?t=ubuntu-portal&amp;tseed=bef559b7b29c2b8394b197c35761872f"/>
+<!--[if gte IE 9]><!-->
+<script type="text/javascript">/*<![CDATA[*/var NS='wiki';var JSINFO = {"id":"wiki:\u0441\u043e\u0437\u0434\u0430\u043d\u0438\u0435_\u0441\u043a\u0440\u0438\u043f\u0442\u0430_\u0430\u0432\u0442\u043e\u0437\u0430\u043f\u0443\u0441\u043a\u0430","namespace":"wiki"};
+/*!]]>*/</script>
+<script type="text/javascript" charset="utf-8" src="/lib/exe/jquery.php?tseed=23f888679b4f1dc26eef34902aca964f"></script>
+<script type="text/javascript" charset="utf-8" src="/lib/exe/js.php?t=ubuntu-portal&amp;tseed=bef559b7b29c2b8394b197c35761872f"></script>
+<!--<![endif]-->
+        <script type="text/javascript" src="https://s.ubuntu.ru/portal/ubuntu-portal.js"></script>		<script type="text/javascript">
+			var _gaq = _gaq || [];
+			_gaq.push(['_setAccount', 'UA-4515300-6']);
+			_gaq.push(['_trackPageview']);
+			(function() {
+				var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+				ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+				var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+			})();
+		</script>
+</head>
+<body class="with-bottom-panel act-show">
+<div id="__container">
+<!-- Document -->
+<div>
+	<!-- Page -->
+	<div id="__page">
+		<div id="__wrapper"><div>
+			<!-- Header -->
+			<div id="__header">
+	<div id="__header-menu">
+		<ul>
+			<li>
+				<a href="https://ubuntu.ru/" title="Главная страница сайта ubuntu.ru">Сайт</a>			</li>
+			<li>
+				<a href="https://forum.ubuntu.ru/" title="Форум русскоязычного сообщества Ubuntu. На нём вы можете задать интересующие вас вопросы и получить помощь от других пользователей Ubuntu.">Форум</a>			</li>
+			<li>
+				<a href="https://help.ubuntu.ru/" title="Различная русскоязычная документация по семейству операционных систем на базе Ubuntu" class="active">Документация</a>					<div class="header-submenu">
+						<div>
+							<ul>
+								<li>
+					<a href="https://help.ubuntu.ru/wiki" title="Документация, создаваемая пользователями Ubuntu" class="active">Пользовательская документация</a>
+				<div class="header-popup">
+					<ul>
+						<li><a href="https://help.ubuntu.ru/wiki/семейство_ubuntu" title="Документация по дистрибутивам, входящим в семейство Ubuntu">Семейство Ubuntu</a></li>
+						<li><a href="https://help.ubuntu.ru/wiki/руководства" title="Различные материалы по Ubuntu, доступные для загрузки">Материалы для загрузки</a></li>
+						<li><a href="https://help.ubuntu.ru/wiki/совместимость" title="Раздел, посвящённый совместимости Ubuntu с оборудованием, в первую очередь - с ноутбуками">Совместимость с оборудованием</a></li>
+					</ul>
+				</div></li>
+								<li><a href="https://help.ubuntu.ru/doc" title="Переводы официальной документации по Ubuntu на русский язык">Официальная документация</a></li>
+							</ul>
+									<div id="__header-controls">			<div id="__header-user"><a href="/wiki/%D1%81%D0%BE%D0%B7%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5_%D1%81%D0%BA%D1%80%D0%B8%D0%BF%D1%82%D0%B0_%D0%B0%D0%B2%D1%82%D0%BE%D0%B7%D0%B0%D0%BF%D1%83%D1%81%D0%BA%D0%B0?do=login&amp;sectok="  class="action login" rel="nofollow" title="Войти">Войти / Зарегистрироваться</a>			</div>		</div>							<div class="clearer"></div>
+						</div>
+					</div>
+							</li>
+			<li>
+				<a href="https://team.ubuntu.ru/" title="Материалы, касающиеся работы русскоязычного сообщества и русскоязычной LoCo команды Ubuntu">Сообщество</a>			</li>
+			<li>
+				<a href="https://ubuntu.ru/get" title="Страница получения дистрибутива Ubuntu">Скачать Ubuntu</a>			</li>
+		</ul>
+		<div id="__header-logo">
+			<a href="https://ubuntu.ru" title="На главную страницу сайта">
+				<img src="https://s.ubuntu.ru/img/logo_ru.png" alt=""/>
+			</a>
+		</div>
+	</div>
+	<div id="__search-box">
+		<form action="/%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F" accept-charset="utf-8" class="search" id="dw__search" method="get" role="search"><div class="no"><input type="hidden" name="do" value="search" /><input type="text" placeholder="Найти" id="qsearch__in" accesskey="f" name="id" class="edit" title="[F]" /><button type="submit" title="Найти">Найти</button><div id="qsearch__out" class="ajax_qsearch JSpopup"></div></div></form>	</div>
+</div>
+			<!-- /Header -->
+			<!-- Main -->
+							<div id="__main">
+					<div id="__main-title">
+						<h1><a name="создание_своего_скрипта_автозапуска_при_загрузке_компьютера" id="создание_своего_скрипта_автозапуска_при_загрузке_компьютера">Создание своего скрипта автозапуска при загрузке компьютера</a></h1>
+					</div>
+					<div class="msgarea">
+											</div>
+					<div class="content">
+						<div class="content-main dokuwiki">
+							<!-- TOC START -->
+<div id="dw__toc">
+<h3 class="toggle">Содержание</h3>
+<div>
+
+<ul class="toc">
+<li class="level1"><div class="li"><a href="#создание_своего_скрипта_автозапуска_при_загрузке_компьютера">Создание своего скрипта автозапуска при загрузке компьютера</a></div>
+<ul class="toc">
+<li class="level2"><div class="li"><a href="#немного_более_сложный_способ">Немного более сложный способ</a></div></li>
+</ul>
+</li>
+<li class="level1"><div class="li"><a href="#выполнение_скрипта_при_включенииотключении_сети">Выполнение скрипта при включении/отключении сети</a></div></li>
+<li class="level1"><div class="li"><a href="#ссылки">Ссылки</a></div></li>
+</ul>
+</div>
+</div>
+<!-- TOC END -->
+<div class="level1">
+
+<p>
+Создаём пустой файл.
+</p>
+
+<p>
+Первой строкой пишем: 
+</p>
+<pre class="code">#!/bin/sh</pre>
+
+<p>
+Данная строка указывает, какую командную оболочку необходимо использовать. Дальше свои команды.
+</p>
+
+<p>
+Сохраним его под оригинальным названием (чтоб не совпадал с уже существующими) в каталоге /usr/sbin/.
+</p>
+
+<p>
+Чтобы скрипт запускался при загрузке, необходимо прописать его в файле /etc/rc.local до строчки exit 0. Если у вас не существует данного файла, создайте его и вставьте в него следующее содержимое:
+</p>
+<pre class="code">#!/bin/sh -e
+#Здесь вставляем строку с указанием вашего скрипта.
+/usr/sbin/mescripts
+exit 0</pre>
+
+</div>
+
+<h2 class="sectionedit2" id="немного_более_сложный_способ">Немного более сложный способ</h2>
+<div class="level2">
+
+<p>
+Позволяет задать последовательность загрузки и поведение скрипта при разных runlevel&#039;ах.
+</p>
+
+<p>
+Изучаем <code>/etc/init.d/skeleton</code>, на его основе создаем скрипт <code>/etc/init.d/my_script</code>, которым будет запускаться/останавливаться наше приложение.
+</p>
+
+<p>
+В этих директориях лежат скрипты остановки сервисов:
+</p>
+<pre class="code">/etc/rc0.d/ /etc/rc1.d/  /etc/rc6.d/  </pre>
+
+<p>
+в этих — скрипты запуска сервисов:
+</p>
+<pre class="code">/etc/rc2.d/  /etc/rc3.d/  /etc/rc4.d/ /etc/rc5.d/</pre>
+
+<p>
+Изучаем их на предмет последовательности (чем меньше первая цифра в начале скрипта, тем раньше запускается/останавливается приложение). Это может быть критично, если ваше приложение будет зависит от каких-то сервисов.
+</p>
+
+<p>
+После того, как определились со скриптом запуска и очередностью, выполняем следующее :
+</p>
+<pre class="code">sudo update-rc.d my_script start 70 2 3 4 5 . stop 20 0 1 6 .</pre>
+
+<p>
+Здесь я определил, что мой скриптик должен запускаться попозже остальных(70), и останавливаться пораньше(20). Цифры 2 3 4 5 0 1 6 означают уровни загрузки.
+</p>
+
+<p>
+Если что-то не понравилось — все можно удалить
+</p>
+<pre class="code">sudo update-rc.d -f my_script remove</pre>
+
+<p>
+Подробности в <code>man update-rc.d</code>.
+</p>
+
+</div>
+
+<h1 class="sectionedit3" id="выполнение_скрипта_при_включенииотключении_сети">Выполнение скрипта при включении/отключении сети</h1>
+<div class="level1">
+
+<p>
+Есть директория <code>/etc/network/</code> с поддиректориями <code>if-down.d</code>, <code>if-pre-up.d</code>, <code>if-post-down.d</code>, <code>if-up.d</code>. Если разместить скрипт в одной из этих поддиректорий, то он будет выполняться соответственно при выключении, перед включением, после выключения или при включении сети.
+</p>
+
+<p>
+Другой способ — указать в файле <code>/etc/network/interfaces</code> одну из следующих директив: <code>up</code>, <code>pre-up</code>, <code>post-up</code>, <code>down</code>, <code>pre-down</code>, <code>post-down</code>. Например, строка
+</p>
+<pre class="code">post-up /path/to/script.sh</pre>
+
+<p>
+после включения сети выполнит скрипт <em>script.sh</em>. Подробнее можно почитать в <code>man interfaces</code>.
+</p>
+
+<p>
+В любом случае на скрипт должны быть установлены права, разрешающие выполнение, иначе он не сможет запуститься.
+</p>
+
+</div>
+
+<h1 class="sectionedit4" id="ссылки">Ссылки</h1>
+<div class="level1">
+<ul>
+<li class="level"><div class="li">
+ <a href="http://forum.ubuntu.ru/index.php?topic=5755.msg44237" class="urlextern" title="http://forum.ubuntu.ru/index.php?topic=5755.msg44237" rel="nofollow">автозагрузка в ubuntu server </a> — оригинальная статья на форуме
+</div></li>
+</ul>
+
+<div class="tags"><span>
+	<a href="/tag/%D1%81%D0%BA%D1%80%D0%B8%D0%BF%D1%82%D1%8B?do=showtag&amp;tag=%D0%A1%D0%BA%D1%80%D0%B8%D0%BF%D1%82%D1%8B" class="wikilink1" title="tag:скрипты" rel="tag">Скрипты</a>,
+	<a href="/tag/tips?do=showtag&amp;tag=tips" class="wikilink1" title="tag:tips" rel="tag">tips</a>
+</span></div>
+
+</div>
+
+							<div class="clearer"></div>
+						</div>
+					</div>
+					<div class="clearer"></div>
+				</div>
+						<!-- /Main -->
+		</div></div>
+		<!-- Footer -->
+		<div id="__site-footer">
+	<ul>
+		<li><a href="https://ubuntu.ru/" title="Главная страница сайта ubuntu.ru">Сайт</a></li>
+		<li><a href="https://ubuntu.ru/about" title="Описание и особенности дистрибутива Ubuntu">Об Ubuntu</a></li>
+		<li><a href="https://ubuntu.ru/get" title="Страница получения дистрибутива Ubuntu">Скачать Ubuntu</a></li>
+		<li><a href="https://ubuntu.ru/family" title="Список дистрибутивов, входящих в большое семейство Ubuntu">Семейство Ubuntu</a></li>
+		<li><a href="https://ubuntu.ru/news" title="Новости русскоязычного сообщества Ubuntu">Новости</a></li>
+	</ul>
+	<ul>
+		<li><a href="https://forum.ubuntu.ru/" title="Форум русскоязычного сообщества Ubuntu. На нём вы можете задать интересующие вас вопросы и получить помощь от других пользователей Ubuntu.">Форум</a></li>
+		<li><a href="https://forum.ubuntu.ru/index.php?action=help" title="Помощь по использованию форума">Помощь</a></li>
+		<li><a href="https://forum.ubuntu.ru/index.php?action=rules" title="Правила пользования форумом русскоязычного сообщества Ubuntu">Правила</a></li>
+	</ul>
+	<ul>
+		<li><a href="https://help.ubuntu.ru/" title="Различная русскоязычная документация по семейству операционных систем на базе Ubuntu">Документация</a></li>
+		<li><a href="https://help.ubuntu.ru/wiki" title="Документация, создаваемая пользователями Ubuntu" class="active">Пользовательская документация</a></li>
+		<li><a href="https://help.ubuntu.ru/doc" title="Переводы официальной документации по Ubuntu на русский язык">Официальная документация</a></li>
+		<li><a href="https://help.ubuntu.ru/wiki/семейство_ubuntu" title="Документация по дистрибутивам, входящим в семейство Ubuntu">Семейство Ubuntu</a></li>
+		<li><a href="https://help.ubuntu.ru/wiki/руководства" title="Различные материалы по Ubuntu, доступные для загрузки">Материалы для загрузки</a></li>
+		<li><a href="https://help.ubuntu.ru/wiki/совместимость" title="Раздел, посвящённый совместимости Ubuntu с оборудованием, в первую очередь - с ноутбуками">Совместимость с оборудованием</a></li>
+		<li><a href="https://help.ubuntu.ru/feed.php" title="Позволяет подписаться на обновления посредством RSS" class="rss-feed">RSS лента</a></li>
+	</ul>
+	<ul>
+		<li><a href="https://team.ubuntu.ru/" title="Материалы, касающиеся работы русскоязычного сообщества и русскоязычной LoCo команды Ubuntu">Сообщество</a></li>
+		<li><a href="https://team.ubuntu.ru/projects" title="Проекты русскоязычного сообщества Ubuntu">Наши проекты</a></li>
+		<li><a href="https://team.ubuntu.ru/loco" title="Раздел, посвящённый местным сообществам Ubuntu (LoCo) в различных городах и областях">Местные сообщества</a></li>
+		<li><a href="https://team.ubuntu.ru/translate" title="Раздел, посвящённый переводу Ubuntu на русский язык">Перевод Ubuntu</a></li>
+		<li><a href="https://team.ubuntu.ru/qa" title="Тестирование новых версий Ubuntu">Тестирование</a></li>
+		<li><a href="https://team.ubuntu.ru/feed.php" title="Позволяет подписаться на обновления посредством RSS" class="rss-feed">RSS лента</a></li>
+	</ul>
+	<p>
+		© 2018 Ubuntu-ru — Русскоязычное сообщество Ubuntu Linux.<br />
+		© 2012 Canonical Ltd. Ubuntu и Canonical являются зарегистрированными торговыми знаками Canonical Ltd.
+	</p>
+	<a href="https://ubuntu.ru" title="На главную страницу сайта">
+		<img src="https://s.ubuntu.ru/img/footer_logo_ru.png" alt=""/>
+	</a>
+	<div class="clearer"></div>
+</div>
+		<!-- /Footer -->
+	</div>
+	<div class="no"><img src="/lib/exe/indexer.php?id=wiki%3A%D1%81%D0%BE%D0%B7%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5_%D1%81%D0%BA%D1%80%D0%B8%D0%BF%D1%82%D0%B0_%D0%B0%D0%B2%D1%82%D0%BE%D0%B7%D0%B0%D0%BF%D1%83%D1%81%D0%BA%D0%B0&amp;1644142352" width="2" height="1" alt="" /></div>
+	<!-- /Page -->
+</div>
+<!-- /Document -->
+<!-- Control -->
+	<div id="__control" class="pinned-down">
+		<ul>
+			<li><a href="/wiki/%D1%81%D0%BE%D0%B7%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5_%D1%81%D0%BA%D1%80%D0%B8%D0%BF%D1%82%D0%B0_%D0%B0%D0%B2%D1%82%D0%BE%D0%B7%D0%B0%D0%BF%D1%83%D1%81%D0%BA%D0%B0?do=edit"  class="action source" accesskey="v" rel="nofollow" title="Показать исходный текст [V]">Показать исходный текст</a></li>
+			<li><a href="/wiki/%D1%81%D0%BE%D0%B7%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5_%D1%81%D0%BA%D1%80%D0%B8%D0%BF%D1%82%D0%B0_%D0%B0%D0%B2%D1%82%D0%BE%D0%B7%D0%B0%D0%BF%D1%83%D1%81%D0%BA%D0%B0?do=revisions"  class="action revs" accesskey="o" rel="nofollow" title="История страницы [O]">История страницы</a></li>
+			<li></li>
+			<li><a href="/wiki/%D1%81%D0%BE%D0%B7%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5_%D1%81%D0%BA%D1%80%D0%B8%D0%BF%D1%82%D0%B0_%D0%B0%D0%B2%D1%82%D0%BE%D0%B7%D0%B0%D0%BF%D1%83%D1%81%D0%BA%D0%B0?do=backlink"  class="action backlink" rel="nofollow" title="Ссылки сюда">Ссылки сюда</a></li>
+		</ul>
+		<ul>
+			<li id="__control_toggle">
+							<a href="" title="Закрепить панель">
+					<img src="https://s.ubuntu.ru/img/remmina-pin-up.png" alt="Закрепить панель" />
+				</a>
+						</li>
+			<li></li>
+			<li></li>
+			<li><a href="/wiki/%D1%81%D0%BE%D0%B7%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5_%D1%81%D0%BA%D1%80%D0%B8%D0%BF%D1%82%D0%B0_%D0%B0%D0%B2%D1%82%D0%BE%D0%B7%D0%B0%D0%BF%D1%83%D1%81%D0%BA%D0%B0?do=media&amp;ns=wiki"  class="action media" rel="nofollow" title="Управление медиафайлами">Управление медиафайлами</a></li>
+			<li></li>
+			<li><a href="/wiki/%D1%81%D0%BE%D0%B7%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5_%D1%81%D0%BA%D1%80%D0%B8%D0%BF%D1%82%D0%B0_%D0%B0%D0%B2%D1%82%D0%BE%D0%B7%D0%B0%D0%BF%D1%83%D1%81%D0%BA%D0%B0?do=index"  class="action index" accesskey="x" rel="nofollow" title="Все страницы [X]">Все страницы</a></li>
+			<li><a href="/wiki/%D1%81%D0%BE%D0%B7%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5_%D1%81%D0%BA%D1%80%D0%B8%D0%BF%D1%82%D0%B0_%D0%B0%D0%B2%D1%82%D0%BE%D0%B7%D0%B0%D0%BF%D1%83%D1%81%D0%BA%D0%B0?do=recent"  class="action recent" accesskey="r" rel="nofollow" title="Недавние изменения [R]">Недавние изменения</a></li>
+		</ul>
+		<div class="clearer"></div>
+	</div>
+<!-- /Control -->
+</div>
+</body>
+
+</html>
