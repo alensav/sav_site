@@ -1,0 +1,2003 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ru-RU">
+<head profile="http://gmpg.org/xfn/11">
+	
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<meta name="description" content="Блог о системном администрировании. Статьи о Linux, Windows, СХД NetApp и виртуализации." />
+	<meta name="yandex-verification" content="22194496404a3e49" />
+	<style type="text/css" media="screen">@import url( https://www.k-max.name/wp-content/themes/deep-mix/style.css );</style>
+   <link rel="alternate" type="application/rss+xml" title="RSS 2.0 - all posts" href="http://feeds.feedburner.com/k-max/feed" />
+	<link rel="alternate" type="application/rss+xml" title="RSS 2.0 - all comments" href="https://www.k-max.name/comments/feed/" />
+   <link rel="pingback" href="https://www.k-max.name/xmlrpc.php" />
+      <!--[if lt IE 7]>
+      <script type="text/javascript" src="https://www.k-max.name/wp-content/themes/deep-mix/js/unitpngfix.js"></script>
+		<link rel="stylesheet" href="https://www.k-max.name/wp-content/themes/deep-mix/ie6.css" type="text/css" media="screen" />
+	   <![endif]-->
+      
+		<!-- All in One SEO 4.1.3.4 -->
+		<title>Сервер SAMBA и сервер печати на CUPS | Блог любителя экспериментов</title>
+		<meta name="description" content="Описание работы пакета SAMBA, организация абсолютной файлопомойки, сервера печати с автоматической загрузкой драйверов."/>
+		<meta name="keywords" content="samba,cups,сервер печати на линукс,файловый сервер на linux,debian,linux,microsoft windows,основы" />
+		<link rel="canonical" href="https://www.k-max.name/windows/file-print-server-na-samba-cups/" />
+		<script type="application/ld+json" class="aioseo-schema">
+			{"@context":"https:\/\/schema.org","@graph":[{"@type":"WebSite","@id":"https:\/\/www.k-max.name\/#website","url":"https:\/\/www.k-max.name\/","name":"\u0411\u043b\u043e\u0433 \u043b\u044e\u0431\u0438\u0442\u0435\u043b\u044f \u044d\u043a\u0441\u043f\u0435\u0440\u0438\u043c\u0435\u043d\u0442\u043e\u0432","description":"\u0411\u043b\u043e\u0433 \u043e \u0441\u0438\u0441\u0442\u0435\u043c\u043d\u043e\u043c \u0430\u0434\u043c\u0438\u043d\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u0438\u0438. \u0421\u0442\u0430\u0442\u044c\u0438 \u043e Linux, Windows, \u0421\u0425\u0414 NetApp \u0438 \u0432\u0438\u0440\u0442\u0443\u0430\u043b\u0438\u0437\u0430\u0446\u0438\u0438.","publisher":{"@id":"https:\/\/www.k-max.name\/#person"}},{"@type":"Person","@id":"https:\/\/www.k-max.name\/#person","name":"Mc.Sim","image":{"@type":"ImageObject","@id":"https:\/\/www.k-max.name\/windows\/file-print-server-na-samba-cups\/#personImage","url":"https:\/\/secure.gravatar.com\/avatar\/7e1afb92fa815ed2eb0b3d439022693e?s=96&d=mm&r=g","width":"96","height":"96","caption":"Mc.Sim"},"sameAs":["https:\/\/www.linkedin.com\/in\/kramarenko-maksim\/"]},{"@type":"BreadcrumbList","@id":"https:\/\/www.k-max.name\/windows\/file-print-server-na-samba-cups\/#breadcrumblist","itemListElement":[{"@type":"ListItem","@id":"https:\/\/www.k-max.name\/#listItem","position":"1","item":{"@type":"WebPage","@id":"https:\/\/www.k-max.name\/","name":"\u0413\u043b\u0430\u0432\u043d\u0430\u044f","description":"\u0411\u043b\u043e\u0433 Linux \u0438\u043d\u0436\u0435\u043d\u0435\u0440\u0430 \u043e \u0440\u0430\u0437\u043b\u0438\u0447\u043d\u044b\u0445 \u0430\u0441\u043f\u0435\u043a\u0442\u0430\u0445 \u043e\u043f\u0435\u0440\u0430\u0446\u0438\u043e\u043d\u043d\u043e\u0439 \u0441\u0438\u0441\u0442\u0435\u043c\u044b \u0438 \u043d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0435 \u0441\u0435\u0440\u0432\u0438\u0441\u043e\u0432 (\u043e\u0441\u043d\u043e\u0432\u044b, bash, DHCP, DNS, SAMBA, SQUID), \u043d\u0435\u043c\u043d\u043e\u0433\u043e Vmware, DevOps \u0438 NetApp.","url":"https:\/\/www.k-max.name\/"},"nextItem":"https:\/\/www.k-max.name\/windows\/#listItem"},{"@type":"ListItem","@id":"https:\/\/www.k-max.name\/windows\/#listItem","position":"2","item":{"@type":"WebPage","@id":"https:\/\/www.k-max.name\/windows\/","name":"Windows","description":"\u041e\u043f\u0438\u0441\u0430\u043d\u0438\u0435 \u0440\u0430\u0431\u043e\u0442\u044b \u043f\u0430\u043a\u0435\u0442\u0430 SAMBA, \u043e\u0440\u0433\u0430\u043d\u0438\u0437\u0430\u0446\u0438\u044f \u0430\u0431\u0441\u043e\u043b\u044e\u0442\u043d\u043e\u0439 \u0444\u0430\u0439\u043b\u043e\u043f\u043e\u043c\u043e\u0439\u043a\u0438, \u0441\u0435\u0440\u0432\u0435\u0440\u0430 \u043f\u0435\u0447\u0430\u0442\u0438 \u0441 \u0430\u0432\u0442\u043e\u043c\u0430\u0442\u0438\u0447\u0435\u0441\u043a\u043e\u0439 \u0437\u0430\u0433\u0440\u0443\u0437\u043a\u043e\u0439 \u0434\u0440\u0430\u0439\u0432\u0435\u0440\u043e\u0432.","url":"https:\/\/www.k-max.name\/windows\/"},"nextItem":"https:\/\/www.k-max.name\/windows\/file-print-server-na-samba-cups\/#listItem","previousItem":"https:\/\/www.k-max.name\/#listItem"},{"@type":"ListItem","@id":"https:\/\/www.k-max.name\/windows\/file-print-server-na-samba-cups\/#listItem","position":"3","item":{"@type":"WebPage","@id":"https:\/\/www.k-max.name\/windows\/file-print-server-na-samba-cups\/","name":"\u041a\u0430\u043a \u0440\u0430\u0431\u043e\u0442\u0430\u0435\u0442 SAMBA? \u0447\u0430\u0441\u0442\u044c 2","description":"\u041e\u043f\u0438\u0441\u0430\u043d\u0438\u0435 \u0440\u0430\u0431\u043e\u0442\u044b \u043f\u0430\u043a\u0435\u0442\u0430 SAMBA, \u043e\u0440\u0433\u0430\u043d\u0438\u0437\u0430\u0446\u0438\u044f \u0430\u0431\u0441\u043e\u043b\u044e\u0442\u043d\u043e\u0439 \u0444\u0430\u0439\u043b\u043e\u043f\u043e\u043c\u043e\u0439\u043a\u0438, \u0441\u0435\u0440\u0432\u0435\u0440\u0430 \u043f\u0435\u0447\u0430\u0442\u0438 \u0441 \u0430\u0432\u0442\u043e\u043c\u0430\u0442\u0438\u0447\u0435\u0441\u043a\u043e\u0439 \u0437\u0430\u0433\u0440\u0443\u0437\u043a\u043e\u0439 \u0434\u0440\u0430\u0439\u0432\u0435\u0440\u043e\u0432.","url":"https:\/\/www.k-max.name\/windows\/file-print-server-na-samba-cups\/"},"previousItem":"https:\/\/www.k-max.name\/windows\/#listItem"}]},{"@type":"Person","@id":"https:\/\/www.k-max.name\/author\/mcsim\/#author","url":"https:\/\/www.k-max.name\/author\/mcsim\/","name":"Mc.Sim","image":{"@type":"ImageObject","@id":"https:\/\/www.k-max.name\/windows\/file-print-server-na-samba-cups\/#authorImage","url":"https:\/\/secure.gravatar.com\/avatar\/7e1afb92fa815ed2eb0b3d439022693e?s=96&d=mm&r=g","width":"96","height":"96","caption":"Mc.Sim"},"sameAs":["https:\/\/www.linkedin.com\/in\/kramarenko-maksim\/"]},{"@type":"WebPage","@id":"https:\/\/www.k-max.name\/windows\/file-print-server-na-samba-cups\/#webpage","url":"https:\/\/www.k-max.name\/windows\/file-print-server-na-samba-cups\/","name":"\u0421\u0435\u0440\u0432\u0435\u0440 SAMBA \u0438 \u0441\u0435\u0440\u0432\u0435\u0440 \u043f\u0435\u0447\u0430\u0442\u0438 \u043d\u0430 CUPS | \u0411\u043b\u043e\u0433 \u043b\u044e\u0431\u0438\u0442\u0435\u043b\u044f \u044d\u043a\u0441\u043f\u0435\u0440\u0438\u043c\u0435\u043d\u0442\u043e\u0432","description":"\u041e\u043f\u0438\u0441\u0430\u043d\u0438\u0435 \u0440\u0430\u0431\u043e\u0442\u044b \u043f\u0430\u043a\u0435\u0442\u0430 SAMBA, \u043e\u0440\u0433\u0430\u043d\u0438\u0437\u0430\u0446\u0438\u044f \u0430\u0431\u0441\u043e\u043b\u044e\u0442\u043d\u043e\u0439 \u0444\u0430\u0439\u043b\u043e\u043f\u043e\u043c\u043e\u0439\u043a\u0438, \u0441\u0435\u0440\u0432\u0435\u0440\u0430 \u043f\u0435\u0447\u0430\u0442\u0438 \u0441 \u0430\u0432\u0442\u043e\u043c\u0430\u0442\u0438\u0447\u0435\u0441\u043a\u043e\u0439 \u0437\u0430\u0433\u0440\u0443\u0437\u043a\u043e\u0439 \u0434\u0440\u0430\u0439\u0432\u0435\u0440\u043e\u0432.","inLanguage":"ru-RU","isPartOf":{"@id":"https:\/\/www.k-max.name\/#website"},"breadcrumb":{"@id":"https:\/\/www.k-max.name\/windows\/file-print-server-na-samba-cups\/#breadcrumblist"},"author":"https:\/\/www.k-max.name\/author\/mcsim\/#author","creator":"https:\/\/www.k-max.name\/author\/mcsim\/#author","datePublished":"2011-06-15T17:54:59+04:00","dateModified":"2014-08-07T04:47:05+04:00"},{"@type":"Article","@id":"https:\/\/www.k-max.name\/windows\/file-print-server-na-samba-cups\/#article","name":"\u0421\u0435\u0440\u0432\u0435\u0440 SAMBA \u0438 \u0441\u0435\u0440\u0432\u0435\u0440 \u043f\u0435\u0447\u0430\u0442\u0438 \u043d\u0430 CUPS | \u0411\u043b\u043e\u0433 \u043b\u044e\u0431\u0438\u0442\u0435\u043b\u044f \u044d\u043a\u0441\u043f\u0435\u0440\u0438\u043c\u0435\u043d\u0442\u043e\u0432","description":"\u041e\u043f\u0438\u0441\u0430\u043d\u0438\u0435 \u0440\u0430\u0431\u043e\u0442\u044b \u043f\u0430\u043a\u0435\u0442\u0430 SAMBA, \u043e\u0440\u0433\u0430\u043d\u0438\u0437\u0430\u0446\u0438\u044f \u0430\u0431\u0441\u043e\u043b\u044e\u0442\u043d\u043e\u0439 \u0444\u0430\u0439\u043b\u043e\u043f\u043e\u043c\u043e\u0439\u043a\u0438, \u0441\u0435\u0440\u0432\u0435\u0440\u0430 \u043f\u0435\u0447\u0430\u0442\u0438 \u0441 \u0430\u0432\u0442\u043e\u043c\u0430\u0442\u0438\u0447\u0435\u0441\u043a\u043e\u0439 \u0437\u0430\u0433\u0440\u0443\u0437\u043a\u043e\u0439 \u0434\u0440\u0430\u0439\u0432\u0435\u0440\u043e\u0432.","headline":"\u041a\u0430\u043a \u0440\u0430\u0431\u043e\u0442\u0430\u0435\u0442 SAMBA? \u0447\u0430\u0441\u0442\u044c 2","author":{"@id":"https:\/\/www.k-max.name\/author\/mcsim\/#author"},"publisher":{"@id":"https:\/\/www.k-max.name\/#person"},"datePublished":"2011-06-15T17:54:59+04:00","dateModified":"2014-08-07T04:47:05+04:00","commentCount":"33","articleSection":"Linux, SAMBA, Windows, \u041d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0430 \u0441\u0435\u0440\u0432\u0435\u0440\u0430 Linux, \u043e\u0441\u043d\u043e\u0432\u044b Linux, \u041f\u0440\u0438\u043d\u0442\u0435\u0440, CUPS, Debian, Linux, Microsoft Windows, SAMBA, \u043e\u0441\u043d\u043e\u0432\u044b","mainEntityOfPage":{"@id":"https:\/\/www.k-max.name\/windows\/file-print-server-na-samba-cups\/#webpage"},"isPartOf":{"@id":"https:\/\/www.k-max.name\/windows\/file-print-server-na-samba-cups\/#webpage"},"image":{"@type":"ImageObject","@id":"https:\/\/www.k-max.name\/#articleImage","url":"https:\/\/www.k-max.name\/wp-content\/uploads\/2011\/06\/samba-server.png","width":"318","height":"149"}}]}
+		</script>
+		<!-- All in One SEO -->
+
+<link rel='dns-prefetch' href='//s.w.org' />
+<link rel="alternate" type="application/rss+xml" title="Блог любителя экспериментов &raquo; Лента комментариев к &laquo;Как работает SAMBA? часть 2&raquo;" href="https://www.k-max.name/windows/file-print-server-na-samba-cups/feed/" />
+	<!-- <link rel="stylesheet" type="text/css" href="https://www.k-max.name/wp-content/plugins/fancybox/jquery.fancybox-1.3.4.css" media="screen" /> --> <link rel="stylesheet" type="text/css" href="https://www.k-max.name/wp-content/plugins/fancybox2/jquery.fancybox.css"  /> 
+	<link rel="stylesheet" type="text/css" href="https://www.k-max.name/wp-content/plugins/fancybox2/helpers/jquery.fancybox-buttons.css"  /> 
+			<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/13.1.0\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/13.1.0\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/www.k-max.name\/wp-includes\/js\/wp-emoji-release.min.js?ver=5.8.3"}};
+			!function(e,a,t){var n,r,o,i=a.createElement("canvas"),p=i.getContext&&i.getContext("2d");function s(e,t){var a=String.fromCharCode;p.clearRect(0,0,i.width,i.height),p.fillText(a.apply(this,e),0,0);e=i.toDataURL();return p.clearRect(0,0,i.width,i.height),p.fillText(a.apply(this,t),0,0),e===i.toDataURL()}function c(e){var t=a.createElement("script");t.src=e,t.defer=t.type="text/javascript",a.getElementsByTagName("head")[0].appendChild(t)}for(o=Array("flag","emoji"),t.supports={everything:!0,everythingExceptFlag:!0},r=0;r<o.length;r++)t.supports[o[r]]=function(e){if(!p||!p.fillText)return!1;switch(p.textBaseline="top",p.font="600 32px Arial",e){case"flag":return s([127987,65039,8205,9895,65039],[127987,65039,8203,9895,65039])?!1:!s([55356,56826,55356,56819],[55356,56826,8203,55356,56819])&&!s([55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447],[55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447]);case"emoji":return!s([10084,65039,8205,55357,56613],[10084,65039,8203,55357,56613])}return!1}(o[r]),t.supports.everything=t.supports.everything&&t.supports[o[r]],"flag"!==o[r]&&(t.supports.everythingExceptFlag=t.supports.everythingExceptFlag&&t.supports[o[r]]);t.supports.everythingExceptFlag=t.supports.everythingExceptFlag&&!t.supports.flag,t.DOMReady=!1,t.readyCallback=function(){t.DOMReady=!0},t.supports.everything||(n=function(){t.readyCallback()},a.addEventListener?(a.addEventListener("DOMContentLoaded",n,!1),e.addEventListener("load",n,!1)):(e.attachEvent("onload",n),a.attachEvent("onreadystatechange",function(){"complete"===a.readyState&&t.readyCallback()})),(n=t.source||{}).concatemoji?c(n.concatemoji):n.wpemoji&&n.twemoji&&(c(n.twemoji),c(n.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+	<link rel='stylesheet' id='wp-block-library-css'  href='https://www.k-max.name/wp-includes/css/dist/block-library/style.min.css?ver=5.8.3' type='text/css' media='all' />
+<style id='wp-block-library-inline-css' type='text/css'>
+.has-text-align-justify{text-align:justify;}
+</style>
+<link rel='stylesheet' id='mediaelement-css'  href='https://www.k-max.name/wp-includes/js/mediaelement/mediaelementplayer-legacy.min.css?ver=4.2.16' type='text/css' media='all' />
+<link rel='stylesheet' id='wp-mediaelement-css'  href='https://www.k-max.name/wp-includes/js/mediaelement/wp-mediaelement.min.css?ver=5.8.3' type='text/css' media='all' />
+<link rel='stylesheet' id='simple-sitemap-css-css'  href='https://www.k-max.name/wp-content/plugins/simple-sitemap/lib/assets/css/simple-sitemap.css?ver=5.8.3' type='text/css' media='all' />
+<link rel='stylesheet' id='wp-pagenavi-css'  href='https://www.k-max.name/wp-content/themes/deep-mix/pagenavi-css.css?ver=2.70' type='text/css' media='all' />
+<link rel='stylesheet' id='adv-spoiler-css'  href='https://www.k-max.name/wp-content/plugins/advanced-spoiler/css/advanced-spoiler.css?ver=2.02' type='text/css' media='all' />
+<link rel='stylesheet' id='jetpack_css-css'  href='https://www.k-max.name/wp-content/plugins/jetpack/css/jetpack.css?ver=10.0' type='text/css' media='all' />
+<link rel='stylesheet' id='cfq-css'  href='https://www.k-max.name/wp-content/plugins/comment-form-quicktags/style.css?ver=20200619' type='text/css' media='all' />
+<script type='text/javascript' src='https://www.k-max.name/wp-includes/js/jquery/jquery.min.js?ver=3.6.0' id='jquery-core-js'></script>
+<script type='text/javascript' src='https://www.k-max.name/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.3.2' id='jquery-migrate-js'></script>
+<script type='text/javascript' src='https://www.k-max.name/wp-content/plugins/fancybox2/jquery.fancybox.pack.js?ver=5.8.3' id='fancybox-js'></script>
+<script type='text/javascript' src='https://www.k-max.name/wp-content/plugins/fancybox2/helpers/jquery.fancybox-buttons.js?ver=5.8.3' id='fancybox-buttons-js'></script>
+<script type='text/javascript' src='https://www.k-max.name/wp-content/plugins/advanced-spoiler/js/jquery-spoiler.js?ver=2.02' id='adv-spoiler-js'></script>
+<script type='text/javascript' src='https://www.k-max.name/wp-content/plugins/comment-form-quicktags/quicktags.php?ver=20200619' id='cfq-js'></script>
+<link rel="https://api.w.org/" href="https://www.k-max.name/wp-json/" /><link rel="alternate" type="application/json" href="https://www.k-max.name/wp-json/wp/v2/posts/2634" /><link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://www.k-max.name/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://www.k-max.name/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress 5.8.3" />
+<link rel='shortlink' href='https://www.k-max.name/?p=2634' />
+<link rel="alternate" type="application/json+oembed" href="https://www.k-max.name/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.k-max.name%2Fwindows%2Ffile-print-server-na-samba-cups%2F" />
+<style type='text/css'>img#wpstats{display:none}</style>
+		   <script type="text/javascript">
+jQuery(document).ready(function($){
+	$('a[href^="https://www.k-max.name/wp-content/uploads/"]:has(img)')
+	.fancybox({
+        padding    : 0,
+		closeBtn		: false,
+		helpers		: {
+			//title	: { type : 'inside' },
+			buttons	: { },
+		},
+        beforeShow : function() {
+        var alt = this.element.find('img').attr('alt');
+        
+        this.inner.find('img').attr('alt', alt);
+        
+        this.title = alt;
+		}
+
+      });
+});
+</script>
+</head>
+
+<body id="top">
+<!--LiveInternet counter-->
+<script type="text/javascript"><!--
+new Image().src = "//counter.yadro.ru/hit?r"+
+escape(document.referrer)+((typeof(screen)=="undefined")?"":
+";s"+screen.width+"*"+screen.height+"*"+(screen.colorDepth?
+screen.colorDepth:screen.pixelDepth))+";u"+escape(document.URL)+
+";h"+escape(document.title.substring(0,80))+
+";"+Math.random();//--></script>
+<!--/LiveInternet-->
+<div id="navigation">
+   <div class="inner">
+   	<ul>
+   	   <li class="current_page_item"><a href="https://www.k-max.name">Главная</a></li>
+         <li class="page_item page-item-5337"><a href="https://www.k-max.name/cv/">Resume</a></li>
+<li class="page_item page-item-3062"><a href="https://www.k-max.name/karta-sajta/">Карта сайта</a></li>
+<li class="page_item page-item-5325"><a href="https://www.k-max.name/knigi/">Книги</a></li>
+<li class="page_item page-item-1725"><a href="https://www.k-max.name/about/">О сайте</a></li>
+   	</ul>
+   </div>
+   <div class="fixed"></div>
+</div>
+
+<div id="header">
+   <div class="inner">
+   	<div id="logo">
+         			   <div id="title"><a href="https://www.k-max.name/" title="Блог любителя экспериментов" rel="home">Блог любителя экспериментов</a></div>
+           <h1>Блог о системном администрировании. Статьи о Linux, Windows, СХД NetApp и виртуализации.</h1>
+		      	</div>
+   </div>
+   <div class="fixed"></div>
+</div>
+    
+<div id="wrapout" class="inner">
+   <div id="wrapin">
+	<div id="main">
+    	<div id="content">
+
+		
+			<div class="post">
+				<div class="title">
+					<h1>Как работает SAMBA? часть 2</h1>
+					<div class="fixed"></div>
+				</div>
+
+				<div class="info">
+										<span class="date">15 июня, 2011</span> 
+					<span>Рубрики: <a href="https://www.k-max.name/category/linux/" rel="category tag">Linux</a>, <a href="https://www.k-max.name/category/linux/samba/" rel="category tag">SAMBA</a>, <a href="https://www.k-max.name/category/windows/" rel="category tag">Windows</a>, <a href="https://www.k-max.name/category/linux/server/" rel="category tag">Настройка сервера Linux</a>, <a href="https://www.k-max.name/category/linux/osnovy-linux/" rel="category tag">основы Linux</a>, <a href="https://www.k-max.name/category/zhelezo/printer/" rel="category tag">Принтер</a></span>
+					<div class="fixed"></div>
+				</div>
+<!-- Яндекс.Директ  START -->
+<div>
+   <noindex>
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- single.php_links -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:728px;height:15px"
+     data-ad-client="ca-pub-3491741793869457"
+     data-ad-slot="4574169925"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>   </noindex>
+</div>
+<!-- Яндекс.Директ  END -->  
+
+				<div class="content">
+					<p><a href="https://www.k-max.name/windows/file-print-server-na-samba-cups/"><img loading="lazy" class="size-full wp-image-3999 alignright" style="margin: 5px;" title="сервер samba, настройка файлового сервера" src="https://www.k-max.name/wp-content/uploads/2011/06/samba-server.png" alt="сервер samba, настройка файлового сервера" width="318" height="149" srcset="https://www.k-max.name/wp-content/uploads/2011/06/samba-server.png 318w, https://www.k-max.name/wp-content/uploads/2011/06/samba-server-300x140.png 300w" sizes="(max-width: 318px) 100vw, 318px" /></a>Доброго времени, гости и читатели <a title="организация сервера печати, файлового сервера, веб сервера, почтового сервера" href="https://www.k-max.name/" target="_blank">блога</a>! Сегодня продолжу рассматривать возможности<strong> пакета SAMBA</strong>. Перед прочтением данного материала я бы посоветовал ознакомиться со статьями <strong><a title="Как работает SAMBA?" href="https://www.k-max.name/linux/kak-rabotaet-samba/" target="_blank">основы SAMBA</a></strong> и <strong><a title="Сервер печати на Linux (Common UNIX Printing System)" href="https://www.k-max.name/linux/server-pechati-na-linux-common-unix-printing-system/" target="_blank">CUPS</a></strong>. Итак, из прошлых статей мы знаем<em> как <a title="установка SAMBA" href="https://www.k-max.name/linux/kak-rabotaet-samba#install" target="_blank">установить пакет samba</a></em>. После установки, файлы пакета могут располагаться в следующих каталогах:</p>
+<ul>
+<li>Демоны и утилиты помещаются в каталог:<em> /usr/sbin</em></li>
+<li>Файлы настройки в: <em>/etc/samba/</em></li>
+<li>Файлы журналов в: <em>/var/log/samba/</em></li>
+<li>Некоторые управляющие файлы помещаются в: <em>/var/lib/samba</em></li>
+</ul>
+<p>конечно, возможны некоторые отклонения, например в старых версиях <strong>SAMBA </strong>настройки хранятся в <em>/etc</em>, а логи в <em>/var/log</em>, при сборке из исходников, samba устанавливается в <em>/usr/local/samba</em>. Т.о. можно убедиться, что <strong>SAMBA </strong>у нас установлена.</p>
+<h2>Настройка SAMBA</h2>
+<p><strong>Настройка SAMBA</strong> заключается в редактировании конфигурационного файла <em>/etc/samba/smb.conf</em>. Структура конфига самба схожа с форматом файлов <em>.ini</em> в Windows и представляет собой <span id="more-2634"></span>записи вида:</p>
+<pre>[stanza0]
+   key0=value0
+   key1=value1
+[stanza1]
+   key0=value0
+   key1=value1</pre>
+<p>То есть параметры, они же ключи (<em>key0</em>, <em>key1 </em>и т.д.) собраны в группы, которые называют <em>стансами </em>или <em>строфами </em>(<em>stanza0, stanza1</em> и т.д.), название которых заключены в фигурные скобки. Каждый <em>каталог </em>или <em>принтер</em>, предоставляемый в общий доступ в Windows называется <strong>разделяемым ресурсом</strong> (<em>share</em>) или <strong>сервисом </strong>(<em>service</em>), или в простой терминологии - <em>шАра </em> <img src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/smile.gif"  alt=":)" title=":)"/> Каждый ресурс можно представить в Linux отдельным <del>разделом</del> строфой с особым именем и набором параметров. <strong>SAMBA </strong>понимает громадное количество параметров, с которыми можно ознакомиться тут <noindex><a rel="nofollow" href="http://www.opennet.ru/man.shtml?topic=smb.conf&amp;category=5&amp;russian=2" target="_blank">man smb.conf</a></noindex>. Я опишу основные. Существует так же <em>специальный раздел<strong> [global]</strong></em>, хранящий параметры по умолчанию ко всем сервисам и к серверу в целом. Для начала, я бы посоветовал <a title="Файловые команды Linux" href="https://www.k-max.name/linux/osnovnye-komandy-linux-ili-shpargalka-nachinayushhego-linuksojda/#file" target="_blank">скопировать оригинальный файл</a> (т.к. в нем большое количество комментариев, с которыми на досуге можно ознакомиться) и создать (например, с <a title="Текстовый редактор VIM, основы работы" href="https://www.k-max.name/linux/tekstovyj-redaktor-vim-osnovy-raboty/" target="_blank">помощью редактора vi</a>) на его месте новый, со следующими параметрами:</p>
+<pre>samba-server:~# cp /etc/samba/smb.conf /etc/samba/smb.conf.orig
+samba-server:~# cat /etc/samba/smb.conf
+[global]
+ workgroup = WORKGROUP
+ netbios name = SAMBA
+ printing = CUPS
+ wins support = yes
+[homes]
+ browsable = no
+ read only = no
+[printers]
+ printable = yes
+ printing = CUPS
+ path = /var/spool/samba
+[data]
+ path = /export/data
+ read only = no
+ map archive = no</pre>
+<p>Давайте разберем параметры и разделы по порядку:</p>
+<h3><strong>[global]</strong></h3>
+<p style="padding-left: 30px;">Как уже говорилось - содержит параметры, настраивающие <strong>пакет SAMBA</strong> в целом. <strong>Параметр workgroup</strong> определяет <em>имя рабочей группы</em>, к которой принадлежит сервер samba. Соответственно, если есть необходимость - нужно переименовать группу на подходящую Вам. Данный параметр необязательный, если его не указывать, то сервер будет принадлежать группе <em>WORKGROUP</em>. Далее,<strong> параметр netbios name</strong>, который указывает на <em>имя сервера</em>, которое будет отображаться в сетевом окружении Windows. Данный параметр так же необязательный, если его не указывать, то сервер будет отображаться под именем локального хоста (которое можно узнать командой<em> echo $HOSTNAME</em>). Тут необходимо сделать акцент на том, что указывать значение localhost в данном параметре <strong>неприемлемо</strong>, т.к. данное имя на машинах Wondows всегда будет разрешаться в адрес 127.0.0.1. Так же, в данном станзе можно указать параметр <strong>encrypt passwords</strong>, который указывает SAMBA <em>шифровать пароли</em>. Это необходимо для клиентов с ОС версией выше windows 98. Если используется версия SAMBA выше 3.0, то данный параметр указывать не обязательно, т.к. он используется по умолчанию. Параметр <strong>wins support</strong> требует от samba работать в качестве <em>WINS сервера</em>, это не обязательно, но способствует более эффективной работе, о чем я говорил в <a title="Как работает SAMBA?" href="https://www.k-max.name/linux/kak-rabotaet-samba/" target="_blank">прошлой статье о SAMBA</a>. Если Ваш <strong>Samba сервер</strong> использует несколько сетевых интерфейсов, то можно явно указать, на каком из интерфейсов слушать подключения с помощью параметра:<strong> interfaces</strong><em> = 192.168.1.1/24</em>.</p>
+<h3><strong>[homes]</strong></h3>
+<p style="padding-left: 30px;">Раздел <strong>[homes]</strong> определяет <em><strong>виртуальный </strong>сервис</em>, указывая SAMBA<em> автоматически расшаривать домашний каталог пользователя</em>. То есть, при подключении к серверу SAMBA производится поиск имени <a title="Управление пользователями в Linux" href="https://www.k-max.name/linux/upravlenie-polzovatelyami-v-linux/" target="_blank">пользователя </a>в <a title="Файловая система Linux и структура каталогов" href="https://www.k-max.name/linux/fajlovaya-sistema-linux-i-struktura-katalogov/" target="_blank">файле /etc/passwd</a> и если в локальной системе есть учетная запись пользователя и она имеет домашний каталог, то данный каталог раcшаривается для подключенного пользователя. Параметр <strong>read only</strong> <em>= no</em> указывает предоставлять домашние каталоги <em>в режиме чтения-записи</em>. Параметр <strong>browsable</strong>=no указывает <em>не отображать каталог</em> homes в списке расшаренных ресурсов (но домашний каталог подключенного пользователя будет виден пользователю). Данное разрешение учитывает права доступа в Linux, то есть если файл в расшаренной папке с правами только на чтение, то он не станет доступным на запись. Иначе сказав: сервер не предоставит доступа больше чем UNIX система. В данной директории так же полезно указать параметр <strong>path </strong>= <em>/path/to/homedir/%S</em>, если вы хотите разделить системные домашние папки от расшариваемых.</p>
+<h3>[printers]</h3>
+<p style="padding-left: 30px;">Раздел<strong> [printers]</strong>, в  SAMBA, хранит <em>настройки печати</em>, то есть SAMBA получает указание сделать принтеры, подключенные к системе Linux, доступными клиентам сети. Точнее будет сказать, что данный раздел <em>определяет доступ ко <strong>всем </strong>принтерам</em>, указанным в файле <strong><a title="файл printcap в CUPS" href="https://www.k-max.name/linux/server-pechati-na-linux-common-unix-printing-system#printcap" target="_blank">/etc/printcap</a></strong>. Разделы, они же строфы, которые определяют совместно используемый принтер, включая <em>раздел [printers]</em> <strong>должен </strong>содержать строку <strong>printable</strong> = yes. Для доступа к принтерам, необходимо прописать в <a title="файл printcap в CUPS" href="https://www.k-max.name/linux/server-pechati-na-linux-common-unix-printing-system#printcap" target="_blank">файле /etc/printcap</a> настройки доступа к принтеру. Параметр <strong>printing </strong>= <em>CUPS</em> указывает использовать <a title="Сервер печати на Linux (Common UNIX Printing System)" href="https://www.k-max.name/linux/server-pechati-na-linux-common-unix-printing-system/" target="_blank">систему печати CUPS</a> (возможно так же указать более старые системы печати, такие как BSD и LPRNG). Для того чтобы использовать <strong>свой </strong>файл printcap, необходимо его создать и указать в виде параметра <strong>printcap </strong>= <em>/path/to/printcap</em>. Параметр <strong>path </strong>= <em>/var/spool/samba</em> указывает, где будет размещен <a title="каталог spool" href="https://www.k-max.name/linux/server-pechati-na-linux-common-unix-printing-system#spool" target="_blank">спулер </a><em>(каталог временного хранилища очереди печати)</em>. Для данного каталога необходим установленный <a title="липкий бит" href="https://www.k-max.name/linux/prava-dostupa-v-linux-eshhe-odna-malenkaya-shpargalka#stycky" target="_blank">StickyBit</a>.</p>
+<h3>[data]</h3>
+<p style="padding-left: 30px;">Данный раздел приведен в качестве примера,<em> как открыть совместный доступ к каталогу</em>. Следуя данному примеру можно расшарить сколько угодно каталогов, указав для каждого свое<strong> имя раздела</strong> и значение <strong>path</strong>. Название раздела используется в качестве имени разделяемого ресурса и отображается клиентам Windows, как папка с таким именем. Параметр, отвечающий за функциональность, описанную ниже - <strong>map archive</strong> - установлен в <em>no</em>.</p>
+<p><strong>SAMBA </strong>не всегда выполняет задачу - заставить <em>файловую систему UNIX</em> выглядеть как <em>файловая система Windows</em> для клиентов Windows. Одно из различий между файловыми системами Windows и UNIX в том, что в Windows существует <em>атрибут <strong>archive</strong></em>, с помощью которого программы резервного копирования определяют, был ли файл модифицирован с момента последнего копирования. В UNIX прямого аналога данного атрибута нет. <strong>SAMBA </strong>моделирует данный атрибут архивации с помощью <a title="Права доступа в Linux, еще одна маленькая шпаргалка" href="../linux/prava-dostupa-v-linux-eshhe-odna-malenkaya-shpargalka/" target="_blank">бита исполнения для владельца файла UNIX</a>. Данный костыль позволяет программам резервного копирования Windows корректно производить инкрементальное резервное копирование с ресурсов SAMBA. Но есть побочный эффект - файлы с данным атрибутом выглядят в Linux как исполняемые. В конфиге SAMBA в странсе [data] параметр, отвечающий за данную функцию называется <strong>map archive.</strong></p>
+<p>Хочу отметить кое-какие <strong>характеристики при разборе файла smb.conf</strong>:</p>
+<ul>
+<li>Имена разделов и параметров не чувствительны к регистру.</li>
+<li>Только первый символ равенства значимый.</li>
+<li>Пробелы до и после первого символа равенства игнорируются.</li>
+<li>Начальные, концевые и внутренние пробелы некорректны в названиях секций и именах параметров.</li>
+<li>Начальные и концевые пробелы в значении параметров игнорируются.</li>
+<li>Внутренний пробел в значении параметра сохраняется дословно.</li>
+<li>Все строки начинающиеся с символа ";" с запятой или "#" игнорируются как строки содержащие только пробел (комментируются).</li>
+<li>Все строки оканчивающиеся символом «\» продолжаются на следующей строке в стиле UNIX.</li>
+<li>Значения после символа равенства в параметрах содержат строку (без кавычек) или логическое значение, как то да/нет, 0/1 или истина/ложь.</li>
+<li>Регистр не имеет значения в логических значениях, но сохраняется в строковых значениях.</li>
+</ul>
+<p>После внесения изменений в конфигурационный файл, необходимо проверить его на корректность. Для этого есть команда <strong>testparm</strong>. Данная программа <em>проверяет наличие ошибок и несовместимостей в конфигурационном файле SAMBA</em>. Очень хорошая практика - документировать конфигурационные файлы. Но данная практика вступает в противоречие со способом, которым работает самба. Конфигурационный файл очень часто перечитывается <em>демоном <strong>smbd</strong></em>, т.о. чем больше строк в файле и чем больше его объем, тем больше это сказывается на производительности системы. Для решения данной проблемы необходимо создать "<em>редактируемый</em>" конфиг, в котором все описано как нужно и из редактируемого файла создать <em><strong>рабочий </strong></em>с помощью команды:</p>
+<pre>samba-server: ~# testparam -s /etc/samba/smb.conf.edit &gt; /etc/samba/smb.conf</pre>
+<p>Из редактируемого файла будут удалены все комментарии и будут находится только те параметры, которые отличаются от значения по умолчанию. Так же, стоит отметить, что из файла будут удалены все макросы, которые необходимо будет восстановить вручную. Например, строка <em>include=/etc/samba/%m.conf </em>превратиться в строку<em> include=/etc/samba/.conf</em>.</p>
+<p>После запуска проверки параметров командой <strong>testparm </strong>возможно вы увидите дамп конфига, в котором отсутствуют некоторые наши параметры. Это говорит о том, что данные параметры совпадают с <em>параметрами Samba по-умолчанию</em>.</p>
+<h2>Запуск сервера SAMBA</h2>
+<p><em><strong>Основу Samba</strong> составляют <strong>три демона</strong>, два из которых необходимы всегда</em>:</p>
+<h3><strong>nmbd</strong></h3>
+<p style="padding-left: 30px;"><strong>Демон nmbd</strong> отвечает за регистрацию всех имен и обслуживание запросов их разрешения. Обеспечивает основной механизм, обеспечивающий возможность обзора сети. <strong>Обрабатывает все протоколы на базе UDP</strong>. <strong>Демон nmbd</strong> должен запускаться <strong>первым</strong>.</p>
+<h3>smbd</h3>
+<p style="padding-left: 30px;"><strong>Демон smbd</strong> обслуживает все соединения на базе<strong> протоколов TCP/IP</strong> к сервисам доступа к файлам и к принтерам. Кроме этого, демон заведует <em>процессом локальной аутентификации</em>. Должен запускаться сразу после nmbd.</p>
+<h3>winbindd</h3>
+<p style="padding-left: 30px;"><strong>Демон winbindd</strong> должен запускаться, когда <strong>сервер Samba</strong> выступает в роли <strong>члена домена Win NT4</strong> или <strong>Active Directory</strong>. Запуск так же необходим, когда Samba вступает в <strong>доверительные отношения с другим доменом</strong>. <strong>Демон winbindd</strong> <em>проверяет </em>файл smb.conf на наличие параметров<em> idmap id</em> и<em> idmap gid</em>, которые затем будут использоваться для отображения идентификаторов <em>системы безопасности Windows (SID)</em>.  Указываемый в этих параметрах диапазон не должен находится в противоречии с уже используемыми в системе идентификаторами (начало значений пользовательских ID указывается <a title="UID_MAX" href="https://www.k-max.name/linux/upravlenie-polzovatelyami-v-linux#defs" target="_blank">в файле <em>/etc/login.defs</em></a>). Если указанные параметры не заданы, то <strong>демон winbindd </strong>не будет выполнять отображение Windows SID, а аутентификация будет выполняться только на уровне аутентификации пользователей.</p>
+<p>Запуск данных демонов возможен как в<strong> standealone режиме</strong>, так и с помощью <strong>супердемона xinetd</strong>. В первом случае службы <strong>запущены постоянно</strong> и прослушивают сетевой интерфейс, во втором, службы запускаются с помощью <em>демона inetd/xinetd</em> и <strong>отвечают </strong>на запросы <strong>только при поступлении запроса</strong> от клиента. Для запуска Samba с помощью  супердемона необходимо добавить описание запуска в конфигурационный файл <em>/etc/inetd.conf</em> для <strong>inetd </strong>или <em>/etc/xinetd.conf</em> для <strong>xinetd</strong>. Супердемону xinetd обязательно посвящу отдельную тему и на сегодня с xinetd остановим обсуждение.</p>
+<h2>Запуск демонов Samba</h2>
+<p>Об <a title="уровни запуска Linux" href="https://www.k-max.name/linux/nachalo-etapy-zagruzki-os-linux-v-sxeme/#init" target="_blank">уровнях выполнения</a>, можно почитать <a href="https://www.k-max.name/linux/nachalo-etapy-zagruzki-os-linux-v-sxeme/#init" target="_blank">тут</a>. Данный демон должен быть разрешен для запуска на <a title="процесс загрузки линукс (уровни выполнения)" href="../linux/nachalo-etapy-zagruzki-os-linux-v-sxeme#runlevel">необходимых уровнях выполнения ОС</a> (команда в RedHat-подобных дистрибутивах -<em> /sbin/chkconfig samba on</em>, в Debian - <em>/usr/sbin/update-rc.d samba defaults</em>). Хотя я и не делал акцент на сборку Samba из исходников, но описание запуска все же затрону для общего понимания. Итак, после сборки Samba, в двоичном пакете необходимо отыскать сценарий, который будет запускать и останавливать демоны в необходимом порядке. При этом необходимо проверить сценарий на корректность имен каталогов, где лежит исполняемый файл демона. Сценарий необходимо сделать <a title="Права доступа в Linux, еще одна маленькая шпаргалка" href="https://www.k-max.name/linux/prava-dostupa-v-linux-eshhe-odna-malenkaya-shpargalka/" target="_blank">исполняемым</a> с помощью <a title="Основные команды Linux или шпаргалка начинающего линуксойда" href="https://www.k-max.name/linux/osnovnye-komandy-linux-ili-shpargalka-nachinayushhego-linuksojda#chmod" target="_blank">команды chmod</a> +x,  <a title="файловые команды Linux" href="https://www.k-max.name/linux/osnovnye-komandy-linux-ili-shpargalka-nachinayushhego-linuksojda#file" target="_blank">положить </a>в каталог /etc/init.d/ и создать соответствующие ссылки на скрипт в каталогах <em>уровней запуска Linux</em> (<em>/etc/rc*.d</em>), в которых необходим запуск демона и соответственно - остановка.</p>
+<p><strong>Запуск демона из bash вручную</strong> производится командой:</p>
+<pre>samba-server: ~# /etc/init.d/samba start</pre>
+<p>соответственно, <strong>для остановки </strong>заменить <em>start </em>на <em>stop</em>, для <strong>перезапуска </strong>- <em>restart</em>.</p>
+<h2>Проверка Samba</h2>
+<p>После <em>установки</em> и <em>настройки сервера</em>, естественно, необходимо проверить работоспособность сервера. Для этого необходимо воспользоваться <strong>утилитой <a title="использование smbclient" href="https://www.k-max.name/linux/kak-rabotaet-samba#client" target="_blank">smbclient</a></strong>, чтобы получить список разделяемых ресурсов:</p>
+<pre>samba-server:~# smbclient -L localhost -U%
+Domain=[WORKGROUP] OS=[Unix] Server=[Samba 3.5.6]
+
+ Sharename       Type      Comment
+ ---------       ----      -------
+ data            Disk
+ IPC$            IPC       IPC Service (Samba 3.5.6)
+ it_216          Printer   Printer
+Domain=[WORKGROUP] OS=[Unix] Server=[Samba 3.5.6]
+
+ Server               Comment
+ ---------            -------
+ HOST
+ SAMBA                Samba 3.5.6
+
+ Workgroup            Master
+ ---------            -------
+ WORKGROUP            SAMBA</pre>
+<p>Полученные результаты показывают, что <strong>сервер SAMBA </strong>допускает возможность анонимного подключения. В данном случае подключившийся пользователь получает права доступа гостевой учетной записи, которая обычно соответствует учетной записи пользователя <em>nobody </em>в файле <em>/etc/passwd</em>. Если на данном шаге получить информацию не удалось, то это означает, что трафик Samba блокируется фаерволом, либо гостевая учетка не была найдена в файле<em> /etc/passwd</em>.</p>
+<p>Так же, в диагностике отлично помогает <strong>утилита smbstatus</strong>, которая отображает текущих подключенных клиентов.</p>
+<h2>Добавление пользователей</h2>
+<p>В нашей конфигурации <strong>клиенты </strong>должны быть <em>аутентифицированы Samba</em>, чтобы получить доступ к разделяемым ресурсам. От клиента требуется указать имя и пароль, которые имеются на хосте Linux, а так же, если в <strong>smb.conf</strong> есть<strong> раздел [homes]</strong>, то у пользователя должен быть <em>домашний каталог</em>. Об <strong>управлении пользователями в Linux</strong> можно почитать <a title="Управление пользователями в Linux" href="https://www.k-max.name/linux/upravlenie-polzovatelyami-v-linux/" target="_blank">тут</a>. Обычно, добавление пользователей в Linux производится командой:</p>
+<pre>samba-server: ~# useradd -m username</pre>
+<p>Кроме того, у Samba есть свой файл паролей <em>/etc/samba/smbpasswd</em>, хранящий <em>Microsoft Windows-совместимые зашифрованные пароли</em>. Для каждого пользователя необходимо выполнить <strong>команду smbpasswd</strong>, чтобы <strong>добавить учетную запись Samba</strong> для этого пользователя. При этом, имя и пароль <strong>должны соответствовать</strong> тем, которые имеются у <strong>учетных записей Linux</strong>:</p>
+<pre>samba-server:~# smbpasswd -a username
+New SMB password:
+Retype new SMB password:</pre>
+<h2><a name="server"></a>Создание простейшего файлового сервера и сервера печати с полным доступом всем без авторизации (абсолютная файлопомойка)</h2>
+<p>Итак, давайте рассмотрим простейший <strong>пример организации файловой помойки</strong>, когда нет необходимости<em> запрашивать имя пользователя и пароль для доступа к серверу</em>. Давайте предположим, что есть какой-то каталог, например /tmp/obmen, а так же принтеры, подключенные к локальной системе, к которым необходим общий доступ, при этом используется<a title="CUPS" href="https://www.k-max.name/linux/server-pechati-na-linux-common-unix-printing-system/" target="_blank"><strong> система печати CUPS</strong></a>.</p>
+<p>Для начала, необходимо понимание, <strong>как организовать гостевой доступ к серверу samba</strong>. В разделе глобальных параметров<strong> [global] </strong>есть такой параметр как <em><noindex><a rel="nofollow" href="http://smb-conf.ru/security-g.html" target="_blank">security</a></noindex></em>, который отвечает за <strong>порядок доступа к расшаренным ресурсам</strong>. Данный параметр определяет<strong> режим безопасности</strong> для доступа к серверу и может принимать следующие значения:</p>
+<h3>USER</h3>
+<p style="padding-left: 30px;"><strong>Значение USER</strong> используется по-умолчанию (в версиях Samba от 3.0 и выше), даже если параметр не задан в smb.conf. При этом параметре, <strong>клиент должен сначала произвести вход</strong>, с существующим <em>именем пользователя</em> и <em>паролем </em>Linux.</p>
+<h3>SHARE</h3>
+<p style="padding-left: 30px;"><strong>Значение SHARE</strong> в <em>старых версиях Samba </em>использовалось по-умолчанию. При подключении к ресурсу с параметром <strong>security </strong>= <em>SHARE </em>клиентам <strong>не нужно регистрироваться с использованием действительного имени пользователя и пароля</strong>. Вместо этого, клиенты посылают информацию аутентификации (пароли) на конкретный ресурс, в тот момент, когда хотят получить доступ к этому ресурсу. Заметьте, что <strong>демон smbd <span style="text-decoration: underline;">ВСЕГДА </span></strong>использует реального пользователя UNIX, когда обслуживает клиента, даже если установлено <em><strong>security </strong>= SHARE</em>. Т.к. в<strong> режиме SHARE</strong> от пользователя не требуется посыла его имени, <strong>smbd </strong>использует несколько приемов для определения пользователя UNIX.</p>
+<p><strong>Список предполагаемых имен пользователей UNIX и соответствующих им паролей определяется следующим образом:</strong></p>
+<ul>
+<li><a name="guest"></a>Если установлен<strong> параметр guest only</strong>, тогда все остальные сценарии пропускаются и используется только имя <em>гостевой учетки (guest account)</em>.</li>
+<li>Если имя пользователя послано вместе с запросом на установление соединения после сопоставления (см. <strong>параметр username map</strong>), добавляется в список.</li>
+<li>Если клиент выполнял <strong>запрос logon</strong> (вызов SessionSetup SMB), тогда имя пользователя, использовавшееся в этом вызове будет добавлено в список.</li>
+<li>Если <strong>параметр guest only</strong> не установлен, тогда этот список пользователей обрабатывается с соответствующими паролями. Первый пользователь, пароль которого совпадет с реальным будет использован в качестве действующего пользователя UNIX.</li>
+<li>Если<strong> параметр guest only</strong> установлен или не найдено подходящего имени пользователя, тогда, если Samba разрешено "принимать гостей" (<em>usershare allow guests</em>), будет использоваться гостевая учетка, в противном случае доступ будет запрещен.</li>
+</ul>
+<p>Существуют так же такие значения параметра security, как <strong>SERVER, <a title="Samba, как член домена Active Directory" href="https://www.k-max.name/windows/samba-in-domain-active-directory/" target="_blank">ADS</a></strong> и <strong><a title="Домен NT4 на SAMBA" href="https://www.k-max.name/linux/domen-nt4-na-samba/" target="_blank">DOMAIN</a></strong>, которые используют удаленную аутентификацию. Но в данной статье я не буду затрагивать данные параметры.</p>
+<p>Итак, из изложенного становиться понятно, что <strong>для гостевого доступа к серверу необходимо использовать параметр <em>security = SHARE</em>. </strong>Чтобы не вникать в схему работы сопоставления пользователей запрашивающих доступ к ресурсам samba и локальных системных пользователей linux, предлагаю пойти по пути <a title="guest only" href="https://www.k-max.name/windows/file-print-server-na-samba-cups/#guest" target="_blank">первого шага</a> и задать параметр <strong>guest only.</strong></p>
+<p>При этом, чтобы система знала, с кем ассоциировать гостевую учетную запись, то есть с какой учетной записью UNIX ассоциировать неизвестного подключенного клиента, <em>необходимо указать</em> <strong>параметр guest account</strong>, равный одной из системной учетной записи Linux. Естественно, данная <strong>учетная запись Linux</strong> должна иметь необходимый доступ к разделяемым ресурсам, чтобы не возникло вопросов с удалением/добавлением/изменением файлов. Давайте взглянем на рабочий файл файлопомойки:</p>
+<pre>samba-server:~# cat /etc/samba/smb.conf
+[global]
+ netbios name = SAMBA
+ security = SHARE
+ guest account = dostup
+ wins support = Yes
+[printers]
+ path = /var/spool/samba
+ guest only = Yes
+ read only = No
+ printable = Yes
+ browseable = No
+[obmennik]
+ path = /tmp/obmen
+ guest only = Yes
+ force user = dostup
+ force group = dostup
+ read only = No
+ create mask = 0777
+ directory mask = 0777
+ guest only = Yes</pre>
+<p>Как видно, в нашем конфиге появилось несколько уже известных нам параметров и параметров, о которых мы не говорили... Итак по порядку:<strong> параметр guest account </strong>задает <em>имя учетной записи Linux</em>, с помощью которой анонимные пользователи будут получать доступ к разделяемым ресурсам. Данный пользователь (в нашем случае - dostup) должен  иметь права на чтение и запись в каталог, который будет указан в разделяемом ресурсе (в нашем примере<strong> - раздел [obmennik]</strong> и каталог <strong>/tmp/obmen</strong>). Следующий <strong>параметр guest only</strong> - разрешает <strong>только гостевые</strong> соединения к общему ресурсу, то есть для сетевого ресурса нет необходимости указывать пароль. Далее появились 2 параметра -<strong> force user </strong>и<strong> force group</strong>, которые определяют<strong> владельца и группу Linux</strong>, с правами которых в разделяемом ресурсе будут создаваться файлы и каталоги при гостевом доступе. <strong>Параметры create mask и directory mask</strong>, не трудно догадаться, что это <a title="маска прав доступа - umask" href="https://www.k-max.name/linux/prava-dostupa-v-linux-eshhe-odna-malenkaya-shpargalka/#umask" target="_blank">маски прав доступа </a>для создания файлов. (Без данных параметров у меня на Debian 6 и samba присваивались права rwxr--r-- на файлы в подкаталогах расшаренного ресурса, в результате чего было невозможно удалить созданные файлы.) Вот собственно и весь конфиг.</p>
+<p style="padding-left: 30px;"><em><strong>Примечание:</strong></em> указывать параметр <strong>guest account</strong> нет особой необходимости. При установке samba через пакетный менеджер, по умолчанию уже будет задан некий пользователь (скорей всего nobody). Узнать, какой пользователь задан по умолчанию можно командой <em>/usr/bin/testparm -sv /etc/samba/smb.conf | grep acco</em>. При этом, необходимо учитывать права доступа заданного пользователя на файловую систему.</p>
+<h2>Автоматическая загрузка драйвера принтера<a name="driver"></a></h2>
+<p>Давайте рассмотрим возможность упрощения своей работы за счет<strong> хранения драйверов принтера на сервере </strong>и возможность <strong>автоматической установки драйвера при подключении принтера</strong>. Но давайте сначала немного теории.</p>
+<p>Итак, в Linux есть <strong>два способа сделать системный принтер доступным</strong> для совместного использования клиентами Windows.  <em>Первый </em>- в режиме неформатированных данных (<em>raw mode</em>), <em>второй </em>- интеллектуальный режим (<em>smart mode</em>). Давайте рассмотрим оба способа.</p>
+<h3><a name="raw"></a>режим неформатированных данных (raw mode)</h3>
+<p><strong>В raw mode </strong>система печати просто передает на принтер полученное задание для печати без какой-либо обработки. Для работы CUPS в <strong>режиме неформатированных данных</strong>, необходимо указать в конфиге параметр <em><strong>cups option</strong> - raw</em>. Если данный параметр отсутствует и CUPS получит задание для печати, которое содержит последовательность фильтров не известное системе печати, то задание может быть удалено так и не увидев бумагу. Чтобы исправить данную ситуацию, необходимо отредактировать файлы <em>/etc/cups/mime.types</em> и <em>/etc/cups/mime.convs</em> и раскомментировать строку<em> application/octet-stream</em>. Данное действие позволит CUPS отправлять на принтер задания с неизвестными последовательностями символов.</p>
+<p>Данный режим требует установки корректного драйвера на все клиенты Windows. То есть <strong>клиент Windows должен сам выполнить обработку задания печати и подготовить к непосредственной передаче на принтер</strong>.</p>
+<h3>интеллектуальный режим (smart mode)</h3>
+<p>Для <strong>режима smart mode</strong> необходимо установить на <strong>сервере CUPS </strong>локальную систему фильтрации. В данном режиме, сервер будет пытаться интерпретировать тип файла, отправленный на принтер, и затем фильтровать данные, автоматически выбирая преобразование соответствующие принтеру. При работе CUPS в <strong>интеллектуальном режиме</strong>, на клиенты Windows допускается использовать драйвер <strong>CUPS Post Script</strong>. Данный режим мы рассматривать не будем.</p>
+<p>Итак, <strong>режим RAW</strong>. Давайте подредактируем <strong>конфигурационный файл /etc/samba/smb.conf</strong> до следующего вида и рассмотрим его параметры:</p>
+<pre>samba-server:# cat /etc/samba/smb.conf
+[global]
+ workgroup = WORKGROUP
+ printing = CUPS
+ wins support = yes
+ netbios name = SAMBA
+ security = SHARE
+ guest account = dostup
+ cups options = raw
+ show add printer wizard = yes
+ printer admin = root, dostup
+[printers]
+ comment = Очередь печати SMB
+ printable = yes
+ path = /var/spool/samba
+ guest only = Yes
+ guest ok = yes
+ read only = No
+[print$]
+ comment = Драйверы принтера
+ path = /var/lib/samba/drivers
+ guest only = Yes
+ guest ok = yes
+ read only = No
+ create mask = 0777
+ directory mask = 0777
+ force user = dostup
+ force group = dostup
+ write list = root, dostup
+[obmennik]
+ path = /share/obmen
+ guest only = Yes
+ guest ok = yes
+ read only = No
+ create mask = 0777
+ directory mask = 0777
+ force user = dostup
+ force group = dostup</pre>
+<p><a href="https://www.k-max.name/wp-content/uploads/2011/06/system32-spool-drivers.png"><img loading="lazy" class="alignleft size-medium wp-image-2725" style="margin: 5px;" title="system32-spool-drivers" src="https://www.k-max.name/wp-content/uploads/2011/06/system32-spool-drivers-300x40.png" alt="общий ресурс драйверов принтеров Windows" width="300" height="40" srcset="https://www.k-max.name/wp-content/uploads/2011/06/system32-spool-drivers-300x40.png 300w, https://www.k-max.name/wp-content/uploads/2011/06/system32-spool-drivers.png 528w" sizes="(max-width: 300px) 100vw, 300px" /></a>У нас добавились следующие пункты: <strong>параметр cups options</strong>, который определяет <a href="#raw" target="_blank">режим raw</a> и <strong>раздел [print$]</strong>, аналогичный общему ресурсу Windows (<em>\\host\print$</em>), в котором хранятся файлы драйверов, <strong>параметр printer admin</strong> задает <em>пользователей Linux</em>, которым разрешено иметь полный доступ для управления свойствами расшаренных принтеров, а так же<strong> параметр write list</strong>, задающий<strong> список пользователей Linux</strong>, имеющих право добавлять драйвер в<strong> ресурс [print$]</strong>. Для корректной работы <strong>ресурса [print$]</strong>, нам необходимо создать указанный в <strong>параметре path </strong>каталог со структурой аналогичной Windows, для этого необходимо выполнить следующее:</p>
+<pre>samba-server:~# mkdir /var/lib/samba/drivers
+samba-server:~# cd /var/lib/samba/
+samba-server:/var/lib/samba# mkdir -p drivers/{W32ALPHA,W32MIPS,W32PPC}
+samba-server:/var/lib/samba# mkdir -p drivers/{W32X86/{2,3},WIN40,COLOR,IA64,x64}
+samba-server:/var/lib/samba# chown -R dostup:root drivers
+samba-server:/var/lib/samba# chmod -R u+rwx,g+rwx,o+rx-w drivers</pre>
+<p>Далее, необходимо <strong><a title="CUPS добавление и настройка принтера" href="https://www.k-max.name/linux/server-pechati-na-linux-common-unix-printing-system/#add">установить и настроить локальные принтеры в систему печати</a></strong>. Для <strong>загрузки драйверов в SAMBA</strong>, после <em>установки принтеров</em>, необходимо выполнить <em>следующие шаги</em> (шаги рассматриваются на ОС Windows XP):</p>
+<ol>
+<li>Загрузить Windows и залогинется.</li>
+<li><a href="https://www.k-max.name/wp-content/uploads/2011/06/samba-printers-and-faxes.png"><img loading="lazy" width="361" height="135" class="alignright  wp-image-2720" style="margin: 5px;" title="samba-printers-and-faxes" src="https://www.k-max.name/wp-content/uploads/2011/06/samba-printers-and-faxes.png" alt="отображение каталога принетры и факсы" srcset="https://www.k-max.name/wp-content/uploads/2011/06/samba-printers-and-faxes.png 361w, https://www.k-max.name/wp-content/uploads/2011/06/samba-printers-and-faxes-300x112.png 300w" sizes="(max-width: 361px) 100vw, 361px" /></a>В сетевом окружении найти машину, которую мы планируем использовать для общего доступа и как <strong>сервер печати</strong>. (в нашем случае - <em>samba</em>). При этом, должен отобразиться список общих ресурсов и расшаренных принтеров, а так же специальная папка "<strong>Принтеры и факсы</strong>". Если данного каталога нет, то скорее всего удален куст реестра, отвечающий за его отображение. Для восстановления, необходимо скачать <a href="https://www.k-max.name/wp-content/uploads/2011/06/PrintFax.zip">файл</a> и из архива импортировать в реестр его параметры.</li>
+<li>В данном каталоге будет список <strong>принтеров Samba</strong>. Из списка выбираем правой кнопкой необходимый нам принтер (тот, для которого хотим организовать загрузку драйверов), нажимаем "<strong>Свойства</strong>". При этом появиться предложение на установку драйверов данного принтера - <strong>НЕ соглашаемся</strong>. Далее появиться сообщение "Сервер для данного принтера не имеет требуемого установленного драйвера принтера сервер печати...." - нажимаем <strong>Отмена</strong>.</li>
+<li><strong><a href="https://www.k-max.name/wp-content/uploads/2011/06/install-driver-to-samba.png"><img loading="lazy" class="size-medium wp-image-2722 alignright" style="margin: 5px;" title="install-driver-to-samba" src="https://www.k-max.name/wp-content/uploads/2011/06/install-driver-to-samba-300x232.png" alt="копирование драйвера принтера на сервер самба" width="300" height="232" srcset="https://www.k-max.name/wp-content/uploads/2011/06/install-driver-to-samba-300x232.png 300w, https://www.k-max.name/wp-content/uploads/2011/06/install-driver-to-samba.png 501w" sizes="(max-width: 300px) 100vw, 300px" /></a></strong>Переходим на вкладку "<strong>Дополнительно</strong>" и напротив поля "<em>Драйвер</em>" нажимаем "<strong>Сменить...</strong>". При этом запуститься<em> "Мастер установки драйверов принтера на "имя_сервера_печати""</em>, нажимаем <strong>Далее </strong>и отвечаем на вопросы местера. На втором шаге, драйвер желательно устанавливать свежий, скачанный с сайта производителя принтера. После выбора драйвера и нажатия кнопки "<strong>Готово</strong>" начнется копирование драйвера<strong> на сервер-samba!!!</strong></li>
+<li>После данной процедуры при установке принтера на клиента Windows, драйвер должен <strong>устанавливаться автоматически</strong>.</li>
+</ol>
+<p>Фух, тяжелая получилась статься и немного размытая. Надеюсь, что будет понятно.</p>
+<p><strong><span style="font-size: large;">Резюме.</span></strong></p>
+<p>В сегодняшней статье я продолжил<a title="основы SAMBA" href="https://www.k-max.name/linux/kak-rabotaet-samba/" target="_blank"> первую часть изучения пакета SAMBA</a>. Были рассмотрены примеры работы абсолютной файлопомойки и сервера печати на Linux. А так же, описан процесс настройки сервера печати на SAMBA и CUPS с автоматической загрузкой драйверов. Про самба можно писать тома книг, всех моментов не затронешь, но надеюсь, что полученных знаний будет вполне достаточно для быстрого старта и дальнейшего развития. С радостью отвечу на Ваши комментарии.</p>
+<p><strong>Upd 2012.05.08:</strong> дополнил раздел с файлопомойкой</p>
+<p style="text-align: right;"><em>С Уважением, Mc.Sim!</em></p>
+<div class="tptn_counter" id="tptn_counter_2634"><script type="text/javascript" data-cfasync="false" src="https://www.k-max.name/?top_ten_id=2634&amp;view_counter=1&amp;_wpnonce=d2dc091b6c"></script></div>					 
+<!-- Список доп материалов START -->
+<hr/>	
+<div class="list_posts">
+						
+			<h5>Другие материалы в категории Принтер</h5>
+				<ul>
+			
+								<li><a href="https://www.k-max.name/windows/file-print-server-na-samba-cups/">Как работает SAMBA? часть 2</a></li>
+								<li><a href="https://www.k-max.name/linux/server-pechati-na-linux-common-unix-printing-system/">Сервер печати на Linux (Common UNIX Printing System)</a></li>
+								</ul>
+			</div>
+<!-- Список доп материалов END-->
+<noindex>
+						<!-- Поделись от Яндекса --> 
+						<div class="jandex">
+						<script type="text/javascript" src="//yandex.st/share/share.js" charset="utf-8"></script>
+						<div class="yashare-auto-init" data-yashareL10n="ru"  data-yashareQuickServices="vkontakte,facebook,twitter,odnoklassniki,moimir,gplus" data-yashareTheme="counter" data-yashareImage="https://www.k-max.name/favicon.ico" ></div> 
+
+
+						</div>
+						<!-- /Поделись от Яндекса --> 
+					</noindex>
+<br /><br />
+
+<!-- Яндекс.Директ START -->
+<div>
+	<noindex>
+ <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- single.php_links -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:728px;height:15px"
+     data-ad-client="ca-pub-3491741793869457"
+     data-ad-slot="4574169925"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>	</noindex>
+</div>
+<!-- Яндекс.Директ END -->
+
+
+					<span class="tags">Теги: <a href="https://www.k-max.name/tag/cups/" rel="tag">CUPS</a>, <a href="https://www.k-max.name/tag/debian/" rel="tag">Debian</a>, <a href="https://www.k-max.name/tag/linux/" rel="tag">Linux</a>, <a href="https://www.k-max.name/tag/microsoft-windows/" rel="tag">Microsoft Windows</a>, <a href="https://www.k-max.name/tag/samba-2/" rel="tag">SAMBA</a>, <a href="https://www.k-max.name/tag/osnovy/" rel="tag">основы</a></span>
+				</div>
+				<div class="comments comments_single">
+					<a href="#respond">Оставить комментарий</a>
+											 | <a href="https://www.k-max.name/windows/file-print-server-na-samba-cups/trackback/" rel="trackback">Trackback</a>
+									</div>
+
+			</div>
+			
+			
+
+   <div id="comments">
+   <h3>33 комментария к &#8220;Как работает SAMBA? часть 2&#8221;</h3>
+	<!-- comments START -->
+	<ol class="commentlist">
+			<li class="comment " id="comment-3053">
+		<div class="userinfo">
+			<div class="userpic"><img alt='' src='https://secure.gravatar.com/avatar/96b1327a84a6f8babc27eb15c6b205c6?s=38&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/96b1327a84a6f8babc27eb15c6b205c6?s=76&#038;d=mm&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' loading='lazy'/></div>			<div class="usertext">
+				<div class="username">
+											Александр									</div>
+				<div class="date">5 июля, 2011 at 08:42</div> 
+			</div>
+			<div class="count">
+				1			</div>
+			<div class="fixed"></div>
+		</div>
+		<div class="comment_text">
+			
+			<div id="commentbody-3053"><p>Решил повторить автоматическую загрузку драйвера принтера. Все проходит как надо драйвера копируются на сервер.Но нет самого главного &#8212; их автоматической установки. Выдает Сервер для данного принтера не имеет требуемого установленного драйвера принтера. В чем может быть дело?</p>
+</div>
+		</div>
+		<div class="commentmeta">
+		   <div class="reply">
+			   <a rel='nofollow' class='comment-reply-link' href='https://www.k-max.name/windows/file-print-server-na-samba-cups/?replytocom=3053#respond' data-commentid="3053" data-postid="2634" data-belowelement="comment-3053" data-respondelement="respond" data-replyto="Комментарий к записи Александр" aria-label='Комментарий к записи Александр'>Reply</a>			</div>
+		   <div class="edit">
+			   		   </div>
+		   <div class="fixed"></div>
+		</div>
+		<div class="fixed"></div>
+<ul class="children">
+	<li class="comment " id="comment-3054">
+		<div class="userinfo">
+			<div class="userpic"><img alt='' src='https://secure.gravatar.com/avatar/7e1afb92fa815ed2eb0b3d439022693e?s=38&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/7e1afb92fa815ed2eb0b3d439022693e?s=76&#038;d=mm&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' loading='lazy'/></div>			<div class="usertext">
+				<div class="username">
+											<noindex><a href='https://www.k-max.name/' rel='external nofollow ugc' class='url'>Mc.Sim</a></noindex>									</div>
+				<div class="date">5 июля, 2011 at 10:42</div> 
+			</div>
+			<div class="count">
+				2			</div>
+			<div class="fixed"></div>
+		</div>
+		<div class="comment_text">
+			
+			<div id="commentbody-3054"><p>А можно увидеть дерево содержимого ресурса print$ после копирования драйверов?</p>
+</div>
+		</div>
+		<div class="commentmeta">
+		   <div class="reply">
+			   <a rel='nofollow' class='comment-reply-link' href='https://www.k-max.name/windows/file-print-server-na-samba-cups/?replytocom=3054#respond' data-commentid="3054" data-postid="2634" data-belowelement="comment-3054" data-respondelement="respond" data-replyto="Комментарий к записи Mc.Sim" aria-label='Комментарий к записи Mc.Sim'>Reply</a>			</div>
+		   <div class="edit">
+			   		   </div>
+		   <div class="fixed"></div>
+		</div>
+		<div class="fixed"></div>
+<ul class="children">
+	<li class="comment " id="comment-3055">
+		<div class="userinfo">
+			<div class="userpic"><img alt='' src='https://secure.gravatar.com/avatar/7e1afb92fa815ed2eb0b3d439022693e?s=38&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/7e1afb92fa815ed2eb0b3d439022693e?s=76&#038;d=mm&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' loading='lazy'/></div>			<div class="usertext">
+				<div class="username">
+											<noindex><a href='https://www.k-max.name/' rel='external nofollow ugc' class='url'>Mc.Sim</a></noindex>									</div>
+				<div class="date">5 июля, 2011 at 10:54</div> 
+			</div>
+			<div class="count">
+				3			</div>
+			<div class="fixed"></div>
+		</div>
+		<div class="comment_text">
+			
+			<div id="commentbody-3055"><p>Подозреваю, что файлы драйвера не копируются&#8230;</p>
+</div>
+		</div>
+		<div class="commentmeta">
+		   <div class="reply">
+			   <a rel='nofollow' class='comment-reply-link' href='https://www.k-max.name/windows/file-print-server-na-samba-cups/?replytocom=3055#respond' data-commentid="3055" data-postid="2634" data-belowelement="comment-3055" data-respondelement="respond" data-replyto="Комментарий к записи Mc.Sim" aria-label='Комментарий к записи Mc.Sim'>Reply</a>			</div>
+		   <div class="edit">
+			   		   </div>
+		   <div class="fixed"></div>
+		</div>
+		<div class="fixed"></div>
+<ul class="children">
+	<li class="comment " id="comment-3056">
+		<div class="userinfo">
+			<div class="userpic"><img alt='' src='https://secure.gravatar.com/avatar/96b1327a84a6f8babc27eb15c6b205c6?s=38&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/96b1327a84a6f8babc27eb15c6b205c6?s=76&#038;d=mm&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' loading='lazy'/></div>			<div class="usertext">
+				<div class="username">
+											Александр									</div>
+				<div class="date">5 июля, 2011 at 11:27</div> 
+			</div>
+			<div class="count">
+				4			</div>
+			<div class="fixed"></div>
+		</div>
+		<div class="comment_text">
+			
+			<div id="commentbody-3056"><p>#ll /usr/samba/drivers/<br />
+drwxrwxrwx  4 root  wheel  4 Jul  5 10:16 W32X86<br />
+#ll /usr/samba/drivers/W32X86/<br />
+drwxrwxrwx  2 root  wheel   2 Jul  4 16:46 2<br />
+drwxrwxrwx  2 root  wheel  29 Jul  5 10:16 3<br />
+#ll /usr/samba/drivers/W32X86/3<br />
+-rw-r&#8212;r&#8212;  1 nobody  wheel     1970 Apr 29  2002 ML125.INI<br />
+-rw-r&#8212;r&#8212;  1 nobody  wheel     1825 Jan 16  2002 ML125.cnt<br />
+-rw-r&#8212;r&#8212;  1 nobody  wheel    15959 Apr 29  2002 ML125.ddf<br />
+-rw-r&#8212;r&#8212;  1 nobody  wheel   111197 Jun 21  2002 ML125.dll<br />
+-rw-r&#8212;r&#8212;  1 nobody  wheel    51768 Jan 17  2002 ML125.hlp<br />
+-rw-r&#8212;r&#8212;  1 nobody  wheel    12761 Jun 21  2002 ML1252.ddf<br />
+-rw-r&#8212;r&#8212;  1 nobody  wheel   133790 Jun 21  2002 ML125A.dll<br />
+-rw-r&#8212;r&#8212;  1 nobody  wheel    48478 Jun 21  2002 ML125B.dll<br />
+-rw-r&#8212;r&#8212;  1 nobody  wheel  1169758 Jun 21  2002 ML125L.dll<br />
+-rw-r&#8212;r&#8212;  1 nobody  wheel    54558 Jun 21  2002 ML125U.dll<br />
+-rw-r&#8212;r&#8212;  1 nobody  wheel    59612 May  4  2002 ML125ll.dll<br />
+-rw-r&#8212;r&#8212;  1 nobody  wheel    76068 May  4  2002 ML125ls.dll<br />
+-rw-r&#8212;r&#8212;  1 nobody  wheel    77020 May  4  2002 ML125pl.dll<br />
+-rw-r&#8212;r&#8212;  1 nobody  wheel    76240 May  4  2002 ML125ps.dll<br />
+Я тут погуглил, может быть баг с версией Samba 3.4.9, попрбую 3.5 или 3.3 попозже</p>
+</div>
+		</div>
+		<div class="commentmeta">
+		   <div class="reply">
+			   <a rel='nofollow' class='comment-reply-link' href='https://www.k-max.name/windows/file-print-server-na-samba-cups/?replytocom=3056#respond' data-commentid="3056" data-postid="2634" data-belowelement="comment-3056" data-respondelement="respond" data-replyto="Комментарий к записи Александр" aria-label='Комментарий к записи Александр'>Reply</a>			</div>
+		   <div class="edit">
+			   		   </div>
+		   <div class="fixed"></div>
+		</div>
+		<div class="fixed"></div>
+<ul class="children">
+	<li class="comment " id="comment-3057">
+		<div class="userinfo">
+			<div class="userpic"><img alt='' src='https://secure.gravatar.com/avatar/7e1afb92fa815ed2eb0b3d439022693e?s=38&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/7e1afb92fa815ed2eb0b3d439022693e?s=76&#038;d=mm&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' loading='lazy'/></div>			<div class="usertext">
+				<div class="username">
+											<noindex><a href='https://www.k-max.name/' rel='external nofollow ugc' class='url'>Mc.Sim</a></noindex>									</div>
+				<div class="date">5 июля, 2011 at 11:53</div> 
+			</div>
+			<div class="count">
+				5			</div>
+			<div class="fixed"></div>
+		</div>
+		<div class="comment_text">
+			
+			<div id="commentbody-3057"><p>ок. Если что &#8212; пишите.</p>
+</div>
+		</div>
+		<div class="commentmeta">
+		   <div class="reply">
+			   <a rel='nofollow' class='comment-reply-link' href='https://www.k-max.name/windows/file-print-server-na-samba-cups/?replytocom=3057#respond' data-commentid="3057" data-postid="2634" data-belowelement="comment-3057" data-respondelement="respond" data-replyto="Комментарий к записи Mc.Sim" aria-label='Комментарий к записи Mc.Sim'>Reply</a>			</div>
+		   <div class="edit">
+			   		   </div>
+		   <div class="fixed"></div>
+		</div>
+		<div class="fixed"></div>
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+	<li class="comment " id="comment-3060">
+		<div class="userinfo">
+			<div class="userpic"><img alt='' src='https://secure.gravatar.com/avatar/96b1327a84a6f8babc27eb15c6b205c6?s=38&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/96b1327a84a6f8babc27eb15c6b205c6?s=76&#038;d=mm&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' loading='lazy'/></div>			<div class="usertext">
+				<div class="username">
+											Александр									</div>
+				<div class="date">6 июля, 2011 at 10:11</div> 
+			</div>
+			<div class="count">
+				6			</div>
+			<div class="fixed"></div>
+		</div>
+		<div class="comment_text">
+			
+			<div id="commentbody-3060"><p>Все разобрался!<br />
+После копирования драйверов на сервер забыл!!! сдалать выбор драйвера. Баз выбора драйвера копируются но не устанавливаюся(привязываются) к принтеру.<br />
+И еще в дополнение.<br />
+1. Не устанавливайте в smb.conf следующий параметр<br />
+use client driver = yes<br />
+Иначе будет только копирование файлов драйверов.Больше ничего не сможете настроить для принтера.<br />
+Даже в консоли сервера. Пример<br />
+#rpcclient relay2 -U root -c &#8216;setdriver Samsung1250 &#171;Samsung ML-1250 PCL 6&#8243;&#8216;<br />
+SetPrinter call failed!<br />
+result was WERR_ACCESS_DENIED<br />
+2. Если не хотите всем давать доступ к настройкам принтера(не пользовательским) и к возможности установки драйверов всем. Не создавайте<br />
+guest account = dostup<br />
+force user = dostup<br />
+force group = dostup<br />
+write list = root, dostup<br />
+и подобные вещи.Дома то бог с этим.<br />
+У нас же есть root, который может все.<br />
+Из WinXP из консоли cmd делаем<br />
+runas /netonly /user:root &#171;rundll32 printui.dll,<br />
+PrintUIEntry /p  /n \\relay2\Samsung1250&#187;<br />
+Думаю это будет интересно<br />
+Всего хорошего</p>
+</div>
+		</div>
+		<div class="commentmeta">
+		   <div class="reply">
+			   <a rel='nofollow' class='comment-reply-link' href='https://www.k-max.name/windows/file-print-server-na-samba-cups/?replytocom=3060#respond' data-commentid="3060" data-postid="2634" data-belowelement="comment-3060" data-respondelement="respond" data-replyto="Комментарий к записи Александр" aria-label='Комментарий к записи Александр'>Reply</a>			</div>
+		   <div class="edit">
+			   		   </div>
+		   <div class="fixed"></div>
+		</div>
+		<div class="fixed"></div>
+<ul class="children">
+	<li class="comment " id="comment-3062">
+		<div class="userinfo">
+			<div class="userpic"><img alt='' src='https://secure.gravatar.com/avatar/7e1afb92fa815ed2eb0b3d439022693e?s=38&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/7e1afb92fa815ed2eb0b3d439022693e?s=76&#038;d=mm&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' loading='lazy'/></div>			<div class="usertext">
+				<div class="username">
+											<noindex><a href='https://www.k-max.name/' rel='external nofollow ugc' class='url'>Mc.Sim</a></noindex>									</div>
+				<div class="date">6 июля, 2011 at 12:22</div> 
+			</div>
+			<div class="count">
+				7			</div>
+			<div class="fixed"></div>
+		</div>
+		<div class="comment_text">
+			
+			<div id="commentbody-3062"><p>Спасибо за дельный комментарий. По первому пункту &#8212; вроде у меня не задан параметр use client driver = yes, но на будущее обязательно учту. По второму пункту &#8212; полностью согласен, но это уже более частный случай. В следующих статьях обязательно опишу разграничение доступа на управление принтером. Кстати, отличная команда<br />
+<em>runas /netonly /user:root «rundll32 printui.dll, PrintUIEntry /p /n \\relay2\Samsung1250″</em> <img src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/smile.gif"  alt=":)" title=":)"/> </p>
+</div>
+		</div>
+		<div class="commentmeta">
+		   <div class="reply">
+			   <a rel='nofollow' class='comment-reply-link' href='https://www.k-max.name/windows/file-print-server-na-samba-cups/?replytocom=3062#respond' data-commentid="3062" data-postid="2634" data-belowelement="comment-3062" data-respondelement="respond" data-replyto="Комментарий к записи Mc.Sim" aria-label='Комментарий к записи Mc.Sim'>Reply</a>			</div>
+		   <div class="edit">
+			   		   </div>
+		   <div class="fixed"></div>
+		</div>
+		<div class="fixed"></div>
+</li><!-- #comment-## -->
+	<li class="comment " id="comment-4315">
+		<div class="userinfo">
+			<div class="userpic"><img alt='' src='https://secure.gravatar.com/avatar/277ac544731cd49473bbaac69cf3e842?s=38&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/277ac544731cd49473bbaac69cf3e842?s=76&#038;d=mm&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' loading='lazy'/></div>			<div class="usertext">
+				<div class="username">
+											<noindex><a href='http://www.thin.kiev.ua' rel='external nofollow ugc' class='url'>dr.gopher</a></noindex>									</div>
+				<div class="date">24 февраля, 2012 at 13:21</div> 
+			</div>
+			<div class="count">
+				8			</div>
+			<div class="fixed"></div>
+		</div>
+		<div class="comment_text">
+			
+			<div id="commentbody-4315"><p>Доброго времени суток!</p>
+<p>Александр<br />
+&#171;После копирования драйверов на сервер забыл!!! сдалать выбор драйвера. Баз выбора драйвера копируются но не устанавливаюся(привязываются) к принтеру.&#187;</p>
+<p>Поясните плиз, как &#8212; сдалать выбор драйвера?</p>
+<p>У меня драйвера копируются в папку \\printserver\print$\W32X86\3<br />
+Но автоматической установки драйвера нет. </p>
+<p>Спасибо.</p>
+</div>
+		</div>
+		<div class="commentmeta">
+		   <div class="reply">
+			   <a rel='nofollow' class='comment-reply-link' href='https://www.k-max.name/windows/file-print-server-na-samba-cups/?replytocom=4315#respond' data-commentid="4315" data-postid="2634" data-belowelement="comment-4315" data-respondelement="respond" data-replyto="Комментарий к записи dr.gopher" aria-label='Комментарий к записи dr.gopher'>Reply</a>			</div>
+		   <div class="edit">
+			   		   </div>
+		   <div class="fixed"></div>
+		</div>
+		<div class="fixed"></div>
+<ul class="children">
+	<li class="comment  admincomment" id="comment-4319">
+		<div class="userinfo">
+			<div class="userpic"><img alt='' src='https://secure.gravatar.com/avatar/7e1afb92fa815ed2eb0b3d439022693e?s=38&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/7e1afb92fa815ed2eb0b3d439022693e?s=76&#038;d=mm&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' loading='lazy'/></div>			<div class="usertext">
+				<div class="username">
+											<noindex><a href='https://www.k-max.name/' rel='external nofollow ugc' class='url'>Mc.Sim</a></noindex>									</div>
+				<div class="date">24 февраля, 2012 at 14:08</div> 
+			</div>
+			<div class="count">
+				9			</div>
+			<div class="fixed"></div>
+		</div>
+		<div class="comment_text">
+			
+			<div id="commentbody-4319"><p>&#171;Привязка&#187; загруженного драйвера к подключенному в CUPS принтеру выполняется утилитой rcpclient. Например:<br />
+<code>rpcclient localhost -Udomain_admin%password -c /<br />
+ 'setdriver printer_name "HP Universal Printing PS"'</code><br />
+эта команда выполниться для сервера localhost от имени пользователя domain_admin с паролем password и сделает установку/привязку загруженного драйвера (setdriver) с именем &#171;HP Universal Printing PS&#187; к принтеру с именем printer_name. Как-то так.</p>
+</div>
+		</div>
+		<div class="commentmeta">
+		   <div class="reply">
+			   <a rel='nofollow' class='comment-reply-link' href='https://www.k-max.name/windows/file-print-server-na-samba-cups/?replytocom=4319#respond' data-commentid="4319" data-postid="2634" data-belowelement="comment-4319" data-respondelement="respond" data-replyto="Комментарий к записи Mc.Sim" aria-label='Комментарий к записи Mc.Sim'>Reply</a>			</div>
+		   <div class="edit">
+			   		   </div>
+		   <div class="fixed"></div>
+		</div>
+		<div class="fixed"></div>
+<ul class="children">
+	<li class="comment " id="comment-4324">
+		<div class="userinfo">
+			<div class="userpic"><img alt='' src='https://secure.gravatar.com/avatar/277ac544731cd49473bbaac69cf3e842?s=38&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/277ac544731cd49473bbaac69cf3e842?s=76&#038;d=mm&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' loading='lazy'/></div>			<div class="usertext">
+				<div class="username">
+											<noindex><a href='http://www.thin.kiev.ua' rel='external nofollow ugc' class='url'>dr.gopher</a></noindex>									</div>
+				<div class="date">24 февраля, 2012 at 16:23</div> 
+			</div>
+			<div class="count">
+				10			</div>
+			<div class="fixed"></div>
+		</div>
+		<div class="comment_text">
+			
+			<div id="commentbody-4324"><p>А про это надо догадываться читая (внедряя) вашу статью?<br />
+Вы может дополнить статью на с реальным примером привязки драйвера?</p>
+</div>
+		</div>
+		<div class="commentmeta">
+		   <div class="reply">
+			   <a rel='nofollow' class='comment-reply-link' href='https://www.k-max.name/windows/file-print-server-na-samba-cups/?replytocom=4324#respond' data-commentid="4324" data-postid="2634" data-belowelement="comment-4324" data-respondelement="respond" data-replyto="Комментарий к записи dr.gopher" aria-label='Комментарий к записи dr.gopher'>Reply</a>			</div>
+		   <div class="edit">
+			   		   </div>
+		   <div class="fixed"></div>
+		</div>
+		<div class="fixed"></div>
+<ul class="children">
+	<li class="comment  admincomment" id="comment-4325">
+		<div class="userinfo">
+			<div class="userpic"><img alt='' src='https://secure.gravatar.com/avatar/7e1afb92fa815ed2eb0b3d439022693e?s=38&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/7e1afb92fa815ed2eb0b3d439022693e?s=76&#038;d=mm&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' loading='lazy'/></div>			<div class="usertext">
+				<div class="username">
+											<noindex><a href='https://www.k-max.name/' rel='external nofollow ugc' class='url'>Mc.Sim</a></noindex>									</div>
+				<div class="date">24 февраля, 2012 at 16:40</div> 
+			</div>
+			<div class="count">
+				11			</div>
+			<div class="fixed"></div>
+		</div>
+		<div class="comment_text">
+			
+			<div id="commentbody-4325"><p>Такой пример рассмотрен в статье<br />
+<a href="https://www.k-max.name/windows/samba-in-domain-active-directory/" rel="nofollow ugc">https://www.k-max.name/windows/samba-in-domain-active-directory/</a></p>
+</div>
+		</div>
+		<div class="commentmeta">
+		   <div class="reply">
+			   <a rel='nofollow' class='comment-reply-link' href='https://www.k-max.name/windows/file-print-server-na-samba-cups/?replytocom=4325#respond' data-commentid="4325" data-postid="2634" data-belowelement="comment-4325" data-respondelement="respond" data-replyto="Комментарий к записи Mc.Sim" aria-label='Комментарий к записи Mc.Sim'>Reply</a>			</div>
+		   <div class="edit">
+			   		   </div>
+		   <div class="fixed"></div>
+		</div>
+		<div class="fixed"></div>
+<ul class="children">
+	<li class="comment " id="comment-4327">
+		<div class="userinfo">
+			<div class="userpic"><img alt='' src='https://secure.gravatar.com/avatar/277ac544731cd49473bbaac69cf3e842?s=38&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/277ac544731cd49473bbaac69cf3e842?s=76&#038;d=mm&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' loading='lazy'/></div>			<div class="usertext">
+				<div class="username">
+											<noindex><a href='http://www.thin.kiev.ua' rel='external nofollow ugc' class='url'>dr.gopher</a></noindex>									</div>
+				<div class="date">24 февраля, 2012 at 17:25</div> 
+			</div>
+			<div class="count">
+				12			</div>
+			<div class="fixed"></div>
+		</div>
+		<div class="comment_text">
+			
+			<div id="commentbody-4327"><p>rpcclient localhost -Udomain_admin%password -c /<br />
+ &#8216;setdriver printer_name &#171;HP Universal Printing PS&#187;&#8216;</p>
+<p>Это не пример, это шаблон. А пример это кода вы делая описали.<br />
+localhost например я заменил на IP<br />
+-Udomain_admin% &#8212; вы догадались что у меня это -U root%</p>
+<p>printer_name &#8212; это имя принтера которое вы видите зайдя на сервер печати, у меня это &#8212; HP_LaserJet_P2015_Series_192.168.0.7<br />
+И так далее. Спасибо за статью. К сожалению статья больше обзорная и вы описали &#8212; Как загрузить драйвера на сервер. Но как организовать автоматическую загрузку, это вне вашей статьи. Удачи.</p>
+</div>
+		</div>
+		<div class="commentmeta">
+		   <div class="reply">
+			   <a rel='nofollow' class='comment-reply-link' href='https://www.k-max.name/windows/file-print-server-na-samba-cups/?replytocom=4327#respond' data-commentid="4327" data-postid="2634" data-belowelement="comment-4327" data-respondelement="respond" data-replyto="Комментарий к записи dr.gopher" aria-label='Комментарий к записи dr.gopher'>Reply</a>			</div>
+		   <div class="edit">
+			   		   </div>
+		   <div class="fixed"></div>
+		</div>
+		<div class="fixed"></div>
+<ul class="children">
+	<li class="comment  admincomment" id="comment-4333">
+		<div class="userinfo">
+			<div class="userpic"><img alt='' src='https://secure.gravatar.com/avatar/7e1afb92fa815ed2eb0b3d439022693e?s=38&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/7e1afb92fa815ed2eb0b3d439022693e?s=76&#038;d=mm&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' loading='lazy'/></div>			<div class="usertext">
+				<div class="username">
+											<noindex><a href='https://www.k-max.name/' rel='external nofollow ugc' class='url'>Mc.Sim</a></noindex>									</div>
+				<div class="date">24 февраля, 2012 at 23:03</div> 
+			</div>
+			<div class="count">
+				13			</div>
+			<div class="fixed"></div>
+		</div>
+		<div class="comment_text">
+			
+			<div id="commentbody-4333"><p>Спасибо за замечание, dr.gopher. Я учту Ваши пожелания и со временем дополню статью. Но в целом &#8212; Вы правы статья больше вводная и обзорная, нежели HOWTO.</p>
+</div>
+		</div>
+		<div class="commentmeta">
+		   <div class="reply">
+			   			</div>
+		   <div class="edit">
+			   		   </div>
+		   <div class="fixed"></div>
+		</div>
+		<div class="fixed"></div>
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+	<li class="comment " id="comment-3133">
+		<div class="userinfo">
+			<div class="userpic"><img alt='' src='https://secure.gravatar.com/avatar/965d4c4a1929e7c870e773e5ed32246f?s=38&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/965d4c4a1929e7c870e773e5ed32246f?s=76&#038;d=mm&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' loading='lazy'/></div>			<div class="usertext">
+				<div class="username">
+											Enelar									</div>
+				<div class="date">14 июля, 2011 at 22:28</div> 
+			</div>
+			<div class="count">
+				14			</div>
+			<div class="fixed"></div>
+		</div>
+		<div class="comment_text">
+			
+			<div id="commentbody-3133"><p>Windows Vista Home.<br />
+Неактивна полностью вкладка Дополнительно и куча всего.<br />
+Т.е не могу нажать на &#171;сменить&#187; драйвер. Что посоветуете?</p>
+</div>
+		</div>
+		<div class="commentmeta">
+		   <div class="reply">
+			   <a rel='nofollow' class='comment-reply-link' href='https://www.k-max.name/windows/file-print-server-na-samba-cups/?replytocom=3133#respond' data-commentid="3133" data-postid="2634" data-belowelement="comment-3133" data-respondelement="respond" data-replyto="Комментарий к записи Enelar" aria-label='Комментарий к записи Enelar'>Reply</a>			</div>
+		   <div class="edit">
+			   		   </div>
+		   <div class="fixed"></div>
+		</div>
+		<div class="fixed"></div>
+<ul class="children">
+	<li class="comment " id="comment-3137">
+		<div class="userinfo">
+			<div class="userpic"><img alt='' src='https://secure.gravatar.com/avatar/7e1afb92fa815ed2eb0b3d439022693e?s=38&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/7e1afb92fa815ed2eb0b3d439022693e?s=76&#038;d=mm&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' loading='lazy'/></div>			<div class="usertext">
+				<div class="username">
+											<noindex><a href='https://www.k-max.name/' rel='external nofollow ugc' class='url'>Mc.Sim</a></noindex>									</div>
+				<div class="date">15 июля, 2011 at 11:33</div> 
+			</div>
+			<div class="count">
+				15			</div>
+			<div class="fixed"></div>
+		</div>
+		<div class="comment_text">
+			
+			<div id="commentbody-3137"><p>У меня такая проблема была, когда на каталог /var/lib/samba/drivers нехватало прав на исполнение.<br />
+Можно увидеть testparm -s и права на каталог с драйверами?</p>
+</div>
+		</div>
+		<div class="commentmeta">
+		   <div class="reply">
+			   <a rel='nofollow' class='comment-reply-link' href='https://www.k-max.name/windows/file-print-server-na-samba-cups/?replytocom=3137#respond' data-commentid="3137" data-postid="2634" data-belowelement="comment-3137" data-respondelement="respond" data-replyto="Комментарий к записи Mc.Sim" aria-label='Комментарий к записи Mc.Sim'>Reply</a>			</div>
+		   <div class="edit">
+			   		   </div>
+		   <div class="fixed"></div>
+		</div>
+		<div class="fixed"></div>
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+	<li class="comment " id="comment-4820">
+		<div class="userinfo">
+			<div class="userpic"><img alt='' src='https://secure.gravatar.com/avatar/967aa2b83e7a6fa03aca18bd1c7333d8?s=38&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/967aa2b83e7a6fa03aca18bd1c7333d8?s=76&#038;d=mm&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' loading='lazy'/></div>			<div class="usertext">
+				<div class="username">
+											sisdba									</div>
+				<div class="date">29 марта, 2012 at 14:10</div> 
+			</div>
+			<div class="count">
+				16			</div>
+			<div class="fixed"></div>
+		</div>
+		<div class="comment_text">
+			
+			<div id="commentbody-4820"><p>&#171;Кроме того, у Samba есть свой файл паролей /etc/samba/smbpasswd, хранящий Microsoft Windows-совместимые зашифрованные пароли. Для каждого пользователя необходимо выполнить команду smbpasswd, чтобы добавить учетную запись Samba для этого пользователя. При этом, имя и пароль должны соответствовать тем, которые имеются у учетных записей Linux:&#187;         Неправда, пароли samba и пользователя linux могут отличатся, по желанию. Разные даже безопаснее. <img src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/tongue.gif"  alt=":P" title=":P"/> </p>
+</div>
+		</div>
+		<div class="commentmeta">
+		   <div class="reply">
+			   <a rel='nofollow' class='comment-reply-link' href='https://www.k-max.name/windows/file-print-server-na-samba-cups/?replytocom=4820#respond' data-commentid="4820" data-postid="2634" data-belowelement="comment-4820" data-respondelement="respond" data-replyto="Комментарий к записи sisdba" aria-label='Комментарий к записи sisdba'>Reply</a>			</div>
+		   <div class="edit">
+			   		   </div>
+		   <div class="fixed"></div>
+		</div>
+		<div class="fixed"></div>
+<ul class="children">
+	<li class="comment  admincomment" id="comment-4821">
+		<div class="userinfo">
+			<div class="userpic"><img alt='' src='https://secure.gravatar.com/avatar/7e1afb92fa815ed2eb0b3d439022693e?s=38&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/7e1afb92fa815ed2eb0b3d439022693e?s=76&#038;d=mm&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' loading='lazy'/></div>			<div class="usertext">
+				<div class="username">
+											<noindex><a href='https://www.k-max.name/' rel='external nofollow ugc' class='url'>Mc.Sim</a></noindex>									</div>
+				<div class="date">29 марта, 2012 at 14:17</div> 
+			</div>
+			<div class="count">
+				17			</div>
+			<div class="fixed"></div>
+		</div>
+		<div class="comment_text">
+			
+			<div id="commentbody-4821"><p>Приветствую!<br />
+Как докажешь?<br />
+Можно ссылку на документацию? ))<br />
+На счет пароля я еще немного сомневаюсь, а вот по поводу имени пользователя &#8212; это как пить дать <img src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/smile.gif"  alt=":)" title=":)"/> </p>
+</div>
+		</div>
+		<div class="commentmeta">
+		   <div class="reply">
+			   <a rel='nofollow' class='comment-reply-link' href='https://www.k-max.name/windows/file-print-server-na-samba-cups/?replytocom=4821#respond' data-commentid="4821" data-postid="2634" data-belowelement="comment-4821" data-respondelement="respond" data-replyto="Комментарий к записи Mc.Sim" aria-label='Комментарий к записи Mc.Sim'>Reply</a>			</div>
+		   <div class="edit">
+			   		   </div>
+		   <div class="fixed"></div>
+		</div>
+		<div class="fixed"></div>
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+	<li class="comment " id="comment-6600">
+		<div class="userinfo">
+			<div class="userpic"><img alt='' src='https://secure.gravatar.com/avatar/99823ad34032e082efa5dd4d2ad839bd?s=38&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/99823ad34032e082efa5dd4d2ad839bd?s=76&#038;d=mm&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' loading='lazy'/></div>			<div class="usertext">
+				<div class="username">
+											Виктор									</div>
+				<div class="date">29 ноября, 2012 at 13:36</div> 
+			</div>
+			<div class="count">
+				18			</div>
+			<div class="fixed"></div>
+		</div>
+		<div class="comment_text">
+			
+			<div id="commentbody-6600"><p>Помогите с проблемой. у юзеров с Windows 7 x64 не видит папку &#171;Принтеры и Факсы&#187; на сервере печати. В Windows server всё норм добавляется. пробовал добавить советуемый файл-ключ в реестр, в итоге появилась папка, но принтеров в ней нету.</p>
+</div>
+		</div>
+		<div class="commentmeta">
+		   <div class="reply">
+			   <a rel='nofollow' class='comment-reply-link' href='https://www.k-max.name/windows/file-print-server-na-samba-cups/?replytocom=6600#respond' data-commentid="6600" data-postid="2634" data-belowelement="comment-6600" data-respondelement="respond" data-replyto="Комментарий к записи Виктор" aria-label='Комментарий к записи Виктор'>Reply</a>			</div>
+		   <div class="edit">
+			   		   </div>
+		   <div class="fixed"></div>
+		</div>
+		<div class="fixed"></div>
+<ul class="children">
+	<li class="comment  admincomment" id="comment-6608">
+		<div class="userinfo">
+			<div class="userpic"><img alt='' src='https://secure.gravatar.com/avatar/7e1afb92fa815ed2eb0b3d439022693e?s=38&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/7e1afb92fa815ed2eb0b3d439022693e?s=76&#038;d=mm&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' loading='lazy'/></div>			<div class="usertext">
+				<div class="username">
+											<noindex><a href='https://www.k-max.name/' rel='external nofollow ugc' class='url'>Mc.Sim</a></noindex>									</div>
+				<div class="date">2 декабря, 2012 at 19:17</div> 
+			</div>
+			<div class="count">
+				19			</div>
+			<div class="fixed"></div>
+		</div>
+		<div class="comment_text">
+			
+			<div id="commentbody-6608"><p>Виктор, доброго времени.<br />
+Думаю, что тут версия Win не причем. Скорее всего, у пользователей, которые открывают принтеры и факсы недостаточно прав на каталог [printers].</p>
+</div>
+		</div>
+		<div class="commentmeta">
+		   <div class="reply">
+			   <a rel='nofollow' class='comment-reply-link' href='https://www.k-max.name/windows/file-print-server-na-samba-cups/?replytocom=6608#respond' data-commentid="6608" data-postid="2634" data-belowelement="comment-6608" data-respondelement="respond" data-replyto="Комментарий к записи Mc.Sim" aria-label='Комментарий к записи Mc.Sim'>Reply</a>			</div>
+		   <div class="edit">
+			   		   </div>
+		   <div class="fixed"></div>
+		</div>
+		<div class="fixed"></div>
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+	<li class="comment " id="comment-6611">
+		<div class="userinfo">
+			<div class="userpic"><img alt='' src='https://secure.gravatar.com/avatar/99823ad34032e082efa5dd4d2ad839bd?s=38&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/99823ad34032e082efa5dd4d2ad839bd?s=76&#038;d=mm&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' loading='lazy'/></div>			<div class="usertext">
+				<div class="username">
+											виктор									</div>
+				<div class="date">2 декабря, 2012 at 23:42</div> 
+			</div>
+			<div class="count">
+				20			</div>
+			<div class="fixed"></div>
+		</div>
+		<div class="comment_text">
+			
+			<div id="commentbody-6611"><p>Помлгите настроить на маки пожалуйста</p>
+</div>
+		</div>
+		<div class="commentmeta">
+		   <div class="reply">
+			   <a rel='nofollow' class='comment-reply-link' href='https://www.k-max.name/windows/file-print-server-na-samba-cups/?replytocom=6611#respond' data-commentid="6611" data-postid="2634" data-belowelement="comment-6611" data-respondelement="respond" data-replyto="Комментарий к записи виктор" aria-label='Комментарий к записи виктор'>Reply</a>			</div>
+		   <div class="edit">
+			   		   </div>
+		   <div class="fixed"></div>
+		</div>
+		<div class="fixed"></div>
+</li><!-- #comment-## -->
+	<li class="comment " id="comment-6620">
+		<div class="userinfo">
+			<div class="userpic"><img alt='' src='https://secure.gravatar.com/avatar/99823ad34032e082efa5dd4d2ad839bd?s=38&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/99823ad34032e082efa5dd4d2ad839bd?s=76&#038;d=mm&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' loading='lazy'/></div>			<div class="usertext">
+				<div class="username">
+											Виктор									</div>
+				<div class="date">4 декабря, 2012 at 17:45</div> 
+			</div>
+			<div class="count">
+				21			</div>
+			<div class="fixed"></div>
+		</div>
+		<div class="comment_text">
+			
+			<div id="commentbody-6620"><p>С маками разобрался. появилась очень большая проблема. Из под Винды (Windows7) не печатает pdf формат. Любые документы печатает, а pdf нет. Как с этим можно бороться?</p>
+</div>
+		</div>
+		<div class="commentmeta">
+		   <div class="reply">
+			   <a rel='nofollow' class='comment-reply-link' href='https://www.k-max.name/windows/file-print-server-na-samba-cups/?replytocom=6620#respond' data-commentid="6620" data-postid="2634" data-belowelement="comment-6620" data-respondelement="respond" data-replyto="Комментарий к записи Виктор" aria-label='Комментарий к записи Виктор'>Reply</a>			</div>
+		   <div class="edit">
+			   		   </div>
+		   <div class="fixed"></div>
+		</div>
+		<div class="fixed"></div>
+<ul class="children">
+	<li class="comment  admincomment" id="comment-6637">
+		<div class="userinfo">
+			<div class="userpic"><img alt='' src='https://secure.gravatar.com/avatar/7e1afb92fa815ed2eb0b3d439022693e?s=38&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/7e1afb92fa815ed2eb0b3d439022693e?s=76&#038;d=mm&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' loading='lazy'/></div>			<div class="usertext">
+				<div class="username">
+											<noindex><a href='https://www.k-max.name/' rel='external nofollow ugc' class='url'>Mc.Sim</a></noindex>									</div>
+				<div class="date">9 декабря, 2012 at 14:09</div> 
+			</div>
+			<div class="count">
+				22			</div>
+			<div class="fixed"></div>
+		</div>
+		<div class="comment_text">
+			
+			<div id="commentbody-6637"><p>могу предположить, что причина в закомментированной строке <a href="#driver" title="pdf" rel="nofollow">application/octet-stream</a>.<br />
+Эту строку необходимо расскоментировать в файле /etc/cups/mime.types и /etc/cups/mime.convs. В маке эти файлы могут лежать в другом месте&#8230;</p>
+</div>
+		</div>
+		<div class="commentmeta">
+		   <div class="reply">
+			   <a rel='nofollow' class='comment-reply-link' href='https://www.k-max.name/windows/file-print-server-na-samba-cups/?replytocom=6637#respond' data-commentid="6637" data-postid="2634" data-belowelement="comment-6637" data-respondelement="respond" data-replyto="Комментарий к записи Mc.Sim" aria-label='Комментарий к записи Mc.Sim'>Reply</a>			</div>
+		   <div class="edit">
+			   		   </div>
+		   <div class="fixed"></div>
+		</div>
+		<div class="fixed"></div>
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+	<li class="comment " id="comment-6771">
+		<div class="userinfo">
+			<div class="userpic"><img alt='' src='https://secure.gravatar.com/avatar/e031a7cd41dad3a125470729b5bcdc2f?s=38&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/e031a7cd41dad3a125470729b5bcdc2f?s=76&#038;d=mm&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' loading='lazy'/></div>			<div class="usertext">
+				<div class="username">
+											Алексей									</div>
+				<div class="date">21 января, 2013 at 11:54</div> 
+			</div>
+			<div class="count">
+				23			</div>
+			<div class="fixed"></div>
+		</div>
+		<div class="comment_text">
+			
+			<div id="commentbody-6771"><p>Доброго времени, Mc.Sim.<br />
+Согласно вашей статье &#171;&#8230; в Linux есть два способа сделать системный принтер доступным для совместного использования клиентами Windows&#8230;&#187;, т.е. параметр cups option. У меня самба 2.2.12, этот параметр в ней отсутствует. Значит ли это, что я не смогу расшарить принтер для Windows &#8212; машин???<br />
+С Windows XP SP3 вижу принтер, но не могу его корректно подключить (подключение проходит без ошибок, в &#171;Принтерах и факсах&#187; его вижу, но статус &#171;не подключено&#187;). Если же сделать хранение драйверов на самбе, то принтер успешно подключается на Винду и статус &#171;подключено&#187;, но при отправке документа на печать &#8212; принтер даже лампочкой не моргнул (это наверное и есть отсутствующая опция cups options? &#171;задание&#8230;даже не увидело бумагу&#8230;&#187;???)</p>
+<p>Дело ли в версии самбы или в кривых руках, и возможно ли расшарить как-нибудь по-другому для виндовс-машин на версии 2.2.12???</p>
+</div>
+		</div>
+		<div class="commentmeta">
+		   <div class="reply">
+			   <a rel='nofollow' class='comment-reply-link' href='https://www.k-max.name/windows/file-print-server-na-samba-cups/?replytocom=6771#respond' data-commentid="6771" data-postid="2634" data-belowelement="comment-6771" data-respondelement="respond" data-replyto="Комментарий к записи Алексей" aria-label='Комментарий к записи Алексей'>Reply</a>			</div>
+		   <div class="edit">
+			   		   </div>
+		   <div class="fixed"></div>
+		</div>
+		<div class="fixed"></div>
+<ul class="children">
+	<li class="comment  admincomment" id="comment-6798">
+		<div class="userinfo">
+			<div class="userpic"><img alt='' src='https://secure.gravatar.com/avatar/7e1afb92fa815ed2eb0b3d439022693e?s=38&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/7e1afb92fa815ed2eb0b3d439022693e?s=76&#038;d=mm&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' loading='lazy'/></div>			<div class="usertext">
+				<div class="username">
+											<noindex><a href='https://www.k-max.name/' rel='external nofollow ugc' class='url'>Mc.Sim</a></noindex>									</div>
+				<div class="date">28 января, 2013 at 21:57</div> 
+			</div>
+			<div class="count">
+				24			</div>
+			<div class="fixed"></div>
+		</div>
+		<div class="comment_text">
+			
+			<div id="commentbody-6798"><p>Приветствую, Алексей.<br />
+&#171;два способа&#187; В данном контексте имеет отношение только к samba. Точнее тут будет фраза &#171;два режима&#187;.<br />
+У <a href="https://www.k-max.name/linux/server-pechati-na-linux-common-unix-printing-system/" title="Сервер печати CUPS" target="_blank" rel="nofollow">CUPS </a>имеются свои возможности по расшариванию принтеров без использования самбы.</p>
+</div>
+		</div>
+		<div class="commentmeta">
+		   <div class="reply">
+			   <a rel='nofollow' class='comment-reply-link' href='https://www.k-max.name/windows/file-print-server-na-samba-cups/?replytocom=6798#respond' data-commentid="6798" data-postid="2634" data-belowelement="comment-6798" data-respondelement="respond" data-replyto="Комментарий к записи Mc.Sim" aria-label='Комментарий к записи Mc.Sim'>Reply</a>			</div>
+		   <div class="edit">
+			   		   </div>
+		   <div class="fixed"></div>
+		</div>
+		<div class="fixed"></div>
+</li><!-- #comment-## -->
+	<li class="comment  admincomment" id="comment-6799">
+		<div class="userinfo">
+			<div class="userpic"><img alt='' src='https://secure.gravatar.com/avatar/7e1afb92fa815ed2eb0b3d439022693e?s=38&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/7e1afb92fa815ed2eb0b3d439022693e?s=76&#038;d=mm&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' loading='lazy'/></div>			<div class="usertext">
+				<div class="username">
+											<noindex><a href='https://www.k-max.name/' rel='external nofollow ugc' class='url'>Mc.Sim</a></noindex>									</div>
+				<div class="date">28 января, 2013 at 21:58</div> 
+			</div>
+			<div class="count">
+				25			</div>
+			<div class="fixed"></div>
+		</div>
+		<div class="comment_text">
+			
+			<div id="commentbody-6799"><p>А вообще, у меня проблема с надписью «не подключено» была, когда пользователю не хватало прав на доступ к ресурсу [printers]</p>
+</div>
+		</div>
+		<div class="commentmeta">
+		   <div class="reply">
+			   <a rel='nofollow' class='comment-reply-link' href='https://www.k-max.name/windows/file-print-server-na-samba-cups/?replytocom=6799#respond' data-commentid="6799" data-postid="2634" data-belowelement="comment-6799" data-respondelement="respond" data-replyto="Комментарий к записи Mc.Sim" aria-label='Комментарий к записи Mc.Sim'>Reply</a>			</div>
+		   <div class="edit">
+			   		   </div>
+		   <div class="fixed"></div>
+		</div>
+		<div class="fixed"></div>
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+	<li class="comment " id="comment-6772">
+		<div class="userinfo">
+			<div class="userpic"><img alt='' src='https://secure.gravatar.com/avatar/e031a7cd41dad3a125470729b5bcdc2f?s=38&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/e031a7cd41dad3a125470729b5bcdc2f?s=76&#038;d=mm&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' loading='lazy'/></div>			<div class="usertext">
+				<div class="username">
+											Алексей									</div>
+				<div class="date">21 января, 2013 at 13:08</div> 
+			</div>
+			<div class="count">
+				26			</div>
+			<div class="fixed"></div>
+		</div>
+		<div class="comment_text">
+			
+			<div id="commentbody-6772"><p>Кстати &#8212; может не совсем в тему будет, но получилось расшарить принтер из Линукса для различных Винд (пробовал XP и 7&#215;64) через один лишь CUPS без особых усилий. Единственно нужно на каждую виндовую машину дрова ставить отдельно (естественно для модели расшаренного принтера).</p>
+<p>Ставим дрова на модель принтера, затем с помощью &#171;Установки принтера&#187; в &#171;Принтерах и факсах&#187; выбираем &#171;Сетевой принтер&#187;-&gt;&#187;Подключиться к принтеру в Интернете&#8230;&#187; (это для ХР &#8212; для других виндовсов аналогичные пути), вставляем в окошко :<br />
+<noindex><a rel="nofollow" href="http://адрес_машины_с_расшаренным_принтером:631/printers/имя_принтера_в_CUPS" rel="nofollow ugc">http://адрес_машины_с_расшаренным_принтером:631/printers/имя_принтера_в_CUPS</a></noindex> &#8212; и выбираем уже установленные дрова и все нормально работает. Главное чтобы настройки CUPS&#8217;a позволяли (типо где Listen и пр.). Подглядел вот тут <noindex><a rel="nofollow" href="http://forum.ru-board.com/topic.cgi?forum=65&#038;topic=3837" rel="nofollow ugc">http://forum.ru-board.com/topic.cgi?forum=65&#038;topic=3837</a></noindex></p>
+</div>
+		</div>
+		<div class="commentmeta">
+		   <div class="reply">
+			   <a rel='nofollow' class='comment-reply-link' href='https://www.k-max.name/windows/file-print-server-na-samba-cups/?replytocom=6772#respond' data-commentid="6772" data-postid="2634" data-belowelement="comment-6772" data-respondelement="respond" data-replyto="Комментарий к записи Алексей" aria-label='Комментарий к записи Алексей'>Reply</a>			</div>
+		   <div class="edit">
+			   		   </div>
+		   <div class="fixed"></div>
+		</div>
+		<div class="fixed"></div>
+<ul class="children">
+	<li class="comment  admincomment" id="comment-6801">
+		<div class="userinfo">
+			<div class="userpic"><img alt='' src='https://secure.gravatar.com/avatar/7e1afb92fa815ed2eb0b3d439022693e?s=38&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/7e1afb92fa815ed2eb0b3d439022693e?s=76&#038;d=mm&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' loading='lazy'/></div>			<div class="usertext">
+				<div class="username">
+											<noindex><a href='https://www.k-max.name/' rel='external nofollow ugc' class='url'>Mc.Sim</a></noindex>									</div>
+				<div class="date">28 января, 2013 at 22:12</div> 
+			</div>
+			<div class="count">
+				27			</div>
+			<div class="fixed"></div>
+		</div>
+		<div class="comment_text">
+			
+			<div id="commentbody-6801"><p>Тоже вполне себе решение. Говорят, что в данной конфигурации иногда наблюдаются проблемы со скоростью печати.<br />
+Кроме того, вместо http иногда используют ipp протокол.<br />
+У обоих протоколов главная проблема &#8212; ручная установка дров.</p>
+</div>
+		</div>
+		<div class="commentmeta">
+		   <div class="reply">
+			   <a rel='nofollow' class='comment-reply-link' href='https://www.k-max.name/windows/file-print-server-na-samba-cups/?replytocom=6801#respond' data-commentid="6801" data-postid="2634" data-belowelement="comment-6801" data-respondelement="respond" data-replyto="Комментарий к записи Mc.Sim" aria-label='Комментарий к записи Mc.Sim'>Reply</a>			</div>
+		   <div class="edit">
+			   		   </div>
+		   <div class="fixed"></div>
+		</div>
+		<div class="fixed"></div>
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+	<li class="comment " id="comment-8245">
+		<div class="userinfo">
+			<div class="userpic"><img alt='' src='https://secure.gravatar.com/avatar/484fd29fc103aa15811bedc9a8e3a067?s=38&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/484fd29fc103aa15811bedc9a8e3a067?s=76&#038;d=mm&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' loading='lazy'/></div>			<div class="usertext">
+				<div class="username">
+											Олег									</div>
+				<div class="date">26 июня, 2013 at 18:38</div> 
+			</div>
+			<div class="count">
+				28			</div>
+			<div class="fixed"></div>
+		</div>
+		<div class="comment_text">
+			
+			<div id="commentbody-8245"><p>я делал файловую помойку немного проще:<br />
+<code><br />
+[global]<br />
+	workgroup = workgroup<br />
+	guest ok = yes<br />
+	guest account = nobody<br />
+	security = share<br />
+	display charset = cp1251<br />
+	unix charset = utf8<br />
+	dos charset = cp1251<br />
+	usershare allow guests = Yes</p>
+<p>[shara]<br />
+	guest ok = yes<br />
+	path = /home/server/samba/shara/<br />
+	read only = No<br />
+</code><br />
+и добавил перекодировку для пользователей windows</p>
+</div>
+		</div>
+		<div class="commentmeta">
+		   <div class="reply">
+			   <a rel='nofollow' class='comment-reply-link' href='https://www.k-max.name/windows/file-print-server-na-samba-cups/?replytocom=8245#respond' data-commentid="8245" data-postid="2634" data-belowelement="comment-8245" data-respondelement="respond" data-replyto="Комментарий к записи Олег" aria-label='Комментарий к записи Олег'>Reply</a>			</div>
+		   <div class="edit">
+			   		   </div>
+		   <div class="fixed"></div>
+		</div>
+		<div class="fixed"></div>
+<ul class="children">
+	<li class="comment  admincomment" id="comment-8487">
+		<div class="userinfo">
+			<div class="userpic"><img alt='' src='https://secure.gravatar.com/avatar/7e1afb92fa815ed2eb0b3d439022693e?s=38&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/7e1afb92fa815ed2eb0b3d439022693e?s=76&#038;d=mm&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' loading='lazy'/></div>			<div class="usertext">
+				<div class="username">
+											<noindex><a href='https://www.k-max.name/' rel='external nofollow ugc' class='url'>Mc.Sim</a></noindex>									</div>
+				<div class="date">15 июля, 2013 at 23:01</div> 
+			</div>
+			<div class="count">
+				29			</div>
+			<div class="fixed"></div>
+		</div>
+		<div class="comment_text">
+			
+			<div id="commentbody-8487"><p>Да, согласен. Тоже рабочее решение.<br />
+Я в процессе изучения samba, наверно, 3 или даже более способов организации файлопомоек пытался организовать и все работали )<br />
+У каждого весть свои нюансы\удобства\недостатки. Все зависит от задач.</p>
+</div>
+		</div>
+		<div class="commentmeta">
+		   <div class="reply">
+			   <a rel='nofollow' class='comment-reply-link' href='https://www.k-max.name/windows/file-print-server-na-samba-cups/?replytocom=8487#respond' data-commentid="8487" data-postid="2634" data-belowelement="comment-8487" data-respondelement="respond" data-replyto="Комментарий к записи Mc.Sim" aria-label='Комментарий к записи Mc.Sim'>Reply</a>			</div>
+		   <div class="edit">
+			   		   </div>
+		   <div class="fixed"></div>
+		</div>
+		<div class="fixed"></div>
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+	<li class="comment " id="comment-39845">
+		<div class="userinfo">
+			<div class="userpic"><img alt='' src='https://secure.gravatar.com/avatar/ba90ca36549ffc597329682148cd55aa?s=38&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/ba90ca36549ffc597329682148cd55aa?s=76&#038;d=mm&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' loading='lazy'/></div>			<div class="usertext">
+				<div class="username">
+											<noindex><a href='http://asspo.ru' rel='external nofollow ugc' class='url'>Isorik</a></noindex>									</div>
+				<div class="date">21 июля, 2014 at 01:08</div> 
+			</div>
+			<div class="count">
+				30			</div>
+			<div class="fixed"></div>
+		</div>
+		<div class="comment_text">
+			
+			<div id="commentbody-39845"><p>Возможно опечатка<br />
+<strong>утилита <del>smbststus</del></strong></p>
+<p><strong>утилита smbstatus</strong></p>
+</div>
+		</div>
+		<div class="commentmeta">
+		   <div class="reply">
+			   <a rel='nofollow' class='comment-reply-link' href='https://www.k-max.name/windows/file-print-server-na-samba-cups/?replytocom=39845#respond' data-commentid="39845" data-postid="2634" data-belowelement="comment-39845" data-respondelement="respond" data-replyto="Комментарий к записи Isorik" aria-label='Комментарий к записи Isorik'>Reply</a>			</div>
+		   <div class="edit">
+			   		   </div>
+		   <div class="fixed"></div>
+		</div>
+		<div class="fixed"></div>
+<ul class="children">
+	<li class="comment  admincomment" id="comment-42683">
+		<div class="userinfo">
+			<div class="userpic"><img alt='' src='https://secure.gravatar.com/avatar/7e1afb92fa815ed2eb0b3d439022693e?s=38&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/7e1afb92fa815ed2eb0b3d439022693e?s=76&#038;d=mm&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' loading='lazy'/></div>			<div class="usertext">
+				<div class="username">
+											<noindex><a href='https://www.k-max.name/' rel='external nofollow ugc' class='url'>Mc.Sim</a></noindex>									</div>
+				<div class="date">7 августа, 2014 at 08:47</div> 
+			</div>
+			<div class="count">
+				31			</div>
+			<div class="fixed"></div>
+		</div>
+		<div class="comment_text">
+			
+			<div id="commentbody-42683"><p>Да, действительно. Спасибо.</p>
+</div>
+		</div>
+		<div class="commentmeta">
+		   <div class="reply">
+			   <a rel='nofollow' class='comment-reply-link' href='https://www.k-max.name/windows/file-print-server-na-samba-cups/?replytocom=42683#respond' data-commentid="42683" data-postid="2634" data-belowelement="comment-42683" data-respondelement="respond" data-replyto="Комментарий к записи Mc.Sim" aria-label='Комментарий к записи Mc.Sim'>Reply</a>			</div>
+		   <div class="edit">
+			   		   </div>
+		   <div class="fixed"></div>
+		</div>
+		<div class="fixed"></div>
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+	<li class="comment " id="comment-125705">
+		<div class="userinfo">
+			<div class="userpic"><img alt='' src='https://secure.gravatar.com/avatar/1d748d3c448ad60e26004ccddb83ed19?s=38&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/1d748d3c448ad60e26004ccddb83ed19?s=76&#038;d=mm&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' loading='lazy'/></div>			<div class="usertext">
+				<div class="username">
+											Сергей									</div>
+				<div class="date">27 февраля, 2016 at 02:05</div> 
+			</div>
+			<div class="count">
+				32			</div>
+			<div class="fixed"></div>
+		</div>
+		<div class="comment_text">
+			
+			<div id="commentbody-125705"><p>Добрый день!<br />
+Подскажите пожалуйста почему не рассшаривается папка.<br />
+Исходные данные Centos 6 (64bit) и Win10, винда видит имя сервера (самба светиться в сети) но войти в сервер не могу с ПК, говорит ошибка в сети.<br />
+В чем может быть проблема?</p>
+</div>
+		</div>
+		<div class="commentmeta">
+		   <div class="reply">
+			   <a rel='nofollow' class='comment-reply-link' href='https://www.k-max.name/windows/file-print-server-na-samba-cups/?replytocom=125705#respond' data-commentid="125705" data-postid="2634" data-belowelement="comment-125705" data-respondelement="respond" data-replyto="Комментарий к записи Сергей" aria-label='Комментарий к записи Сергей'>Reply</a>			</div>
+		   <div class="edit">
+			   		   </div>
+		   <div class="fixed"></div>
+		</div>
+		<div class="fixed"></div>
+<ul class="children">
+	<li class="comment  admincomment" id="comment-136309">
+		<div class="userinfo">
+			<div class="userpic"><img alt='' src='https://secure.gravatar.com/avatar/7e1afb92fa815ed2eb0b3d439022693e?s=38&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/7e1afb92fa815ed2eb0b3d439022693e?s=76&#038;d=mm&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' loading='lazy'/></div>			<div class="usertext">
+				<div class="username">
+											<noindex><a href='https://www.k-max.name/' rel='external nofollow ugc' class='url'>Mc.Sim</a></noindex>									</div>
+				<div class="date">3 августа, 2016 at 23:12</div> 
+			</div>
+			<div class="count">
+				33			</div>
+			<div class="fixed"></div>
+		</div>
+		<div class="comment_text">
+			
+			<div id="commentbody-136309"><p>Попробуйте почитать вот эту <noindex><a rel="nofollow" href="https://support.microsoft.com/en-us/kb/2696547" target="_blank" rel="nofollow">статью</a></noindex>. Скорее всего Ваша проблема решится.</p>
+</div>
+		</div>
+		<div class="commentmeta">
+		   <div class="reply">
+			   <a rel='nofollow' class='comment-reply-link' href='https://www.k-max.name/windows/file-print-server-na-samba-cups/?replytocom=136309#respond' data-commentid="136309" data-postid="2634" data-belowelement="comment-136309" data-respondelement="respond" data-replyto="Комментарий к записи Mc.Sim" aria-label='Комментарий к записи Mc.Sim'>Reply</a>			</div>
+		   <div class="edit">
+			   		   </div>
+		   <div class="fixed"></div>
+		</div>
+		<div class="fixed"></div>
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+	</ol>
+	</div>
+	<!-- comments END -->
+   
+	<!-- comments navi START -->
+		<!-- comments navi END -->
+
+	<!-- trackback START -->
+		<!-- trackback END -->
+
+
+	<div id="respond">
+	<p class="h3">Написать комментарий</p>
+	<div id="cancel-comment-reply"> 
+		<a rel="nofollow" id="cancel-comment-reply-link" href="/windows/file-print-server-na-samba-cups/#respond" style="display:none;">Нажмите здесь, чтобы отменить ответ.</a>	</div>
+	<form action="https://www.k-max.name/wp-comments-post.php" method="post" id="commentform">
+   
+	<!-- comment info -->
+	<div id="comment_header">
+		<div id="comment_info">
+							
+				<div id="author_info">
+					<div class="row">
+						<input type="text" name="author" id="author" class="textfield" value="" size="24" tabindex="1" />
+						<label for="author" class="small">Имя (обязательно)</label>
+					</div>
+					<div class="row">
+						<input type="text" name="email" id="email" class="textfield" value="" size="24" tabindex="2" />
+						<label for="email" class="small">Почта (скрыто) (обязательно)</label>
+					</div>
+					<div class="row">
+						<input type="text" name="url" id="url" class="textfield" value="" size="24" tabindex="3" />
+						<label for="url" class="small">Сайт</label>
+					</div>
+					<div class="rowwarn">
+						<label for="url" class="small">Редактор комментариев Wordpress любит заменять спецсимволы в тексте. Пожалуйста, для размещения блоков текста (конфигов, логов, консольных команд) используйте сервисы pastebin. Например, pastebin.com. </label>
+					</div>
+				</div>
+					</div>
+	</div><div id="qips_smiles">
+<img style="cursor: pointer;" onclick="javascript: qips_code('=)');" src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/smile.gif" alt="=)" title="=)" /> <img style="cursor: pointer;" onclick="javascript: qips_code('8)');" src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/glass.gif" alt="8)" title="8)" /> <img style="cursor: pointer;" onclick="javascript: qips_code(':(');" src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/sad.gif" alt=":(" title=":(" /> <img style="cursor: pointer;" onclick="javascript: qips_code(';)');" src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/wink.gif" alt=";)" title=";)" /> <img style="cursor: pointer;" onclick="javascript: qips_code(':P');" src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/tongue.gif" alt=":P" title=":P" /> <img style="cursor: pointer;" onclick="javascript: qips_code(':-D');" src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/laugh.gif" alt=":-D" title=":-D" /> <img style="cursor: pointer;" onclick="javascript: qips_code('=-O');" src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/wonder.gif" alt="=-O" title="=-O" /> <img style="cursor: pointer;" onclick="javascript: qips_code(':-!');" src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/sick.gif" alt=":-!" title=":-!" /> <img style="cursor: pointer;" onclick="javascript: qips_code('*IN LOVE*');" src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/inlove.gif" alt="*IN LOVE*" title="*IN LOVE*" /> <img style="cursor: pointer;" onclick="javascript: qips_code('%)');" src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/eyes.gif" alt="%)" title="%)" /> <img style="cursor: pointer;" onclick="javascript: qips_code('*CRAZY*');" src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/crazy.gif" alt="*CRAZY*" title="*CRAZY*" /> <small><a style="text-decoration: none; border-bottom: 1px dashed; top: -5px; position: relative; margin-left: 3px;" href="javascript:void(0);" id="qips_button_smiles" title="Еще смайлы">Еще смайлы</a></small></div>
+<div id="qips_smiles_toggle_wrapper" style="display: none;">
+<img style="cursor: pointer;" onclick="javascript: qips_code('O=)');" src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/angel.gif" alt="O=)" title="O=)" /> <img style="cursor: pointer;" onclick="javascript: qips_code(':-[');" src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/blush.gif" alt=":-[" title=":-[" /> <img style="cursor: pointer;" onclick="javascript: qips_code(':-*');" src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/kiss.gif" alt=":-*" title=":-*" /> <img style="cursor: pointer;" onclick="javascript: qips_code(':-x');" src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/quiet.gif" alt=":-x" title=":-x" /> <img style="cursor: pointer;" onclick="javascript: qips_code('>:o');" src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/strong.gif" alt=">:o" title=">:o" /> <img style="cursor: pointer;" onclick="javascript: qips_code(':-|');" src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/think.gif" alt=":-|" title=":-|" /> <img style="cursor: pointer;" onclick="javascript: qips_code(':-/');" src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/pitchup.gif" alt=":-/" title=":-/" /> <img style="cursor: pointer;" onclick="javascript: qips_code('*JOKINGLY*');" src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/jokingly.gif" alt="*JOKINGLY*" title="*JOKINGLY*" /> <img style="cursor: pointer;" onclick="javascript: qips_code(']:->');" src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/devil.gif" alt="]:->" title="]:->" /> <img style="cursor: pointer;" onclick="javascript: qips_code('[:-}');" src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/music.gif" alt="[:-}" title="[:-}" /> <img style="cursor: pointer;" onclick="javascript: qips_code('*KISSED*');" src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/kissed.gif" alt="*KISSED*" title="*KISSED*" /> <img style="cursor: pointer;" onclick="javascript: qips_code('*TIRED*');" src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/tired.gif" alt="*TIRED*" title="*TIRED*" /> <img style="cursor: pointer;" onclick="javascript: qips_code('*STOP*');" src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/stop.gif" alt="*STOP*" title="*STOP*" /> <img style="cursor: pointer;" onclick="javascript: qips_code('*KISSING*');" src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/kissing.gif" alt="*KISSING*" title="*KISSING*" /> <img style="cursor: pointer;" onclick="javascript: qips_code('*ROSE*');" src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/rose.gif" alt="*ROSE*" title="*ROSE*" /> <img style="cursor: pointer;" onclick="javascript: qips_code('*THUMBS UP*');" src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/thumbsup.gif" alt="*THUMBS UP*" title="*THUMBS UP*" /> <img style="cursor: pointer;" onclick="javascript: qips_code('*DRINK*');" src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/drink.gif" alt="*DRINK*" title="*DRINK*" /> <img style="cursor: pointer;" onclick="javascript: qips_code('@=');" src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/bomb.gif" alt="@=" title="@=" /> <img style="cursor: pointer;" onclick="javascript: qips_code('*HELP*');" src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/sos.gif" alt="*HELP*" title="*HELP*" /> <img style="cursor: pointer;" onclick="javascript: qips_code('*MACHO*');" src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/macho.gif" alt="*MACHO*" title="*MACHO*" /> <img style="cursor: pointer;" onclick="javascript: qips_code('*OK*');" src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/ok.gif" alt="*OK*" title="*OK*" /> <img style="cursor: pointer;" onclick="javascript: qips_code('*WASSUP*');" src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/wassup.gif" alt="*WASSUP*" title="*WASSUP*" /> <img style="cursor: pointer;" onclick="javascript: qips_code('*SORRY*');" src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/sorry.gif" alt="*SORRY*" title="*SORRY*" /> <img style="cursor: pointer;" onclick="javascript: qips_code('*BRAVO*');" src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/bravo.gif" alt="*BRAVO*" title="*BRAVO*" /> <img style="cursor: pointer;" onclick="javascript: qips_code('*LOL*');" src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/rofl.gif" alt="*LOL*" title="*LOL*" /> <img style="cursor: pointer;" onclick="javascript: qips_code('*PARDON*');" src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/pardon.gif" alt="*PARDON*" title="*PARDON*" /> <img style="cursor: pointer;" onclick="javascript: qips_code('*NO*');" src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/no.gif" alt="*NO*" title="*NO*" /> <img style="cursor: pointer;" onclick="javascript: qips_code('*UNKNOWN*');" src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/unknown.gif" alt="*UNKNOWN*" title="*UNKNOWN*" /> <img style="cursor: pointer;" onclick="javascript: qips_code('*DANCE*');" src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/dance.gif" alt="*DANCE*" title="*DANCE*" /> <img style="cursor: pointer;" onclick="javascript: qips_code('*YAHOO*');" src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/yahoo.gif" alt="*YAHOO*" title="*YAHOO*" /> </div>
+
+<!-- Begin QipSmiles Javascript -->
+<script type="text/javascript" src="https://www.k-max.name/wp-content/plugins/qipsmiles/qips-js.php"></script>
+<!-- End QipSmiles Javascript -->
+
+
+	<!-- comment input -->
+	<script type="text/javascript">var edInserted; if (!edInserted) {edToolbar(); edInserted = true;}</script>
+<textarea name="comment" id="comment" tabindex="4" rows="8" cols="50"></textarea>
+<script type="text/javascript">var edCanvas = document.getElementById('comment');</script>
+
+	<!-- comment submit and rss -->
+	<div id="submitbox">
+		<input name="submit" type="submit" id="submit" class="button" tabindex="5" value="Добавить комментарий" />
+		<input type="hidden" name="comment_post_ID" value="2634" />
+			<input type='hidden' name='comment_post_ID' value='2634' id='comment_post_ID' />
+<input type='hidden' name='comment_parent' id='comment_parent' value='0' />
+		<div class="fixed"></div>
+	</div>
+	<div class="mycomment">
+		<div class="floatright"><p><a href="https://www.k-max.name/windows/file-print-server-na-samba-cups/feed/">Комментарии через RSS: <br /><img  width="73" height="80" src="https://www.k-max.name/wp-content/themes/deep-mix/images/RSS-comments.png" alt="Подписаться на комментарии через RSS "></a></p> </div>
+		<div class="floatleft"><p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="ea36603301" /></p>
+	<script language="javascript">
+	function dcaptcha_change(){
+		document.getElementById('dcaptcha_sess').value = 9759;
+
+	}
+	
+	</script>
+
+	<div id="dcaptcha">
+		
+		<input  type="checkbox" id="dcaptcha_captcha1" onclick="dcaptcha_change();" value="Это не спам.">
+		<label class="small" for="dcaptcha_captcha1">Я не спамер (обязательно)</label>
+		
+	</div>
+	<input type="hidden" name="dcaptcha_sess" id="dcaptcha_sess" value="25247">
+
+	<script>
+	var commentField = document.getElementById("url");
+    var submitp = commentField.parentNode;
+    var answerDiv = document.getElementById("dcaptcha");	    
+    submitp.appendChild(answerDiv, commentField);
+</script>
+	<p style="clear: both;" class="subscribe-to-comments">
+			<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+			<label for="subscribe">Уведомить меня о появлении новых комментариев.</label>
+			</p><input type="hidden" id="ak_js" name="ak_js" value="156"/><textarea name="ak_hp_textarea" cols="45" rows="8" maxlength="100" style="display: none !important;"></textarea>		</div>
+	</div>
+	</form>
+	</div>
+
+						<div class="fixed"></div>
+			<div id="bottom">
+				<div class="postnav">
+					<span class="alignleft">&laquo; <a href="https://www.k-max.name/windows/virualbox-klonirovanie-diskov-vdi/" rel="prev">VirualBox клонирование дисков VDI</a></span>
+					<span class="alignright"><a href="https://www.k-max.name/linux/domen-nt4-na-samba/" rel="next">Домен NT4 на SAMBA</a> &raquo;</span>
+					<div class="fixed"></div>
+				</div>
+			</div>
+			
+		</div>
+	</div>
+
+<div id="sidebarwrap">
+	<div id="sidebar">
+
+
+			<!-- searchbox START -->
+		<div id="searchbox">
+		  
+	   <form action="https://www.k-max.name" method="get">
+			<div class="content">
+				<input type="text" class="textfield" name="s" onblur="this.value=(this.value=='') ? 'Поиск...' : this.value;" onfocus="this.value=(this.value=='Поиск...') ? '' : this.value;" value="Поиск..." />
+				<input id="searchsubmit" name="searchsubmit" type="image" src="https://www.k-max.name/wp-content/themes/deep-mix/images/search.gif" alt="поиск" tabindex="2" />
+			</div>
+		</form>
+			   </div>	
+   <!-- searchbox END -->
+   
+         <div class="sidebar-box">
+            <div class="content">
+                <!-- НАЧАЛО спрятать стандартную подписку
+                <div id="subscribe">
+               <a rel="external nofollow" id="feedrss" title="Подписаться на блог..." href="http://feeds.feedburner.com/k-max/feed">RSS</a>
+               </div> 
+               -->
+                  			   <div class="fixed"></div>
+		      </div>
+         </div>
+  <div id="text-11" class="sidebar-box widget_text"><h6>Подпишитесь</h6>			<div class="textwidget"><div id="subscribe">
+	<noindex>
+		<div  id="rss"><a rel="external nofollow noopener" title="Подписаться на блог..." href="https://feeds.feedburner.com/k-max/feed" target="_blank">
+			<img alt="RSS Linux" title="Подпишишь на RSS Блога любителя экспериментов" src="https://www.k-max.name/wp-content/uploads/2011/08/RSS.png"></a>
+<a target="_blank" rel="external nofollow noopener" href="https://www.k-max.name/comments/feed/">
+<img width="60" height="63" alt="Подписаться на комментарии через RSS " src="https://www.k-max.name/wp-content/themes/deep-mix/images/RSS-comments.png">
+</a>
+		<a title="Подписаться на блог..." target="_blank" rel="external nofollow noopener" href="https://feeds.feedburner.com/k-max/feed" id="burner">
+			<img width="88" height="26" src="https://feeds.feedburner.com/~fc/k-max/feed?bg=FF9900&amp;fg=444444&amp;anim=1">
+		</a>
+</div>
+		<div>
+			<form action="https://feedburner.google.com/fb/a/mailverify" method="post" target="popupwindow" onsubmit="window.open('https://feedburner.google.com/fb/a/mailverify?uri=k-max/feed', 'popupwindow', 'scrollbars=yes,width=550,height=520');return true">
+				<input class="subscribetomail" name="email" type="text" value="Введите Ваш e-mail" class="subscribe_textieldpost" onfocus="if (this.value == 'Введите Ваш e-mail') {this.value = '';}" onblur="if (this.value == '') {this.value = 'Введите Ваш e-mail';}" />
+				<input type="hidden" value="k-max/feed" name="uri"/>
+				<input type="hidden" value="<?php bloginfo('name'); ?>" name="title"/>
+				<input type="hidden" name="loc" value="ru_RU"/>
+				<input type="submit" value="Подписаться" />
+			</form>
+			<a rel="external nofollow" href="https://feeds.feedburner.com/k-max/feed" title="Подписаться на блог..." > Получайте новые посты первыми! </a>
+		</div>
+	</noindex>
+</div>
+&nbsp;</div>
+		</div><div id="custom_html-2" class="widget_text sidebar-box widget_custom_html"><h6>Обо мне</h6><div class="textwidget custom-html-widget">In: <a href=https://www.linkedin.com/in/kramarenko-maksim/>Maksim Kramarenko </a>
+<br>
+RHCE/RHCSA: <a href=https://rhtapps.redhat.com/certifications/badge/verify/6KMZXPDBHS5ADL4RF7EJHVJB34AEQU3CUPSQX2KSDXT6RW46LQ3XCZJWRJNV7ILTXVE4I6VB7OTCG4U5NQYTCNA62RUWOCM34WWBUYQ=>ID 200-027-068</a>
+<br>
+CV: <a href=https://www.k-max.name/cv/>Maksim Kramarenko </a>
+<br>
+Git: <a href=https://github.com/McSim85>Maksim Kramarenko </a>
+<br><br>
+<div style="text-align: center;width: 100%">
+	
+<a href=https://rhtapps.redhat.com/certifications/badge/verify/6KMZXPDBHS5ADL4RF7EJHVJB34AEQU3CUPSQX2KSDXT6RW46LQ3XCZJWRJNV7ILTXVE4I6VB7OTCG4U5NQYTCNA62RUWOCM34WWBUYQ=><img alt="RHCE/RHCSA ID 200-027-068" src=https://www.k-max.name/wp-content/uploads/2020/07/RHCE.gif width=120px ></a>
+
+<a href=https://www.youracclaim.com/badges/50af1e14-e95d-441e-82ba-95104056c533><img alt="Maksim Kramarenko VMware Certified Professional - Data Center Virtualization 2020" src=https://www.k-max.name/wp-content/uploads/2020/11/vmw-bdg-cert-pro-dta-ctr-virt-20.png width=150px></a>
+	
+<a href=https://www.youracclaim.com/badges/a8dda941-fae3-4767-8775-8e4d01a97b9d/linked_in_profile><img alt="Maksim Kramarenko Certified NNMi Administrator" src=https://www.k-max.name/wp-content/uploads/2020/07/NNMI_Administrator.gif width=120px></a>
+
+	
+	</div>
+
+<br><br>
+</div></div><div id="categories-3" class="sidebar-box widget_categories"><h6>Рубрики</h6>
+			<ul>
+					<li class="cat-item cat-item-135"><a href="https://www.k-max.name/category/bi-cycle/">Bi-Cycle</a> (1)
+</li>
+	<li class="cat-item cat-item-405"><a href="https://www.k-max.name/category/coding/">coding</a> (2)
+<ul class='children'>
+	<li class="cat-item cat-item-406"><a href="https://www.k-max.name/category/coding/python/">python</a> (2)
+</li>
+</ul>
+</li>
+	<li class="cat-item cat-item-360"><a href="https://www.k-max.name/category/howto/" title="Пошаговые руководства по настройке сетевых служб linux и Windows">HOWTO</a> (15)
+</li>
+	<li class="cat-item cat-item-246"><a href="https://www.k-max.name/category/life/">Life</a> (14)
+<ul class='children'>
+	<li class="cat-item cat-item-125"><a href="https://www.k-max.name/category/life/xumor/">Хумор</a> (3)
+</li>
+</ul>
+</li>
+	<li class="cat-item cat-item-44"><a href="https://www.k-max.name/category/linux/" title="Статьи, касающиеся операционной системы Linux">Linux</a> (70)
+<ul class='children'>
+	<li class="cat-item cat-item-66"><a href="https://www.k-max.name/category/linux/bash/" title="Статьи, описывающие теорию работы интерпретатора bash и различные практические примеры">bash</a> (6)
+</li>
+	<li class="cat-item cat-item-367"><a href="https://www.k-max.name/category/linux/clamav/">ClamAV</a> (1)
+</li>
+	<li class="cat-item cat-item-231"><a href="https://www.k-max.name/category/linux/cron/" title="использование планировщика Linux">cron</a> (2)
+</li>
+	<li class="cat-item cat-item-305"><a href="https://www.k-max.name/category/linux/cups/" title="Настройка сервера печати на CUPS СГЗЫ ">CUPS</a> (2)
+</li>
+	<li class="cat-item cat-item-344"><a href="https://www.k-max.name/category/linux/dhcp-linux/" title="Статьи, описывающие протокол DHCP">DHCP</a> (1)
+</li>
+	<li class="cat-item cat-item-345"><a href="https://www.k-max.name/category/linux/dns-linux/" title="Статьи, описывающие работу протокола DNS (Domain Name System)">DNS</a> (2)
+</li>
+	<li class="cat-item cat-item-415"><a href="https://www.k-max.name/category/linux/mysql-mariadb/">MySQL/MariaDB</a> (1)
+</li>
+	<li class="cat-item cat-item-361"><a href="https://www.k-max.name/category/linux/netfilter-iptables/" title="iptables в Linux, настройка, примеры, установка. Управление iptables в Debian, Ubuntu, CentOS, RedHat">netfilter/iptables</a> (2)
+</li>
+	<li class="cat-item cat-item-337"><a href="https://www.k-max.name/category/linux/nfs/" title="Теоретические и практические статьи о Network file system в Linux и Windows ">NFS</a> (2)
+</li>
+	<li class="cat-item cat-item-346"><a href="https://www.k-max.name/category/linux/ntp-linux/" title="Network Time Protocol и все что с ним связано">NTP</a> (1)
+</li>
+	<li class="cat-item cat-item-340"><a href="https://www.k-max.name/category/linux/postgresql/">PostgreSQL</a> (1)
+</li>
+	<li class="cat-item cat-item-294"><a href="https://www.k-max.name/category/linux/samba/" title="Статьи и работе SAMB и SMB протокола">SAMBA</a> (7)
+</li>
+	<li class="cat-item cat-item-366"><a href="https://www.k-max.name/category/linux/squid/" title="Статьи о настройке и установке SQUID. Описание аутентификации, авторизации ыйгшв.">SQUID</a> (6)
+</li>
+	<li class="cat-item cat-item-365"><a href="https://www.k-max.name/category/linux/ssh-linux/">SSH</a> (1)
+</li>
+	<li class="cat-item cat-item-373"><a href="https://www.k-max.name/category/linux/syslog-linux/" title="Статьи о настройке и установке сервиса syslog. Описание syslogd, rsyslog и других syslog-подобных демонов.">Syslog</a> (2)
+</li>
+	<li class="cat-item cat-item-364"><a href="https://www.k-max.name/category/linux/server/" title="Настройка серверов SAMBA, CUPS, DNS, DHCP, NFS, NTP, PostgreSQL и других на базе Linux и Debian">Настройка сервера Linux</a> (22)
+</li>
+	<li class="cat-item cat-item-343"><a href="https://www.k-max.name/category/linux/osnovy-linux/" title="Статьи, содержащие материалы по изучению Linux и основным принципам работы ОС">основы Linux</a> (42)
+</li>
+</ul>
+</li>
+	<li class="cat-item cat-item-372"><a href="https://www.k-max.name/category/netapp/">NetApp</a> (4)
+</li>
+	<li class="cat-item cat-item-374"><a href="https://www.k-max.name/category/vmware/">VMware</a> (5)
+</li>
+	<li class="cat-item cat-item-70"><a href="https://www.k-max.name/category/web/" title="Статьи о Веб-программировании">Web</a> (10)
+<ul class='children'>
+	<li class="cat-item cat-item-92"><a href="https://www.k-max.name/category/web/cms/" title="Описание CMS, систем управления содержимым">CMS</a> (7)
+	<ul class='children'>
+	<li class="cat-item cat-item-180"><a href="https://www.k-max.name/category/web/cms/joomla/">Joomla</a> (3)
+</li>
+	<li class="cat-item cat-item-91"><a href="https://www.k-max.name/category/web/cms/wordpress/" title="принципы и нюансы работы блога на wordpress">Wordpress</a> (3)
+</li>
+	</ul>
+</li>
+	<li class="cat-item cat-item-126"><a href="https://www.k-max.name/category/web/crm/">CRM</a> (1)
+</li>
+	<li class="cat-item cat-item-73"><a href="https://www.k-max.name/category/web/css/" title="Статьи, содержащие описание методов работы CSS ">CSS</a> (1)
+</li>
+	<li class="cat-item cat-item-248"><a href="https://www.k-max.name/category/web/facebook/">Facebook</a> (1)
+</li>
+	<li class="cat-item cat-item-75"><a href="https://www.k-max.name/category/web/html/">HTML</a> (1)
+</li>
+	<li class="cat-item cat-item-72"><a href="https://www.k-max.name/category/web/mysql/" title="Статьи о СУБД MySQL и все что с ним связано. Примеры">MySQL</a> (2)
+</li>
+	<li class="cat-item cat-item-71"><a href="https://www.k-max.name/category/web/php/" title="примеры кодов и описание работы PHP">PHP</a> (5)
+</li>
+	<li class="cat-item cat-item-250"><a href="https://www.k-max.name/category/web/seo/">SEO</a> (2)
+</li>
+</ul>
+</li>
+	<li class="cat-item cat-item-19"><a href="https://www.k-max.name/category/windows/" title="Статьи, касающиеся операционной системы Windows">Windows</a> (23)
+<ul class='children'>
+	<li class="cat-item cat-item-86"><a href="https://www.k-max.name/category/windows/1s/" title="Принципы работы, проблемы и решения по технологиям 1С Предприятия">1С</a> (3)
+</li>
+	<li class="cat-item cat-item-286"><a href="https://www.k-max.name/category/windows/active-directory/">Active Directory</a> (6)
+</li>
+	<li class="cat-item cat-item-285"><a href="https://www.k-max.name/category/windows/gpo/" title="Использование Group policy в Windows. Групповые политики на практике">Group Policy</a> (2)
+</li>
+	<li class="cat-item cat-item-359"><a href="https://www.k-max.name/category/windows/microsoft-sql/">Microsoft SQL</a> (2)
+</li>
+	<li class="cat-item cat-item-357"><a href="https://www.k-max.name/category/windows/soft-windows/">Soft</a> (8)
+</li>
+</ul>
+</li>
+	<li class="cat-item cat-item-212"><a href="https://www.k-max.name/category/ats/" title="Статьи о настройке АТС Panasonic">АТС</a> (2)
+<ul class='children'>
+	<li class="cat-item cat-item-213"><a href="https://www.k-max.name/category/ats/panasonic/" title="Программирование АТС Panasonic и настройка">Panasonic</a> (2)
+</li>
+	<li class="cat-item cat-item-214"><a href="https://www.k-max.name/category/ats/soft/" title="Программное обесечение для АТС FNC Panasonic KX-TDA">Soft</a> (1)
+</li>
+</ul>
+</li>
+	<li class="cat-item cat-item-95"><a href="https://www.k-max.name/category/zhelezo/">Железо</a> (6)
+<ul class='children'>
+	<li class="cat-item cat-item-130"><a href="https://www.k-max.name/category/zhelezo/raid/">RAID</a> (1)
+</li>
+	<li class="cat-item cat-item-97"><a href="https://www.k-max.name/category/zhelezo/ozu/">ОЗУ</a> (1)
+</li>
+	<li class="cat-item cat-item-309"><a href="https://www.k-max.name/category/zhelezo/printer/">Принтер</a> (2)
+</li>
+</ul>
+</li>
+	<li class="cat-item cat-item-272"><a href="https://www.k-max.name/category/poznovatelno/">Познавательно</a> (2)
+<ul class='children'>
+	<li class="cat-item cat-item-273"><a href="https://www.k-max.name/category/poznovatelno/o-linux/">О Linux</a> (2)
+</li>
+</ul>
+</li>
+	<li class="cat-item cat-item-276"><a href="https://www.k-max.name/category/seti/">Сети</a> (9)
+</li>
+			</ul>
+
+			</div><div id="text-16" class="sidebar-box widget_text">			<div class="textwidget"><div class="adsgoogle"><noindex><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- sidebar_big -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-3491741793869457"
+     data-ad-slot="4901898322"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</noindex></div></div>
+		</div><div id="tag_cloud-3" class="sidebar-box widget_tag_cloud"><h6>Облако тегов</h6><div class="tagcloud"><a href="https://www.k-max.name/tag/1s-predpriyatie/" class="tag-cloud-link tag-link-88 tag-link-position-1" style="font-size: 9.3125pt;" aria-label="1С Предприятие (3 элемента)">1С Предприятие</a>
+<a href="https://www.k-max.name/tag/active-directory/" class="tag-cloud-link tag-link-398 tag-link-position-2" style="font-size: 12.046875pt;" aria-label="Active Directory (6 элементов)">Active Directory</a>
+<a href="https://www.k-max.name/tag/bash/" class="tag-cloud-link tag-link-380 tag-link-position-3" style="font-size: 14.5625pt;" aria-label="bash (11 элементов)">bash</a>
+<a href="https://www.k-max.name/tag/cms/" class="tag-cloud-link tag-link-386 tag-link-position-4" style="font-size: 12.59375pt;" aria-label="CMS (7 элементов)">CMS</a>
+<a href="https://www.k-max.name/tag/cups/" class="tag-cloud-link tag-link-399 tag-link-position-5" style="font-size: 9.3125pt;" aria-label="CUPS (3 элемента)">CUPS</a>
+<a href="https://www.k-max.name/tag/daemon/" class="tag-cloud-link tag-link-150 tag-link-position-6" style="font-size: 8pt;" aria-label="daemon (2 элемента)">daemon</a>
+<a href="https://www.k-max.name/tag/debian/" class="tag-cloud-link tag-link-113 tag-link-position-7" style="font-size: 17.1875pt;" aria-label="Debian (20 элементов)">Debian</a>
+<a href="https://www.k-max.name/tag/dhcp/" class="tag-cloud-link tag-link-269 tag-link-position-8" style="font-size: 8pt;" aria-label="dhcp (2 элемента)">dhcp</a>
+<a href="https://www.k-max.name/tag/dpkg/" class="tag-cloud-link tag-link-110 tag-link-position-9" style="font-size: 9.3125pt;" aria-label="dpkg (3 элемента)">dpkg</a>
+<a href="https://www.k-max.name/tag/error/" class="tag-cloud-link tag-link-297 tag-link-position-10" style="font-size: 9.3125pt;" aria-label="error (3 элемента)">error</a>
+<a href="https://www.k-max.name/tag/grub/" class="tag-cloud-link tag-link-52 tag-link-position-11" style="font-size: 9.3125pt;" aria-label="GRUB (3 элемента)">GRUB</a>
+<a href="https://www.k-max.name/tag/howto-2/" class="tag-cloud-link tag-link-358 tag-link-position-12" style="font-size: 13.6875pt;" aria-label="HOWTO (9 элементов)">HOWTO</a>
+<a href="https://www.k-max.name/tag/html/" class="tag-cloud-link tag-link-384 tag-link-position-13" style="font-size: 8pt;" aria-label="HTML (2 элемента)">HTML</a>
+<a href="https://www.k-max.name/tag/init/" class="tag-cloud-link tag-link-49 tag-link-position-14" style="font-size: 12.046875pt;" aria-label="init (6 элементов)">init</a>
+<a href="https://www.k-max.name/tag/inod/" class="tag-cloud-link tag-link-57 tag-link-position-15" style="font-size: 8pt;" aria-label="Inod (2 элемента)">Inod</a>
+<a href="https://www.k-max.name/tag/ip/" class="tag-cloud-link tag-link-279 tag-link-position-16" style="font-size: 11.28125pt;" aria-label="ip (5 элементов)">ip</a>
+<a href="https://www.k-max.name/tag/iproute/" class="tag-cloud-link tag-link-353 tag-link-position-17" style="font-size: 9.3125pt;" aria-label="iproute (3 элемента)">iproute</a>
+<a href="https://www.k-max.name/tag/joomla-2/" class="tag-cloud-link tag-link-181 tag-link-position-18" style="font-size: 9.3125pt;" aria-label="joomla (3 элемента)">joomla</a>
+<a href="https://www.k-max.name/tag/kerberos/" class="tag-cloud-link tag-link-333 tag-link-position-19" style="font-size: 10.40625pt;" aria-label="kerberos (4 элемента)">kerberos</a>
+<a href="https://www.k-max.name/tag/kernel/" class="tag-cloud-link tag-link-209 tag-link-position-20" style="font-size: 9.3125pt;" aria-label="kernel (3 элемента)">kernel</a>
+<a href="https://www.k-max.name/tag/kx-tda100/" class="tag-cloud-link tag-link-215 tag-link-position-21" style="font-size: 8pt;" aria-label="KX-TDA100 (2 элемента)">KX-TDA100</a>
+<a href="https://www.k-max.name/tag/life/" class="tag-cloud-link tag-link-394 tag-link-position-22" style="font-size: 12.046875pt;" aria-label="Life (6 элементов)">Life</a>
+<a href="https://www.k-max.name/tag/linux/" class="tag-cloud-link tag-link-379 tag-link-position-23" style="font-size: 22pt;" aria-label="Linux (56 элементов)">Linux</a>
+<a href="https://www.k-max.name/tag/microsoft-windows/" class="tag-cloud-link tag-link-355 tag-link-position-24" style="font-size: 17.1875pt;" aria-label="Microsoft Windows (20 элементов)">Microsoft Windows</a>
+<a href="https://www.k-max.name/tag/mysql/" class="tag-cloud-link tag-link-382 tag-link-position-25" style="font-size: 10.40625pt;" aria-label="MySQL (4 элемента)">MySQL</a>
+<a href="https://www.k-max.name/tag/netapp/" class="tag-cloud-link tag-link-403 tag-link-position-26" style="font-size: 10.40625pt;" aria-label="NetApp (4 элемента)">NetApp</a>
+<a href="https://www.k-max.name/tag/network/" class="tag-cloud-link tag-link-275 tag-link-position-27" style="font-size: 17.1875pt;" aria-label="network (20 элементов)">network</a>
+<a href="https://www.k-max.name/tag/openoffice/" class="tag-cloud-link tag-link-124 tag-link-position-28" style="font-size: 8pt;" aria-label="OpenOffice (2 элемента)">OpenOffice</a>
+<a href="https://www.k-max.name/tag/panasonic/" class="tag-cloud-link tag-link-392 tag-link-position-29" style="font-size: 8pt;" aria-label="Panasonic (2 элемента)">Panasonic</a>
+<a href="https://www.k-max.name/tag/php-2/" class="tag-cloud-link tag-link-74 tag-link-position-30" style="font-size: 12.59375pt;" aria-label="php (7 элементов)">php</a>
+<a href="https://www.k-max.name/tag/samba-2/" class="tag-cloud-link tag-link-295 tag-link-position-31" style="font-size: 12.046875pt;" aria-label="SAMBA (6 элементов)">SAMBA</a>
+<a href="https://www.k-max.name/tag/squid/" class="tag-cloud-link tag-link-402 tag-link-position-32" style="font-size: 12.046875pt;" aria-label="SQUID (6 элементов)">SQUID</a>
+<a href="https://www.k-max.name/tag/syslog/" class="tag-cloud-link tag-link-228 tag-link-position-33" style="font-size: 9.3125pt;" aria-label="syslog (3 элемента)">syslog</a>
+<a href="https://www.k-max.name/tag/unix/" class="tag-cloud-link tag-link-58 tag-link-position-34" style="font-size: 14.890625pt;" aria-label="UNIX (12 элементов)">UNIX</a>
+<a href="https://www.k-max.name/tag/vim/" class="tag-cloud-link tag-link-69 tag-link-position-35" style="font-size: 9.3125pt;" aria-label="vim (3 элемента)">vim</a>
+<a href="https://www.k-max.name/tag/vmware-2/" class="tag-cloud-link tag-link-375 tag-link-position-36" style="font-size: 11.28125pt;" aria-label="vmware (5 элементов)">vmware</a>
+<a href="https://www.k-max.name/tag/web/" class="tag-cloud-link tag-link-381 tag-link-position-37" style="font-size: 11.28125pt;" aria-label="Web (5 элементов)">Web</a>
+<a href="https://www.k-max.name/tag/wins/" class="tag-cloud-link tag-link-301 tag-link-position-38" style="font-size: 9.3125pt;" aria-label="WINS (3 элемента)">WINS</a>
+<a href="https://www.k-max.name/tag/wordpress/" class="tag-cloud-link tag-link-385 tag-link-position-39" style="font-size: 9.3125pt;" aria-label="Wordpress (3 элемента)">Wordpress</a>
+<a href="https://www.k-max.name/tag/fajlovaya-sistema/" class="tag-cloud-link tag-link-54 tag-link-position-40" style="font-size: 11.28125pt;" aria-label="Файловая система (5 элементов)">Файловая система</a>
+<a href="https://www.k-max.name/tag/zagruzka/" class="tag-cloud-link tag-link-47 tag-link-position-41" style="font-size: 11.28125pt;" aria-label="загрузка (5 элементов)">загрузка</a>
+<a href="https://www.k-max.name/tag/komandy/" class="tag-cloud-link tag-link-65 tag-link-position-42" style="font-size: 17.40625pt;" aria-label="команды (21 элемент)">команды</a>
+<a href="https://www.k-max.name/tag/nastrojka/" class="tag-cloud-link tag-link-84 tag-link-position-43" style="font-size: 16.75pt;" aria-label="настройка (18 элементов)">настройка</a>
+<a href="https://www.k-max.name/tag/osnovy/" class="tag-cloud-link tag-link-101 tag-link-position-44" style="font-size: 20.359375pt;" aria-label="основы (40 элементов)">основы</a>
+<a href="https://www.k-max.name/tag/oshibki/" class="tag-cloud-link tag-link-94 tag-link-position-45" style="font-size: 13.140625pt;" aria-label="ошибки (8 элементов)">ошибки</a></div>
+</div><div id="widget_tptn_pop-3" class="sidebar-box tptn_posts_list_widget"><h6>Популярные записи</h6><div class="tptn_posts  tptn_posts_widget tptn_posts_widget3"><ul><li><span class="tptn_after_thumb"><a href="https://www.k-max.name/cv/"    target="_blank"  class="tptn_link"><span class="tptn_title">Resume</span></a> <span class="tptn_list_count">(48)</span></span></li><li><span class="tptn_after_thumb"><a href="https://www.k-max.name/linux/netfilter-iptables-v-linux/"    target="_blank"  class="tptn_link"><span class="tptn_title">Основные понятия iptables в Linux</span></a> <span class="tptn_list_count">(20)</span></span></li><li><span class="tptn_after_thumb"><a href="https://www.k-max.name/linux/replikaciya-mysql-master-slave/"    target="_blank"  class="tptn_link"><span class="tptn_title">Репликация Mysql (master-slave, master-master)</span></a> <span class="tptn_list_count">(18)</span></span></li><li><span class="tptn_after_thumb"><a href="https://www.k-max.name/coding/python-introduction/"    target="_blank"  class="tptn_link"><span class="tptn_title">Python основы</span></a> <span class="tptn_list_count">(17)</span></span></li><li><span class="tptn_after_thumb"><a href="https://www.k-max.name/linux/tekstovyj-redaktor-vim-osnovy-raboty/"    target="_blank"  class="tptn_link"><span class="tptn_title">Текстовый редактор VIM, основы работы</span></a> <span class="tptn_list_count">(12)</span></span></li><li><span class="tptn_after_thumb"><a href="https://www.k-max.name/linux/tcpdump-v-primerax/"    target="_blank"  class="tptn_link"><span class="tptn_title">tcpdump в примерах (или шпаргалка по tcpdump)</span></a> <span class="tptn_list_count">(10)</span></span></li><li><span class="tptn_after_thumb"><a href="https://www.k-max.name/windows/oshibka-0x80004005-0x80070035-na-windows-10/"    target="_blank"  class="tptn_link"><span class="tptn_title">Ошибка 0x80004005 0x80070035 на Windows 10 при доступе к сетевой папке</span></a> <span class="tptn_list_count">(9)</span></span></li><li><span class="tptn_after_thumb"><a href="https://www.k-max.name/linux/ddrescue-hdd-vosstanovlenie-and-examples/"    target="_blank"  class="tptn_link"><span class="tptn_title">ddrescue или спасаем данные с HDD</span></a> <span class="tptn_list_count">(9)</span></span></li><li><span class="tptn_after_thumb"><a href="https://www.k-max.name/linux/iptables-v-primerax/"    target="_blank"  class="tptn_link"><span class="tptn_title">iptables в простейших примерах</span></a> <span class="tptn_list_count">(8)</span></span></li><li><span class="tptn_after_thumb"><a href="https://www.k-max.name/linux/sprint-lingoda-ex-marafon-lingoda-promokod/"    target="_blank"  class="tptn_link"><span class="tptn_title">Спринт Lingoda (ex Марафон Lingoda) + промокод.</span></a> <span class="tptn_list_count">(6)</span></span></li></ul><div class="tptn_clear"></div></div></div><div id="calendar-2" class="sidebar-box widget_calendar"><div id="calendar_wrap" class="calendar_wrap"><table id="wp-calendar" class="wp-calendar-table">
+	<caption>Февраль 2022</caption>
+	<thead>
+	<tr>
+		<th scope="col" title="Понедельник">Пн</th>
+		<th scope="col" title="Вторник">Вт</th>
+		<th scope="col" title="Среда">Ср</th>
+		<th scope="col" title="Четверг">Чт</th>
+		<th scope="col" title="Пятница">Пт</th>
+		<th scope="col" title="Суббота">Сб</th>
+		<th scope="col" title="Воскресенье">Вс</th>
+	</tr>
+	</thead>
+	<tbody>
+	<tr>
+		<td colspan="1" class="pad">&nbsp;</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td id="today">6</td>
+	</tr>
+	<tr>
+		<td>7</td><td>8</td><td>9</td><td>10</td><td>11</td><td>12</td><td>13</td>
+	</tr>
+	<tr>
+		<td>14</td><td>15</td><td>16</td><td>17</td><td>18</td><td>19</td><td>20</td>
+	</tr>
+	<tr>
+		<td>21</td><td>22</td><td>23</td><td>24</td><td>25</td><td>26</td><td>27</td>
+	</tr>
+	<tr>
+		<td>28</td>
+		<td class="pad" colspan="6">&nbsp;</td>
+	</tr>
+	</tbody>
+	</table><nav aria-label="Предыдущий и следующий месяцы" class="wp-calendar-nav">
+		<span class="wp-calendar-nav-prev"><a href="https://www.k-max.name/2021/04/">&laquo; Апр</a></span>
+		<span class="pad">&nbsp;</span>
+		<span class="wp-calendar-nav-next">&nbsp;</span>
+	</nav></div></div><div id="archives-3" class="sidebar-box widget_archive"><h6>Архивы</h6>
+			<ul>
+					<li><a href='https://www.k-max.name/2021/04/'>Апрель 2021</a>&nbsp;(1)</li>
+	<li><a href='https://www.k-max.name/2021/01/'>Январь 2021</a>&nbsp;(1)</li>
+	<li><a href='https://www.k-max.name/2020/02/'>Февраль 2020</a>&nbsp;(1)</li>
+	<li><a href='https://www.k-max.name/2020/01/'>Январь 2020</a>&nbsp;(1)</li>
+	<li><a href='https://www.k-max.name/2019/12/'>Декабрь 2019</a>&nbsp;(1)</li>
+	<li><a href='https://www.k-max.name/2019/02/'>Февраль 2019</a>&nbsp;(1)</li>
+	<li><a href='https://www.k-max.name/2017/04/'>Апрель 2017</a>&nbsp;(1)</li>
+	<li><a href='https://www.k-max.name/2015/10/'>Октябрь 2015</a>&nbsp;(1)</li>
+	<li><a href='https://www.k-max.name/2015/04/'>Апрель 2015</a>&nbsp;(1)</li>
+	<li><a href='https://www.k-max.name/2014/12/'>Декабрь 2014</a>&nbsp;(1)</li>
+	<li><a href='https://www.k-max.name/2014/03/'>Март 2014</a>&nbsp;(2)</li>
+	<li><a href='https://www.k-max.name/2014/02/'>Февраль 2014</a>&nbsp;(1)</li>
+	<li><a href='https://www.k-max.name/2014/01/'>Январь 2014</a>&nbsp;(1)</li>
+	<li><a href='https://www.k-max.name/2013/11/'>Ноябрь 2013</a>&nbsp;(1)</li>
+	<li><a href='https://www.k-max.name/2013/09/'>Сентябрь 2013</a>&nbsp;(3)</li>
+	<li><a href='https://www.k-max.name/2013/08/'>Август 2013</a>&nbsp;(1)</li>
+	<li><a href='https://www.k-max.name/2013/06/'>Июнь 2013</a>&nbsp;(1)</li>
+	<li><a href='https://www.k-max.name/2013/05/'>Май 2013</a>&nbsp;(2)</li>
+	<li><a href='https://www.k-max.name/2013/04/'>Апрель 2013</a>&nbsp;(2)</li>
+	<li><a href='https://www.k-max.name/2013/03/'>Март 2013</a>&nbsp;(1)</li>
+	<li><a href='https://www.k-max.name/2012/12/'>Декабрь 2012</a>&nbsp;(1)</li>
+	<li><a href='https://www.k-max.name/2012/10/'>Октябрь 2012</a>&nbsp;(2)</li>
+	<li><a href='https://www.k-max.name/2012/09/'>Сентябрь 2012</a>&nbsp;(1)</li>
+	<li><a href='https://www.k-max.name/2012/05/'>Май 2012</a>&nbsp;(4)</li>
+	<li><a href='https://www.k-max.name/2012/04/'>Апрель 2012</a>&nbsp;(3)</li>
+	<li><a href='https://www.k-max.name/2012/03/'>Март 2012</a>&nbsp;(2)</li>
+	<li><a href='https://www.k-max.name/2012/02/'>Февраль 2012</a>&nbsp;(4)</li>
+	<li><a href='https://www.k-max.name/2012/01/'>Январь 2012</a>&nbsp;(4)</li>
+	<li><a href='https://www.k-max.name/2011/12/'>Декабрь 2011</a>&nbsp;(6)</li>
+	<li><a href='https://www.k-max.name/2011/11/'>Ноябрь 2011</a>&nbsp;(2)</li>
+	<li><a href='https://www.k-max.name/2011/10/'>Октябрь 2011</a>&nbsp;(1)</li>
+	<li><a href='https://www.k-max.name/2011/08/'>Август 2011</a>&nbsp;(2)</li>
+	<li><a href='https://www.k-max.name/2011/07/'>Июль 2011</a>&nbsp;(4)</li>
+	<li><a href='https://www.k-max.name/2011/06/'>Июнь 2011</a>&nbsp;(4)</li>
+	<li><a href='https://www.k-max.name/2011/05/'>Май 2011</a>&nbsp;(1)</li>
+	<li><a href='https://www.k-max.name/2011/04/'>Апрель 2011</a>&nbsp;(3)</li>
+	<li><a href='https://www.k-max.name/2011/03/'>Март 2011</a>&nbsp;(4)</li>
+	<li><a href='https://www.k-max.name/2011/02/'>Февраль 2011</a>&nbsp;(5)</li>
+	<li><a href='https://www.k-max.name/2011/01/'>Январь 2011</a>&nbsp;(5)</li>
+	<li><a href='https://www.k-max.name/2010/12/'>Декабрь 2010</a>&nbsp;(7)</li>
+	<li><a href='https://www.k-max.name/2010/11/'>Ноябрь 2010</a>&nbsp;(7)</li>
+	<li><a href='https://www.k-max.name/2010/10/'>Октябрь 2010</a>&nbsp;(3)</li>
+	<li><a href='https://www.k-max.name/2010/09/'>Сентябрь 2010</a>&nbsp;(6)</li>
+	<li><a href='https://www.k-max.name/2010/08/'>Август 2010</a>&nbsp;(1)</li>
+	<li><a href='https://www.k-max.name/2010/07/'>Июль 2010</a>&nbsp;(5)</li>
+	<li><a href='https://www.k-max.name/2010/06/'>Июнь 2010</a>&nbsp;(3)</li>
+	<li><a href='https://www.k-max.name/2010/05/'>Май 2010</a>&nbsp;(1)</li>
+			</ul>
+
+			</div><div id="text-12" class="sidebar-box widget_text"><h6>Пузомерки )</h6>			<div class="textwidget"><noindex>
+<!-- Top100 (Kraken) Widget -->
+<span id="top100_widget"></span>
+<!-- END Top100 (Kraken) Widget -->
+
+<!-- Top100 (Kraken) Counter -->
+<script>
+    (function (w, d, c) {
+    (w[c] = w[c] || []).push(function() {
+        var options = {
+            project: 2539493,
+            element: 'top100_widget',
+        };
+        try {
+            w.top100Counter = new top100(options);
+        } catch(e) { }
+    });
+    var n = d.getElementsByTagName("script")[0],
+    s = d.createElement("script"),
+    f = function () { n.parentNode.insertBefore(s, n); };
+    s.type = "text/javascript";
+    s.async = true;
+    s.src =
+    (d.location.protocol == "https:" ? "https:" : "http:") +
+    "//st.top100.ru/top100/top100.js";
+
+    if (w.opera == "[object Opera]") {
+    d.addEventListener("DOMContentLoaded", f, false);
+} else { f(); }
+})(window, document, "_top100q");
+</script>
+<noscript>
+  <img src="//counter.rambler.ru/top100.cnt?pid=2539493" alt="Топ-100" />
+</noscript>
+<!-- END Top100 (Kraken) Counter -->
+
+<!--LiveInternet logo--><a rel="nofollow noopener" href="https://www.liveinternet.ru/click" target="_blank"><img src="//counter.yadro.ru/logo?44.3"
+title="LiveInternet"
+alt="" border="0" width="31" height="31"/></a><!--/LiveInternet-->
+
+<!-- Rating Mail.ru counter -->
+<script type="text/javascript">
+var _tmr = window._tmr || (window._tmr = []);
+_tmr.push({id: "2090176", type: "pageView", start: (new Date()).getTime()});
+(function (d, w, id) {
+  if (d.getElementById(id)) return;
+  var ts = d.createElement("script"); ts.type = "text/javascript"; ts.async = true; ts.id = id;
+  ts.src = "https://top-fwz1.mail.ru/js/code.js";
+  var f = function () {var s = d.getElementsByTagName("script")[0]; s.parentNode.insertBefore(ts, s);};
+  if (w.opera == "[object Opera]") { d.addEventListener("DOMContentLoaded", f, false); } else { f(); }
+})(document, window, "topmailru-code");
+</script><noscript><div>
+<img src="https://top-fwz1.mail.ru/counter?id=2090176;js=na" style="border:0;position:absolute;left:-9999px;" alt="Top.Mail.Ru" />
+</div></noscript>
+<!-- //Rating Mail.ru counter -->
+<!-- Rating Mail.ru logo -->
+<a href="https://top.mail.ru/jump?from=2090176">
+<img src="https://top-fwz1.mail.ru/counter?id=2090176;t=464;l=1" style="border:0;" height="31" width="88" alt="Top.Mail.Ru" /></a>
+<!-- //Rating Mail.ru logo -->
+
+<!-- HotLog -->
+<span id="hotlog_counter"></span>
+<span id="hotlog_dyn"></span>
+<script type="text/javascript">
+var hot_s = document.createElement('script');
+hot_s.type = 'text/javascript'; hot_s.async = true;
+hot_s.src = 'https://js.hotlog.ru/dcounter/2174162.js';
+hot_d = document.getElementById('hotlog_dyn');
+hot_d.appendChild(hot_s);
+</script>
+<noscript>
+<a href="https://click.hotlog.ru/?2174162" target="_blank" rel="noopener"><img
+src="https://hit39.hotlog.ru/cgi-bin/hotlog/count?s=2174162&amp;im=49" border="0"
+alt="HotLog"></a>
+</noscript>
+<!-- /HotLog -->
+
+<!--Openstat-->
+<span id="openstat2200627"></span>
+<script type="text/javascript">
+var openstat = { counter: 2200627, image: 91, color: "ff9822", next: openstat, track_links: "all" };
+(function(d, t, p) {
+var j = d.createElement(t); j.async = true; j.type = "text/javascript";
+j.src = ("https:" == p ? "https:" : "http:") + "//openstat.net/cnt.js";
+var s = d.getElementsByTagName(t)[0]; s.parentNode.insertBefore(j, s);
+})(document, "script", document.location.protocol);
+</script>
+<!--/Openstat-->
+<!--Google anal-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-25382975-1', 'auto');
+ga('require', 'displayfeatures');
+ga('require', 'linkid', 'linkid.js');
+  ga('send', 'pageview');
+
+</script>
+<!--/Google anal-->
+
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+(function (d, w, c) {
+    (w[c] = w[c] || []).push(function() {
+        try {
+            w.yaCounter1103813 = new Ya.Metrika({id:1103813,
+                    webvisor:true,
+                    trackLinks:true,
+                    accurateTrackBounce:true});
+        } catch(e) { }
+    });
+
+    var n = d.getElementsByTagName("script")[0],
+        s = d.createElement("script"),
+        f = function () { n.parentNode.insertBefore(s, n); };
+    s.type = "text/javascript";
+    s.async = true;
+    s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
+
+    if (w.opera == "[object Opera]") {
+        d.addEventListener("DOMContentLoaded", f, false);
+    } else { f(); }
+})(document, window, "yandex_metrika_callbacks");
+</script>
+<noscript><div><img src="//mc.yandex.ru/watch/1103813" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+</noindex></div>
+		</div>	</div>
+</div>    	<div class="fixed"></div>
+   </div>
+   <div class="fixed"></div>
+</div>
+	<div class="fixed"></div>
+<div id="footer">
+   <div class="inner">
+   	<p>&copy; 2022 <a href="https://www.k-max.name">Блог любителя экспериментов</a> Все права защищены </p>
+   	<div class="alignright">
+				<a class="icn_up" title="К началу страницы" href="#top"> Наверх </a>
+		</div>
+   </div>
+   <div class="fixed"></div>
+</div>
+
+<script type='text/javascript' src='https://www.k-max.name/wp-includes/js/comment-reply.min.js?ver=5.8.3' id='comment-reply-js'></script>
+<script type='text/javascript' id='tptn_tracker-js-extra'>
+/* <![CDATA[ */
+var ajax_tptn_tracker = {"ajax_url":"https:\/\/www.k-max.name\/wp-admin\/admin-ajax.php","top_ten_id":"2634","top_ten_blog_id":"1","activate_counter":"11","top_ten_debug":"0","tptn_rnd":"119595170"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://www.k-max.name/wp-content/plugins/top-10/includes/js/top-10-tracker.min.js?ver=1.0' id='tptn_tracker-js'></script>
+<script type='text/javascript' src='https://www.k-max.name/wp-includes/js/wp-embed.min.js?ver=5.8.3' id='wp-embed-js'></script>
+<script defer type='text/javascript' src='https://www.k-max.name/wp-content/plugins/akismet/_inc/form.js?ver=4.1.12' id='akismet-form-js'></script>
+<script src='https://stats.wp.com/e-202205.js' defer></script>
+<script>
+	_stq = window._stq || [];
+	_stq.push([ 'view', {v:'ext',j:'1:10.0',blog:'81074244',post:'2634',tz:'3',srv:'www.k-max.name'} ]);
+	_stq.push([ 'clickTrackerInit', '81074244', '2634' ]);
+</script>
+
+<center></center>
+
+</body>
+</html>

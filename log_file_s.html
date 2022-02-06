@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="ru" data-vue-meta="%7B%22lang%22:%7B%22ssr%22:%22ru%22%7D%7D">
+<head >
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+  <meta name="referrer" content="unsafe-url">
+  <title>Лог файлы Linux по порядку / Хабр</title>
+  <style>
+    /* cyrillic-ext */
+    @font-face {
+      font-family: 'Fira Sans';
+      font-style: normal;
+      font-weight: 500;
+      font-display: swap;
+      src: url(https://fonts.gstatic.com/s/firasans/v11/va9B4kDNxMZdWfMOD5VnZKveSxf6TF0.woff2) format('woff2');
+      unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+    }
+
+    /* cyrillic */
+    @font-face {
+      font-family: 'Fira Sans';
+      font-style: normal;
+      font-weight: 500;
+      font-display: swap;
+      src: url(https://fonts.gstatic.com/s/firasans/v11/va9B4kDNxMZdWfMOD5VnZKveQhf6TF0.woff2) format('woff2');
+      unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+    }
+
+    /* latin-ext */
+    @font-face {
+      font-family: 'Fira Sans';
+      font-style: normal;
+      font-weight: 500;
+      font-display: swap;
+      src: url(https://fonts.gstatic.com/s/firasans/v11/va9B4kDNxMZdWfMOD5VnZKveSBf6TF0.woff2) format('woff2');
+      unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+    }
+
+    /* latin */
+    @font-face {
+      font-family: 'Fira Sans';
+      font-style: normal;
+      font-weight: 500;
+      font-display: swap;
+      src: url(https://fonts.gstatic.com/s/firasans/v11/va9B4kDNxMZdWfMOD5VnZKveRhf6.woff2) format('woff2');
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+    }
+
+    /* non-breaking hyphen */
+    @font-face {
+      font-family: 'Fira Sans';
+      font-style: normal;
+      font-weight: 500;
+      font-display: swap;
+      src: url(https://fonts.gstatic.com/l/font?kit=KFOlCnqEu92Fr1MmEU9vBh0_IsHAlmrO6g&skey=ee881451c540fdec&v=v29) format('woff2');
+      unicode-range: U+02011;
+    }
+  </style>
+  <link rel="preload" href="https://assets.habr.com/habr-web/css/chunk-vendors.e7843cc0.css" as="style"><link rel="preload" href="https://assets.habr.com/habr-web/js/chunk-vendors.4722dff8.js" as="script"><link rel="preload" href="https://assets.habr.com/habr-web/css/app.41694118.css" as="style"><link rel="preload" href="https://assets.habr.com/habr-web/js/app.20f8c25a.js" as="script">
+  <link rel="stylesheet" href="https://assets.habr.com/habr-web/css/chunk-vendors.e7843cc0.css"><link rel="stylesheet" href="https://assets.habr.com/habr-web/css/app.41694118.css">
+  <script>window.i18nFetch = new Promise((res, rej) => {
+          const xhr = new XMLHttpRequest();
+          xhr.open('GET', '/js/i18n/ru-compiled.8fa3f7551c3beb5fdc248d68681b665e.json');
+          xhr.responseType = 'json';
+          xhr.onload = function(e) {
+            if (this.status === 200) {
+              res({ru: xhr.response});
+            } else {
+              rej(e);
+            }
+          };
+          xhr.send();
+        });</script>
+  
+  <script data-vue-meta="ssr" type="application/ld+json" data-vmid="ldjson-schema">{"@context":"http:\/\/schema.org","@type":"Article","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/habr.com\/ru\/post\/332502\/"},"headline":"Лог файлы Linux по порядку","datePublished":"2017-07-07T13:40:00+03:00","dateModified":"2017-07-07T16:56:47+03:00","author":{"@type":"Person","name":"Микаел Григорян"},"publisher":{"@type":"Organization","name":"Habr","logo":{"@type":"ImageObject","url":"https:\/\/habrastorage.org\/webt\/a_\/lk\/9m\/a_lk9mjkccjox-zccjrpfolmkmq.png"}},"description":"Невозможно представить себе пользователя и администратора сервера, или даже рабочей станции на основе Linux, который никогда не читал лог файлы. Операционная сис...","url":"https:\/\/habr.com\/ru\/post\/332502\/#post-content-body","about":["h_linux","h_sys_admin","h_nix","f_admin"],"image":["https:\/\/habrastorage.org\/web\/06c\/d90\/a84\/06cd90a8459e46ce91111c269428614a.png","https:\/\/habrastorage.org\/web\/9e8\/88d\/1c7\/9e888d1c78a447deb83451a5e661f381.png"]}</script>
+  <script src="//www.googletagservices.com/tag/js/gpt.js" async></script>
+  <style>.grecaptcha-badge{visibility: hidden;}</style>
+  <meta name="habr-version" content="2.60.0">
+  
+  <meta data-vue-meta="ssr" property="fb:app_id" content="444736788986613"><meta data-vue-meta="ssr" property="fb:pages" content="472597926099084"><meta data-vue-meta="ssr" name="twitter:card" content="summary_large_image"><meta data-vue-meta="ssr" name="twitter:site" content="@habr_com"><meta data-vue-meta="ssr" property="og:site_name" content="Хабр" data-vmid="og:site_name"><meta data-vue-meta="ssr" property="og:title" content="Лог файлы Linux по порядку" data-vmid="og:title"><meta data-vue-meta="ssr" name="twitter:title" content="Лог файлы Linux по порядку" data-vmid="twitter:title"><meta data-vue-meta="ssr" name="aiturec:title" content="Лог файлы Linux по порядку" data-vmid="aiturec:title"><meta data-vue-meta="ssr" name="description" content="Невозможно представить себе пользователя и администратора сервера, или даже рабочей станции на основе Linux, который никогда не читал лог файлы. Операционная система и работающие приложения постоянно..." data-vmid="description"><meta data-vue-meta="ssr" itemprop="description" content="Невозможно представить себе пользователя и администратора сервера, или даже рабочей станции на основе Linux, который никогда не читал лог файлы. Операционная система и работающие приложения постоянно..." data-vmid="description:itemprop"><meta data-vue-meta="ssr" property="og:description" content="Невозможно представить себе пользователя и администратора сервера, или даже рабочей станции на основе Linux, который никогда не читал лог файлы. Операционная система и работающие приложения постоянно..." data-vmid="og:description"><meta data-vue-meta="ssr" name="twitter:description" content="Невозможно представить себе пользователя и администратора сервера, или даже рабочей станции на основе Linux, который никогда не читал лог файлы. Операционная система и работающие приложения постоянно..." data-vmid="twitter:description"><meta data-vue-meta="ssr" property="aiturec:description" content="Невозможно представить себе пользователя и администратора сервера, или даже рабочей станции на основе Linux, который никогда не читал лог файлы. Операционная система и работающие приложения постоянно..." data-vmid="aiturec:description"><meta data-vue-meta="ssr" itemprop="image" content="https://habr.com/share/publication/332502/9141059ce46b129406ec545b4cfe328b/" data-vmid="image:itemprop"><meta data-vue-meta="ssr" property="og:image" content="https://habr.com/share/publication/332502/9141059ce46b129406ec545b4cfe328b/" data-vmid="og:image"><meta data-vue-meta="ssr" property="og:image:width" content="1200" data-vmid="og:image:width"><meta data-vue-meta="ssr" property="og:image:height" content="630" data-vmid="og:image:height"><meta data-vue-meta="ssr" property="aiturec:image" content="https://habr.com/share/publication/332502/9141059ce46b129406ec545b4cfe328b/" data-vmid="aiturec:image"><meta data-vue-meta="ssr" name="twitter:image" content="https://habr.com/share/publication/332502/9141059ce46b129406ec545b4cfe328b/" data-vmid="twitter:image"><meta data-vue-meta="ssr" property="vk:image" content="https://habr.com/share/publication/332502/9141059ce46b129406ec545b4cfe328b/?format=vk" data-vmid="vk:image"><meta data-vue-meta="ssr" property="aiturec:item_id" content="332502" data-vmid="aiturec:item_id"><meta data-vue-meta="ssr" property="aiturec:datetime" content="2017-07-07T10:40:00.000Z" data-vmid="aiturec:datetime"><meta data-vue-meta="ssr" content="https://habr.com/ru/post/332502/" property="og:url" data-vmid="og:url"><meta data-vue-meta="ssr" property="og:type" content="article" data-vmid="og:type"><meta data-vue-meta="ssr" property="og:locale" content="ru_RU" data-vmid="og:locale"><meta data-vue-meta="ssr" name="keywords" content="logs, linux">
+  <link data-vue-meta="ssr" href="https://habr.com/ru/rss/post/332502/?fl=ru" type="application/rss+xml" title="" rel="alternate" name="rss"><link data-vue-meta="ssr" href="https://habr.com/ru/post/332502/" rel="canonical" data-vmid="canonical"><link data-vue-meta="ssr" data-vmid="hreflang"><link data-vue-meta="ssr" image_src="image" href="https://habr.com/share/publication/332502/9141059ce46b129406ec545b4cfe328b/" data-vmid="image:href">
+  <meta name="apple-mobile-web-app-status-bar-style" content="#303b44">
+  <meta name="msapplication-TileColor" content="#629FBC">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <link
+    rel="shortcut icon"
+    type="image/png"
+    sizes="16x16"
+    href="https://assets.habr.com/habr-web/img/favicons/favicon-16.png"
+  >
+  <link
+    rel="shortcut icon"
+    type="image/png"
+    sizes="32x32"
+    href="https://assets.habr.com/habr-web/img/favicons/favicon-32.png"
+  >
+  <link
+    rel="apple-touch-icon"
+    type="image/png"
+    sizes="76x76"
+    href="https://assets.habr.com/habr-web/img/favicons/apple-touch-icon-76.png"
+  >
+  <link
+    rel="apple-touch-icon"
+    type="image/png"
+    sizes="120x120"
+    href="https://assets.habr.com/habr-web/img/favicons/apple-touch-icon-120.png"
+  >
+  <link
+    rel="apple-touch-icon"
+    type="image/png"
+    sizes="152x152"
+    href="https://assets.habr.com/habr-web/img/favicons/apple-touch-icon-152.png"
+  >
+  <link
+    rel="apple-touch-icon"
+    type="image/png"
+    sizes="180x180"
+    href="https://assets.habr.com/habr-web/img/favicons/apple-touch-icon-180.png"
+  >
+  <link
+    rel="apple-touch-icon"
+    type="image/png"
+    sizes="256x256"
+    href="https://assets.habr.com/habr-web/img/favicons/apple-touch-icon-256.png"
+  >
+  <link
+    rel="apple-touch-startup-image"
+    media="screen and (device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)"
+    href="https://assets.habr.com/habr-web/img/splashes/splash_1136x640.png"
+  >
+  <link
+    rel="apple-touch-startup-image"
+    media="screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)"
+    href="https://assets.habr.com/habr-web/img/splashes/splash_2436x1125.png"
+  >
+  <link
+    rel="apple-touch-startup-image"
+    media="screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)"
+    href="https://assets.habr.com/habr-web/img/splashes/splash_1792x828.png"
+  >
+  <link
+    rel="apple-touch-startup-image"
+    media="screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)"
+    href="https://assets.habr.com/habr-web/img/splashes/splash_828x1792.png"
+  >
+  <link
+    rel="apple-touch-startup-image"
+    media="screen and (device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)"
+    href="https://assets.habr.com/habr-web/img/splashes/splash_1334x750.png"
+  >
+  <link
+    rel="apple-touch-startup-image"
+    media="screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)"
+    href="https://assets.habr.com/habr-web/img/splashes/splash_1242x2668.png"
+  >
+  <link
+    rel="apple-touch-startup-image"
+    media="screen and (device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)"
+    href="https://assets.habr.com/habr-web/img/splashes/splash_2208x1242.png"
+  >
+  <link
+    rel="apple-touch-startup-image"
+    media="screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)"
+    href="https://assets.habr.com/habr-web/img/splashes/splash_1125x2436.png"
+  >
+  <link
+    rel="apple-touch-startup-image"
+    media="screen and (device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)"
+    href="https://assets.habr.com/habr-web/img/splashes/splash_1242x2208.png"
+  >
+  <link
+    rel="apple-touch-startup-image"
+    media="screen and (device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)"
+    href="https://assets.habr.com/habr-web/img/splashes/splash_2732x2048.png"
+  >
+  <link
+    rel="apple-touch-startup-image"
+    media="screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)"
+    href="https://assets.habr.com/habr-web/img/splashes/splash_2688x1242.png"
+  >
+  <link
+    rel="apple-touch-startup-image"
+    media="screen and (device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)"
+    href="https://assets.habr.com/habr-web/img/splashes/splash_2224x1668.png"
+  >
+  <link
+    rel="apple-touch-startup-image"
+    media="screen and (device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)"
+    href="https://assets.habr.com/habr-web/img/splashes/splash_750x1334.png"
+  >
+  <link
+    rel="apple-touch-startup-image"
+    media="screen and (device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)"
+    href="https://assets.habr.com/habr-web/img/splashes/splash_2048x2732.png"
+  >
+  <link
+    rel="apple-touch-startup-image"
+    media="screen and (device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)"
+    href="https://assets.habr.com/habr-web/img/splashes/splash_2388x1668.png"
+  >
+  <link
+    rel="apple-touch-startup-image"
+    media="screen and (device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)"
+    href="https://assets.habr.com/habr-web/img/splashes/splash_1668x2224.png"
+  >
+  <link
+    rel="apple-touch-startup-image"
+    media="screen and (device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)"
+    href="https://assets.habr.com/habr-web/img/splashes/splash_640x1136.png"
+  >
+  <link
+    rel="apple-touch-startup-image"
+    media="screen and (device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)"
+    href="https://assets.habr.com/habr-web/img/splashes/splash_1668x2388.png"
+  >
+  <link
+    rel="apple-touch-startup-image"
+    media="screen and (device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)"
+    href="https://assets.habr.com/habr-web/img/splashes/splash_2048x1536.png"
+  >
+  <link
+    rel="apple-touch-startup-image"
+    media="screen and (device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)"
+    href="https://assets.habr.com/habr-web/img/splashes/splash_1536x2048.png"
+  >
+  <link
+    rel="mask-icon"
+    color="#77a2b6"
+    href="https://assets.habr.com/habr-web/img/favicons/apple-touch-icon-120.svg"
+  >
+  <link
+    crossorigin="use-credentials"
+    href="/manifest.webmanifest"
+    rel="manifest"
+  >
+</head>
+<body>
+
+
+<div id="app" data-server-rendered="true" data-async-called="true"><div class="tm-layout__wrapper"><!----> <div></div> <!----> <header class="tm-header"><div class="tm-page-width"><div class="tm-header__container"><!----> <span class="tm-header__logo-wrap"><a href="/ru/" class="tm-header__logo tm-header__logo_ru"><svg height="16" width="16" class="tm-svg-img tm-header__icon"><title>Хабр</title> <use xlink:href="/img/habr-logo-ru.svg#logo"></use></svg></a> <span class="tm-header__beta-sign" style="display:none;">β</span></span> <div class="tm-dropdown tm-header__projects"><div class="tm-dropdown__head"><button class="tm-header__dropdown-toggle"><svg height="16" width="16" class="tm-svg-img tm-header__icon tm-header__icon_dropdown"><title>Открыть список</title> <use xlink:href="/img/megazord-v24.4a410f80.svg#arrow-down"></use></svg></button></div> <!----></div> <a href="/ru/sandbox/start/" class="tm-header__become-author-btn">
+            Как стать автором
+          </a> <div class="tm-feature tm-header__feature tm-feature_variant-inline"><a href="https://effect.habr.com/a/U2sa_PG4RnO0-8mGMF9e18UEYLr2zwUMLvWQMA9-PN3-GFu8-HH47W0Unt3KxHBvEQdOpw63ubC5suq-6f9DYmkse8cQ26qBSgmcfHinDzM4APxSRuutWsNqxIRH" rel="noopener" target="_blank" class="tm-feature__link"><img alt height="20" src="https://effect.habr.com/a/r0OrndRCglT7AjutEFy33-SJI_uxVt8RZnkMXxK-nPeGZfBEBleTrjm2-D6g6DBr674y6O9C0LZpy8IupICvG752ZEXAyy-5cyiFsW0CIytYFcFTL9JueTjKelecZVUjuh5gDX5t0dR-Im60xw-aIb-OaJrW2ZMP15XagoWwyHsP3_iKqE2q0S0H6MpIZBUaPgmubd5auF4" width="20" class="tm-feature__icon">
+    Зарплаты айтишников
+  </a></div> <a href="https://effect.habr.com/a/FeCvFQX2ohzjlQkvCJkDU6RGWJ-5v-_ErTi_urNpzxb-iXkcytx5FVF8hOd_Ur9w1A0CqXPJ0Z2VZRE1198ITHm9qhvQZ8LyJjv_Y6L0RCJGk6mXQpo" target="_blank" class="tm-top-link" style="color:#ffa299;">
+  Про это: чем радуют и бесят рабочие инструменты
+</a> <!----></div></div></header> <div class="tm-layout"><div class="tm-page-progress-bar"></div> <div data-menu-sticky="true" class="tm-base-layout__header tm-base-layout__header_is-sticky"><div class="tm-page-width"><div class="tm-base-layout__header-wrapper"><div class="tm-main-menu"><div class="tm-main-menu__section"><nav class="tm-main-menu__section-content"><!----> <a href="/ru/all/" class="tm-main-menu__item">
+        Все потоки
+      </a> <a href="/ru/flows/develop/" class="tm-main-menu__item">
+          Разработка
+        </a><a href="/ru/flows/admin/" class="tm-main-menu__item">
+          Администрирование
+        </a><a href="/ru/flows/design/" class="tm-main-menu__item">
+          Дизайн
+        </a><a href="/ru/flows/management/" class="tm-main-menu__item">
+          Менеджмент
+        </a><a href="/ru/flows/marketing/" class="tm-main-menu__item">
+          Маркетинг
+        </a><a href="/ru/flows/popsci/" class="tm-main-menu__item">
+          Научпоп
+        </a></nav></div></div> <div class="tm-header-user-menu tm-base-layout__user-menu"><a href="/ru/search/" class="tm-header-user-menu__item tm-header-user-menu__search"><svg height="24" width="24" class="tm-svg-img tm-header-user-menu__icon tm-header-user-menu__icon_search tm-header-user-menu__icon_dark"><title>Поиск</title> <use xlink:href="/img/megazord-v24.4a410f80.svg#search"></use></svg></a> <!----> <!----> <!----> <div class="tm-header-user-menu__item tm-header-user-menu__user_desktop"><div class="tm-dropdown"><div class="tm-dropdown__head"><svg height="24" width="24" data-test-id="menu-toggle-guest" class="tm-svg-img tm-header-user-menu__icon"><title>Профиль</title> <use xlink:href="/img/megazord-v24.4a410f80.svg#header-user"></use></svg> <!----></div> <!----></div> <!----></div> <!----></div></div></div></div> <!----> <div class="tm-page-width"></div> <main class="tm-layout__container"><div hl="ru" data-async-called="true" class="tm-page"><div class="tm-page-width"><!----> <div class="tm-page__wrapper"><div class="tm-page__main tm-page__main_has-sidebar"><div class="pull-down"><div class="pull-down__header" style="height:0px;"><div class="pull-down__content" style="bottom:10px;"><svg height="24" width="24" class="tm-svg-img pull-down__arrow"><title>Обновить</title> <use xlink:href="/img/megazord-v24.4a410f80.svg#pull-arrow"></use></svg></div></div> <div class="tm-article-presenter"> <div class="tm-article-presenter__body"><div class="tm-misprint-area"><div class="tm-misprint-area__wrapper"><article class="tm-article-presenter__content tm-article-presenter__content_narrow"><div class="tm-article-presenter__header"> <div class="tm-article-snippet tm-article-presenter__snippet"><div class="tm-article-snippet__meta-container"><div class="tm-article-snippet__meta"><span class="tm-user-info tm-article-snippet__author"><a href="/ru/users/temujin/" title="temujin" class="tm-user-info__userpic"><div class="tm-entity-image"><img alt="" height="24" src="//habrastorage.org/r/w32/getpro/habr/avatars/75b/552/a8e/75b552a8ec0d1d1251159113af6dcd77.jpg" width="24" class="tm-entity-image__pic"></div></a> <span class="tm-user-info__user"><a href="/ru/users/temujin/" class="tm-user-info__username">
+      temujin
+    </a> </span></span> <span class="tm-article-snippet__datetime-published"><time datetime="2017-07-07T10:40:00.000Z" title="2017-07-07, 13:40">7  июля  2017 в 13:40</time></span></div> <!----></div> <h1 lang="ru" class="tm-article-snippet__title tm-article-snippet__title_h1"><span>Лог файлы Linux по порядку</span></h1> <div class="tm-article-snippet__hubs"><span class="tm-article-snippet__hubs-item"><a href="/ru/hub/linux/" class="tm-article-snippet__hubs-item-link"><span>Настройка Linux</span> <span title="Профильный хаб" class="tm-article-snippet__profiled-hub">*</span></a></span><span class="tm-article-snippet__hubs-item"><a href="/ru/hub/sys_admin/" class="tm-article-snippet__hubs-item-link"><span>Системное администрирование</span> <span title="Профильный хаб" class="tm-article-snippet__profiled-hub">*</span></a></span><span class="tm-article-snippet__hubs-item"><a href="/ru/hub/nix/" class="tm-article-snippet__hubs-item-link"><span>*nix</span> <span title="Профильный хаб" class="tm-article-snippet__profiled-hub">*</span></a></span></div> <div class="tm-article-snippet__labels"><div class="tm-article-snippet__label tm-article-snippet__label_variant-tutorial"><span>
+        Tutorial
+      </span></div></div> <!----> <!----></div></div> <!----> <div data-gallery-root="" lang="ru" class="tm-article-body"><div></div> <div id="post-content-body"><div><div class="article-formatted-body article-formatted-body_version-1"><div xmlns="http://www.w3.org/1999/xhtml"><p>Невозможно представить себе пользователя и администратора сервера, или даже рабочей станции на основе Linux, который никогда не читал лог файлы. Операционная система и работающие приложения постоянно создают различные типы сообщений, которые регистрируются в различных файлах журналов. Умение определить нужный файл журнала и что искать в нем поможет существенно сэкономить время и быстрее устранить ошибку.</p><br/>
+<img src="/img/image-loader.svg" data-src="https://habrastorage.org/web/06c/d90/a84/06cd90a8459e46ce91111c269428614a.png"/><br/>
+<p><br/>
+Журналирование является основным источником информации о работе системы и ее ошибках. В этом кратком руководстве рассмотрим основные аспекты журналирования операционной системы, структуру каталогов, программы для чтения и обзора логов.</p><a name="habracut"></a><br/>
+<h3 id="osnovnye-log-fayly">Основные лог файлы</h3><br/>
+<p>Все файлы журналов, можно отнести к одной из следующих категорий:</p><br/>
+<ul>
+<li>приложения;</li>
+<li>события;</li>
+<li>службы;</li>
+<li>системный.</li>
+</ul><br/>
+<p>Большинство же лог файлов содержится в директории <code>/var/log</code>.</p><br/>
+<ul>
+<li><strong>/var/log/syslog</strong> или <strong>/var/log/messages</strong> содержит глобальный системный журнал, в котором пишутся сообщения с момента запуска системы, от ядра Linux, различных служб, обнаруженных устройствах, сетевых интерфейсов и много другого.</li>
+<li><strong>/var/log/auth.log</strong> или <strong>/var/log/secure</strong> — информация об авторизации пользователей, включая удачные и неудачные попытки входа в систему, а также задействованные механизмы аутентификации.</li>
+<li><strong>/var/log/dmesg</strong> — драйвера устройств. Одноименной командой можно просмотреть вывод содержимого файла. Размер журнала ограничен, когда файл достигнет своего предела, старые сообщения будут перезаписаны более новыми. Задав ключ <code>--level=</code> можно отфильтровать вывод по критерию значимости.</li>
+</ul><br/>
+<pre><code>Поддерживаемые уровни журналирования (приоритеты):
+   emerg - система неиспользуемая
+   alert - действие должно быть произведено немедленно
+    crit - условия критичности
+     err - условия ошибок
+    warn - условия предупреждений
+  notice - обычные, но значимые условия
+    info - информационный
+   debug - отладочные сообщения
+
+(5:520)$ dmesg -l err
+[1131424.604352] usb 1-1.1: 2:1: cannot get freq at ep 0x1
+[1131424.666013] usb 1-1.1: 1:1: cannot get freq at ep 0x81
+[1131424.749378] usb 1-1.1: 1:1: cannot get freq at ep 0x81</code></pre><br/>
+<ul>
+<li><strong>/var/log/alternatives.log</strong> — Вывод программы <code>update-alternatives</code>, в котором находятся символические ссылки на команды или библиотеки по умолчанию.</li>
+<li><strong>/var/log/anaconda.log</strong> — Записи, зарегистрированные во время установки системы.</li>
+<li><strong>/var/log/audit</strong> — Записи, созданные службой аудита <code>auditd</code>.</li>
+<li><strong>/var/log/boot.log</strong> — Информация, которая пишется при загрузке операционной системы.</li>
+<li><strong>/var/log/cron</strong> — Отчет службы <code>crond</code> об исполняемых командах и сообщения от самих команд.</li>
+<li><strong>/var/log/cups</strong> — Все, что связано с печатью и принтерами.</li>
+<li><strong>/var/log/faillog</strong> — Неудачные попытки входа в систему. Очень полезно при проверке угроз в системе безопасности, хакерских атаках, попыток взлома методом перебора. Прочитать содержимое можно с помощью команды <code>faillog</code>.</li>
+<li><strong>var/log/kern.log</strong> — Журнал содержит сообщения от ядра и предупреждения, которые могут быть полезны при устранении ошибок пользовательских модулей встроенных в ядро.</li>
+<li><strong>/var/log/maillog/</strong> или <strong>/var/log/mail.log</strong> — Журнал почтового сервера, используемого на ОС.</li>
+<li><strong>/var/log/pm-powersave.log</strong> — Сообщения службы экономии заряда батареи.</li>
+<li><strong>/var/log/samba/</strong> — Логи файлового сервера <code>Samba</code>, который используется для доступа к общим папкам Windows и предоставления доступа пользователям Windows к общим папкам Linux.</li>
+<li><strong>/var/log/spooler</strong> — Для представителей старой школы, содержит сообщения USENET. Чаще всего бывает пустым и заброшенным.</li>
+<li><strong>/var/log/Xorg.0.log</strong> — Логи X сервера. Чаще всего бесполезны, но если в них есть строки начинающиеся с EE, то следует обратить на них внимание.</li>
+</ul><br/>
+<p>Для каждого дистрибутива будет отдельный журнал менеджера пакетов.</p><br/>
+<ul>
+<li><strong>/var/log/yum.log</strong> — Для программ установленных с помощью <code>Yum</code> в RedHat Linux.</li>
+<li><strong>/var/log/emerge.log</strong> — Для <code>ebuild</code>-ов установленных из <code>Portage</code> с помощью <code>emerge</code> в Gentoo Linux.</li>
+<li><strong>/var/log/dpkg.log</strong> — Для программ установленных с помощью <code>dpkg</code> в Debian Linux и всем семействе родственных дистрибутивах.</li>
+</ul><br/>
+<p>И немного бинарных журналов учета пользовательских сессий.</p><br/>
+<ul>
+<li><strong>/var/log/lastlog</strong> — Последняя сессия пользователей. Прочитать можно командой <code>last</code>.</li>
+<li><strong>/var/log/tallylog</strong> — Аудит неудачных попыток входа в систему. Вывод на экран с помощью утилиты <code>pam_tally2</code>.</li>
+<li><strong>/var/log/btmp</strong> — Еже один журнал записи неудачных попыток входа в систему. Просто так, на всякий случай, если вы еще не догадались где следует искать следы активности взломщиков.</li>
+<li><strong>/var/log/utmp</strong> — Список входов пользователей в систему на данный момент.</li>
+<li><strong>/var/log/wtmp</strong> — Еще один журнал записи входа пользователей в систему. Вывод на экран командой <code>utmpdump</code>.</li>
+</ul><br/>
+<pre><code class="diff">(5:535)$ sudo utmpdump /var/log/wtmp
+[5] [02187] [l0  ] [        ] [4.0.5-gentoo     ] [0.0.0.0     ] [Вт авг 11 16:50:07 2015]
+[1] [00000] [~~  ] [shutdown] [4.0.5-gentoo     ] [0.0.0.0     ] [Вт авг 11 16:50:08 2015]
+[2] [00000] [~~  ] [reboot  ] [3.18.12-gentoo   ] [0.0.0.0     ] [Вт авг 11 16:50:57 2015]
+[8] [00368] [rc  ] [        ] [3.18.12-gentoo   ] [0.0.0.0     ] [Вт авг 11 16:50:57 2015]
+[1] [20019] [~~  ] [runlevel] [3.18.12-gentoo   ] [0.0.0.0     ] [Вт авг 11 16:50:57 2015]</code></pre><br/>
+<h4 id="i-drugie-zhurnaly">И другие журналы</h4><br/>
+<p>Так как операционная система, даже такая замечательная как Linux, сама по себе никакой ощутимой пользы не несет в себе, то скорее всего на сервере или рабочей станции будет крутится база данных, веб сервер, разнообразные приложения. Каждое приложения или служба может иметь свой собственный файл или каталог журналов событий и ошибок. Всех их естественно невозможно перечислить, лишь некоторые.</p><br/>
+<ul>
+<li><strong>/var/log/mysql/</strong> — Лог базы данных MySQL.</li>
+<li><strong>/var/log/httpd/</strong> или <strong>/var/log/apache2/</strong> — Лог веб сервера Apache, журнал доступа находится в <code>access_log</code>, а ошибки — в <code>error_log</code>.</li>
+<li><strong>/var/log/lighthttpd/</strong> — Лог веб сервера lighttpd.</li>
+</ul><br/>
+<p>В домашнем каталоге пользователя могут находится журналы графических приложений, DE.</p><br/>
+<ul>
+<li><strong>~/.xsession-errors</strong> — Вывод <code>stderr</code> графических приложений X11.</li>
+</ul><br/>
+<pre><code>Initializing  "kcm_input" :  "kcminit_mouse"
+Initializing  "kcm_access" :  "kcminit_access"
+Initializing  "kcm_kgamma" :  "kcminit_kgamma"
+QXcbConnection: XCB error: 3 (BadWindow), sequence: 181, resource id: 10486050, major code: 20 (GetProperty), minor code: 0
+kf5.kcoreaddons.kaboutdata: Could not initialize the equivalent properties of Q*Application: no instance (yet) existing.
+QXcbConnection: XCB error: 3 (BadWindow), sequence: 181, resource id: 10486050, major code: 20 (GetProperty), minor code: 0
+Qt: Session management error: networkIdsList argument is NULL</code></pre><br/>
+<ul>
+<li><strong>~/.xfce4-session.verbose-log</strong> — Сообщения рабочего стола XFCE4.</li>
+</ul><br/>
+<h4 id="chem-prosmatrivat---lnav">Чем просматривать — lnav</h4><br/>
+<p>Почти все знают об утилите <code>less</code> и команде <code>tail -f</code>. Также для этих целей сгодится редактор <code>vim</code> и файловый менеджер Midnight Commander. У всех есть свои недостатки: <code>less</code> неважно обрабатывает журналы с длинными строками, принимая их за бинарники. Midnight Commander годится только для беглого просмотра, когда нет необходимости искать по сложному шаблону и переходить помногу взад и вперед между совпадениями. Редактор <code>vim</code> понимает и подсвечивает синтаксис множества форматов, но если журнал часто обновляется, то появляются отвлекающие внимания сообщения об изменениях в файле. Впрочем это легко можно обойти с помощью <code>&lt;:view /path/to/file></code>.</p><br/>
+<p>Недавно я обнаружил еще одну годную и многообещающую, но слегка еще сыроватую, утилиту — <em>lnav</em>, в расшифровке Log File Navigator.</p><br/>
+<img src="/img/image-loader.svg" data-src="https://habrastorage.org/web/9e8/88d/1c7/9e888d1c78a447deb83451a5e661f381.png"/><br/>
+<p><br/>
+Установка пакета как обычно одной командой.</p><br/>
+<pre><code>$ aptitude install lnav #Debian/Ubuntu/LinuxMint
+$ yum install lnav #RedHat/CentOS
+$ dnf install lnav #Fedora
+$ emerge -av lnav #Gentoo, нужно добавить в файл package.accept_keywords
+$ yaourt -S lnav #Arch</code></pre><br/>
+<p>Навигатор журналов <em>lnav</em> понимает ряд форматов файлов.</p><br/>
+<ul>
+<li>Access_log веб сервера.</li>
+<li>CUPS page_log</li>
+<li>Syslog</li>
+<li>glog</li>
+<li>dpkg.log</li>
+<li>strace</li>
+<li>Произвольные записи с временными отметками</li>
+<li>gzip, bzip</li>
+<li>Журнал VMWare ESXi/vCenter</li>
+</ul><br/>
+<p>Что в данном случае означает понимание форматов файлов? Фокус в том, что <em>lnav</em> больше чем утилита для просмотра текстовых файлов. Программа умеет кое что еще. Можно открывать несколько файлов сразу и переключаться между ними.</p><br/>
+<pre><code>(5:471)$ sudo lnav /var/log/pm-powersave.log /var/log/pm-suspend.log</code></pre><br/>
+<p>Программа умеет напрямую открывать архивный файл.</p><br/>
+<pre><code>(5:471)$ lnav -r /var/log/Xorg.0.log.old.gz</code></pre><br/>
+<p>Показывает гистограмму информативных сообщений, предупреждений и ошибок, если нажать клавишу <code>&lt;i></code>. Это с моего syslog-а.</p><br/>
+<pre><code>Mon May 02 20:25:00        123 normal         3 errors         0 warnings         0 marks
+Mon May 02 22:40:00          2 normal         0 errors         0 warnings         0 marks
+Mon May 02 23:25:00         10 normal         0 errors         0 warnings         0 marks
+Tue May 03 07:25:00         96 normal         3 errors         0 warnings         0 marks
+Tue May 03 23:50:00         10 normal         0 errors         0 warnings         0 marks
+Wed May 04 07:40:00         96 normal         3 errors         0 warnings         0 marks
+Wed May 04 08:30:00          2 normal         0 errors         0 warnings         0 marks
+Wed May 04 10:40:00         10 normal         0 errors         0 warnings         0 marks
+Wed May 04 11:50:00        126 normal         2 errors         1 warnings         0 marks</code></pre><br/>
+<p>Кроме этого поддерживается подсветка синтаксиса, дополнение по табу и разные полезности в статусной строке. К недостаткам можно отнести нестабильность поведения и зависания. Надеюсь <em>lnav</em> будет активно развиваться, очень полезная программа на мой взгляд.</p><br/>
+<h4 id="ispolzovannye-materialy">Использованные материалы</h4><br/>
+<ol>
+<li><a href="http://www.2daygeek.com/install-and-use-advanced-log-file-viewer-navigator-lnav-in-linux/2/">lnav — An Advanced Log File viewer for Linux</a></li>
+<li><a href="https://dzone.com/articles/what-are-linux-logs-how-to-view-them-most-importan">What Are Linux Logs? How to View Them, Most Important Directories, and More</a></li>
+<li><a href="https://losst.ru/kak-posmotret-logi-v-linux">Как посмотреть логи в Linux</a></li>
+</ol></div></div></div> <DIV class="v-portal" style="display:none;"></DIV></div> <!----> <!----></div> <div class="tm-article-presenter__meta"><div class="tm-separated-list tm-article-presenter__meta-list"><span class="tm-separated-list__title">Теги:</span> <ul class="tm-separated-list__list"><li class="tm-separated-list__item"><a href="/ru/search/?target_type=posts&amp;order=relevance&amp;q=%5Blogs%5D" class="tm-tags-list__link">logs</a></li><li class="tm-separated-list__item"><a href="/ru/search/?target_type=posts&amp;order=relevance&amp;q=%5Blinux%5D" class="tm-tags-list__link">linux</a></li></ul></div> <div class="tm-separated-list tm-article-presenter__meta-list"><span class="tm-separated-list__title">Хабы:</span> <ul class="tm-separated-list__list"><li class="tm-separated-list__item"><a href="/ru/hub/linux/" class="tm-hubs-list__link">
+    Настройка Linux
+  </a></li><li class="tm-separated-list__item"><a href="/ru/hub/sys_admin/" class="tm-hubs-list__link">
+    Системное администрирование
+  </a></li><li class="tm-separated-list__item"><a href="/ru/hub/nix/" class="tm-hubs-list__link">
+    *nix
+  </a></li></ul></div></div></article></div> <!----></div> <div class="tm-article-sticky-panel"><div class="tm-data-icons tm-article-sticky-panel__icons"><div class="tm-article-rating tm-data-icons__item"><div class="tm-votes-meter tm-article-rating__votes-switcher"><svg height="24" width="24" class="tm-svg-img tm-votes-meter__icon tm-votes-meter__icon_appearance-article"><title>Всего голосов 31: ↑27 и ↓4</title> <use xlink:href="/img/megazord-v24.4a410f80.svg#counter-rating"></use></svg> <span title="Всего голосов 31: ↑27 и ↓4" class="tm-votes-meter__value tm-votes-meter__value_positive tm-votes-meter__value_appearance-article tm-votes-meter__value_rating">+23</span></div> <DIV class="v-portal" style="display:none;"></DIV></div> <!----> <span title="Количество просмотров" class="tm-icon-counter tm-data-icons__item"><svg height="24" width="24" class="tm-svg-img tm-icon-counter__icon"><title>Просмотры</title> <use xlink:href="/img/megazord-v24.4a410f80.svg#counter-views"></use></svg> <span class="tm-icon-counter__value">330K</span></span> <button title="Добавить в закладки" type="button" class="bookmarks-button tm-data-icons__item"><span title="Добавить в закладки" class="tm-svg-icon__wrapper bookmarks-button__icon"><svg height="24" width="24" class="tm-svg-img tm-svg-icon"><title>Добавить в закладки</title> <use xlink:href="/img/megazord-v24.4a410f80.svg#counter-favorite"></use></svg></span> <span title="Количество пользователей, добавивших публикацию в закладки" class="bookmarks-button__counter">
+    587
+  </span></button> <!----> <div title="Поделиться" class="tm-sharing tm-data-icons__item"><button type="button" class="tm-sharing__button"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="tm-sharing__icon"><path fill="currentColor" d="M13.8 13.8V18l7.2-6.6L13.8 5v3.9C5 8.9 3 18.6 3 18.6c2.5-4.4 6-4.8 10.8-4.8z"></path></svg></button> <DIV class="v-portal" style="display:none;"></DIV></div> <DIV class="v-portal" style="display:none;"></DIV></div> </div></div> <DIV class="v-portal" style="display:none;"></DIV> <div class="tm-article-presenter__footer"><div class="tm-article-blocks"><!----> <section class="tm-block tm-block_spacing-bottom"><!----> <div class="tm-block__body tm-block__body_variant-balanced"><div class="tm-article-author"> <div class="tm-user-card tm-article-author__user-card tm-user-card_variant-article"><div class="tm-user-card__info-container"><div class="tm-user-card__header"><div class="tm-user-card__header-data"><a href="/ru/users/temujin/" class="tm-user-card__userpic tm-user-card__userpic_size-40"><div class="tm-entity-image"><img alt="" src="//habrastorage.org/getpro/habr/avatars/75b/552/a8e/75b552a8ec0d1d1251159113af6dcd77.jpg" class="tm-entity-image__pic"></div></a> <div class="tm-user-card__meta"><div title=" 373 голоса " class="tm-karma tm-user-card__karma"><div class="tm-karma__votes tm-karma__votes_positive">
+    225
+  </div> <div class="tm-karma__text">
+    Карма
+  </div></div> <div title="Рейтинг пользователя" class="tm-rating tm-user-card__rating"><div class="tm-rating__header"> <div class="tm-rating__counter">12</div></div> <div class="tm-rating__text">
+    Рейтинг
+  </div></div></div></div></div> <div class="tm-user-card__info tm-user-card__info_variant-article"><div class="tm-user-card__title tm-user-card__title_variant-article"><span class="tm-user-card__name tm-user-card__name_variant-article">Микаел Григорян</span> <a href="/ru/users/temujin/" class="tm-user-card__nickname tm-user-card__nickname_variant-article">
+          @temujin
+        </a> <!----></div> <p class="tm-user-card__short-info tm-user-card__short-info_variant-article">BigData</p></div></div> <div class="tm-user-card__buttons tm-user-card__buttons_variant-article"><!----> <!----> <button type="submit" class="tm-user-card__button btn btn_transparent btn_small">
+      Задонатить
+    </button> <!----> <!----></div></div> <!----></div> <DIV class="v-portal" style="display:none;"></DIV></div> <!----></section> <div class="tm-article-blocks__comments"><div class="tm-article-page-comments"><div class="tm-article-comments-counter-link tm-article-comments-counter-button"><a href="/ru/post/332502/comments/" class="tm-article-comments-counter-link__link tm-article-comments-counter-link__link_button-style"><svg height="24" width="24" class="tm-svg-img tm-article-comments-counter-link__icon tm-article-comments-counter-link__icon_contrasted"><title>Комментарии</title> <use xlink:href="/img/megazord-v24.4a410f80.svg#counter-comments"></use></svg> <span class="tm-article-comments-counter-link__value tm-article-comments-counter-link__value_contrasted">
+       Комментарии 23 
+    </span></a> <!----></div></div></div> <div class="tm-ad-banner__container tm-page-article__banner"><!----> <div id="articleBottomBanner4566" class="tm-ad-banner"></div></div> <!----> <section class="tm-block tm-block_spacing-around"><header class="tm-block__header"><h2 class="tm-block__title">Минуточку внимания</h2> <div class="tm-block__header-aside"><a href="https://tmtm.ru/megapost/" target="_blank" class="tm-block-extralink">
+      Разместить
+    </a></div></header> <div class="tm-block__body"><div pagination="" slides-per-view="1" class="tm-promo-block__content-wrapper"><div class="tm-promo-block__item-wrapper"><a href="https://effect.habr.com/a/-ZhIrfZGtj9QhKijHJ-qh20EM-w_JpBJsqIUxpnMzyxrpZAhbgAK-aMALk7OGwHI6wcwoVaR8fI-Heb5mIXQ-KTANizdXsnzWZrdctDaUiZmdM09wFU1Aj5PX7xKeXl3AtrAtWl82A" rel="nofollow " class="tm-promo-block__item tm-article-title__link"><header class="tm-promo-block__head"><div class="tm-promo-block__image-wrapper"><img alt="" src="https://effect.habr.com/a/sjaCa9Yf6wQBEw6mvYos1CAFWoBLZmWCBpSGJwwfnECmKfmLIqnZ5klOMYsa7Zo2MthWfMVLgVtn3RKzyjAWEHI0MT6iWzO73Do0BytuTWgYYpry8WVH0csEovB0ag-I6MU6pFZDEsiRTNLfemjKtx_vt6LAb8pvb5fNqFSijYsph-D_AmIM9OATavRXIOCiKDt1kNYlQMCFdPxcPVgw3mM" class="tm-promo-block__image"></div> <div class="tm-promo-block__label">
+                Интересно
+                <!----></div></header> <div class="tm-promo-block__info"><h3 class="tm-promo-block__title">Небо — птицам, реки — рыбам, авторам на Хабре — мотивацию</h3></div></a></div><div class="tm-promo-block__item-wrapper"><a href="https://effect.habr.com/a/m7y5n_v1goef5Iazrp2gxNXV-NPSMje8dVVIs1jmhHfbxbd2Z3iEQtz7d2xFQ8e0hCamXZC1hphXNuDK-HDe9cW0yUe1BV_28qQCJTfX9hwjFEt_q3qOh9UaPS0Q" rel="nofollow " class="tm-promo-block__item tm-article-title__link"><header class="tm-promo-block__head"><div class="tm-promo-block__image-wrapper"><img alt="" src="https://effect.habr.com/a/paGbmA4UpLkveAwIOUG_ItkqdIm1e_kHQRO3vG71bxH9JIrgmwQh1uDc_ZW1V5d2cBS_5UO4Hygw3LCwoDH8ndJd1nWOPSgS7y81vhAQ5WH_trAuZqWjXC_cfOSdLMrrSjV2_E2sF96PVyWjc6PyVlj8RVtyhxLU0eqC-1dhflDb5Yr4cBpcLIhRXdqxnNIEQUtbyquL0GQKeZdvZiw" class="tm-promo-block__image"></div> <div class="tm-promo-block__label">
+                Мегапост
+                <!----></div></header> <div class="tm-promo-block__info"><h3 class="tm-promo-block__title">Зарплаты айтишников во втором полугодии 2021</h3></div></a></div><div class="tm-promo-block__item-wrapper"><a href="https://effect.habr.com/a/cyV5iPPndBWPst1YkZ1Eh5-lLj3UCnYb_39tvHcFpFypaORu0KXuouLvzyZsl4pTIqoZToxLQOsG6GBWG9doqU5dnlvhexOuSFqxAW8WsUl9Hpg1kBc0" rel="nofollow sponsored" class="tm-promo-block__item tm-article-title__link"><header class="tm-promo-block__head"><div class="tm-promo-block__image-wrapper"><img alt="" src="https://effect.habr.com/a/ICzZ_esePnz2727sOwr3SHMKMAnWpyUkGzntS8WWKrP5yjC0eWXPNYBpwtPctF65qrP9g_WbIfC8WTjLke8fzPJDn5ilTEI6MnF6grjM_7nxefTp_z4jzwtiYdAQZxpp_GOkf87GZZusyt20eORiN6LH0q7iTiYx-NYi6-XqVFRnukn3aygpHwRn-uARASLhpswsQ-dCWitvaXn-rBd4vzXb6MZynbiiNCOlmQ" class="tm-promo-block__image"></div> <div class="tm-promo-block__label">
+                Промо
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 11 11" class="tm-block-promo__external"><path fill="currentColor" d="M7.5 0a.5.5 0 000 1h1.793L5.146 5.146a.5.5 0 10.708.708L10 1.707V3.5a.5.5 0 001 0v-3a.5.5 0 00-.5-.5h-3zm-7 1a.5.5 0 00-.5.5v9a.5.5 0 00.5.5h9a.5.5 0 00.5-.5V6a.5.5 0 00-1 0v4H1V2h4a.5.5 0 000-1H.5z"></path></svg></div></header> <div class="tm-promo-block__info"><h3 class="tm-promo-block__title">Ёлочку уже выкинули, а промокод до сих пор рубит скидки</h3></div></a></div></div></div> <!----></section> <!----> <!----> </div></div></div></div></div> <div class="tm-page__sidebar"><div class="tm-layout-sidebar"><div class="tm-layout-sidebar__ads tm-layout-sidebar__ads_initial"><div class="tm-ad-banner__container tm-layout-sidebar__banner"><!----> <div id="sidebarBanner4567" class="tm-ad-banner"></div></div></div> <div class="tm-sexy-sidebar tm-sexy-sidebar_initial" style="margin-top:0px;"><!----> <section data-async-called="true" class="tm-block tm-block_spacing-bottom"><header class="tm-block__header"><h2 class="tm-block__title">Работа</h2> <!----></header> <div class="tm-block__body"><div class="tm-vacancies-block__item"><a href="https://career.habr.com/vacancies/sistemnij_administrator" target="_blank" class="tm-vacancies-block__vacancy-title">
+        Системный администратор
+      </a> <div class="tm-vacancies-block__vacancies-count">
+        139
+    вакансий
+      </div></div><div class="tm-vacancies-block__item"><a href="https://career.habr.com/vacancies/devops" target="_blank" class="tm-vacancies-block__vacancy-title">
+        DevOps инженер
+      </a> <div class="tm-vacancies-block__vacancies-count">
+        87
+    вакансий
+      </div></div></div> <footer class="tm-block__footer"><a href="https://career.habr.com/catalog" class="tm-block-extralink">
+      Все вакансии
+    </a></footer></section></div></div></div></div></div></div></main> <!----></div> <div class="tm-footer-menu"><div class="tm-page-width"><div class="tm-footer-menu__container"><div class="tm-footer-menu__block"><h3 class="tm-footer-menu__block-title">
+          Ваш аккаунт
+        </h3> <div class="tm-footer-menu__block-content"><ul class="tm-footer-menu__list"><li class="tm-footer-menu__list-item"><a href="/kek/v1/auth/habrahabr/?back=/ru/post/332502/&amp;hl=ru" rel="nofollow" target="_self">
+                Войти
+              </a></li><li class="tm-footer-menu__list-item"><a href="/kek/v1/auth/habrahabr-register/?back=/ru/post/332502/&amp;hl=ru" rel="nofollow" target="_self">
+                Регистрация
+              </a></li></ul></div></div><div class="tm-footer-menu__block"><h3 class="tm-footer-menu__block-title">
+          Разделы
+        </h3> <div class="tm-footer-menu__block-content"><ul class="tm-footer-menu__list"><li class="tm-footer-menu__list-item"><a href="/ru/" class="footer-menu__item-link router-link-active">
+                Публикации
+              </a></li><li class="tm-footer-menu__list-item"><a href="/ru/news/" class="footer-menu__item-link">
+                Новости
+              </a></li><li class="tm-footer-menu__list-item"><a href="/ru/hubs/" class="footer-menu__item-link">
+                Хабы
+              </a></li><li class="tm-footer-menu__list-item"><a href="/ru/companies/" class="footer-menu__item-link">
+                Компании
+              </a></li><li class="tm-footer-menu__list-item"><a href="/ru/users/" class="footer-menu__item-link">
+                Авторы
+              </a></li><li class="tm-footer-menu__list-item"><a href="/ru/sandbox/" class="footer-menu__item-link">
+                Песочница
+              </a></li></ul></div></div><div class="tm-footer-menu__block"><h3 class="tm-footer-menu__block-title">
+          Информация
+        </h3> <div class="tm-footer-menu__block-content"><ul class="tm-footer-menu__list"><li class="tm-footer-menu__list-item"><a href="/ru/docs/help/" class="footer-menu__item-link">
+                Устройство сайта
+              </a></li><li class="tm-footer-menu__list-item"><a href="/ru/docs/authors/codex/" class="footer-menu__item-link">
+                Для авторов
+              </a></li><li class="tm-footer-menu__list-item"><a href="/ru/docs/companies/corpblogs/" class="footer-menu__item-link">
+                Для компаний
+              </a></li><li class="tm-footer-menu__list-item"><a href="/ru/docs/docs/transparency/" class="footer-menu__item-link">
+                Документы
+              </a></li><li class="tm-footer-menu__list-item"><a href="https://account.habr.com/info/agreement" target="_blank">
+                Соглашение
+              </a></li><li class="tm-footer-menu__list-item"><a href="https://account.habr.com/info/confidential/" target="_blank">
+                Конфиденциальность
+              </a></li></ul></div></div><div class="tm-footer-menu__block"><h3 class="tm-footer-menu__block-title">
+          Услуги
+        </h3> <div class="tm-footer-menu__block-content"><ul class="tm-footer-menu__list"><li class="tm-footer-menu__list-item"><a href="https://docs.google.com/presentation/d/e/2PACX-1vQLwRfQmXibiUlWaRg-BAc38s7oM3lJiaPju7qmdJsp8ysIvZ_G-Npem0njJLMozE2bPHMpDqiI5hhy/pub?start=false&amp;loop=false&amp;delayms=60000&amp;slide=id.g91a03369cd_4_297" target="_blank">
+                Реклама
+              </a></li><li class="tm-footer-menu__list-item"><a href="https://habrastorage.org/storage/stuff/habr/service_price.pdf" target="_blank">
+                Тарифы
+              </a></li><li class="tm-footer-menu__list-item"><a href="https://docs.google.com/presentation/d/e/2PACX-1vQJJds8-Di7BQSP_guHxICN7woVYoN5NP_22ra-BIo4bqnTT9FR6fB-Ku2P0AoRpX0Ds-LRkDeAoD8F/pub?start=false&amp;loop=false&amp;delayms=60000" target="_blank">
+                Контент
+              </a></li><li class="tm-footer-menu__list-item"><a href="https://tmtm.timepad.ru/" target="_blank">
+                Семинары
+              </a></li><li class="tm-footer-menu__list-item"><a href="/ru/megaprojects/" class="footer-menu__item-link">
+                Мегапроекты
+              </a></li></ul></div></div></div></div></div> <div class="tm-footer"><div class="tm-page-width"><div class="tm-footer__container"><!----> <div class="tm-footer__social"><a href="https://www.facebook.com/habrahabr.ru" rel="nofollow noopener noreferrer" target="_blank" class="tm-svg-icon__wrapper tm-social-icons__icon"><svg height="16" width="16" class="tm-svg-img tm-svg-icon"><title>Facebook</title> <use xlink:href="/img/social-icons-sprite.svg#social-logo-facebook"></use></svg></a><a href="https://twitter.com/habr_com" rel="nofollow noopener noreferrer" target="_blank" class="tm-svg-icon__wrapper tm-social-icons__icon"><svg height="16" width="16" class="tm-svg-img tm-svg-icon"><title>Twitter</title> <use xlink:href="/img/social-icons-sprite.svg#social-logo-twitter"></use></svg></a><a href="https://vk.com/habr" rel="nofollow noopener noreferrer" target="_blank" class="tm-svg-icon__wrapper tm-social-icons__icon"><svg height="16" width="16" class="tm-svg-img tm-svg-icon"><title>VK</title> <use xlink:href="/img/social-icons-sprite.svg#social-logo-vkontakte"></use></svg></a><a href="https://telegram.me/habr_com" rel="nofollow noopener noreferrer" target="_blank" class="tm-svg-icon__wrapper tm-social-icons__icon"><svg height="16" width="16" class="tm-svg-img tm-svg-icon"><title>Telegram</title> <use xlink:href="/img/social-icons-sprite.svg#social-logo-telegram"></use></svg></a><a href="https://www.youtube.com/channel/UCd_sTwKqVrweTt4oAKY5y4w" rel="nofollow noopener noreferrer" target="_blank" class="tm-svg-icon__wrapper tm-social-icons__icon"><svg height="16" width="16" class="tm-svg-img tm-svg-icon"><title>Youtube</title> <use xlink:href="/img/social-icons-sprite.svg#social-logo-youtube"></use></svg></a><a href="https://zen.yandex.ru/habr" rel="nofollow noopener noreferrer" target="_blank" class="tm-svg-icon__wrapper tm-social-icons__icon"><svg height="16" width="16" class="tm-svg-img tm-svg-icon"><title>Яндекс Дзен</title> <use xlink:href="/img/social-icons-sprite.svg#social-logo-zen"></use></svg></a></div> <DIV class="v-portal" style="display:none;"></DIV> <button class="tm-footer__link"><!---->
+        Настройка языка
+      </button> <a href="/ru/about" class="tm-footer__link">
+        О сайте
+      </a> <a href="/ru/feedback/" class="tm-footer__link">
+        Техническая поддержка
+      </a> <!----> <a href="/berserk-mode-nope" class="tm-footer__link">
+        Вернуться на старую версию
+      </a> <div class="tm-footer-copyright"><span class="tm-copyright"><span class="tm-copyright__years">© 2006–2022 </span> <span class="tm-copyright__name">«<a href="https://company.habr.com/" rel="noopener" target="_blank" class="tm-copyright__link">Habr</a>»</span></span></div></div></div></div> <!----> <!----></div> <div class="vue-portal-target"></div></div>
+<script>window.__INITIAL_STATE__={"adblock":{"hasAcceptableAdsFilter":false,"hasAdblock":false},"articlesList":{"articlesList":{"332502":{"id":"332502","timePublished":"2017-07-07T10:40:00+00:00","isCorporative":false,"lang":"ru","titleHtml":"Лог файлы Linux по порядку","leadData":{"textHtml":"\u003Cp\u003EНевозможно представить себе пользователя и администратора сервера, или даже рабочей станции на основе Linux, который никогда не читал лог файлы. Операционная система и работающие приложения постоянно создают различные типы сообщений, которые регистрируются в различных файлах журналов. Умение определить нужный файл журнала и что искать в нем поможет существенно сэкономить время и быстрее устранить ошибку.\u003C\u002Fp\u003E\u003Cbr\u003E\r\n\u003Cimg src=\"https:\u002F\u002Fhabrastorage.org\u002Fweb\u002F06c\u002Fd90\u002Fa84\u002F06cd90a8459e46ce91111c269428614a.png\"\u003E\u003Cbr\u003E\r\n\u003Cp\u003E\u003Cbr\u003E\r\nЖурналирование является основным источником информации о работе системы и ее ошибках. В этом кратком руководстве рассмотрим основные аспекты журналирования операционной системы, структуру каталогов, программы для чтения и обзора логов.\u003C\u002Fp\u003E","imageUrl":null,"buttonTextHtml":"Читать дальше →","image":null},"editorVersion":"1.0","postType":"article","postLabels":[{"type":"tutorial","data":null}],"author":{"scoreStats":{"score":225,"votesCount":373},"rating":12,"relatedData":null,"contacts":[],"authorContacts":[],"paymentDetails":{"paymentYandexMoney":null,"paymentPayPalMe":null,"paymentWebmoney":"603683312061"},"id":"50595","alias":"temujin","fullname":"Микаел Григорян","avatarUrl":"\u002F\u002Fhabrastorage.org\u002Fgetpro\u002Fhabr\u002Favatars\u002F75b\u002F552\u002Fa8e\u002F75b552a8ec0d1d1251159113af6dcd77.jpg","speciality":"BigData"},"statistics":{"commentsCount":23,"favoritesCount":587,"readingCount":330169,"score":23,"votesCount":31},"hubs":[{"relatedData":null,"id":"36","alias":"linux","type":"collective","title":"Настройка Linux","titleHtml":"Настройка Linux","isProfiled":true},{"relatedData":null,"id":"221","alias":"sys_admin","type":"collective","title":"Системное администрирование","titleHtml":"Системное администрирование","isProfiled":true},{"relatedData":null,"id":"7289","alias":"nix","type":"collective","title":"*nix","titleHtml":"*nix","isProfiled":true}],"flows":[{"id":"6","alias":"admin","title":"Администрирование"}],"relatedData":null,"textHtml":"\u003Cdiv xmlns=\"http:\u002F\u002Fwww.w3.org\u002F1999\u002Fxhtml\"\u003E\u003Cp\u003EНевозможно представить себе пользователя и администратора сервера, или даже рабочей станции на основе Linux, который никогда не читал лог файлы. Операционная система и работающие приложения постоянно создают различные типы сообщений, которые регистрируются в различных файлах журналов. Умение определить нужный файл журнала и что искать в нем поможет существенно сэкономить время и быстрее устранить ошибку.\u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Cimg src=\"\u002Fimg\u002Fimage-loader.svg\" data-src=\"https:\u002F\u002Fhabrastorage.org\u002Fweb\u002F06c\u002Fd90\u002Fa84\u002F06cd90a8459e46ce91111c269428614a.png\"\u002F\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003E\u003Cbr\u002F\u003E\r\nЖурналирование является основным источником информации о работе системы и ее ошибках. В этом кратком руководстве рассмотрим основные аспекты журналирования операционной системы, структуру каталогов, программы для чтения и обзора логов.\u003C\u002Fp\u003E\u003Ca name=\"habracut\"\u003E\u003C\u002Fa\u003E\u003Cbr\u002F\u003E\r\n\u003Ch3 id=\"osnovnye-log-fayly\"\u003EОсновные лог файлы\u003C\u002Fh3\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003EВсе файлы журналов, можно отнести к одной из следующих категорий:\u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Cul\u003E\r\n\u003Cli\u003Eприложения;\u003C\u002Fli\u003E\r\n\u003Cli\u003Eсобытия;\u003C\u002Fli\u003E\r\n\u003Cli\u003Eслужбы;\u003C\u002Fli\u003E\r\n\u003Cli\u003Eсистемный.\u003C\u002Fli\u003E\r\n\u003C\u002Ful\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003EБольшинство же лог файлов содержится в директории \u003Ccode\u003E\u002Fvar\u002Flog\u003C\u002Fcode\u003E.\u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Cul\u003E\r\n\u003Cli\u003E\u003Cstrong\u003E\u002Fvar\u002Flog\u002Fsyslog\u003C\u002Fstrong\u003E или \u003Cstrong\u003E\u002Fvar\u002Flog\u002Fmessages\u003C\u002Fstrong\u003E содержит глобальный системный журнал, в котором пишутся сообщения с момента запуска системы, от ядра Linux, различных служб, обнаруженных устройствах, сетевых интерфейсов и много другого.\u003C\u002Fli\u003E\r\n\u003Cli\u003E\u003Cstrong\u003E\u002Fvar\u002Flog\u002Fauth.log\u003C\u002Fstrong\u003E или \u003Cstrong\u003E\u002Fvar\u002Flog\u002Fsecure\u003C\u002Fstrong\u003E — информация об авторизации пользователей, включая удачные и неудачные попытки входа в систему, а также задействованные механизмы аутентификации.\u003C\u002Fli\u003E\r\n\u003Cli\u003E\u003Cstrong\u003E\u002Fvar\u002Flog\u002Fdmesg\u003C\u002Fstrong\u003E — драйвера устройств. Одноименной командой можно просмотреть вывод содержимого файла. Размер журнала ограничен, когда файл достигнет своего предела, старые сообщения будут перезаписаны более новыми. Задав ключ \u003Ccode\u003E--level=\u003C\u002Fcode\u003E можно отфильтровать вывод по критерию значимости.\u003C\u002Fli\u003E\r\n\u003C\u002Ful\u003E\u003Cbr\u002F\u003E\r\n\u003Cpre\u003E\u003Ccode\u003EПоддерживаемые уровни журналирования (приоритеты):\n   emerg - система неиспользуемая\n   alert - действие должно быть произведено немедленно\n    crit - условия критичности\n     err - условия ошибок\n    warn - условия предупреждений\n  notice - обычные, но значимые условия\n    info - информационный\n   debug - отладочные сообщения\n\n(5:520)$ dmesg -l err\n[1131424.604352] usb 1-1.1: 2:1: cannot get freq at ep 0x1\n[1131424.666013] usb 1-1.1: 1:1: cannot get freq at ep 0x81\n[1131424.749378] usb 1-1.1: 1:1: cannot get freq at ep 0x81\u003C\u002Fcode\u003E\u003C\u002Fpre\u003E\u003Cbr\u002F\u003E\r\n\u003Cul\u003E\r\n\u003Cli\u003E\u003Cstrong\u003E\u002Fvar\u002Flog\u002Falternatives.log\u003C\u002Fstrong\u003E — Вывод программы \u003Ccode\u003Eupdate-alternatives\u003C\u002Fcode\u003E, в котором находятся символические ссылки на команды или библиотеки по умолчанию.\u003C\u002Fli\u003E\r\n\u003Cli\u003E\u003Cstrong\u003E\u002Fvar\u002Flog\u002Fanaconda.log\u003C\u002Fstrong\u003E — Записи, зарегистрированные во время установки системы.\u003C\u002Fli\u003E\r\n\u003Cli\u003E\u003Cstrong\u003E\u002Fvar\u002Flog\u002Faudit\u003C\u002Fstrong\u003E — Записи, созданные службой аудита \u003Ccode\u003Eauditd\u003C\u002Fcode\u003E.\u003C\u002Fli\u003E\r\n\u003Cli\u003E\u003Cstrong\u003E\u002Fvar\u002Flog\u002Fboot.log\u003C\u002Fstrong\u003E — Информация, которая пишется при загрузке операционной системы.\u003C\u002Fli\u003E\r\n\u003Cli\u003E\u003Cstrong\u003E\u002Fvar\u002Flog\u002Fcron\u003C\u002Fstrong\u003E — Отчет службы \u003Ccode\u003Ecrond\u003C\u002Fcode\u003E об исполняемых командах и сообщения от самих команд.\u003C\u002Fli\u003E\r\n\u003Cli\u003E\u003Cstrong\u003E\u002Fvar\u002Flog\u002Fcups\u003C\u002Fstrong\u003E — Все, что связано с печатью и принтерами.\u003C\u002Fli\u003E\r\n\u003Cli\u003E\u003Cstrong\u003E\u002Fvar\u002Flog\u002Ffaillog\u003C\u002Fstrong\u003E — Неудачные попытки входа в систему. Очень полезно при проверке угроз в системе безопасности, хакерских атаках, попыток взлома методом перебора. Прочитать содержимое можно с помощью команды \u003Ccode\u003Efaillog\u003C\u002Fcode\u003E.\u003C\u002Fli\u003E\r\n\u003Cli\u003E\u003Cstrong\u003Evar\u002Flog\u002Fkern.log\u003C\u002Fstrong\u003E — Журнал содержит сообщения от ядра и предупреждения, которые могут быть полезны при устранении ошибок пользовательских модулей встроенных в ядро.\u003C\u002Fli\u003E\r\n\u003Cli\u003E\u003Cstrong\u003E\u002Fvar\u002Flog\u002Fmaillog\u002F\u003C\u002Fstrong\u003E или \u003Cstrong\u003E\u002Fvar\u002Flog\u002Fmail.log\u003C\u002Fstrong\u003E — Журнал почтового сервера, используемого на ОС.\u003C\u002Fli\u003E\r\n\u003Cli\u003E\u003Cstrong\u003E\u002Fvar\u002Flog\u002Fpm-powersave.log\u003C\u002Fstrong\u003E — Сообщения службы экономии заряда батареи.\u003C\u002Fli\u003E\r\n\u003Cli\u003E\u003Cstrong\u003E\u002Fvar\u002Flog\u002Fsamba\u002F\u003C\u002Fstrong\u003E — Логи файлового сервера \u003Ccode\u003ESamba\u003C\u002Fcode\u003E, который используется для доступа к общим папкам Windows и предоставления доступа пользователям Windows к общим папкам Linux.\u003C\u002Fli\u003E\r\n\u003Cli\u003E\u003Cstrong\u003E\u002Fvar\u002Flog\u002Fspooler\u003C\u002Fstrong\u003E — Для представителей старой школы, содержит сообщения USENET. Чаще всего бывает пустым и заброшенным.\u003C\u002Fli\u003E\r\n\u003Cli\u003E\u003Cstrong\u003E\u002Fvar\u002Flog\u002FXorg.0.log\u003C\u002Fstrong\u003E — Логи X сервера. Чаще всего бесполезны, но если в них есть строки начинающиеся с EE, то следует обратить на них внимание.\u003C\u002Fli\u003E\r\n\u003C\u002Ful\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003EДля каждого дистрибутива будет отдельный журнал менеджера пакетов.\u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Cul\u003E\r\n\u003Cli\u003E\u003Cstrong\u003E\u002Fvar\u002Flog\u002Fyum.log\u003C\u002Fstrong\u003E — Для программ установленных с помощью \u003Ccode\u003EYum\u003C\u002Fcode\u003E в RedHat Linux.\u003C\u002Fli\u003E\r\n\u003Cli\u003E\u003Cstrong\u003E\u002Fvar\u002Flog\u002Femerge.log\u003C\u002Fstrong\u003E — Для \u003Ccode\u003Eebuild\u003C\u002Fcode\u003E-ов установленных из \u003Ccode\u003EPortage\u003C\u002Fcode\u003E с помощью \u003Ccode\u003Eemerge\u003C\u002Fcode\u003E в Gentoo Linux.\u003C\u002Fli\u003E\r\n\u003Cli\u003E\u003Cstrong\u003E\u002Fvar\u002Flog\u002Fdpkg.log\u003C\u002Fstrong\u003E — Для программ установленных с помощью \u003Ccode\u003Edpkg\u003C\u002Fcode\u003E в Debian Linux и всем семействе родственных дистрибутивах.\u003C\u002Fli\u003E\r\n\u003C\u002Ful\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003EИ немного бинарных журналов учета пользовательских сессий.\u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Cul\u003E\r\n\u003Cli\u003E\u003Cstrong\u003E\u002Fvar\u002Flog\u002Flastlog\u003C\u002Fstrong\u003E — Последняя сессия пользователей. Прочитать можно командой \u003Ccode\u003Elast\u003C\u002Fcode\u003E.\u003C\u002Fli\u003E\r\n\u003Cli\u003E\u003Cstrong\u003E\u002Fvar\u002Flog\u002Ftallylog\u003C\u002Fstrong\u003E — Аудит неудачных попыток входа в систему. Вывод на экран с помощью утилиты \u003Ccode\u003Epam_tally2\u003C\u002Fcode\u003E.\u003C\u002Fli\u003E\r\n\u003Cli\u003E\u003Cstrong\u003E\u002Fvar\u002Flog\u002Fbtmp\u003C\u002Fstrong\u003E — Еже один журнал записи неудачных попыток входа в систему. Просто так, на всякий случай, если вы еще не догадались где следует искать следы активности взломщиков.\u003C\u002Fli\u003E\r\n\u003Cli\u003E\u003Cstrong\u003E\u002Fvar\u002Flog\u002Futmp\u003C\u002Fstrong\u003E — Список входов пользователей в систему на данный момент.\u003C\u002Fli\u003E\r\n\u003Cli\u003E\u003Cstrong\u003E\u002Fvar\u002Flog\u002Fwtmp\u003C\u002Fstrong\u003E — Еще один журнал записи входа пользователей в систему. Вывод на экран командой \u003Ccode\u003Eutmpdump\u003C\u002Fcode\u003E.\u003C\u002Fli\u003E\r\n\u003C\u002Ful\u003E\u003Cbr\u002F\u003E\r\n\u003Cpre\u003E\u003Ccode class=\"diff\"\u003E(5:535)$ sudo utmpdump \u002Fvar\u002Flog\u002Fwtmp\n[5] [02187] [l0  ] [        ] [4.0.5-gentoo     ] [0.0.0.0     ] [Вт авг 11 16:50:07 2015]\n[1] [00000] [~~  ] [shutdown] [4.0.5-gentoo     ] [0.0.0.0     ] [Вт авг 11 16:50:08 2015]\n[2] [00000] [~~  ] [reboot  ] [3.18.12-gentoo   ] [0.0.0.0     ] [Вт авг 11 16:50:57 2015]\n[8] [00368] [rc  ] [        ] [3.18.12-gentoo   ] [0.0.0.0     ] [Вт авг 11 16:50:57 2015]\n[1] [20019] [~~  ] [runlevel] [3.18.12-gentoo   ] [0.0.0.0     ] [Вт авг 11 16:50:57 2015]\u003C\u002Fcode\u003E\u003C\u002Fpre\u003E\u003Cbr\u002F\u003E\r\n\u003Ch4 id=\"i-drugie-zhurnaly\"\u003EИ другие журналы\u003C\u002Fh4\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003EТак как операционная система, даже такая замечательная как Linux, сама по себе никакой ощутимой пользы не несет в себе, то скорее всего на сервере или рабочей станции будет крутится база данных, веб сервер, разнообразные приложения. Каждое приложения или служба может иметь свой собственный файл или каталог журналов событий и ошибок. Всех их естественно невозможно перечислить, лишь некоторые.\u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Cul\u003E\r\n\u003Cli\u003E\u003Cstrong\u003E\u002Fvar\u002Flog\u002Fmysql\u002F\u003C\u002Fstrong\u003E — Лог базы данных MySQL.\u003C\u002Fli\u003E\r\n\u003Cli\u003E\u003Cstrong\u003E\u002Fvar\u002Flog\u002Fhttpd\u002F\u003C\u002Fstrong\u003E или \u003Cstrong\u003E\u002Fvar\u002Flog\u002Fapache2\u002F\u003C\u002Fstrong\u003E — Лог веб сервера Apache, журнал доступа находится в \u003Ccode\u003Eaccess_log\u003C\u002Fcode\u003E, а ошибки — в \u003Ccode\u003Eerror_log\u003C\u002Fcode\u003E.\u003C\u002Fli\u003E\r\n\u003Cli\u003E\u003Cstrong\u003E\u002Fvar\u002Flog\u002Flighthttpd\u002F\u003C\u002Fstrong\u003E — Лог веб сервера lighttpd.\u003C\u002Fli\u003E\r\n\u003C\u002Ful\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003EВ домашнем каталоге пользователя могут находится журналы графических приложений, DE.\u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Cul\u003E\r\n\u003Cli\u003E\u003Cstrong\u003E~\u002F.xsession-errors\u003C\u002Fstrong\u003E — Вывод \u003Ccode\u003Estderr\u003C\u002Fcode\u003E графических приложений X11.\u003C\u002Fli\u003E\r\n\u003C\u002Ful\u003E\u003Cbr\u002F\u003E\r\n\u003Cpre\u003E\u003Ccode\u003EInitializing  \"kcm_input\" :  \"kcminit_mouse\"\nInitializing  \"kcm_access\" :  \"kcminit_access\"\nInitializing  \"kcm_kgamma\" :  \"kcminit_kgamma\"\nQXcbConnection: XCB error: 3 (BadWindow), sequence: 181, resource id: 10486050, major code: 20 (GetProperty), minor code: 0\nkf5.kcoreaddons.kaboutdata: Could not initialize the equivalent properties of Q*Application: no instance (yet) existing.\nQXcbConnection: XCB error: 3 (BadWindow), sequence: 181, resource id: 10486050, major code: 20 (GetProperty), minor code: 0\nQt: Session management error: networkIdsList argument is NULL\u003C\u002Fcode\u003E\u003C\u002Fpre\u003E\u003Cbr\u002F\u003E\r\n\u003Cul\u003E\r\n\u003Cli\u003E\u003Cstrong\u003E~\u002F.xfce4-session.verbose-log\u003C\u002Fstrong\u003E — Сообщения рабочего стола XFCE4.\u003C\u002Fli\u003E\r\n\u003C\u002Ful\u003E\u003Cbr\u002F\u003E\r\n\u003Ch4 id=\"chem-prosmatrivat---lnav\"\u003EЧем просматривать — lnav\u003C\u002Fh4\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003EПочти все знают об утилите \u003Ccode\u003Eless\u003C\u002Fcode\u003E и команде \u003Ccode\u003Etail -f\u003C\u002Fcode\u003E. Также для этих целей сгодится редактор \u003Ccode\u003Evim\u003C\u002Fcode\u003E и файловый менеджер Midnight Commander. У всех есть свои недостатки: \u003Ccode\u003Eless\u003C\u002Fcode\u003E неважно обрабатывает журналы с длинными строками, принимая их за бинарники. Midnight Commander годится только для беглого просмотра, когда нет необходимости искать по сложному шаблону и переходить помногу взад и вперед между совпадениями. Редактор \u003Ccode\u003Evim\u003C\u002Fcode\u003E понимает и подсвечивает синтаксис множества форматов, но если журнал часто обновляется, то появляются отвлекающие внимания сообщения об изменениях в файле. Впрочем это легко можно обойти с помощью \u003Ccode\u003E&lt;:view \u002Fpath\u002Fto\u002Ffile\u003E\u003C\u002Fcode\u003E.\u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003EНедавно я обнаружил еще одну годную и многообещающую, но слегка еще сыроватую, утилиту — \u003Cem\u003Elnav\u003C\u002Fem\u003E, в расшифровке Log File Navigator.\u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Cimg src=\"\u002Fimg\u002Fimage-loader.svg\" data-src=\"https:\u002F\u002Fhabrastorage.org\u002Fweb\u002F9e8\u002F88d\u002F1c7\u002F9e888d1c78a447deb83451a5e661f381.png\"\u002F\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003E\u003Cbr\u002F\u003E\r\nУстановка пакета как обычно одной командой.\u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Cpre\u003E\u003Ccode\u003E$ aptitude install lnav #Debian\u002FUbuntu\u002FLinuxMint\n$ yum install lnav #RedHat\u002FCentOS\n$ dnf install lnav #Fedora\n$ emerge -av lnav #Gentoo, нужно добавить в файл package.accept_keywords\n$ yaourt -S lnav #Arch\u003C\u002Fcode\u003E\u003C\u002Fpre\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003EНавигатор журналов \u003Cem\u003Elnav\u003C\u002Fem\u003E понимает ряд форматов файлов.\u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Cul\u003E\r\n\u003Cli\u003EAccess_log веб сервера.\u003C\u002Fli\u003E\r\n\u003Cli\u003ECUPS page_log\u003C\u002Fli\u003E\r\n\u003Cli\u003ESyslog\u003C\u002Fli\u003E\r\n\u003Cli\u003Eglog\u003C\u002Fli\u003E\r\n\u003Cli\u003Edpkg.log\u003C\u002Fli\u003E\r\n\u003Cli\u003Estrace\u003C\u002Fli\u003E\r\n\u003Cli\u003EПроизвольные записи с временными отметками\u003C\u002Fli\u003E\r\n\u003Cli\u003Egzip, bzip\u003C\u002Fli\u003E\r\n\u003Cli\u003EЖурнал VMWare ESXi\u002FvCenter\u003C\u002Fli\u003E\r\n\u003C\u002Ful\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003EЧто в данном случае означает понимание форматов файлов? Фокус в том, что \u003Cem\u003Elnav\u003C\u002Fem\u003E больше чем утилита для просмотра текстовых файлов. Программа умеет кое что еще. Можно открывать несколько файлов сразу и переключаться между ними.\u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Cpre\u003E\u003Ccode\u003E(5:471)$ sudo lnav \u002Fvar\u002Flog\u002Fpm-powersave.log \u002Fvar\u002Flog\u002Fpm-suspend.log\u003C\u002Fcode\u003E\u003C\u002Fpre\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003EПрограмма умеет напрямую открывать архивный файл.\u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Cpre\u003E\u003Ccode\u003E(5:471)$ lnav -r \u002Fvar\u002Flog\u002FXorg.0.log.old.gz\u003C\u002Fcode\u003E\u003C\u002Fpre\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003EПоказывает гистограмму информативных сообщений, предупреждений и ошибок, если нажать клавишу \u003Ccode\u003E&lt;i\u003E\u003C\u002Fcode\u003E. Это с моего syslog-а.\u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Cpre\u003E\u003Ccode\u003EMon May 02 20:25:00        123 normal         3 errors         0 warnings         0 marks\nMon May 02 22:40:00          2 normal         0 errors         0 warnings         0 marks\nMon May 02 23:25:00         10 normal         0 errors         0 warnings         0 marks\nTue May 03 07:25:00         96 normal         3 errors         0 warnings         0 marks\nTue May 03 23:50:00         10 normal         0 errors         0 warnings         0 marks\nWed May 04 07:40:00         96 normal         3 errors         0 warnings         0 marks\nWed May 04 08:30:00          2 normal         0 errors         0 warnings         0 marks\nWed May 04 10:40:00         10 normal         0 errors         0 warnings         0 marks\nWed May 04 11:50:00        126 normal         2 errors         1 warnings         0 marks\u003C\u002Fcode\u003E\u003C\u002Fpre\u003E\u003Cbr\u002F\u003E\r\n\u003Cp\u003EКроме этого поддерживается подсветка синтаксиса, дополнение по табу и разные полезности в статусной строке. К недостаткам можно отнести нестабильность поведения и зависания. Надеюсь \u003Cem\u003Elnav\u003C\u002Fem\u003E будет активно развиваться, очень полезная программа на мой взгляд.\u003C\u002Fp\u003E\u003Cbr\u002F\u003E\r\n\u003Ch4 id=\"ispolzovannye-materialy\"\u003EИспользованные материалы\u003C\u002Fh4\u003E\u003Cbr\u002F\u003E\r\n\u003Col\u003E\r\n\u003Cli\u003E\u003Ca href=\"http:\u002F\u002Fwww.2daygeek.com\u002Finstall-and-use-advanced-log-file-viewer-navigator-lnav-in-linux\u002F2\u002F\"\u003Elnav — An Advanced Log File viewer for Linux\u003C\u002Fa\u003E\u003C\u002Fli\u003E\r\n\u003Cli\u003E\u003Ca href=\"https:\u002F\u002Fdzone.com\u002Farticles\u002Fwhat-are-linux-logs-how-to-view-them-most-importan\"\u003EWhat Are Linux Logs? How to View Them, Most Important Directories, and More\u003C\u002Fa\u003E\u003C\u002Fli\u003E\r\n\u003Cli\u003E\u003Ca href=\"https:\u002F\u002Flosst.ru\u002Fkak-posmotret-logi-v-linux\"\u003EКак посмотреть логи в Linux\u003C\u002Fa\u003E\u003C\u002Fli\u003E\r\n\u003C\u002Fol\u003E\u003C\u002Fdiv\u003E","tags":[{"titleHtml":"logs"},{"titleHtml":"linux"}],"metadata":{"stylesUrls":[],"scriptUrls":[],"shareImageUrl":"https:\u002F\u002Fhabr.com\u002Fshare\u002Fpublication\u002F332502\u002F9141059ce46b129406ec545b4cfe328b\u002F","shareImageWidth":1200,"shareImageHeight":630,"vkShareImageUrl":"https:\u002F\u002Fhabr.com\u002Fshare\u002Fpublication\u002F332502\u002F9141059ce46b129406ec545b4cfe328b\u002F?format=vk","schemaJsonLd":"{\"@context\":\"http:\\\u002F\\\u002Fschema.org\",\"@type\":\"Article\",\"mainEntityOfPage\":{\"@type\":\"WebPage\",\"@id\":\"https:\\\u002F\\\u002Fhabr.com\\\u002Fru\\\u002Fpost\\\u002F332502\\\u002F\"},\"headline\":\"Лог файлы Linux по порядку\",\"datePublished\":\"2017-07-07T13:40:00+03:00\",\"dateModified\":\"2017-07-07T16:56:47+03:00\",\"author\":{\"@type\":\"Person\",\"name\":\"Микаел Григорян\"},\"publisher\":{\"@type\":\"Organization\",\"name\":\"Habr\",\"logo\":{\"@type\":\"ImageObject\",\"url\":\"https:\\\u002F\\\u002Fhabrastorage.org\\\u002Fwebt\\\u002Fa_\\\u002Flk\\\u002F9m\\\u002Fa_lk9mjkccjox-zccjrpfolmkmq.png\"}},\"description\":\"Невозможно представить себе пользователя и администратора сервера, или даже рабочей станции на основе Linux, который никогда не читал лог файлы. Операционная сис...\",\"url\":\"https:\\\u002F\\\u002Fhabr.com\\\u002Fru\\\u002Fpost\\\u002F332502\\\u002F#post-content-body\",\"about\":[\"h_linux\",\"h_sys_admin\",\"h_nix\",\"f_admin\"],\"image\":[\"https:\\\u002F\\\u002Fhabrastorage.org\\\u002Fweb\\\u002F06c\\\u002Fd90\\\u002Fa84\\\u002F06cd90a8459e46ce91111c269428614a.png\",\"https:\\\u002F\\\u002Fhabrastorage.org\\\u002Fweb\\\u002F9e8\\\u002F88d\\\u002F1c7\\\u002F9e888d1c78a447deb83451a5e661f381.png\"]}","metaDescription":"Невозможно представить себе пользователя и администратора сервера, или даже рабочей станции на основе Linux, который никогда не читал лог файлы. Операционная система и работающие приложения постоянно...","mainImageUrl":null,"amp":false,"customTrackerLinks":[]},"polls":[],"commentsEnabled":true,"rulesRemindEnabled":false,"votesEnabled":true,"status":"published","plannedPublishTime":null,"checked":null,"isEditorial":false}},"articlesIds":{},"isLoading":false,"pagesCount":{},"route":{},"reasonsList":null,"view":"cards","lastVisitedRoute":{},"ssrCommentsArticleIds":[""],"karma":{}},"authorContribution":{"authors":{}},"betaTest":{"currentAnnouncement":null,"announcements":{},"announcementCards":null,"announcementComments":{},"announcementCommentThreads":{},"announcementCommentingStatuses":{},"archivedList":[]},"authorStatistics":{"articleRefs":{},"articleIds":{},"pagesCount":{},"route":{},"viewsCount":[],"maxStatsCount":{}},"career":{"seoLandings":[{"title":"Системный администратор","vacanciesCount":139,"itemUrl":"https:\u002F\u002Fcareer.habr.com\u002Fvacancies\u002Fsistemnij_administrator","itemHubs":["it-infrastructure","s_admin","server_side_optimization","sys_admin"]},{"title":"DevOps инженер","vacanciesCount":87,"itemUrl":"https:\u002F\u002Fcareer.habr.com\u002Fvacancies\u002Fdevops","itemHubs":["devops","build_automation","sys_admin","virtualization","kubernetes"]}],"hubs":"linux,sys_admin,nix"},"comments":{"articleComments":{},"searchCommentsResults":null,"previewComment":null,"pagesCount":null,"commentAccess":{},"scrollParents":{},"pageArticleComments":{"lastViewedComment":0,"postId":null,"lastCommentTimestamp":"","moderated":[],"moderatedIds":[],"commentRoute":""}},"companies":{"companyRefs":{},"companyIds":{},"companyTopIds":{},"pagesCount":{},"companyProfiles":{},"companiesCategories":[],"companiesCategoriesTotalCount":0,"companiesWidgets":{},"companiesWorkers":{},"companiesFans":{},"route":{},"isLoading":false,"companyWorkersLoading":false,"companyFansLoading":false,"vacancies":{}},"companiesContribution":{"hubs":{},"flows":{},"companyRefs":{}},"companyHubsContribution":{"contributionRefs":{"hubRefs":{},"hubIds":{}}},"conversation":{"messages":[],"respondent":null,"isLoadMore":false},"conversations":{"conversations":[],"unreadCount":0,"pagesCount":0,"isLoadMore":false},"desktopState":{"desktopFl":null,"desktopHl":null,"isChecked":false,"isLoginDemanded":false},"docs":{"menu":{},"articles":{},"mainMenu":[],"loading":{"main":false,"dropdown":false,"article":false}},"feature":{"isProbablyVisible":"true"},"flows":{"flows":[{"alias":"develop","id":1,"route":{"name":"FLOW_PAGE","params":{"flowName":"develop"}}},{"alias":"admin","id":6,"route":{"name":"FLOW_PAGE","params":{"flowName":"admin"}}},{"alias":"design","id":2,"route":{"name":"FLOW_PAGE","params":{"flowName":"design"}}},{"alias":"management","id":3,"route":{"name":"FLOW_PAGE","params":{"flowName":"management"}}},{"alias":"marketing","id":4,"route":{"name":"FLOW_PAGE","params":{"flowName":"marketing"}}},{"alias":"popsci","id":7,"route":{"name":"FLOW_PAGE","params":{"flowName":"popsci"}}}]},"global":{"isPwa":false,"device":"desktop","isHabrCom":true},"hubs":{"hubRefs":{},"hubIds":{},"pagesCount":{},"isLoading":false,"route":{}},"hubsBlock":{"hubRefs":{},"hubIds":{}},"i18n":{"fl":"ru","hl":"ru"},"info":{"infoPage":{},"isLoading":true},"location":{"urlStruct":{"protocol":null,"slashes":null,"auth":null,"host":null,"port":null,"hostname":null,"hash":null,"search":null,"query":{},"pathname":null,"path":null,"href":""},"searchQuery":null},"me":{"user":null,"ppgDemanded":false,"karmaResetInfo":{"canReincarnate":null,"wasReincarnated":null,"currentScore":null},"notes":null},"mostReadingList":{"mostReadingListIds":[],"mostReadingListRefs":null,"promoPost":null},"pinnedPost":{"pinnedPost":null},"ppa":{"articles":{},"card":null,"transactions":null,"totalTransactions":null,"isAccessible":null},"projectsBlocks":{"activeBlocks":{}},"promoData":{"isLoading":false,"hasLoaded":true,"featurer":[{"title":"Зарплаты айтишников","gal":"salaries","image":{"url":"https:\u002F\u002Feffect.habr.com\u002Fa\u002Fr0OrndRCglT7AjutEFy33-SJI_uxVt8RZnkMXxK-nPeGZfBEBleTrjm2-D6g6DBr674y6O9C0LZpy8IupICvG752ZEXAyy-5cyiFsW0CIytYFcFTL9JueTjKelecZVUjuh5gDX5t0dR-Im60xw-aIb-OaJrW2ZMP15XagoWwyHsP3_iKqE2q0S0H6MpIZBUaPgmubd5auF4"},"link":{"url":"https:\u002F\u002Feffect.habr.com\u002Fa\u002FU2sa_PG4RnO0-8mGMF9e18UEYLr2zwUMLvWQMA9-PN3-GFu8-HH47W0Unt3KxHBvEQdOpw63ubC5suq-6f9DYmkse8cQ26qBSgmcfHinDzM4APxSRuutWsNqxIRH"}}],"megaposts":[{"title":"Про это: чем радуют и бесят рабочие инструменты","color":"#ffa299","link":{"url":"https:\u002F\u002Feffect.habr.com\u002Fa\u002FFeCvFQX2ohzjlQkvCJkDU6RGWJ-5v-_ErTi_urNpzxb-iXkcytx5FVF8hOd_Ur9w1A0CqXPJ0Z2VZRE1198ITHm9qhvQZ8LyJjv_Y6L0RCJGk6mXQpo"},"events":{"view":"UxRfZVtEcs5gYrBgFcDwAI_f1DBOmlpBbBUIvslWPLq3IW60yhtsYEf2brKmN8OGxpltcq_NCtlfrQ"}}],"promoLinks":[{"title":"Люблю и ненавижу: разработчики Леруа Мерлен – о рабочих технологиях","label":"Мегапост","external":false,"link":{"url":"https:\u002F\u002Feffect.habr.com\u002Fa\u002FoxvCD_xfkRn6jLO7rbRtUHV5CbYvH7hvP8SfL3PIB-kFjXonuTG4nsLFLmltmV5uUaNmC6hEFSroPjOnxaQDiTOYUZM3pr1JzZH3PzVb7JRz_FLZkJWx"},"events":{"view":"jP4Rg2JLw67uD6g17RpvjiuwTBkntiA-ELbDUEd7vSUMn5M01u7SPVbIboPMcTUCs85QC3U008ROpQ"}},{"title":"Слава роботам, R&D и e-commerce: старые и новые тренды рынка труда","label":"Турбо","external":false,"link":{"url":"https:\u002F\u002Feffect.habr.com\u002Fa\u002FN2gCJMfMR2yAjz5M8eZ8R_4f0egvE1GplubGk8V8AnCZsadyWGi1rN3t8RG6bOet39Hfz9ZtqBPk3nL8EpTg9IudnSeC0CaWHNH8rLNkMhS-LPK_9qybEeI4eSFnaWTuIOsjXMkxTw"},"events":{"view":"FHSYSeRRdV6qYvkkoutxlMApNJ7PBBfqUX_06FWx4AttWuyOiIfv0EhIN6CvLGTrviyB48UjLePh0A"}}],"promoPosts":[{"title":"Небо — птицам, реки — рыбам, авторам на Хабре — мотивацию","label":"Интересно","external":false,"image":{"url":"https:\u002F\u002Feffect.habr.com\u002Fa\u002FsjaCa9Yf6wQBEw6mvYos1CAFWoBLZmWCBpSGJwwfnECmKfmLIqnZ5klOMYsa7Zo2MthWfMVLgVtn3RKzyjAWEHI0MT6iWzO73Do0BytuTWgYYpry8WVH0csEovB0ag-I6MU6pFZDEsiRTNLfemjKtx_vt6LAb8pvb5fNqFSijYsph-D_AmIM9OATavRXIOCiKDt1kNYlQMCFdPxcPVgw3mM"},"link":{"url":"https:\u002F\u002Feffect.habr.com\u002Fa\u002F-ZhIrfZGtj9QhKijHJ-qh20EM-w_JpBJsqIUxpnMzyxrpZAhbgAK-aMALk7OGwHI6wcwoVaR8fI-Heb5mIXQ-KTANizdXsnzWZrdctDaUiZmdM09wFU1Aj5PX7xKeXl3AtrAtWl82A"}},{"title":"Зарплаты айтишников во втором полугодии 2021","label":"Мегапост","external":false,"image":{"url":"https:\u002F\u002Feffect.habr.com\u002Fa\u002FpaGbmA4UpLkveAwIOUG_ItkqdIm1e_kHQRO3vG71bxH9JIrgmwQh1uDc_ZW1V5d2cBS_5UO4Hygw3LCwoDH8ndJd1nWOPSgS7y81vhAQ5WH_trAuZqWjXC_cfOSdLMrrSjV2_E2sF96PVyWjc6PyVlj8RVtyhxLU0eqC-1dhflDb5Yr4cBpcLIhRXdqxnNIEQUtbyquL0GQKeZdvZiw"},"link":{"url":"https:\u002F\u002Feffect.habr.com\u002Fa\u002Fm7y5n_v1goef5Iazrp2gxNXV-NPSMje8dVVIs1jmhHfbxbd2Z3iEQtz7d2xFQ8e0hCamXZC1hphXNuDK-HDe9cW0yUe1BV_28qQCJTfX9hwjFEt_q3qOh9UaPS0Q"}},{"title":"Ёлочку уже выкинули, а промокод до сих пор рубит скидки","label":"Промо","external":true,"image":{"url":"https:\u002F\u002Feffect.habr.com\u002Fa\u002FICzZ_esePnz2727sOwr3SHMKMAnWpyUkGzntS8WWKrP5yjC0eWXPNYBpwtPctF65qrP9g_WbIfC8WTjLke8fzPJDn5ilTEI6MnF6grjM_7nxefTp_z4jzwtiYdAQZxpp_GOkf87GZZusyt20eORiN6LH0q7iTiYx-NYi6-XqVFRnukn3aygpHwRn-uARASLhpswsQ-dCWitvaXn-rBd4vzXb6MZynbiiNCOlmQ"},"link":{"url":"https:\u002F\u002Feffect.habr.com\u002Fa\u002FcyV5iPPndBWPst1YkZ1Eh5-lLj3UCnYb_39tvHcFpFypaORu0KXuouLvzyZsl4pTIqoZToxLQOsG6GBWG9doqU5dnlvhexOuSFqxAW8WsUl9Hpg1kBc0"}}]},"pullRefresh":{"shouldRefresh":false},"sandbox":{"articleIds":[],"articleRefs":{},"pagesCount":null,"route":{},"lastVisitedRoute":{},"isLoading":false},"search":{"searchQueryError":null},"settingsOther":{"inputs":{"uiLang":{"errors":[],"ref":null,"value":""},"articlesLangEnglish":{"errors":[],"ref":null,"value":false},"articlesLangRussian":{"errors":[],"ref":null,"value":false},"agreement":{"errors":[],"ref":null,"value":false},"email":{"errors":[],"ref":null,"value":true},"digest":{"errors":[],"ref":null,"value":true}}},"similarList":{"similarListIds":[],"similarListRefs":null},"ssr":{"error":null,"isDataLoaded":false,"isDataLoading":false,"isHydrationFailed":false,"isServer":false},"technotext":{"nominationsList":[]},"userHubsContribution":{"contributionRefs":{"hubRefs":{},"hubIds":{}}},"userInvites":{"availableInvites":0,"usedInvitesIds":[],"usedInvitesRefs":{},"usedInvitesPagesCount":0,"unusedInvitesIds":[],"unusedInvitesRefs":{},"unusedInvitesPagesCount":0},"users":{"authorRefs":{},"authorIds":{},"pagesCount":{},"authorProfiles":{},"userHubs":{},"userInvitations":{},"authorFollowers":{},"authorFollowed":{},"userSpecialization":{},"karmaStats":[],"statistics":null,"isLoading":false,"authorFollowersLoading":false,"authorFollowedLoading":false,"userHubsLoading":false,"userInvitationsLoading":false,"route":{}},"viewport":{"prevScrollY":{},"scrollY":0,"width":0},"tracker":{"items":{},"pagesCache":{},"markedViewedSilently":{},"markedRead":{},"unreadCounters":{"applications":null,"system":null,"mentions":null,"subscribers":null,"posts_and_comments":null},"unviewedCounters":{"applications":null,"system":null,"mentions":null,"subscribers":null,"posts_and_comments":null}}};(function(){var s;(s=document.currentScript||document.scripts[document.scripts.length-1]).parentNode.removeChild(s);}());</script>
+<script src="https://assets.habr.com/habr-web/js/chunk-vendors.4722dff8.js" defer></script><script src="https://assets.habr.com/habr-web/js/app.20f8c25a.js" defer></script>
+
+
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    </script>
+  
+  <script type="text/javascript" >
+    (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+    m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+    (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+    ym(24049213, "init", {
+      defer:true,
+      trackLinks:true,
+      accurateTrackBounce:true,
+      webvisor:false,
+    });
+  </script>
+  <noscript>
+    <div>
+      <img src="https://mc.yandex.ru/watch/24049213" style="position:absolute; left:-9999px;" alt="" />
+    </div>
+  </noscript>
+  
+    <script type="text/javascript">
+      window.addEventListener('load', function () {
+        setTimeout(() => {
+          const img = new Image();
+          img.src = 'https://vk.com/rtrg?p=VK-RTRG-421343-57vKE';
+        }, 0);
+      });
+    </script>
+  
+<script src="/js/ads.js" onload="window['zhY4i4nJ9K'] = true"></script>
+</body>
+</html>

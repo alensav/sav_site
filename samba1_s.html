@@ -1,0 +1,1590 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ru-RU">
+<head profile="http://gmpg.org/xfn/11">
+	
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<meta name="description" content="Блог о системном администрировании. Статьи о Linux, Windows, СХД NetApp и виртуализации." />
+	<meta name="yandex-verification" content="22194496404a3e49" />
+	<style type="text/css" media="screen">@import url( https://www.k-max.name/wp-content/themes/deep-mix/style.css );</style>
+   <link rel="alternate" type="application/rss+xml" title="RSS 2.0 - all posts" href="http://feeds.feedburner.com/k-max/feed" />
+	<link rel="alternate" type="application/rss+xml" title="RSS 2.0 - all comments" href="https://www.k-max.name/comments/feed/" />
+   <link rel="pingback" href="https://www.k-max.name/xmlrpc.php" />
+      <!--[if lt IE 7]>
+      <script type="text/javascript" src="https://www.k-max.name/wp-content/themes/deep-mix/js/unitpngfix.js"></script>
+		<link rel="stylesheet" href="https://www.k-max.name/wp-content/themes/deep-mix/ie6.css" type="text/css" media="screen" />
+	   <![endif]-->
+      
+		<!-- All in One SEO 4.1.3.4 -->
+		<title>Настройка samba клиента (или как работает SAMBA) | Блог любителя экспериментов</title>
+		<meta name="description" content="Описание протоколов взаимодействия SMB и CIFS в сетях Windows, описание работы протокола NetBIOS."/>
+		<meta name="keywords" content="настройка samba,samba,cifs,linux,windows,netbios,samba клиент,microsoft windows,netbeui,smb,wins,команды,настройка,основы" />
+		<link rel="canonical" href="https://www.k-max.name/linux/kak-rabotaet-samba/" />
+		<script type="application/ld+json" class="aioseo-schema">
+			{"@context":"https:\/\/schema.org","@graph":[{"@type":"WebSite","@id":"https:\/\/www.k-max.name\/#website","url":"https:\/\/www.k-max.name\/","name":"\u0411\u043b\u043e\u0433 \u043b\u044e\u0431\u0438\u0442\u0435\u043b\u044f \u044d\u043a\u0441\u043f\u0435\u0440\u0438\u043c\u0435\u043d\u0442\u043e\u0432","description":"\u0411\u043b\u043e\u0433 \u043e \u0441\u0438\u0441\u0442\u0435\u043c\u043d\u043e\u043c \u0430\u0434\u043c\u0438\u043d\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u0438\u0438. \u0421\u0442\u0430\u0442\u044c\u0438 \u043e Linux, Windows, \u0421\u0425\u0414 NetApp \u0438 \u0432\u0438\u0440\u0442\u0443\u0430\u043b\u0438\u0437\u0430\u0446\u0438\u0438.","publisher":{"@id":"https:\/\/www.k-max.name\/#person"}},{"@type":"Person","@id":"https:\/\/www.k-max.name\/#person","name":"Mc.Sim","image":{"@type":"ImageObject","@id":"https:\/\/www.k-max.name\/linux\/kak-rabotaet-samba\/#personImage","url":"https:\/\/secure.gravatar.com\/avatar\/7e1afb92fa815ed2eb0b3d439022693e?s=96&d=mm&r=g","width":"96","height":"96","caption":"Mc.Sim"},"sameAs":["https:\/\/www.linkedin.com\/in\/kramarenko-maksim\/"]},{"@type":"BreadcrumbList","@id":"https:\/\/www.k-max.name\/linux\/kak-rabotaet-samba\/#breadcrumblist","itemListElement":[{"@type":"ListItem","@id":"https:\/\/www.k-max.name\/#listItem","position":"1","item":{"@type":"WebPage","@id":"https:\/\/www.k-max.name\/","name":"\u0413\u043b\u0430\u0432\u043d\u0430\u044f","description":"\u0411\u043b\u043e\u0433 Linux \u0438\u043d\u0436\u0435\u043d\u0435\u0440\u0430 \u043e \u0440\u0430\u0437\u043b\u0438\u0447\u043d\u044b\u0445 \u0430\u0441\u043f\u0435\u043a\u0442\u0430\u0445 \u043e\u043f\u0435\u0440\u0430\u0446\u0438\u043e\u043d\u043d\u043e\u0439 \u0441\u0438\u0441\u0442\u0435\u043c\u044b \u0438 \u043d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0435 \u0441\u0435\u0440\u0432\u0438\u0441\u043e\u0432 (\u043e\u0441\u043d\u043e\u0432\u044b, bash, DHCP, DNS, SAMBA, SQUID), \u043d\u0435\u043c\u043d\u043e\u0433\u043e Vmware, DevOps \u0438 NetApp.","url":"https:\/\/www.k-max.name\/"},"nextItem":"https:\/\/www.k-max.name\/linux\/#listItem"},{"@type":"ListItem","@id":"https:\/\/www.k-max.name\/linux\/#listItem","position":"2","item":{"@type":"WebPage","@id":"https:\/\/www.k-max.name\/linux\/","name":"Linux","description":"\u041e\u043f\u0438\u0441\u0430\u043d\u0438\u0435 \u043f\u0440\u043e\u0442\u043e\u043a\u043e\u043b\u043e\u0432 \u0432\u0437\u0430\u0438\u043c\u043e\u0434\u0435\u0439\u0441\u0442\u0432\u0438\u044f SMB \u0438 CIFS \u0432 \u0441\u0435\u0442\u044f\u0445 Windows, \u043e\u043f\u0438\u0441\u0430\u043d\u0438\u0435 \u0440\u0430\u0431\u043e\u0442\u044b \u043f\u0440\u043e\u0442\u043e\u043a\u043e\u043b\u0430 NetBIOS.","url":"https:\/\/www.k-max.name\/linux\/"},"nextItem":"https:\/\/www.k-max.name\/linux\/kak-rabotaet-samba\/#listItem","previousItem":"https:\/\/www.k-max.name\/#listItem"},{"@type":"ListItem","@id":"https:\/\/www.k-max.name\/linux\/kak-rabotaet-samba\/#listItem","position":"3","item":{"@type":"WebPage","@id":"https:\/\/www.k-max.name\/linux\/kak-rabotaet-samba\/","name":"\u041a\u0430\u043a \u0440\u0430\u0431\u043e\u0442\u0430\u0435\u0442 SAMBA?","description":"\u041e\u043f\u0438\u0441\u0430\u043d\u0438\u0435 \u043f\u0440\u043e\u0442\u043e\u043a\u043e\u043b\u043e\u0432 \u0432\u0437\u0430\u0438\u043c\u043e\u0434\u0435\u0439\u0441\u0442\u0432\u0438\u044f SMB \u0438 CIFS \u0432 \u0441\u0435\u0442\u044f\u0445 Windows, \u043e\u043f\u0438\u0441\u0430\u043d\u0438\u0435 \u0440\u0430\u0431\u043e\u0442\u044b \u043f\u0440\u043e\u0442\u043e\u043a\u043e\u043b\u0430 NetBIOS.","url":"https:\/\/www.k-max.name\/linux\/kak-rabotaet-samba\/"},"previousItem":"https:\/\/www.k-max.name\/linux\/#listItem"}]},{"@type":"Person","@id":"https:\/\/www.k-max.name\/author\/mcsim\/#author","url":"https:\/\/www.k-max.name\/author\/mcsim\/","name":"Mc.Sim","image":{"@type":"ImageObject","@id":"https:\/\/www.k-max.name\/linux\/kak-rabotaet-samba\/#authorImage","url":"https:\/\/secure.gravatar.com\/avatar\/7e1afb92fa815ed2eb0b3d439022693e?s=96&d=mm&r=g","width":"96","height":"96","caption":"Mc.Sim"},"sameAs":["https:\/\/www.linkedin.com\/in\/kramarenko-maksim\/"]},{"@type":"WebPage","@id":"https:\/\/www.k-max.name\/linux\/kak-rabotaet-samba\/#webpage","url":"https:\/\/www.k-max.name\/linux\/kak-rabotaet-samba\/","name":"\u041d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0430 samba \u043a\u043b\u0438\u0435\u043d\u0442\u0430 (\u0438\u043b\u0438 \u043a\u0430\u043a \u0440\u0430\u0431\u043e\u0442\u0430\u0435\u0442 SAMBA) | \u0411\u043b\u043e\u0433 \u043b\u044e\u0431\u0438\u0442\u0435\u043b\u044f \u044d\u043a\u0441\u043f\u0435\u0440\u0438\u043c\u0435\u043d\u0442\u043e\u0432","description":"\u041e\u043f\u0438\u0441\u0430\u043d\u0438\u0435 \u043f\u0440\u043e\u0442\u043e\u043a\u043e\u043b\u043e\u0432 \u0432\u0437\u0430\u0438\u043c\u043e\u0434\u0435\u0439\u0441\u0442\u0432\u0438\u044f SMB \u0438 CIFS \u0432 \u0441\u0435\u0442\u044f\u0445 Windows, \u043e\u043f\u0438\u0441\u0430\u043d\u0438\u0435 \u0440\u0430\u0431\u043e\u0442\u044b \u043f\u0440\u043e\u0442\u043e\u043a\u043e\u043b\u0430 NetBIOS.","inLanguage":"ru-RU","isPartOf":{"@id":"https:\/\/www.k-max.name\/#website"},"breadcrumb":{"@id":"https:\/\/www.k-max.name\/linux\/kak-rabotaet-samba\/#breadcrumblist"},"author":"https:\/\/www.k-max.name\/author\/mcsim\/#author","creator":"https:\/\/www.k-max.name\/author\/mcsim\/#author","datePublished":"2011-04-21T15:19:40+04:00","dateModified":"2012-11-14T19:07:14+04:00"},{"@type":"Article","@id":"https:\/\/www.k-max.name\/linux\/kak-rabotaet-samba\/#article","name":"\u041d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0430 samba \u043a\u043b\u0438\u0435\u043d\u0442\u0430 (\u0438\u043b\u0438 \u043a\u0430\u043a \u0440\u0430\u0431\u043e\u0442\u0430\u0435\u0442 SAMBA) | \u0411\u043b\u043e\u0433 \u043b\u044e\u0431\u0438\u0442\u0435\u043b\u044f \u044d\u043a\u0441\u043f\u0435\u0440\u0438\u043c\u0435\u043d\u0442\u043e\u0432","description":"\u041e\u043f\u0438\u0441\u0430\u043d\u0438\u0435 \u043f\u0440\u043e\u0442\u043e\u043a\u043e\u043b\u043e\u0432 \u0432\u0437\u0430\u0438\u043c\u043e\u0434\u0435\u0439\u0441\u0442\u0432\u0438\u044f SMB \u0438 CIFS \u0432 \u0441\u0435\u0442\u044f\u0445 Windows, \u043e\u043f\u0438\u0441\u0430\u043d\u0438\u0435 \u0440\u0430\u0431\u043e\u0442\u044b \u043f\u0440\u043e\u0442\u043e\u043a\u043e\u043b\u0430 NetBIOS.","headline":"\u041a\u0430\u043a \u0440\u0430\u0431\u043e\u0442\u0430\u0435\u0442 SAMBA?","author":{"@id":"https:\/\/www.k-max.name\/author\/mcsim\/#author"},"publisher":{"@id":"https:\/\/www.k-max.name\/#person"},"datePublished":"2011-04-21T15:19:40+04:00","dateModified":"2012-11-14T19:07:14+04:00","commentCount":"21","articleSection":"Linux, SAMBA, \u041d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0430 \u0441\u0435\u0440\u0432\u0435\u0440\u0430 Linux, \u043e\u0441\u043d\u043e\u0432\u044b Linux, CIFS, Linux, Microsoft Windows, NetBEUI, SMB, WINS, \u043a\u043e\u043c\u0430\u043d\u0434\u044b, \u043d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0430, \u043e\u0441\u043d\u043e\u0432\u044b","mainEntityOfPage":{"@id":"https:\/\/www.k-max.name\/linux\/kak-rabotaet-samba\/#webpage"},"isPartOf":{"@id":"https:\/\/www.k-max.name\/linux\/kak-rabotaet-samba\/#webpage"},"image":{"@type":"ImageObject","@id":"https:\/\/www.k-max.name\/#articleImage","url":"https:\/\/www.k-max.name\/wp-content\/uploads\/2011\/04\/samba.jpg","width":"373","height":"149"}}]}
+		</script>
+		<!-- All in One SEO -->
+
+<link rel='dns-prefetch' href='//s.w.org' />
+<link rel="alternate" type="application/rss+xml" title="Блог любителя экспериментов &raquo; Лента комментариев к &laquo;Как работает SAMBA?&raquo;" href="https://www.k-max.name/linux/kak-rabotaet-samba/feed/" />
+	<!-- <link rel="stylesheet" type="text/css" href="https://www.k-max.name/wp-content/plugins/fancybox/jquery.fancybox-1.3.4.css" media="screen" /> --> <link rel="stylesheet" type="text/css" href="https://www.k-max.name/wp-content/plugins/fancybox2/jquery.fancybox.css"  /> 
+	<link rel="stylesheet" type="text/css" href="https://www.k-max.name/wp-content/plugins/fancybox2/helpers/jquery.fancybox-buttons.css"  /> 
+			<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/13.1.0\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/13.1.0\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/www.k-max.name\/wp-includes\/js\/wp-emoji-release.min.js?ver=5.8.3"}};
+			!function(e,a,t){var n,r,o,i=a.createElement("canvas"),p=i.getContext&&i.getContext("2d");function s(e,t){var a=String.fromCharCode;p.clearRect(0,0,i.width,i.height),p.fillText(a.apply(this,e),0,0);e=i.toDataURL();return p.clearRect(0,0,i.width,i.height),p.fillText(a.apply(this,t),0,0),e===i.toDataURL()}function c(e){var t=a.createElement("script");t.src=e,t.defer=t.type="text/javascript",a.getElementsByTagName("head")[0].appendChild(t)}for(o=Array("flag","emoji"),t.supports={everything:!0,everythingExceptFlag:!0},r=0;r<o.length;r++)t.supports[o[r]]=function(e){if(!p||!p.fillText)return!1;switch(p.textBaseline="top",p.font="600 32px Arial",e){case"flag":return s([127987,65039,8205,9895,65039],[127987,65039,8203,9895,65039])?!1:!s([55356,56826,55356,56819],[55356,56826,8203,55356,56819])&&!s([55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447],[55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447]);case"emoji":return!s([10084,65039,8205,55357,56613],[10084,65039,8203,55357,56613])}return!1}(o[r]),t.supports.everything=t.supports.everything&&t.supports[o[r]],"flag"!==o[r]&&(t.supports.everythingExceptFlag=t.supports.everythingExceptFlag&&t.supports[o[r]]);t.supports.everythingExceptFlag=t.supports.everythingExceptFlag&&!t.supports.flag,t.DOMReady=!1,t.readyCallback=function(){t.DOMReady=!0},t.supports.everything||(n=function(){t.readyCallback()},a.addEventListener?(a.addEventListener("DOMContentLoaded",n,!1),e.addEventListener("load",n,!1)):(e.attachEvent("onload",n),a.attachEvent("onreadystatechange",function(){"complete"===a.readyState&&t.readyCallback()})),(n=t.source||{}).concatemoji?c(n.concatemoji):n.wpemoji&&n.twemoji&&(c(n.twemoji),c(n.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+	<link rel='stylesheet' id='wp-block-library-css'  href='https://www.k-max.name/wp-includes/css/dist/block-library/style.min.css?ver=5.8.3' type='text/css' media='all' />
+<style id='wp-block-library-inline-css' type='text/css'>
+.has-text-align-justify{text-align:justify;}
+</style>
+<link rel='stylesheet' id='mediaelement-css'  href='https://www.k-max.name/wp-includes/js/mediaelement/mediaelementplayer-legacy.min.css?ver=4.2.16' type='text/css' media='all' />
+<link rel='stylesheet' id='wp-mediaelement-css'  href='https://www.k-max.name/wp-includes/js/mediaelement/wp-mediaelement.min.css?ver=5.8.3' type='text/css' media='all' />
+<link rel='stylesheet' id='simple-sitemap-css-css'  href='https://www.k-max.name/wp-content/plugins/simple-sitemap/lib/assets/css/simple-sitemap.css?ver=5.8.3' type='text/css' media='all' />
+<link rel='stylesheet' id='wp-pagenavi-css'  href='https://www.k-max.name/wp-content/themes/deep-mix/pagenavi-css.css?ver=2.70' type='text/css' media='all' />
+<link rel='stylesheet' id='adv-spoiler-css'  href='https://www.k-max.name/wp-content/plugins/advanced-spoiler/css/advanced-spoiler.css?ver=2.02' type='text/css' media='all' />
+<link rel='stylesheet' id='jetpack_css-css'  href='https://www.k-max.name/wp-content/plugins/jetpack/css/jetpack.css?ver=10.0' type='text/css' media='all' />
+<link rel='stylesheet' id='cfq-css'  href='https://www.k-max.name/wp-content/plugins/comment-form-quicktags/style.css?ver=20200619' type='text/css' media='all' />
+<script type='text/javascript' src='https://www.k-max.name/wp-includes/js/jquery/jquery.min.js?ver=3.6.0' id='jquery-core-js'></script>
+<script type='text/javascript' src='https://www.k-max.name/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.3.2' id='jquery-migrate-js'></script>
+<script type='text/javascript' src='https://www.k-max.name/wp-content/plugins/fancybox2/jquery.fancybox.pack.js?ver=5.8.3' id='fancybox-js'></script>
+<script type='text/javascript' src='https://www.k-max.name/wp-content/plugins/fancybox2/helpers/jquery.fancybox-buttons.js?ver=5.8.3' id='fancybox-buttons-js'></script>
+<script type='text/javascript' src='https://www.k-max.name/wp-content/plugins/advanced-spoiler/js/jquery-spoiler.js?ver=2.02' id='adv-spoiler-js'></script>
+<script type='text/javascript' src='https://www.k-max.name/wp-content/plugins/comment-form-quicktags/quicktags.php?ver=20200619' id='cfq-js'></script>
+<link rel="https://api.w.org/" href="https://www.k-max.name/wp-json/" /><link rel="alternate" type="application/json" href="https://www.k-max.name/wp-json/wp/v2/posts/2571" /><link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://www.k-max.name/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://www.k-max.name/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress 5.8.3" />
+<link rel='shortlink' href='https://www.k-max.name/?p=2571' />
+<link rel="alternate" type="application/json+oembed" href="https://www.k-max.name/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.k-max.name%2Flinux%2Fkak-rabotaet-samba%2F" />
+<style type='text/css'>img#wpstats{display:none}</style>
+		   <script type="text/javascript">
+jQuery(document).ready(function($){
+	$('a[href^="https://www.k-max.name/wp-content/uploads/"]:has(img)')
+	.fancybox({
+        padding    : 0,
+		closeBtn		: false,
+		helpers		: {
+			//title	: { type : 'inside' },
+			buttons	: { },
+		},
+        beforeShow : function() {
+        var alt = this.element.find('img').attr('alt');
+        
+        this.inner.find('img').attr('alt', alt);
+        
+        this.title = alt;
+		}
+
+      });
+});
+</script>
+</head>
+
+<body id="top">
+<!--LiveInternet counter-->
+<script type="text/javascript"><!--
+new Image().src = "//counter.yadro.ru/hit?r"+
+escape(document.referrer)+((typeof(screen)=="undefined")?"":
+";s"+screen.width+"*"+screen.height+"*"+(screen.colorDepth?
+screen.colorDepth:screen.pixelDepth))+";u"+escape(document.URL)+
+";h"+escape(document.title.substring(0,80))+
+";"+Math.random();//--></script>
+<!--/LiveInternet-->
+<div id="navigation">
+   <div class="inner">
+   	<ul>
+   	   <li class="current_page_item"><a href="https://www.k-max.name">Главная</a></li>
+         <li class="page_item page-item-5337"><a href="https://www.k-max.name/cv/">Resume</a></li>
+<li class="page_item page-item-3062"><a href="https://www.k-max.name/karta-sajta/">Карта сайта</a></li>
+<li class="page_item page-item-5325"><a href="https://www.k-max.name/knigi/">Книги</a></li>
+<li class="page_item page-item-1725"><a href="https://www.k-max.name/about/">О сайте</a></li>
+   	</ul>
+   </div>
+   <div class="fixed"></div>
+</div>
+
+<div id="header">
+   <div class="inner">
+   	<div id="logo">
+         			   <div id="title"><a href="https://www.k-max.name/" title="Блог любителя экспериментов" rel="home">Блог любителя экспериментов</a></div>
+           <h1>Блог о системном администрировании. Статьи о Linux, Windows, СХД NetApp и виртуализации.</h1>
+		      	</div>
+   </div>
+   <div class="fixed"></div>
+</div>
+    
+<div id="wrapout" class="inner">
+   <div id="wrapin">
+	<div id="main">
+    	<div id="content">
+
+		
+			<div class="post">
+				<div class="title">
+					<h1>Как работает SAMBA?</h1>
+					<div class="fixed"></div>
+				</div>
+
+				<div class="info">
+										<span class="date">21 апреля, 2011</span> 
+					<span>Рубрики: <a href="https://www.k-max.name/category/linux/" rel="category tag">Linux</a>, <a href="https://www.k-max.name/category/linux/samba/" rel="category tag">SAMBA</a>, <a href="https://www.k-max.name/category/linux/server/" rel="category tag">Настройка сервера Linux</a>, <a href="https://www.k-max.name/category/linux/osnovy-linux/" rel="category tag">основы Linux</a></span>
+					<div class="fixed"></div>
+				</div>
+<!-- Яндекс.Директ  START -->
+<div>
+   <noindex>
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- single.php with rsy -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3491741793869457"
+     data-ad-slot="1281443128"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>   </noindex>
+</div>
+<!-- Яндекс.Директ  END -->  
+
+				<div class="content">
+					<p><a href="https://www.k-max.name/linux/kak-rabotaet-samba/"><img loading="lazy" class="alignleft  wp-image-3985" style="margin: 5px;" title="samba настройка" src="https://www.k-max.name/wp-content/uploads/2011/04/samba.jpg" alt="samba настройка" width="238" height="95" srcset="https://www.k-max.name/wp-content/uploads/2011/04/samba.jpg 373w, https://www.k-max.name/wp-content/uploads/2011/04/samba-300x119.jpg 300w" sizes="(max-width: 238px) 100vw, 238px" /></a>Доброго времени читатели и гости <a title="блог о samba, взаимодействие с Windows" href="https://www.k-max.name/" target="_blank">блога www.k-max.name</a>. Сегодняшнюю статью хочу посвятить <strong>изучению пакета SAMBA</strong> и основ <strong>совместного использования разделяемых ресурсов в гетерогенных сетях Linux и Windows</strong>. Кроме сетевых протоколов Microsoft, используемых в samba, существуют так же протоколы NFS и NIS, разработанные Sun, которые так же поддерживаются продуктами Microsoft, но не получившие у последних большого распространения и удобны в использовании в сетях Linux и UNIX. Начнем с небольшой теории.</p>
+<h2>Основы взаимодействия Windows и Linux (протоколы и другие особенности)<a name="prot"></a></h2>
+<p>В Linux для организации доступа к удаленной системе достаточно знать лишь IP адрес. Вместе с системой DNS, IP адресация представляет собой вполне законченный механизм взаимодействия между системами Linux. В Windows сложилась другая ситуация. Изначально, сети Windows находились в совершенно другом пространстве имен, это было следствием попытки организовать взаимодействие без участия<a title="стек протоколов TCP/IP" href="https://www.k-max.name/linux/osnovnye-ponyatiya-setej/" target="_blank"><strong> протокола TCP/IP</strong></a>. Для чего был разработан родной для <strong>Windows протокол NetBEUI</strong> (<em><strong>Network Basic Extended Interface</strong></em> - <em>основной расширенный сетевой пользовательский интерфейс</em>). Не углубляясь в принципы сетевого взаимодействия можно сказать, что <strong>NetBEUI </strong>состоит из <strong>протокола SMB</strong>, транспортируемого по <strong>протоколу NetBIOS </strong>и обернутого в адресуемый <strong>протокол LLC</strong>, который является подуровнем канального уpовня. Из сказанной каши можно <del>с трудом</del> понять, что <strong>NetBEUI </strong>не принадлежит какому-либо из уровней <a title="модель сетевого взаимодействия OSI" href="https://www.k-max.name/linux/osnovnye-ponyatiya-setej#osi" target="_blank">модели OSI</a>. В итоге, данный протокол получился не маршрутизируемым и малоэффективным.Через некоторое время, на основе <strong>NetBEUI </strong>был разработан протокол <strong>NetBIOS Frame (NBF) protocol</strong> (<em><strong>NetBIOS over IEEE 802.2 LLC</strong></em>). Следующим шагом была реализация <strong>NBT (<em>NetBIOS over TCP/IP</em>)</strong><span id="more-2571"></span>.</p>
+<p><strong>Протокол NetBIOS</strong> (точнее <strong></strong> <strong>SMB</strong>) обладает своим собственным пространством имен. Все имена могут иметь длину до 16 алфавитно-цифровых символов. При этом, использовать имена, начинающиеся с цифры не приемлемо для реализации <strong>протокола NetBIOS over TCP/IP</strong>, т.к. данное имя будет интерпретироваться как IP-адрес. В <strong>NetBIOS </strong>существует понятие <em>Рабочая группа</em> (в последствии замененное понятием <em>домен</em>). Компьютеры, имеющие одинаковое имя рабочей группы принадлежат одной группе.</p>
+<p><strong>NetBIOS over TCP/IP</strong> использует  два основных протокола и два порта<strong> 139/tcp</strong> (порт службы сеанса NetBIOS) и <strong>137/udp</strong> (порт сервера имен NetBIOS). Порт UDP используется для разрешения имен на основе широковещательных рассылок, что в большой сети порождает большой трафик. Чтобы уменьшить большой широковещательный трафик, необходимо использовать <strong>сервер имен NetBIOS</strong> (в Microsoft данный сервер получил название <strong>WINS </strong>- Windows Internet Naming Service). <strong>WINS</strong> для <strong>NetBIOS over TCP/IP</strong> это как <em><strong>DNS</strong></em> для <em>TCP/IP</em>.</p>
+<p>С появлением <strong>Win2k </strong>и<strong> Active Directory</strong>, Microsoft полностью отказалась от <strong>NetBIOS</strong>. Вместо NetBIOS стал использоваться <strong>SMB через TCP/IP</strong> (без использования <em>протокола NetBIOS</em>, его же называют <strong>NetBIOS-less</strong>). Данный протокол позволял отказаться от WINS и резолвить имена с помощью <strong>DNS</strong>, используя связку системы безопасности <strong>Kerberos </strong>и службу каталогов <strong>Active Directory</strong>. <strong>Active Directory</strong> - это LDAP каталог (аналог OpenLDAP), которому я обязательно посвящу статью.</p>
+<p style="padding-left: 30px;"><em>Чтобы SAMBA работала без поддкржки NetBIOS, необходимо, чтобы система была членом домена Active Directory!!! Если система НЕ член домена, то отключать поддержку NetBIOS не стоит!</em></p>
+<p>Собственно, протокол SMB и дал начало названия проекта <strong>Samba</strong>. Через некоторое время SMB был переименован в <strong>CIFS </strong>(<em><strong>Common Internet File System</strong></em>). <strong>Samba </strong>версии 2 может использоваться только совместно с протоколом <strong>NetBT</strong> (<em><strong>NetBIOS over TCP/IP</strong></em>). Версия <strong>Samba 3</strong> способна обеспечивать совместимость по протоколу <strong>SMB через TCP/IP</strong> (<em><strong>NetBIOS-less TCP/IP</strong></em>) и совместима с <strong>Active Directory</strong>. При использовании SMB через TCP/IP используется порт<strong> 445/tcp</strong>, а так же<strong> 135/tcp</strong> для обеспечения взаимодействия по протоколу <strong>DCE RPC </strong>(удаленные вызовы процедур).</p>
+<p>При<strong> установке и настройке Samba</strong> (без членства в домене Active Directory) желательно использовать демон Samba как <strong>сервер WINS</strong> или как член сервера WINS для снижения нагрузки мультикаст трафика в сети.</p>
+<h2>Исходные данные (подготовка хостов для осуществления общего доступа)</h2>
+<p>Сначала я опишу возможность организации доступа к ресурсам на Windows (Сервер) со стороны Linux (Клиент). Для организации данного взаимодействия нам необходимо наличие соединения по<strong> протоколу TCP/IP </strong>между хостами (то есть присвоен корректный IP, заданы правильные маски, в каждой системе должен быть корректный файл hosts и правильно настроена служба ДНС, если таковая используется), а так же наличие расшаренного ресурса в системе Windows. В примере, машина Windows будет иметь IP 192.168.2.1 и имя host, Linux - 192.168.2.2 и имя samba. Рабочую группу будем использовать WORKGROUP. Ресурс в общем доступе будет называться share.</p>
+<p>Пакет Samba для своей работы требует наличия модулей ядра и инструментов для доступа к удаленной системе. Прежде всего, должна быть <strong>поддержка файловых систем smbfs и cifs ядром Linux</strong>. Старые версии ядра - ниже 2.6.х может не поддерживать cifs в начальной <del>комплектации </del>компиляции.  Хотя, по поводу поддержки smbfs в современных дистрибутивах можно поспорить, т.к. данный модуль устарел и не поддерживает символы кириллицы и ... ну в общем я его рассматривать не буду ввиду устаревания. Для включения поддержки cifs в старые ядра 2.4 необходимо ознакомиться с документацией на сайте: http://linux-cifs.samba.org/. Новые версии ядра Linux 2.6 в большинстве дистрибутивов имеют встроенную поддержу cifs (если, конечно, ядро не самосборное). Убедиться в поддержке ядром - cifs можно, выполнив команду grep над  <a title="Файловая система Linux и структура каталогов" href="https://www.k-max.name/linux/fajlovaya-sistema-linux-i-struktura-katalogov/#kernel-config" target="_blank">файлом <strong>текущей</strong> конфигурации ядра:</a></p>
+<pre>samba:~# grep CONFIG_SMB_FS /boot/config-2.6.32-5-686
+# CONFIG_SMB_FS is not set
+samba:~# grep CONFIG_CIFS /boot/config-2.6.32-5-686
+CONFIG_CIFS=m
+# CONFIG_CIFS_STATS is not set
+CONFIG_CIFS_WEAK_PW_HASH=y
+CONFIG_CIFS_UPCALL=y
+CONFIG_CIFS_XATTR=y
+CONFIG_CIFS_POSIX=y
+# CONFIG_CIFS_DEBUG2 is not set
+CONFIG_CIFS_DFS_UPCALL=y
+CONFIG_CIFS_EXPERIMENTAL=y</pre>
+<p>Посмотрев на вышеприведенный код, хорошо видно, что текущее ядро не поддерживает SMB_FS (нам оно в принципе и не нужно), а вот cifs поддерживается в виде модуля (что, собственно, нас так же устраивает).  Если в Вашем ядре нет поддержки CIFS, то необходимо будет его пересобрать с необходимым параметром. О том как это сделать, я описывал в статьях<a href="../linux/yadro-linux-poluchenie-informacii-i-upravlenie/" rel="bookmark"> Ядро Linux (получение информации и управление)</a> и<a href="../linux/upravlenie-yadrom-linux-sborka-kompilirovanie-konfigurirovanie/" rel="bookmark"> Управление ядром Linux (сборка, компилирование, конфигурирование)</a>. Итак, мы убедились, что наше ядро поддерживает нужную файловую систему. <a name="install"></a>Теперь нам необходимо установить саму SAMBA и кое-какие инструменты. Выбор того, каким <a title="Способы установки программ в линукс" href="https://www.k-max.name/linux/upravlenie-programmnym-obespecheniem-v-linux/" target="_blank">способом устанавливать ПО в Linux</a> оставляю Вам. Скажу лишь, что при <a title="компиляция программ из исходников" href="https://www.k-max.name/linux/upravlenie-programmnym-obespecheniem-v-linux/#source" target="_blank">установке из исходных текстов</a>, получив их (исходники) с samba.org можно получить более новую версию, нежели при <a title="установка через apt-get" href="https://www.k-max.name/linux/upravlenie-programmnym-obespecheniem-v-linux/#pakage" target="_blank">установке в бинарном виде из репозитория</a>, в котором скорее всего будет более старая и проверенная версия. Я пошел по пути наименьшего сопротивления и установил SAMBA через <a title="команды установка apt-get" href="https://www.k-max.name/linux/osnovnye-komandy-linux-ili-shpargalka-nachinayushhego-linuksojda/#apt" target="_blank">пакетный менеджер (apt-get install samba)</a>. Так же, необходимо установить пакет smb-fs (без данного пакета я столкнулся с ошибкой <a title="Ошибка CIFS VFS: cifs_mount failed w/return code = -22" href="https://www.k-max.name/linux/oshibka-cifs-vfs-cifs_mount-failed-wreturn-code-22/" target="_blank">CIFS VFS: cifs_mount failed w/return code = -22</a>).</p>
+<p>Мы начнем с самого простого примера и предположим, что DNS для разрешения имен не используется и машины имеют статичные IP-адреса. Поэтому нам необходимо в /etc/hosts добавить следующую строку:</p>
+<pre>samba:~# cat /etc/hosts
+127.0.0.1       localhost
+127.0.1.1       samba
+192.168.2.1     host
+samba:~# ping host
+PING host (192.168.2.1) 56(84) bytes of data.
+64 bytes from host (192.168.2.1): icmp_req=1 ttl=128 time=2.46 ms
+64 bytes from host (192.168.2.1): icmp_req=2 ttl=128 time=0.322 ms
+^C
+--- host ping statistics ---
+2 packets transmitted, 2 received, 0% packet loss, time 1001ms
+rtt min/avg/max/mdev = 0.322/1.394/2.467/1.073 ms</pre>
+<p>Утилитой ping мы проверили возможность разрешения имени и связь с удаленным хостом Windows. И как можно понять - все работает.</p>
+<h2><a name="client"></a>Организация доступа к Windows с помощью клиента smbclient</h2>
+<p>В первую очередь, нам необходимо убедиться в том, может ли наш Linux взаимодействовать с Windows с помощью Samba. Самый простой способ, это воспользоваться <strong>FTP-подобным клиентом <noindex><a rel="nofollow" href="http://smb-conf.ru/smbclient-command-line-smb-client.html" target="_blank">smbclient</a></noindex></strong>. C помощью которого, можно отправить запрос системе Windows и получить информацию о том, какие ресурсы Windows являются доступными.</p>
+<pre>samba:~# smbclient -L host -U%
+Domain=[WORKGROUP] OS=[Windows 5.1] Server=[Windows 2000 LAN Manager]
+
+ Sharename       Type      Comment
+ ---------       ----      -------
+Error returning browse list: NT_STATUS_ACCESS_DENIED
+Domain=[WORKGROUP] OS=[Windows 5.1] Server=[Windows 2000 LAN Manager]
+
+ Server               Comment
+ ---------            -------
+ HOST
+
+ Workgroup            Master
+ ---------            -------
+ WORKGROUP            HOST
+samba:~# smbclient -L host -UАдминистратор%12345
+Domain=[HOST] OS=[Windows 5.1] Server=[Windows 2000 LAN Manager]
+
+ Sharename       Type      Comment
+ ---------       ----      -------
+ IPC$            IPC       Удаленный IPC
+ print$          Disk      Драйверы принтеров
+ SharedDocs      Disk
+ PrinterHP3005   Printer   HP3005
+ share           Disk
+ ADMIN$          Disk      Удаленный Admin
+ share_ware      Disk
+ C$              Disk      Стандартный общий ресурс
+Domain=[HOST] OS=[Windows 5.1] Server=[Windows 2000 LAN Manager]
+
+ Server               Comment
+ ---------            -------
+
+ Workgroup            Master
+ ---------            -------</pre>
+<p>Из листинга видно, как мы с помощью smbclient и параметра -L запросили список доступных ресурсов на машине host от имени анонимного пользователя (параметр -U%). В ответ Windows нам сказал, что Error returning browse list: NT_STATUS_ACCESS_DENIED, то есть анонимный доступ запрещен. Далее, мы попробовали подключиться к машине от имени пользователя Администратор с паролем 12345, который зарегистрирован в системе. Мы получили ответ со списком расшаренных ресурсов. Это не может не радовать. Давайте попробуем подключиться к шаре share:</p>
+<pre>samba:~# cd smb/
+samba:~/smb# smbclient //host/share -UАдминистратор%12345
+Domain=[HOST] OS=[Windows 5.1] Server=[Windows 2000 LAN Manager]
+smb: \&gt; dir
+ .                                   D        0  Fri Mar 18 17:36:56 2011
+ ..                                  D        0  Fri Mar 18 17:36:56 2011
+ ime                                 D        0  Fri Mar 18 17:36:43 2011
+ Мои рисунки              DR        0  Fri Mar 18 17:36:56 2011
+ Моя музыка                DR        0  Fri Mar 18 17:36:56 2011
+
+ 40915 blocks of size 262144. 24388 blocks available
+smb: \&gt; cd ime
+smb: \ime\&gt; dir
+ .                                   D        0  Fri Mar 18 17:36:43 2011
+ ..                                  D        0  Fri Mar 18 17:36:43 2011
+ chsime                              D        0  Fri Mar 18 17:36:43 2011
+ CHTIME                              D        0  Fri Mar 18 17:36:43 2011
+ imejp                               D        0  Fri Mar 18 17:36:43 2011
+ imejp98                             D        0  Fri Mar 18 17:36:43 2011
+ imjp8_1                             D        0  Fri Mar 18 17:36:43 2011
+ imkr6_1                             D        0  Fri Mar 18 17:36:43 2011
+ mscandui.dll                        A   220160  Tue Apr 15 16:00:00 2008
+ shared                              D        0  Fri Mar 18 17:36:43 2011
+ SOFTKBD.DLL                         A   130048  Tue Apr 15 16:00:00 2008
+ SPGRMR.dll                          A    62976  Tue Apr 15 16:00:00 2008
+ SPTIP.dll                           A   272384  Tue Apr 15 16:00:00 2008
+
+ 40915 blocks of size 262144. 24388 blocks available
+smb: \ime\&gt; get SPTIP.dll
+getting file \ime\SPTIP.dll of size 272384 as SPTIP.dll (11565,2 KiloBytes/sec) (average 11565,2 KiloBytes/sec)
+smb: \ime\&gt; quit
+samba:~/smb# ls -l
+итого 269
+drwxr-xr-x  2 root root   1024 Мар 18 19:00 .
+drwxr-xr-x 13 root root   1024 Мар 18 18:50 ..
+-rw-r--r--  1 root root 272384 Мар 18 19:00 SPTIP.dll</pre>
+<p>Итак, в приведенном листинге нам удалось подключиться к шаре \\host\share от пользователя Администратор с паролем 12345. Мы получили содержимое каталога (причем русские символы прекрасно отображаются), перешли в подкаталог ime, получили его содержимое и получили на локальную машину файл SPTIP.dll, командой get (команда как и у FTP клиента). Вы, наверно, заметили, что в утилите smbclient путь к шаре указывается с прямым слешем, хотя в Windows принято задавать путь с обратным слешем. Утилита smbclient довольно гибка и используется как часть утилиты smbprint, для передачи потока данных, отправленных на принтер.</p>
+<h2>Организация доступа к Windows с помощью модулей ядра smbfs и cifsfs</h2>
+<p>Драйвер файловой системы <strong>smbfs </strong>по своему поведению напоминает утилиту <strong>smbclient</strong>. Он выполняет аутентификацию на основе предоставленного имени и пароля и устанавливает соединение с <strong>сервером SMB/CIFS</strong>, после этого подключает соединение с сервером SMB/CIFS к точке монтирования файловой системы. Права владения точкой монтирования устанавливаются в соответствии с пользователем и группой Linux, установившей соединение, а права доступа к файлам в точке монтирования устанавливаются на основании umask пользователя, установившего соединение.</p>
+<p>Фактически, управление доступом ко всем файлам и каталогам переходит под управление Linux, а на сервере SMB/CIFS все обращения будут рассматриваться как операции, выполненные единственным пользователем. То есть все пользователи, работающие с файлами сервера в точке монтирования будут рассматриваться сервером SMB как единственный пользователь.</p>
+<p>Драйвер SMBFS имеет существенное ограничение - не поддерживает Unicode, что может приводить к проблемам, если имена файлов или каталогов содержат символы НЕ английского алфавита. Данный драйвер стоит использовать только в крайних случаях, например когда не удалось завести cifs. Давайте проведем несколько практических действий с расшаренным каталогом:</p>
+<pre>samba:~# su mc-sim
+mc-sim@samba:/root$ umask
+0022
+mc-sim@samba:/root$ exit
+exit
+samba:~/smb# mount -t smbfs //host/share /mnt -o username=Администратор,password=12345,uid=mc-sim,gid=mc-sim
+samba:~# df /mnt
+Файловая система     1K-блоков      Исп  Доступно  Исп% смонтирована на
+//host/share/         10474348   4434212   6040136  43% /mnt
+samba:~# ls -la /mnt/
+итого 1
+drwxr-xr-x  1 mc-sim mc-sim    0 Мар 22 19:46 .
+drwxr-xr-x 21 root   root   1024 Фев 27 16:48 ..
+drwxr-xr-x  1 mc-sim mc-sim    0 Мар 18 17:36 ime
+drwxr-xr-x  1 mc-sim mc-sim    0 Мар 18 17:36 Мои рисунки
+drwxr-xr-x  1 mc-sim mc-sim    0 Мар 18 17:36 Моя музыка
+samba:/mnt# ls -la /mnt/ime/
+итого 676
+drwxr-xr-x 1 mc-sim mc-sim      0 Мар 18 17:36 .
+drwxr-xr-x 1 mc-sim mc-sim      0 Мар 22 19:43 ..
+drwxr-xr-x 0 mc-sim mc-sim      0 Мар 18 17:36 chsime
+drwxr-xr-x 0 mc-sim mc-sim      0 Мар 18 17:36 CHTIME
+drwxr-xr-x 0 mc-sim mc-sim      0 Мар 18 17:36 imejp
+-rwxr-xr-x 1 mc-sim mc-sim 220160 Апр 15  2008 mscandui.dll
+...</pre>
+<p>Из примера можно увидеть, что мы зашли под пользователем mc-sim и посмотрели на его <a title="Права доступа в Linux, права на создаваемые объекты" href="https://www.k-max.name/linux/prava-dostupa-v-linux-eshhe-odna-malenkaya-shpargalka#umask" target="_blank">umask</a>, который равен 0022, что соответствует <a title="Права доступа в Linux, еще одна маленькая шпаргалка" href="https://www.k-max.name/linux/prava-dostupa-v-linux-eshhe-odna-malenkaya-shpargalka/" target="_blank">правам доступа 755</a>, то есть <em>rwxr-xr-x</em>, что мы далее и увидим. Далее, закрываем сессию пользователя и оказываемся в оболочке текущего пользователя и пытаемся <del>подключить </del>подмонтировать сетевой каталог от имени пользователя, umask которого узнали выше (т.е. - mc-sim). Думаю, что формат команды mount вам ясен из моей <a title="Основные команды Linux или шпаргалка начинающего линуксойда" href="https://www.k-max.name/linux/osnovnye-komandy-linux-ili-shpargalka-nachinayushhego-linuksojda#block" target="_blank">статьи о основных командах Linux</a>, но все же опишу указанные параметры: <em>-t smbfs</em> указывает нам использовать тип файловой системы  - SMBFS, далее указываем путь к шаре в виде: <em>//хост/шара</em>, далее <a title="монтирование" href="https://www.k-max.name/linux/fajlovaya-sistema-linux-i-struktura-katalogov/" target="_blank">точка монтирования</a> в формате <em>/точка/монтирования</em>, далее  параметры монтирования (после ключа <em>-o</em>) - имя пользователя и пароль на удаленной системе (<em>username </em>и <em>password </em>соответственно) с правами которого будет происходить обращение к удаленным каталогам, далее UID и GID локальных пользователей, права которых будут учитываться при чтении/записи в примонтированный каталог. После монтирования удаленного каталога, мы можем спокойно обращаться к файлам на удаленном хосте, как к локальным и производить все доступные операции с файлами, как с локальной файловой системой. В том числе, копирование/удаление/перемещение, естественно, учитывая права локального и удаленного пользователей.</p>
+<p>Хочется так же отметить, что запуская<em> mount -t smbfs</em>, фактически мы запускаем команду <em>/usr/bin/smbmount</em>, которая является <a title="что такое символьные ссылки" href="https://www.k-max.name/linux/fajlovaya-sistema-linux-i-struktura-katalogov/#slink">символьной ссылкой</a> на <em>/sbin/mount.smbfs</em>. smbmount считывает параметры из конфигурационного файла <strong>smb.conf</strong> (обычно находится или в <strong>/etc/smb.conf </strong>или <strong>/etc/samba/smb.conf</strong>). Формат выполнения команды <em>smbmount </em>совпадает с <em>mount -t smbfs</em>. Для корректной работы SAMBA в виде подключающегося клиента, минимально достаточно файла со следующим содержимым:</p>
+<pre>samba:~# cat /etc/samba/smb.conf
+[global]
+       workgroup = WORKGROUP</pre>
+<p>Давайте рассмотрим более сложный пример монтирования расшаренного каталога:</p>
+<pre>samba:~# cat /etc/samba/pw
+username=Администратор
+password=12345
+samba:~/smb# mount -t smbfs //host/share /mnt -o credentials=/etc/samba/pw,uid=mc-sim,gid=mc-sim,fmask=600,dmask=700
+samba:~# df /mnt
+Файловая система     1K-блоков      Исп  Доступно  Исп% смонтирована на
+//host/share/         10474348   4434212   6040136  43% /mnt</pre>
+<p>В данном примере команда очень похожа на приведенную чуть выше, за исключением, нескольких дополнительных передаваемых параметров. Первое - это <em>credentials=/etc/samba/pw</em> - позволяет указать файл с идентификационными данными для подключения к удаленному ресурсу. Содержимое данного файла так же указано в примере. Другие два новых параметра - это указание маски прав доступа для файлов и директорий, соответственно, которые складываются с системной umask и применяются к содержимому в директории.</p>
+<p>Давайте теперь поговорим о <strong>cifs</strong>. Формат команды с применением модуля <em>cifsfs </em>точно такой же, как и <em>smbfs</em>, за исключением того, что параметр <strong>smbfs </strong>заменяется на <strong>cifs</strong>, а имя пользователя указывается не <em>username</em>, а просто <em>user</em>. Итого, команда выглядит как:  <em>mount -t cifs //host/share /mnt -o user=User,password=,uid=mc-sim,gid=mc-sim. </em>Так же стоит обратить внимание, что fmask и dmask считается устаревшим параметром и заменен на <em>file_mode</em> и <em>dir_mode</em> соответственно. Ну и команда, при использовании <strong>модуля cifsfs</strong> запускается не <em>/sbin/mount.smbfs, </em>а <em>/sbin/mount.cifs</em><em></em></p>
+<p>Чтобы монтировать SMB/CIFS - ресурсы автоматически при загрузке, необходимо проверить работоспособность монтирования с помощью вышеуказанных команд с необходимыми параметрами. Если тесты прошли удачно, то необходимо добавить строку в файл <em>/etc/fstab</em> примерно следующего содержания:</p>
+<pre>//хост/расшаренный_ресурс /каталог/монтирования файловая_система опции_монтирования</pre>
+<p>, где<em> //хост/расшаренный_ресурс</em> - UNC-путь к расшаренному ресурсу, /каталог/монтирования - точка монтирования (естественно, она должна существовать), <em>файловая_система</em> - указание файловой системы (на текущий момент, считаю, что актуальна только cifs), <em>опции_монтирования</em> - строка опций, которая передавалась команде <em>mount -t cifs</em>, после ключа <em>-o</em>.</p>
+<p><strong>Резюме</strong></p>
+<p>На этом, на сегодня закончу. В следующей части повествования о SAMBA расскажу о взаимодействии Windows как клиента и Linux в  виде файлового сервера SAMBA. Подведу маленький итог всему вышенаписанному. В сегодняшней статье я постарался рассказать об основах взаимодействия гетерогенных сетей Linux и Windows, немного рассказал об истории появления протоколов NetBIOS и взаимодействие хостов в сети TCP/IP по данному протоколу. Постарался изложить принципы взаимодействия между Linux и Windows и показал на практике, как взаимодействуют указанные системы. А так же описал, каким образом подключиться к расшаренным ресурсам Windows из Linux и заставить ОС Linux монтировать сетевые каталоги Windows при загрузке. Всем спасибо за внимание. Жду комментариев и дополнений!</p>
+<p style="text-align: right;"><em>С Уважением, Mc.Sim!</em></p>
+<div class="tptn_counter" id="tptn_counter_2571"><script type="text/javascript" data-cfasync="false" src="https://www.k-max.name/?top_ten_id=2571&amp;view_counter=1&amp;_wpnonce=bd554184a3"></script></div>					 
+<!-- Список доп материалов START -->
+<hr/>	
+<div class="list_posts">
+						
+			<h5>Другие материалы в категории основы Linux</h5>
+				<ul>
+			
+								<li><a href="https://www.k-max.name/linux/tekstovyj-redaktor-vim-osnovy-raboty/">Текстовый редактор VIM, основы работы</a></li>
+								<li><a href="https://www.k-max.name/linux/ddrescue-hdd-vosstanovlenie-and-examples/">ddrescue или спасаем данные с HDD</a></li>
+								<li><a href="https://www.k-max.name/linux/rezervnoe-kopirovanie-fajlov-sajta-po-ssh/">Резервное копирование файлов сайта по ssh</a></li>
+								<li><a href="https://www.k-max.name/linux/debian-7/">Седьмой релиз Debian</a></li>
+								<li><a href="https://www.k-max.name/linux/ramdisk-ramfs-tmpfs-in-linux/">Использование ramdisk в Linux (ramdisk, ramfs, tmpfs) или препарирование рамдисков</a></li>
+								<li><a href="https://www.k-max.name/linux/snmp-protocol/">SNMP протокол (основы)</a></li>
+								<li><a href="https://www.k-max.name/linux/ustanovka-clamav-na-debian/">Установка антивирусного сканера ClamAV на Debian</a></li>
+								<li><a href="https://www.k-max.name/linux/backports-debian/">HOWTO использование backports в Debian</a></li>
+								<li><a href="https://www.k-max.name/linux/konspekt-ustanovki-debian/">Конспект установки Debian на сервер</a></li>
+								<li><a href="https://www.k-max.name/linux/ssh-server-na-debian-openssh/">SSH сервер на Debian</a></li>
+								</ul>
+			</div>
+<!-- Список доп материалов END-->
+<noindex>
+						<!-- Поделись от Яндекса --> 
+						<div class="jandex">
+						<script type="text/javascript" src="//yandex.st/share/share.js" charset="utf-8"></script>
+						<div class="yashare-auto-init" data-yashareL10n="ru"  data-yashareQuickServices="vkontakte,facebook,twitter,odnoklassniki,moimir,gplus" data-yashareTheme="counter" data-yashareImage="https://www.k-max.name/favicon.ico" ></div> 
+
+
+						</div>
+						<!-- /Поделись от Яндекса --> 
+					</noindex>
+<br /><br />
+
+<!-- Яндекс.Директ START -->
+<div>
+	<noindex>
+ <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- single.php with rsy -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3491741793869457"
+     data-ad-slot="1281443128"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>	</noindex>
+</div>
+<!-- Яндекс.Директ END -->
+
+
+					<span class="tags">Теги: <a href="https://www.k-max.name/tag/cifs/" rel="tag">CIFS</a>, <a href="https://www.k-max.name/tag/linux/" rel="tag">Linux</a>, <a href="https://www.k-max.name/tag/microsoft-windows/" rel="tag">Microsoft Windows</a>, <a href="https://www.k-max.name/tag/netbeui/" rel="tag">NetBEUI</a>, <a href="https://www.k-max.name/tag/smb/" rel="tag">SMB</a>, <a href="https://www.k-max.name/tag/wins/" rel="tag">WINS</a>, <a href="https://www.k-max.name/tag/komandy/" rel="tag">команды</a>, <a href="https://www.k-max.name/tag/nastrojka/" rel="tag">настройка</a>, <a href="https://www.k-max.name/tag/osnovy/" rel="tag">основы</a></span>
+				</div>
+				<div class="comments comments_single">
+					<a href="#respond">Оставить комментарий</a>
+									</div>
+
+			</div>
+			
+			
+
+   <div id="comments">
+   <h3>21 комментарий к &#8220;Как работает SAMBA?&#8221;</h3>
+	<!-- comments START -->
+	<ol class="commentlist">
+			<li class="comment " id="comment-6093">
+		<div class="userinfo">
+			<div class="userpic"><img alt='' src='https://secure.gravatar.com/avatar/7b6d76cfac22f5d3eeba50e36fd000f4?s=38&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/7b6d76cfac22f5d3eeba50e36fd000f4?s=76&#038;d=mm&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' loading='lazy'/></div>			<div class="usertext">
+				<div class="username">
+											йука									</div>
+				<div class="date">27 августа, 2012 at 06:52</div> 
+			</div>
+			<div class="count">
+				1			</div>
+			<div class="fixed"></div>
+		</div>
+		<div class="comment_text">
+			
+			<div id="commentbody-6093"><p>***Censored***!</p>
+<p>Wondows пишется через i</p>
+</div>
+		</div>
+		<div class="commentmeta">
+		   <div class="reply">
+			   <a rel='nofollow' class='comment-reply-link' href='https://www.k-max.name/linux/kak-rabotaet-samba/?replytocom=6093#respond' data-commentid="6093" data-postid="2571" data-belowelement="comment-6093" data-respondelement="respond" data-replyto="Комментарий к записи йука" aria-label='Комментарий к записи йука'>Reply</a>			</div>
+		   <div class="edit">
+			   		   </div>
+		   <div class="fixed"></div>
+		</div>
+		<div class="fixed"></div>
+<ul class="children">
+	<li class="comment  admincomment" id="comment-6103">
+		<div class="userinfo">
+			<div class="userpic"><img alt='' src='https://secure.gravatar.com/avatar/7e1afb92fa815ed2eb0b3d439022693e?s=38&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/7e1afb92fa815ed2eb0b3d439022693e?s=76&#038;d=mm&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' loading='lazy'/></div>			<div class="usertext">
+				<div class="username">
+											<noindex><a href='https://www.k-max.name/' rel='external nofollow ugc' class='url'>Mc.Sim</a></noindex>									</div>
+				<div class="date">6 сентября, 2012 at 19:53</div> 
+			</div>
+			<div class="count">
+				2			</div>
+			<div class="fixed"></div>
+		</div>
+		<div class="comment_text">
+			
+			<div id="commentbody-6103"><p>Да, и правда&#8230; )))</p>
+</div>
+		</div>
+		<div class="commentmeta">
+		   <div class="reply">
+			   <a rel='nofollow' class='comment-reply-link' href='https://www.k-max.name/linux/kak-rabotaet-samba/?replytocom=6103#respond' data-commentid="6103" data-postid="2571" data-belowelement="comment-6103" data-respondelement="respond" data-replyto="Комментарий к записи Mc.Sim" aria-label='Комментарий к записи Mc.Sim'>Reply</a>			</div>
+		   <div class="edit">
+			   		   </div>
+		   <div class="fixed"></div>
+		</div>
+		<div class="fixed"></div>
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+	<li class="comment " id="comment-6418">
+		<div class="userinfo">
+			<div class="userpic"><img alt='' src='https://secure.gravatar.com/avatar/f3f1136d26543a3cfda909337b844b93?s=38&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/f3f1136d26543a3cfda909337b844b93?s=76&#038;d=mm&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' loading='lazy'/></div>			<div class="usertext">
+				<div class="username">
+											AlexGreen									</div>
+				<div class="date">31 октября, 2012 at 11:32</div> 
+			</div>
+			<div class="count">
+				3			</div>
+			<div class="fixed"></div>
+		</div>
+		<div class="comment_text">
+			
+			<div id="commentbody-6418"><p>Спасибо за статью! Отличное изложение материала!</p>
+</div>
+		</div>
+		<div class="commentmeta">
+		   <div class="reply">
+			   <a rel='nofollow' class='comment-reply-link' href='https://www.k-max.name/linux/kak-rabotaet-samba/?replytocom=6418#respond' data-commentid="6418" data-postid="2571" data-belowelement="comment-6418" data-respondelement="respond" data-replyto="Комментарий к записи AlexGreen" aria-label='Комментарий к записи AlexGreen'>Reply</a>			</div>
+		   <div class="edit">
+			   		   </div>
+		   <div class="fixed"></div>
+		</div>
+		<div class="fixed"></div>
+</li><!-- #comment-## -->
+	<li class="comment " id="comment-6436">
+		<div class="userinfo">
+			<div class="userpic"><img alt='' src='https://secure.gravatar.com/avatar/564ef4e33327a965db8e44e3737ad991?s=38&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/564ef4e33327a965db8e44e3737ad991?s=76&#038;d=mm&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' loading='lazy'/></div>			<div class="usertext">
+				<div class="username">
+											Arismendi									</div>
+				<div class="date">1 ноября, 2012 at 16:57</div> 
+			</div>
+			<div class="count">
+				4			</div>
+			<div class="fixed"></div>
+		</div>
+		<div class="comment_text">
+			
+			<div id="commentbody-6436"><p>&#171;Вы, наверно, заметили, что в утилите smbclient путь к шаре указывается с обратным слешем, хотя в Windows принято задавать путь с прямым слешем.&#187; &#8212; наоборот: в smbclient &#8212; прямой, в Windows &#8212; обратный.<br />
+Спасибо за информативную статью.</p>
+</div>
+		</div>
+		<div class="commentmeta">
+		   <div class="reply">
+			   <a rel='nofollow' class='comment-reply-link' href='https://www.k-max.name/linux/kak-rabotaet-samba/?replytocom=6436#respond' data-commentid="6436" data-postid="2571" data-belowelement="comment-6436" data-respondelement="respond" data-replyto="Комментарий к записи Arismendi" aria-label='Комментарий к записи Arismendi'>Reply</a>			</div>
+		   <div class="edit">
+			   		   </div>
+		   <div class="fixed"></div>
+		</div>
+		<div class="fixed"></div>
+<ul class="children">
+	<li class="comment  admincomment" id="comment-6514">
+		<div class="userinfo">
+			<div class="userpic"><img alt='' src='https://secure.gravatar.com/avatar/7e1afb92fa815ed2eb0b3d439022693e?s=38&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/7e1afb92fa815ed2eb0b3d439022693e?s=76&#038;d=mm&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' loading='lazy'/></div>			<div class="usertext">
+				<div class="username">
+											<noindex><a href='https://www.k-max.name/' rel='external nofollow ugc' class='url'>Mc.Sim</a></noindex>									</div>
+				<div class="date">14 ноября, 2012 at 23:07</div> 
+			</div>
+			<div class="count">
+				5			</div>
+			<div class="fixed"></div>
+		</div>
+		<div class="comment_text">
+			
+			<div id="commentbody-6514"><p>Пожалуйста.<br />
+Вам спасибо за замечание.</p>
+</div>
+		</div>
+		<div class="commentmeta">
+		   <div class="reply">
+			   <a rel='nofollow' class='comment-reply-link' href='https://www.k-max.name/linux/kak-rabotaet-samba/?replytocom=6514#respond' data-commentid="6514" data-postid="2571" data-belowelement="comment-6514" data-respondelement="respond" data-replyto="Комментарий к записи Mc.Sim" aria-label='Комментарий к записи Mc.Sim'>Reply</a>			</div>
+		   <div class="edit">
+			   		   </div>
+		   <div class="fixed"></div>
+		</div>
+		<div class="fixed"></div>
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+	<li class="comment " id="comment-6717">
+		<div class="userinfo">
+			<div class="userpic"><img alt='' src='https://secure.gravatar.com/avatar/6bb0b529bc943ddb5d10d9907c57e8b8?s=38&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/6bb0b529bc943ddb5d10d9907c57e8b8?s=76&#038;d=mm&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' loading='lazy'/></div>			<div class="usertext">
+				<div class="username">
+											Krems									</div>
+				<div class="date">28 декабря, 2012 at 20:30</div> 
+			</div>
+			<div class="count">
+				6			</div>
+			<div class="fixed"></div>
+		</div>
+		<div class="comment_text">
+			
+			<div id="commentbody-6717"><p>Доброго времени суток!<br />
+Читаю блог о Линукс с начала и вот добрался до самбы наконец, спасибо за статьи &#8212; очень понятно описаны некоторые нетривиальные вещи:)<br />
+Подскажите, пожалуйста, решение.<br />
+У нас в студгородке есть локальная сеть с кучей самба-серверов. Года 3 назад испытал много боли, пытаясь подключиться к ним из под линукс. Сервера запрашивали логин/пароль. Пустыми оставить нельзя, а если использовать что-то вроде nobody, то через n секунд сервер банит и уже не отвечает даже на запросы на подключение. Сейчас я пытаюсь бродить по локалке с планшета под iOS и возникает та же проблема.<br />
+Интересно то, что, например, через dolphin и url:&#187;smb://host.domen/share&#187; запроса авторизации не происходит, аналогично при использовании на планшете плеера со встроеным самба-клиентом.<br />
+Подскажите, какие логин/пасс использовать или что делать и как с этим жить? <img src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/smile.gif"  alt=":)" title=":)"/><br />
+Заранее спасибо.</p>
+</div>
+		</div>
+		<div class="commentmeta">
+		   <div class="reply">
+			   <a rel='nofollow' class='comment-reply-link' href='https://www.k-max.name/linux/kak-rabotaet-samba/?replytocom=6717#respond' data-commentid="6717" data-postid="2571" data-belowelement="comment-6717" data-respondelement="respond" data-replyto="Комментарий к записи Krems" aria-label='Комментарий к записи Krems'>Reply</a>			</div>
+		   <div class="edit">
+			   		   </div>
+		   <div class="fixed"></div>
+		</div>
+		<div class="fixed"></div>
+<ul class="children">
+	<li class="comment  admincomment" id="comment-6725">
+		<div class="userinfo">
+			<div class="userpic"><img alt='' src='https://secure.gravatar.com/avatar/7e1afb92fa815ed2eb0b3d439022693e?s=38&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/7e1afb92fa815ed2eb0b3d439022693e?s=76&#038;d=mm&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' loading='lazy'/></div>			<div class="usertext">
+				<div class="username">
+											<noindex><a href='https://www.k-max.name/' rel='external nofollow ugc' class='url'>Mc.Sim</a></noindex>									</div>
+				<div class="date">30 декабря, 2012 at 23:56</div> 
+			</div>
+			<div class="count">
+				7			</div>
+			<div class="fixed"></div>
+		</div>
+		<div class="comment_text">
+			
+			<div id="commentbody-6725"><p>С MacOS не приходилось работать, но могу предположить, что там тоже есть некий smbclient, который имеет свой файл настроек. В данном случае, необходимо выяснить:<br />
+1. какой файл настройки использует smbclient<br />
+2. какого пользователя он по умолчанию подсовывает при подключении анонимно.<br />
+Кроме того, не видя конфиг сервера трудно что-либо говорить&#8230;</p>
+</div>
+		</div>
+		<div class="commentmeta">
+		   <div class="reply">
+			   <a rel='nofollow' class='comment-reply-link' href='https://www.k-max.name/linux/kak-rabotaet-samba/?replytocom=6725#respond' data-commentid="6725" data-postid="2571" data-belowelement="comment-6725" data-respondelement="respond" data-replyto="Комментарий к записи Mc.Sim" aria-label='Комментарий к записи Mc.Sim'>Reply</a>			</div>
+		   <div class="edit">
+			   		   </div>
+		   <div class="fixed"></div>
+		</div>
+		<div class="fixed"></div>
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+	<li class="comment " id="comment-8565">
+		<div class="userinfo">
+			<div class="userpic"><img alt='' src='https://secure.gravatar.com/avatar/cea2120f1ce989f9ce5989b88c332d3a?s=38&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/cea2120f1ce989f9ce5989b88c332d3a?s=76&#038;d=mm&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' loading='lazy'/></div>			<div class="usertext">
+				<div class="username">
+											Николай									</div>
+				<div class="date">23 июля, 2013 at 12:44</div> 
+			</div>
+			<div class="count">
+				8			</div>
+			<div class="fixed"></div>
+		</div>
+		<div class="comment_text">
+			
+			<div id="commentbody-8565"><p>День добрый!<br />
+Большое спасибо автору!<br />
+Всё изложено очень понятно, с примерами по ходу изложения.<br />
+Наконец нашёл в сети толковое объяснение как взаимодействуют Linux и Windows.<br />
+Все предыдущие ссылки на какие-то ресурсы по настройке Samba удалю, чтобы не захламлять комп и мозг.</p>
+</div>
+		</div>
+		<div class="commentmeta">
+		   <div class="reply">
+			   <a rel='nofollow' class='comment-reply-link' href='https://www.k-max.name/linux/kak-rabotaet-samba/?replytocom=8565#respond' data-commentid="8565" data-postid="2571" data-belowelement="comment-8565" data-respondelement="respond" data-replyto="Комментарий к записи Николай" aria-label='Комментарий к записи Николай'>Reply</a>			</div>
+		   <div class="edit">
+			   		   </div>
+		   <div class="fixed"></div>
+		</div>
+		<div class="fixed"></div>
+</li><!-- #comment-## -->
+	<li class="comment " id="comment-8566">
+		<div class="userinfo">
+			<div class="userpic"><img alt='' src='https://secure.gravatar.com/avatar/cea2120f1ce989f9ce5989b88c332d3a?s=38&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/cea2120f1ce989f9ce5989b88c332d3a?s=76&#038;d=mm&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' loading='lazy'/></div>			<div class="usertext">
+				<div class="username">
+											Николай									</div>
+				<div class="date">23 июля, 2013 at 12:50</div> 
+			</div>
+			<div class="count">
+				9			</div>
+			<div class="fixed"></div>
+		</div>
+		<div class="comment_text">
+			
+			<div id="commentbody-8566"><p>Появился один вопрос.<br />
+Не удаётся почему-то получить ни один файл из расшаренной папки с Windows машины командой get.<br />
+Получаю сообщение: Error opening local file img844.doc<br />
+Если подруливать к шаре Windows с помощью smbclient.<br />
+Подключаюсь нормально, список каталогов и файлов вижу, но получить файлы не получается.</p>
+</div>
+		</div>
+		<div class="commentmeta">
+		   <div class="reply">
+			   <a rel='nofollow' class='comment-reply-link' href='https://www.k-max.name/linux/kak-rabotaet-samba/?replytocom=8566#respond' data-commentid="8566" data-postid="2571" data-belowelement="comment-8566" data-respondelement="respond" data-replyto="Комментарий к записи Николай" aria-label='Комментарий к записи Николай'>Reply</a>			</div>
+		   <div class="edit">
+			   		   </div>
+		   <div class="fixed"></div>
+		</div>
+		<div class="fixed"></div>
+<ul class="children">
+	<li class="comment  admincomment" id="comment-8586">
+		<div class="userinfo">
+			<div class="userpic"><img alt='' src='https://secure.gravatar.com/avatar/7e1afb92fa815ed2eb0b3d439022693e?s=38&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/7e1afb92fa815ed2eb0b3d439022693e?s=76&#038;d=mm&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' loading='lazy'/></div>			<div class="usertext">
+				<div class="username">
+											<noindex><a href='https://www.k-max.name/' rel='external nofollow ugc' class='url'>Mc.Sim</a></noindex>									</div>
+				<div class="date">24 июля, 2013 at 10:23</div> 
+			</div>
+			<div class="count">
+				10			</div>
+			<div class="fixed"></div>
+		</div>
+		<div class="comment_text">
+			
+			<div id="commentbody-8586"><p>Тут нужно знать с какими ключами запускается smbclient, какие пользователи имеются на Windows, в домене/рабочей группе Windows или нет, какие права на папку/каталог в Windows. В общем, чтобы что-то ясно ответить, нужно больше информации.</p>
+</div>
+		</div>
+		<div class="commentmeta">
+		   <div class="reply">
+			   <a rel='nofollow' class='comment-reply-link' href='https://www.k-max.name/linux/kak-rabotaet-samba/?replytocom=8586#respond' data-commentid="8586" data-postid="2571" data-belowelement="comment-8586" data-respondelement="respond" data-replyto="Комментарий к записи Mc.Sim" aria-label='Комментарий к записи Mc.Sim'>Reply</a>			</div>
+		   <div class="edit">
+			   		   </div>
+		   <div class="fixed"></div>
+		</div>
+		<div class="fixed"></div>
+</li><!-- #comment-## -->
+	<li class="comment  admincomment" id="comment-8587">
+		<div class="userinfo">
+			<div class="userpic"><img alt='' src='https://secure.gravatar.com/avatar/7e1afb92fa815ed2eb0b3d439022693e?s=38&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/7e1afb92fa815ed2eb0b3d439022693e?s=76&#038;d=mm&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' loading='lazy'/></div>			<div class="usertext">
+				<div class="username">
+											<noindex><a href='https://www.k-max.name/' rel='external nofollow ugc' class='url'>Mc.Sim</a></noindex>									</div>
+				<div class="date">24 июля, 2013 at 10:24</div> 
+			</div>
+			<div class="count">
+				11			</div>
+			<div class="fixed"></div>
+		</div>
+		<div class="comment_text">
+			
+			<div id="commentbody-8587"><p>Дополнительно, нужно знать, что прописано в smb.conf</p>
+</div>
+		</div>
+		<div class="commentmeta">
+		   <div class="reply">
+			   <a rel='nofollow' class='comment-reply-link' href='https://www.k-max.name/linux/kak-rabotaet-samba/?replytocom=8587#respond' data-commentid="8587" data-postid="2571" data-belowelement="comment-8587" data-respondelement="respond" data-replyto="Комментарий к записи Mc.Sim" aria-label='Комментарий к записи Mc.Sim'>Reply</a>			</div>
+		   <div class="edit">
+			   		   </div>
+		   <div class="fixed"></div>
+		</div>
+		<div class="fixed"></div>
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+	<li class="comment " id="comment-8567">
+		<div class="userinfo">
+			<div class="userpic"><img alt='' src='https://secure.gravatar.com/avatar/cea2120f1ce989f9ce5989b88c332d3a?s=38&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/cea2120f1ce989f9ce5989b88c332d3a?s=76&#038;d=mm&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' loading='lazy'/></div>			<div class="usertext">
+				<div class="username">
+											Николай									</div>
+				<div class="date">23 июля, 2013 at 13:16</div> 
+			</div>
+			<div class="count">
+				12			</div>
+			<div class="fixed"></div>
+		</div>
+		<div class="comment_text">
+			
+			<div id="commentbody-8567"><p>И остался один вопрос.<br />
+Собственно, из-за него я и стал разбираться с настройками Samba.<br />
+После 3-х месяцев знакомства с Ubuntu, вдруг пропал доступ к домену Windows в файловом менеджере.<br />
+Причём, если указать в адресной строке путь: smb://имя хоста windows/, ресурс открывается.<br />
+Т.е. я не могу в файловом менеджере Nautilus открыть ссылку на домен Windows.<br />
+Вот эта вот проблема у меня осталась.<br />
+Не смотря на то, что в соответствии с вашей статьёй, сетевой ресурс сети Windows подмонтировал (правда вот пришлось доставить пакет smb-fs, только после этого корректно заработала команда mount, а до установки не понимала формат файловой системы smbfs).<br />
+Комп с Ubuntu в домен не включён (хотя в AD прописан) и находится в WORKGROUP.<br />
+До недавнего времени все сетевые ресурсы (и рабочая группа и домен Windows) в файловом менеджере были доступны.<br />
+На тек момент, благодаря вашей статье, я смог подмонтировать сетевой ресурс Windows и он хоть теперь стал доступен файловом менеджере.<br />
+Но хотелось бы до конца разобраться с проблемой доступа к домену в Nautilus.</p>
+</div>
+		</div>
+		<div class="commentmeta">
+		   <div class="reply">
+			   <a rel='nofollow' class='comment-reply-link' href='https://www.k-max.name/linux/kak-rabotaet-samba/?replytocom=8567#respond' data-commentid="8567" data-postid="2571" data-belowelement="comment-8567" data-respondelement="respond" data-replyto="Комментарий к записи Николай" aria-label='Комментарий к записи Николай'>Reply</a>			</div>
+		   <div class="edit">
+			   		   </div>
+		   <div class="fixed"></div>
+		</div>
+		<div class="fixed"></div>
+<ul class="children">
+	<li class="comment  admincomment" id="comment-8588">
+		<div class="userinfo">
+			<div class="userpic"><img alt='' src='https://secure.gravatar.com/avatar/7e1afb92fa815ed2eb0b3d439022693e?s=38&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/7e1afb92fa815ed2eb0b3d439022693e?s=76&#038;d=mm&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' loading='lazy'/></div>			<div class="usertext">
+				<div class="username">
+											<noindex><a href='https://www.k-max.name/' rel='external nofollow ugc' class='url'>Mc.Sim</a></noindex>									</div>
+				<div class="date">24 июля, 2013 at 10:40</div> 
+			</div>
+			<div class="count">
+				13			</div>
+			<div class="fixed"></div>
+		</div>
+		<div class="comment_text">
+			
+			<div id="commentbody-8588"><p>C GUI-инструментами на linux работать не приходилось, к сожалению. Нужно читать документацию&#8230;<br />
+Вот <noindex><a rel="nofollow" href="http://unixforum.org/index.php?showtopic=133989" title="samba" target="_blank" rel="nofollow">тут</a></noindex> уже был аналогичный вопрос.</p>
+</div>
+		</div>
+		<div class="commentmeta">
+		   <div class="reply">
+			   <a rel='nofollow' class='comment-reply-link' href='https://www.k-max.name/linux/kak-rabotaet-samba/?replytocom=8588#respond' data-commentid="8588" data-postid="2571" data-belowelement="comment-8588" data-respondelement="respond" data-replyto="Комментарий к записи Mc.Sim" aria-label='Комментарий к записи Mc.Sim'>Reply</a>			</div>
+		   <div class="edit">
+			   		   </div>
+		   <div class="fixed"></div>
+		</div>
+		<div class="fixed"></div>
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+	<li class="comment " id="comment-8568">
+		<div class="userinfo">
+			<div class="userpic"><img alt='' src='https://secure.gravatar.com/avatar/cea2120f1ce989f9ce5989b88c332d3a?s=38&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/cea2120f1ce989f9ce5989b88c332d3a?s=76&#038;d=mm&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' loading='lazy'/></div>			<div class="usertext">
+				<div class="username">
+											Николай									</div>
+				<div class="date">23 июля, 2013 at 13:30</div> 
+			</div>
+			<div class="count">
+				14			</div>
+			<div class="fixed"></div>
+		</div>
+		<div class="comment_text">
+			
+			<div id="commentbody-8568"><p>Уточнение: при попытке открыть в Nautilus &#8212; Обзор сети/Сеть Windows/Домен появляется сообщение:<br />
+Не удалось присоединить местоположение. Не удалось получить список доступных на сервере ресурсов.</p>
+</div>
+		</div>
+		<div class="commentmeta">
+		   <div class="reply">
+			   <a rel='nofollow' class='comment-reply-link' href='https://www.k-max.name/linux/kak-rabotaet-samba/?replytocom=8568#respond' data-commentid="8568" data-postid="2571" data-belowelement="comment-8568" data-respondelement="respond" data-replyto="Комментарий к записи Николай" aria-label='Комментарий к записи Николай'>Reply</a>			</div>
+		   <div class="edit">
+			   		   </div>
+		   <div class="fixed"></div>
+		</div>
+		<div class="fixed"></div>
+</li><!-- #comment-## -->
+	<li class="comment " id="comment-125084">
+		<div class="userinfo">
+			<div class="userpic"><img alt='' src='https://secure.gravatar.com/avatar/e08fd57516349416d04172eedd56806f?s=38&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/e08fd57516349416d04172eedd56806f?s=76&#038;d=mm&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' loading='lazy'/></div>			<div class="usertext">
+				<div class="username">
+											ssn									</div>
+				<div class="date">13 февраля, 2016 at 20:59</div> 
+			</div>
+			<div class="count">
+				15			</div>
+			<div class="fixed"></div>
+		</div>
+		<div class="comment_text">
+			
+			<div id="commentbody-125084"><p>ну не надо такие ужасы про smb рассказывать <img src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/smile.gif"  alt=":)" title=":)"/><br />
+Таки его рожала великая ИБМ, кады ТСП/ИП ещё не победил&#8230;<br />
+Сорри за некропост <img src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/laugh.gif"  alt=":-D" title=":-D"/> </p>
+</div>
+		</div>
+		<div class="commentmeta">
+		   <div class="reply">
+			   <a rel='nofollow' class='comment-reply-link' href='https://www.k-max.name/linux/kak-rabotaet-samba/?replytocom=125084#respond' data-commentid="125084" data-postid="2571" data-belowelement="comment-125084" data-respondelement="respond" data-replyto="Комментарий к записи ssn" aria-label='Комментарий к записи ssn'>Reply</a>			</div>
+		   <div class="edit">
+			   		   </div>
+		   <div class="fixed"></div>
+		</div>
+		<div class="fixed"></div>
+</li><!-- #comment-## -->
+	<li class="comment " id="comment-145624">
+		<div class="userinfo">
+			<div class="userpic"><img alt='' src='https://secure.gravatar.com/avatar/6694106666f931c09b71d9371422aae0?s=38&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/6694106666f931c09b71d9371422aae0?s=76&#038;d=mm&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' loading='lazy'/></div>			<div class="usertext">
+				<div class="username">
+											VAK									</div>
+				<div class="date">21 января, 2017 at 18:01</div> 
+			</div>
+			<div class="count">
+				16			</div>
+			<div class="fixed"></div>
+		</div>
+		<div class="comment_text">
+			
+			<div id="commentbody-145624"><p>И на работе, и дома получил одинаковый отрицательный результат при монтировании:<br />
+$ sudo mount -t cifs //Homecomp/Papa /mnt -o user=Папа,password=,uid=vak,gid=vak,fmask=600,dmask=700<br />
+mount: wrong fs type, bad option, bad superblock on //Homecomp/Papa,<br />
+       missing codepage or helper program, or other error<br />
+       (for several filesystems (e.g. nfs, cifs) you might<br />
+       need a /sbin/mount. helper program)<br />
+       В некоторых случаях полезная информация может быть<br />
+       найдена в syslog &#8212; попробуйте dmesg | tail или что-то<br />
+       в этом роде<br />
+На работе клиент запускается из-под Debian, дома &#8212; Ubuntu.<br />
+Это можно победить?<br />
+Хотя основная моя цель &#8212; печатать из-под linux на сетевом компьютере с Windows.</p>
+</div>
+		</div>
+		<div class="commentmeta">
+		   <div class="reply">
+			   <a rel='nofollow' class='comment-reply-link' href='https://www.k-max.name/linux/kak-rabotaet-samba/?replytocom=145624#respond' data-commentid="145624" data-postid="2571" data-belowelement="comment-145624" data-respondelement="respond" data-replyto="Комментарий к записи VAK" aria-label='Комментарий к записи VAK'>Reply</a>			</div>
+		   <div class="edit">
+			   		   </div>
+		   <div class="fixed"></div>
+		</div>
+		<div class="fixed"></div>
+</li><!-- #comment-## -->
+	<li class="comment " id="comment-145637">
+		<div class="userinfo">
+			<div class="userpic"><img alt='' src='https://secure.gravatar.com/avatar/6694106666f931c09b71d9371422aae0?s=38&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/6694106666f931c09b71d9371422aae0?s=76&#038;d=mm&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' loading='lazy'/></div>			<div class="usertext">
+				<div class="username">
+											VAK									</div>
+				<div class="date">22 января, 2017 at 13:56</div> 
+			</div>
+			<div class="count">
+				17			</div>
+			<div class="fixed"></div>
+		</div>
+		<div class="comment_text">
+			
+			<div id="commentbody-145637"><p>Поставил cifs-utils и монтировка пошла с простой командой<br />
+mount -t cifs //Homecomp/Papa /home/vak/mountWin -o user=Папа,password=</p>
+<p>Мне этого достаточно. Остается открытым вопрос, как выводить на печать на компьютере с Windows.</p>
+</div>
+		</div>
+		<div class="commentmeta">
+		   <div class="reply">
+			   <a rel='nofollow' class='comment-reply-link' href='https://www.k-max.name/linux/kak-rabotaet-samba/?replytocom=145637#respond' data-commentid="145637" data-postid="2571" data-belowelement="comment-145637" data-respondelement="respond" data-replyto="Комментарий к записи VAK" aria-label='Комментарий к записи VAK'>Reply</a>			</div>
+		   <div class="edit">
+			   		   </div>
+		   <div class="fixed"></div>
+		</div>
+		<div class="fixed"></div>
+<ul class="children">
+	<li class="comment  admincomment" id="comment-161654">
+		<div class="userinfo">
+			<div class="userpic"><img alt='' src='https://secure.gravatar.com/avatar/7e1afb92fa815ed2eb0b3d439022693e?s=38&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/7e1afb92fa815ed2eb0b3d439022693e?s=76&#038;d=mm&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' loading='lazy'/></div>			<div class="usertext">
+				<div class="username">
+											<noindex><a href='https://www.k-max.name/' rel='external nofollow ugc' class='url'>Mc.Sim</a></noindex>									</div>
+				<div class="date">25 июля, 2018 at 10:59</div> 
+			</div>
+			<div class="count">
+				18			</div>
+			<div class="fixed"></div>
+		</div>
+		<div class="comment_text">
+			
+			<div id="commentbody-161654"><p>Рад, что все получилось.<br />
+Про печать я писал в статье<br />
+<a href="https://www.k-max.name/linux/server-pechati-na-linux-common-unix-printing-system/" rel="nofollow ugc">https://www.k-max.name/linux/server-pechati-na-linux-common-unix-printing-system/</a></p>
+</div>
+		</div>
+		<div class="commentmeta">
+		   <div class="reply">
+			   <a rel='nofollow' class='comment-reply-link' href='https://www.k-max.name/linux/kak-rabotaet-samba/?replytocom=161654#respond' data-commentid="161654" data-postid="2571" data-belowelement="comment-161654" data-respondelement="respond" data-replyto="Комментарий к записи Mc.Sim" aria-label='Комментарий к записи Mc.Sim'>Reply</a>			</div>
+		   <div class="edit">
+			   		   </div>
+		   <div class="fixed"></div>
+		</div>
+		<div class="fixed"></div>
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+	<li class="comment " id="comment-171500">
+		<div class="userinfo">
+			<div class="userpic"><img alt='' src='https://secure.gravatar.com/avatar/01ef3227cc074ede71be7778fd144b7e?s=38&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/01ef3227cc074ede71be7778fd144b7e?s=76&#038;d=mm&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' loading='lazy'/></div>			<div class="usertext">
+				<div class="username">
+											Testy									</div>
+				<div class="date">13 июля, 2019 at 17:24</div> 
+			</div>
+			<div class="count">
+				19			</div>
+			<div class="fixed"></div>
+		</div>
+		<div class="comment_text">
+			
+			<div id="commentbody-171500"><p>Отличная и очень понятная статья. Большое спасибо, таких статей очень не хватает, когда изучаешь новое.</p>
+</div>
+		</div>
+		<div class="commentmeta">
+		   <div class="reply">
+			   <a rel='nofollow' class='comment-reply-link' href='https://www.k-max.name/linux/kak-rabotaet-samba/?replytocom=171500#respond' data-commentid="171500" data-postid="2571" data-belowelement="comment-171500" data-respondelement="respond" data-replyto="Комментарий к записи Testy" aria-label='Комментарий к записи Testy'>Reply</a>			</div>
+		   <div class="edit">
+			   		   </div>
+		   <div class="fixed"></div>
+		</div>
+		<div class="fixed"></div>
+</li><!-- #comment-## -->
+	<li class="comment " id="comment-194793">
+		<div class="userinfo">
+			<div class="userpic"><img alt='' src='https://secure.gravatar.com/avatar/17b2f153c261626256762f0ace4dce70?s=38&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/17b2f153c261626256762f0ace4dce70?s=76&#038;d=mm&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' loading='lazy'/></div>			<div class="usertext">
+				<div class="username">
+											Kernel715									</div>
+				<div class="date">14 июня, 2021 at 17:54</div> 
+			</div>
+			<div class="count">
+				20			</div>
+			<div class="fixed"></div>
+		</div>
+		<div class="comment_text">
+			
+			<div id="commentbody-194793"><p>А если на linux-е нет прав рута и не установлена samba<br />
+можно ли как-то подключиться к шаре на windows?</p>
+</div>
+		</div>
+		<div class="commentmeta">
+		   <div class="reply">
+			   <a rel='nofollow' class='comment-reply-link' href='https://www.k-max.name/linux/kak-rabotaet-samba/?replytocom=194793#respond' data-commentid="194793" data-postid="2571" data-belowelement="comment-194793" data-respondelement="respond" data-replyto="Комментарий к записи Kernel715" aria-label='Комментарий к записи Kernel715'>Reply</a>			</div>
+		   <div class="edit">
+			   		   </div>
+		   <div class="fixed"></div>
+		</div>
+		<div class="fixed"></div>
+<ul class="children">
+	<li class="comment  admincomment" id="comment-194906">
+		<div class="userinfo">
+			<div class="userpic"><img alt='' src='https://secure.gravatar.com/avatar/7e1afb92fa815ed2eb0b3d439022693e?s=38&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/7e1afb92fa815ed2eb0b3d439022693e?s=76&#038;d=mm&#038;r=g 2x' class='avatar avatar-38 photo' height='38' width='38' loading='lazy'/></div>			<div class="usertext">
+				<div class="username">
+											<noindex><a href='https://www.k-max.name/' rel='external nofollow ugc' class='url'>Mc.Sim</a></noindex>									</div>
+				<div class="date">19 июня, 2021 at 21:02</div> 
+			</div>
+			<div class="count">
+				21			</div>
+			<div class="fixed"></div>
+		</div>
+		<div class="comment_text">
+			
+			<div id="commentbody-194906"><p>Есть еще всякие пакеты вроде такого: FuseSmb.</p>
+</div>
+		</div>
+		<div class="commentmeta">
+		   <div class="reply">
+			   <a rel='nofollow' class='comment-reply-link' href='https://www.k-max.name/linux/kak-rabotaet-samba/?replytocom=194906#respond' data-commentid="194906" data-postid="2571" data-belowelement="comment-194906" data-respondelement="respond" data-replyto="Комментарий к записи Mc.Sim" aria-label='Комментарий к записи Mc.Sim'>Reply</a>			</div>
+		   <div class="edit">
+			   		   </div>
+		   <div class="fixed"></div>
+		</div>
+		<div class="fixed"></div>
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+	</ol>
+	</div>
+	<!-- comments END -->
+   
+	<!-- comments navi START -->
+		<!-- comments navi END -->
+
+	<!-- trackback START -->
+		<!-- trackback END -->
+
+
+	<div id="respond">
+	<p class="h3">Написать комментарий</p>
+	<div id="cancel-comment-reply"> 
+		<a rel="nofollow" id="cancel-comment-reply-link" href="/linux/kak-rabotaet-samba/#respond" style="display:none;">Нажмите здесь, чтобы отменить ответ.</a>	</div>
+	<form action="https://www.k-max.name/wp-comments-post.php" method="post" id="commentform">
+   
+	<!-- comment info -->
+	<div id="comment_header">
+		<div id="comment_info">
+							
+				<div id="author_info">
+					<div class="row">
+						<input type="text" name="author" id="author" class="textfield" value="" size="24" tabindex="1" />
+						<label for="author" class="small">Имя (обязательно)</label>
+					</div>
+					<div class="row">
+						<input type="text" name="email" id="email" class="textfield" value="" size="24" tabindex="2" />
+						<label for="email" class="small">Почта (скрыто) (обязательно)</label>
+					</div>
+					<div class="row">
+						<input type="text" name="url" id="url" class="textfield" value="" size="24" tabindex="3" />
+						<label for="url" class="small">Сайт</label>
+					</div>
+					<div class="rowwarn">
+						<label for="url" class="small">Редактор комментариев Wordpress любит заменять спецсимволы в тексте. Пожалуйста, для размещения блоков текста (конфигов, логов, консольных команд) используйте сервисы pastebin. Например, pastebin.com. </label>
+					</div>
+				</div>
+					</div>
+	</div><div id="qips_smiles">
+<img style="cursor: pointer;" onclick="javascript: qips_code('=)');" src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/smile.gif" alt="=)" title="=)" /> <img style="cursor: pointer;" onclick="javascript: qips_code('8)');" src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/glass.gif" alt="8)" title="8)" /> <img style="cursor: pointer;" onclick="javascript: qips_code(':(');" src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/sad.gif" alt=":(" title=":(" /> <img style="cursor: pointer;" onclick="javascript: qips_code(';)');" src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/wink.gif" alt=";)" title=";)" /> <img style="cursor: pointer;" onclick="javascript: qips_code(':P');" src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/tongue.gif" alt=":P" title=":P" /> <img style="cursor: pointer;" onclick="javascript: qips_code(':-D');" src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/laugh.gif" alt=":-D" title=":-D" /> <img style="cursor: pointer;" onclick="javascript: qips_code('=-O');" src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/wonder.gif" alt="=-O" title="=-O" /> <img style="cursor: pointer;" onclick="javascript: qips_code(':-!');" src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/sick.gif" alt=":-!" title=":-!" /> <img style="cursor: pointer;" onclick="javascript: qips_code('*IN LOVE*');" src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/inlove.gif" alt="*IN LOVE*" title="*IN LOVE*" /> <img style="cursor: pointer;" onclick="javascript: qips_code('%)');" src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/eyes.gif" alt="%)" title="%)" /> <img style="cursor: pointer;" onclick="javascript: qips_code('*CRAZY*');" src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/crazy.gif" alt="*CRAZY*" title="*CRAZY*" /> <small><a style="text-decoration: none; border-bottom: 1px dashed; top: -5px; position: relative; margin-left: 3px;" href="javascript:void(0);" id="qips_button_smiles" title="Еще смайлы">Еще смайлы</a></small></div>
+<div id="qips_smiles_toggle_wrapper" style="display: none;">
+<img style="cursor: pointer;" onclick="javascript: qips_code('O=)');" src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/angel.gif" alt="O=)" title="O=)" /> <img style="cursor: pointer;" onclick="javascript: qips_code(':-[');" src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/blush.gif" alt=":-[" title=":-[" /> <img style="cursor: pointer;" onclick="javascript: qips_code(':-*');" src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/kiss.gif" alt=":-*" title=":-*" /> <img style="cursor: pointer;" onclick="javascript: qips_code(':-x');" src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/quiet.gif" alt=":-x" title=":-x" /> <img style="cursor: pointer;" onclick="javascript: qips_code('>:o');" src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/strong.gif" alt=">:o" title=">:o" /> <img style="cursor: pointer;" onclick="javascript: qips_code(':-|');" src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/think.gif" alt=":-|" title=":-|" /> <img style="cursor: pointer;" onclick="javascript: qips_code(':-/');" src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/pitchup.gif" alt=":-/" title=":-/" /> <img style="cursor: pointer;" onclick="javascript: qips_code('*JOKINGLY*');" src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/jokingly.gif" alt="*JOKINGLY*" title="*JOKINGLY*" /> <img style="cursor: pointer;" onclick="javascript: qips_code(']:->');" src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/devil.gif" alt="]:->" title="]:->" /> <img style="cursor: pointer;" onclick="javascript: qips_code('[:-}');" src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/music.gif" alt="[:-}" title="[:-}" /> <img style="cursor: pointer;" onclick="javascript: qips_code('*KISSED*');" src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/kissed.gif" alt="*KISSED*" title="*KISSED*" /> <img style="cursor: pointer;" onclick="javascript: qips_code('*TIRED*');" src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/tired.gif" alt="*TIRED*" title="*TIRED*" /> <img style="cursor: pointer;" onclick="javascript: qips_code('*STOP*');" src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/stop.gif" alt="*STOP*" title="*STOP*" /> <img style="cursor: pointer;" onclick="javascript: qips_code('*KISSING*');" src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/kissing.gif" alt="*KISSING*" title="*KISSING*" /> <img style="cursor: pointer;" onclick="javascript: qips_code('*ROSE*');" src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/rose.gif" alt="*ROSE*" title="*ROSE*" /> <img style="cursor: pointer;" onclick="javascript: qips_code('*THUMBS UP*');" src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/thumbsup.gif" alt="*THUMBS UP*" title="*THUMBS UP*" /> <img style="cursor: pointer;" onclick="javascript: qips_code('*DRINK*');" src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/drink.gif" alt="*DRINK*" title="*DRINK*" /> <img style="cursor: pointer;" onclick="javascript: qips_code('@=');" src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/bomb.gif" alt="@=" title="@=" /> <img style="cursor: pointer;" onclick="javascript: qips_code('*HELP*');" src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/sos.gif" alt="*HELP*" title="*HELP*" /> <img style="cursor: pointer;" onclick="javascript: qips_code('*MACHO*');" src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/macho.gif" alt="*MACHO*" title="*MACHO*" /> <img style="cursor: pointer;" onclick="javascript: qips_code('*OK*');" src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/ok.gif" alt="*OK*" title="*OK*" /> <img style="cursor: pointer;" onclick="javascript: qips_code('*WASSUP*');" src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/wassup.gif" alt="*WASSUP*" title="*WASSUP*" /> <img style="cursor: pointer;" onclick="javascript: qips_code('*SORRY*');" src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/sorry.gif" alt="*SORRY*" title="*SORRY*" /> <img style="cursor: pointer;" onclick="javascript: qips_code('*BRAVO*');" src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/bravo.gif" alt="*BRAVO*" title="*BRAVO*" /> <img style="cursor: pointer;" onclick="javascript: qips_code('*LOL*');" src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/rofl.gif" alt="*LOL*" title="*LOL*" /> <img style="cursor: pointer;" onclick="javascript: qips_code('*PARDON*');" src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/pardon.gif" alt="*PARDON*" title="*PARDON*" /> <img style="cursor: pointer;" onclick="javascript: qips_code('*NO*');" src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/no.gif" alt="*NO*" title="*NO*" /> <img style="cursor: pointer;" onclick="javascript: qips_code('*UNKNOWN*');" src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/unknown.gif" alt="*UNKNOWN*" title="*UNKNOWN*" /> <img style="cursor: pointer;" onclick="javascript: qips_code('*DANCE*');" src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/dance.gif" alt="*DANCE*" title="*DANCE*" /> <img style="cursor: pointer;" onclick="javascript: qips_code('*YAHOO*');" src="https://www.k-max.name/wp-content/plugins/qipsmiles/smiles/yahoo.gif" alt="*YAHOO*" title="*YAHOO*" /> </div>
+
+<!-- Begin QipSmiles Javascript -->
+<script type="text/javascript" src="https://www.k-max.name/wp-content/plugins/qipsmiles/qips-js.php"></script>
+<!-- End QipSmiles Javascript -->
+
+
+	<!-- comment input -->
+	<script type="text/javascript">var edInserted; if (!edInserted) {edToolbar(); edInserted = true;}</script>
+<textarea name="comment" id="comment" tabindex="4" rows="8" cols="50"></textarea>
+<script type="text/javascript">var edCanvas = document.getElementById('comment');</script>
+
+	<!-- comment submit and rss -->
+	<div id="submitbox">
+		<input name="submit" type="submit" id="submit" class="button" tabindex="5" value="Добавить комментарий" />
+		<input type="hidden" name="comment_post_ID" value="2571" />
+			<input type='hidden' name='comment_post_ID' value='2571' id='comment_post_ID' />
+<input type='hidden' name='comment_parent' id='comment_parent' value='0' />
+		<div class="fixed"></div>
+	</div>
+	<div class="mycomment">
+		<div class="floatright"><p><a href="https://www.k-max.name/linux/kak-rabotaet-samba/feed/">Комментарии через RSS: <br /><img  width="73" height="80" src="https://www.k-max.name/wp-content/themes/deep-mix/images/RSS-comments.png" alt="Подписаться на комментарии через RSS "></a></p> </div>
+		<div class="floatleft"><p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="8f1aa7c7c4" /></p>
+	<script language="javascript">
+	function dcaptcha_change(){
+		document.getElementById('dcaptcha_sess').value = 9759;
+
+	}
+	
+	</script>
+
+	<div id="dcaptcha">
+		
+		<input  type="checkbox" id="dcaptcha_captcha1" onclick="dcaptcha_change();" value="Это не спам.">
+		<label class="small" for="dcaptcha_captcha1">Я не спамер (обязательно)</label>
+		
+	</div>
+	<input type="hidden" name="dcaptcha_sess" id="dcaptcha_sess" value="336445">
+
+	<script>
+	var commentField = document.getElementById("url");
+    var submitp = commentField.parentNode;
+    var answerDiv = document.getElementById("dcaptcha");	    
+    submitp.appendChild(answerDiv, commentField);
+</script>
+	<p style="clear: both;" class="subscribe-to-comments">
+			<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" />
+			<label for="subscribe">Уведомить меня о появлении новых комментариев.</label>
+			</p><input type="hidden" id="ak_js" name="ak_js" value="144"/><textarea name="ak_hp_textarea" cols="45" rows="8" maxlength="100" style="display: none !important;"></textarea>		</div>
+	</div>
+	</form>
+	</div>
+
+						<div class="fixed"></div>
+			<div id="bottom">
+				<div class="postnav">
+					<span class="alignleft">&laquo; <a href="https://www.k-max.name/poznovatelno/poznavatelno-iz-debianconference-jabber-ru/" rel="prev">познавательно из debian@conference.jabber.ru</a></span>
+					<span class="alignright"><a href="https://www.k-max.name/windows/zapusk-administrativnyx-instrumentov-iz-cmd/" rel="next">Запуск административных инструментов из cmd</a> &raquo;</span>
+					<div class="fixed"></div>
+				</div>
+			</div>
+			
+		</div>
+	</div>
+
+<div id="sidebarwrap">
+	<div id="sidebar">
+
+
+			<!-- searchbox START -->
+		<div id="searchbox">
+		  
+	   <form action="https://www.k-max.name" method="get">
+			<div class="content">
+				<input type="text" class="textfield" name="s" onblur="this.value=(this.value=='') ? 'Поиск...' : this.value;" onfocus="this.value=(this.value=='Поиск...') ? '' : this.value;" value="Поиск..." />
+				<input id="searchsubmit" name="searchsubmit" type="image" src="https://www.k-max.name/wp-content/themes/deep-mix/images/search.gif" alt="поиск" tabindex="2" />
+			</div>
+		</form>
+			   </div>	
+   <!-- searchbox END -->
+   
+         <div class="sidebar-box">
+            <div class="content">
+                <!-- НАЧАЛО спрятать стандартную подписку
+                <div id="subscribe">
+               <a rel="external nofollow" id="feedrss" title="Подписаться на блог..." href="http://feeds.feedburner.com/k-max/feed">RSS</a>
+               </div> 
+               -->
+                  			   <div class="fixed"></div>
+		      </div>
+         </div>
+  <div id="text-11" class="sidebar-box widget_text"><h6>Подпишитесь</h6>			<div class="textwidget"><div id="subscribe">
+	<noindex>
+		<div  id="rss"><a rel="external nofollow noopener" title="Подписаться на блог..." href="https://feeds.feedburner.com/k-max/feed" target="_blank">
+			<img alt="RSS Linux" title="Подпишишь на RSS Блога любителя экспериментов" src="https://www.k-max.name/wp-content/uploads/2011/08/RSS.png"></a>
+<a target="_blank" rel="external nofollow noopener" href="https://www.k-max.name/comments/feed/">
+<img width="60" height="63" alt="Подписаться на комментарии через RSS " src="https://www.k-max.name/wp-content/themes/deep-mix/images/RSS-comments.png">
+</a>
+		<a title="Подписаться на блог..." target="_blank" rel="external nofollow noopener" href="https://feeds.feedburner.com/k-max/feed" id="burner">
+			<img width="88" height="26" src="https://feeds.feedburner.com/~fc/k-max/feed?bg=FF9900&amp;fg=444444&amp;anim=1">
+		</a>
+</div>
+		<div>
+			<form action="https://feedburner.google.com/fb/a/mailverify" method="post" target="popupwindow" onsubmit="window.open('https://feedburner.google.com/fb/a/mailverify?uri=k-max/feed', 'popupwindow', 'scrollbars=yes,width=550,height=520');return true">
+				<input class="subscribetomail" name="email" type="text" value="Введите Ваш e-mail" class="subscribe_textieldpost" onfocus="if (this.value == 'Введите Ваш e-mail') {this.value = '';}" onblur="if (this.value == '') {this.value = 'Введите Ваш e-mail';}" />
+				<input type="hidden" value="k-max/feed" name="uri"/>
+				<input type="hidden" value="<?php bloginfo('name'); ?>" name="title"/>
+				<input type="hidden" name="loc" value="ru_RU"/>
+				<input type="submit" value="Подписаться" />
+			</form>
+			<a rel="external nofollow" href="https://feeds.feedburner.com/k-max/feed" title="Подписаться на блог..." > Получайте новые посты первыми! </a>
+		</div>
+	</noindex>
+</div>
+&nbsp;</div>
+		</div><div id="custom_html-2" class="widget_text sidebar-box widget_custom_html"><h6>Обо мне</h6><div class="textwidget custom-html-widget">In: <a href=https://www.linkedin.com/in/kramarenko-maksim/>Maksim Kramarenko </a>
+<br>
+RHCE/RHCSA: <a href=https://rhtapps.redhat.com/certifications/badge/verify/6KMZXPDBHS5ADL4RF7EJHVJB34AEQU3CUPSQX2KSDXT6RW46LQ3XCZJWRJNV7ILTXVE4I6VB7OTCG4U5NQYTCNA62RUWOCM34WWBUYQ=>ID 200-027-068</a>
+<br>
+CV: <a href=https://www.k-max.name/cv/>Maksim Kramarenko </a>
+<br>
+Git: <a href=https://github.com/McSim85>Maksim Kramarenko </a>
+<br><br>
+<div style="text-align: center;width: 100%">
+	
+<a href=https://rhtapps.redhat.com/certifications/badge/verify/6KMZXPDBHS5ADL4RF7EJHVJB34AEQU3CUPSQX2KSDXT6RW46LQ3XCZJWRJNV7ILTXVE4I6VB7OTCG4U5NQYTCNA62RUWOCM34WWBUYQ=><img alt="RHCE/RHCSA ID 200-027-068" src=https://www.k-max.name/wp-content/uploads/2020/07/RHCE.gif width=120px ></a>
+
+<a href=https://www.youracclaim.com/badges/50af1e14-e95d-441e-82ba-95104056c533><img alt="Maksim Kramarenko VMware Certified Professional - Data Center Virtualization 2020" src=https://www.k-max.name/wp-content/uploads/2020/11/vmw-bdg-cert-pro-dta-ctr-virt-20.png width=150px></a>
+	
+<a href=https://www.youracclaim.com/badges/a8dda941-fae3-4767-8775-8e4d01a97b9d/linked_in_profile><img alt="Maksim Kramarenko Certified NNMi Administrator" src=https://www.k-max.name/wp-content/uploads/2020/07/NNMI_Administrator.gif width=120px></a>
+
+	
+	</div>
+
+<br><br>
+</div></div><div id="categories-3" class="sidebar-box widget_categories"><h6>Рубрики</h6>
+			<ul>
+					<li class="cat-item cat-item-135"><a href="https://www.k-max.name/category/bi-cycle/">Bi-Cycle</a> (1)
+</li>
+	<li class="cat-item cat-item-405"><a href="https://www.k-max.name/category/coding/">coding</a> (2)
+<ul class='children'>
+	<li class="cat-item cat-item-406"><a href="https://www.k-max.name/category/coding/python/">python</a> (2)
+</li>
+</ul>
+</li>
+	<li class="cat-item cat-item-360"><a href="https://www.k-max.name/category/howto/" title="Пошаговые руководства по настройке сетевых служб linux и Windows">HOWTO</a> (15)
+</li>
+	<li class="cat-item cat-item-246"><a href="https://www.k-max.name/category/life/">Life</a> (14)
+<ul class='children'>
+	<li class="cat-item cat-item-125"><a href="https://www.k-max.name/category/life/xumor/">Хумор</a> (3)
+</li>
+</ul>
+</li>
+	<li class="cat-item cat-item-44"><a href="https://www.k-max.name/category/linux/" title="Статьи, касающиеся операционной системы Linux">Linux</a> (70)
+<ul class='children'>
+	<li class="cat-item cat-item-66"><a href="https://www.k-max.name/category/linux/bash/" title="Статьи, описывающие теорию работы интерпретатора bash и различные практические примеры">bash</a> (6)
+</li>
+	<li class="cat-item cat-item-367"><a href="https://www.k-max.name/category/linux/clamav/">ClamAV</a> (1)
+</li>
+	<li class="cat-item cat-item-231"><a href="https://www.k-max.name/category/linux/cron/" title="использование планировщика Linux">cron</a> (2)
+</li>
+	<li class="cat-item cat-item-305"><a href="https://www.k-max.name/category/linux/cups/" title="Настройка сервера печати на CUPS СГЗЫ ">CUPS</a> (2)
+</li>
+	<li class="cat-item cat-item-344"><a href="https://www.k-max.name/category/linux/dhcp-linux/" title="Статьи, описывающие протокол DHCP">DHCP</a> (1)
+</li>
+	<li class="cat-item cat-item-345"><a href="https://www.k-max.name/category/linux/dns-linux/" title="Статьи, описывающие работу протокола DNS (Domain Name System)">DNS</a> (2)
+</li>
+	<li class="cat-item cat-item-415"><a href="https://www.k-max.name/category/linux/mysql-mariadb/">MySQL/MariaDB</a> (1)
+</li>
+	<li class="cat-item cat-item-361"><a href="https://www.k-max.name/category/linux/netfilter-iptables/" title="iptables в Linux, настройка, примеры, установка. Управление iptables в Debian, Ubuntu, CentOS, RedHat">netfilter/iptables</a> (2)
+</li>
+	<li class="cat-item cat-item-337"><a href="https://www.k-max.name/category/linux/nfs/" title="Теоретические и практические статьи о Network file system в Linux и Windows ">NFS</a> (2)
+</li>
+	<li class="cat-item cat-item-346"><a href="https://www.k-max.name/category/linux/ntp-linux/" title="Network Time Protocol и все что с ним связано">NTP</a> (1)
+</li>
+	<li class="cat-item cat-item-340"><a href="https://www.k-max.name/category/linux/postgresql/">PostgreSQL</a> (1)
+</li>
+	<li class="cat-item cat-item-294"><a href="https://www.k-max.name/category/linux/samba/" title="Статьи и работе SAMB и SMB протокола">SAMBA</a> (7)
+</li>
+	<li class="cat-item cat-item-366"><a href="https://www.k-max.name/category/linux/squid/" title="Статьи о настройке и установке SQUID. Описание аутентификации, авторизации ыйгшв.">SQUID</a> (6)
+</li>
+	<li class="cat-item cat-item-365"><a href="https://www.k-max.name/category/linux/ssh-linux/">SSH</a> (1)
+</li>
+	<li class="cat-item cat-item-373"><a href="https://www.k-max.name/category/linux/syslog-linux/" title="Статьи о настройке и установке сервиса syslog. Описание syslogd, rsyslog и других syslog-подобных демонов.">Syslog</a> (2)
+</li>
+	<li class="cat-item cat-item-364"><a href="https://www.k-max.name/category/linux/server/" title="Настройка серверов SAMBA, CUPS, DNS, DHCP, NFS, NTP, PostgreSQL и других на базе Linux и Debian">Настройка сервера Linux</a> (22)
+</li>
+	<li class="cat-item cat-item-343"><a href="https://www.k-max.name/category/linux/osnovy-linux/" title="Статьи, содержащие материалы по изучению Linux и основным принципам работы ОС">основы Linux</a> (42)
+</li>
+</ul>
+</li>
+	<li class="cat-item cat-item-372"><a href="https://www.k-max.name/category/netapp/">NetApp</a> (4)
+</li>
+	<li class="cat-item cat-item-374"><a href="https://www.k-max.name/category/vmware/">VMware</a> (5)
+</li>
+	<li class="cat-item cat-item-70"><a href="https://www.k-max.name/category/web/" title="Статьи о Веб-программировании">Web</a> (10)
+<ul class='children'>
+	<li class="cat-item cat-item-92"><a href="https://www.k-max.name/category/web/cms/" title="Описание CMS, систем управления содержимым">CMS</a> (7)
+	<ul class='children'>
+	<li class="cat-item cat-item-180"><a href="https://www.k-max.name/category/web/cms/joomla/">Joomla</a> (3)
+</li>
+	<li class="cat-item cat-item-91"><a href="https://www.k-max.name/category/web/cms/wordpress/" title="принципы и нюансы работы блога на wordpress">Wordpress</a> (3)
+</li>
+	</ul>
+</li>
+	<li class="cat-item cat-item-126"><a href="https://www.k-max.name/category/web/crm/">CRM</a> (1)
+</li>
+	<li class="cat-item cat-item-73"><a href="https://www.k-max.name/category/web/css/" title="Статьи, содержащие описание методов работы CSS ">CSS</a> (1)
+</li>
+	<li class="cat-item cat-item-248"><a href="https://www.k-max.name/category/web/facebook/">Facebook</a> (1)
+</li>
+	<li class="cat-item cat-item-75"><a href="https://www.k-max.name/category/web/html/">HTML</a> (1)
+</li>
+	<li class="cat-item cat-item-72"><a href="https://www.k-max.name/category/web/mysql/" title="Статьи о СУБД MySQL и все что с ним связано. Примеры">MySQL</a> (2)
+</li>
+	<li class="cat-item cat-item-71"><a href="https://www.k-max.name/category/web/php/" title="примеры кодов и описание работы PHP">PHP</a> (5)
+</li>
+	<li class="cat-item cat-item-250"><a href="https://www.k-max.name/category/web/seo/">SEO</a> (2)
+</li>
+</ul>
+</li>
+	<li class="cat-item cat-item-19"><a href="https://www.k-max.name/category/windows/" title="Статьи, касающиеся операционной системы Windows">Windows</a> (23)
+<ul class='children'>
+	<li class="cat-item cat-item-86"><a href="https://www.k-max.name/category/windows/1s/" title="Принципы работы, проблемы и решения по технологиям 1С Предприятия">1С</a> (3)
+</li>
+	<li class="cat-item cat-item-286"><a href="https://www.k-max.name/category/windows/active-directory/">Active Directory</a> (6)
+</li>
+	<li class="cat-item cat-item-285"><a href="https://www.k-max.name/category/windows/gpo/" title="Использование Group policy в Windows. Групповые политики на практике">Group Policy</a> (2)
+</li>
+	<li class="cat-item cat-item-359"><a href="https://www.k-max.name/category/windows/microsoft-sql/">Microsoft SQL</a> (2)
+</li>
+	<li class="cat-item cat-item-357"><a href="https://www.k-max.name/category/windows/soft-windows/">Soft</a> (8)
+</li>
+</ul>
+</li>
+	<li class="cat-item cat-item-212"><a href="https://www.k-max.name/category/ats/" title="Статьи о настройке АТС Panasonic">АТС</a> (2)
+<ul class='children'>
+	<li class="cat-item cat-item-213"><a href="https://www.k-max.name/category/ats/panasonic/" title="Программирование АТС Panasonic и настройка">Panasonic</a> (2)
+</li>
+	<li class="cat-item cat-item-214"><a href="https://www.k-max.name/category/ats/soft/" title="Программное обесечение для АТС FNC Panasonic KX-TDA">Soft</a> (1)
+</li>
+</ul>
+</li>
+	<li class="cat-item cat-item-95"><a href="https://www.k-max.name/category/zhelezo/">Железо</a> (6)
+<ul class='children'>
+	<li class="cat-item cat-item-130"><a href="https://www.k-max.name/category/zhelezo/raid/">RAID</a> (1)
+</li>
+	<li class="cat-item cat-item-97"><a href="https://www.k-max.name/category/zhelezo/ozu/">ОЗУ</a> (1)
+</li>
+	<li class="cat-item cat-item-309"><a href="https://www.k-max.name/category/zhelezo/printer/">Принтер</a> (2)
+</li>
+</ul>
+</li>
+	<li class="cat-item cat-item-272"><a href="https://www.k-max.name/category/poznovatelno/">Познавательно</a> (2)
+<ul class='children'>
+	<li class="cat-item cat-item-273"><a href="https://www.k-max.name/category/poznovatelno/o-linux/">О Linux</a> (2)
+</li>
+</ul>
+</li>
+	<li class="cat-item cat-item-276"><a href="https://www.k-max.name/category/seti/">Сети</a> (9)
+</li>
+			</ul>
+
+			</div><div id="text-16" class="sidebar-box widget_text">			<div class="textwidget"><div class="adsgoogle"><noindex><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- sidebar_big -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-3491741793869457"
+     data-ad-slot="4901898322"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</noindex></div></div>
+		</div><div id="tag_cloud-3" class="sidebar-box widget_tag_cloud"><h6>Облако тегов</h6><div class="tagcloud"><a href="https://www.k-max.name/tag/1s-predpriyatie/" class="tag-cloud-link tag-link-88 tag-link-position-1" style="font-size: 9.3125pt;" aria-label="1С Предприятие (3 элемента)">1С Предприятие</a>
+<a href="https://www.k-max.name/tag/active-directory/" class="tag-cloud-link tag-link-398 tag-link-position-2" style="font-size: 12.046875pt;" aria-label="Active Directory (6 элементов)">Active Directory</a>
+<a href="https://www.k-max.name/tag/bash/" class="tag-cloud-link tag-link-380 tag-link-position-3" style="font-size: 14.5625pt;" aria-label="bash (11 элементов)">bash</a>
+<a href="https://www.k-max.name/tag/cms/" class="tag-cloud-link tag-link-386 tag-link-position-4" style="font-size: 12.59375pt;" aria-label="CMS (7 элементов)">CMS</a>
+<a href="https://www.k-max.name/tag/cups/" class="tag-cloud-link tag-link-399 tag-link-position-5" style="font-size: 9.3125pt;" aria-label="CUPS (3 элемента)">CUPS</a>
+<a href="https://www.k-max.name/tag/daemon/" class="tag-cloud-link tag-link-150 tag-link-position-6" style="font-size: 8pt;" aria-label="daemon (2 элемента)">daemon</a>
+<a href="https://www.k-max.name/tag/debian/" class="tag-cloud-link tag-link-113 tag-link-position-7" style="font-size: 17.1875pt;" aria-label="Debian (20 элементов)">Debian</a>
+<a href="https://www.k-max.name/tag/dhcp/" class="tag-cloud-link tag-link-269 tag-link-position-8" style="font-size: 8pt;" aria-label="dhcp (2 элемента)">dhcp</a>
+<a href="https://www.k-max.name/tag/dpkg/" class="tag-cloud-link tag-link-110 tag-link-position-9" style="font-size: 9.3125pt;" aria-label="dpkg (3 элемента)">dpkg</a>
+<a href="https://www.k-max.name/tag/error/" class="tag-cloud-link tag-link-297 tag-link-position-10" style="font-size: 9.3125pt;" aria-label="error (3 элемента)">error</a>
+<a href="https://www.k-max.name/tag/grub/" class="tag-cloud-link tag-link-52 tag-link-position-11" style="font-size: 9.3125pt;" aria-label="GRUB (3 элемента)">GRUB</a>
+<a href="https://www.k-max.name/tag/howto-2/" class="tag-cloud-link tag-link-358 tag-link-position-12" style="font-size: 13.6875pt;" aria-label="HOWTO (9 элементов)">HOWTO</a>
+<a href="https://www.k-max.name/tag/html/" class="tag-cloud-link tag-link-384 tag-link-position-13" style="font-size: 8pt;" aria-label="HTML (2 элемента)">HTML</a>
+<a href="https://www.k-max.name/tag/init/" class="tag-cloud-link tag-link-49 tag-link-position-14" style="font-size: 12.046875pt;" aria-label="init (6 элементов)">init</a>
+<a href="https://www.k-max.name/tag/inod/" class="tag-cloud-link tag-link-57 tag-link-position-15" style="font-size: 8pt;" aria-label="Inod (2 элемента)">Inod</a>
+<a href="https://www.k-max.name/tag/ip/" class="tag-cloud-link tag-link-279 tag-link-position-16" style="font-size: 11.28125pt;" aria-label="ip (5 элементов)">ip</a>
+<a href="https://www.k-max.name/tag/iproute/" class="tag-cloud-link tag-link-353 tag-link-position-17" style="font-size: 9.3125pt;" aria-label="iproute (3 элемента)">iproute</a>
+<a href="https://www.k-max.name/tag/joomla-2/" class="tag-cloud-link tag-link-181 tag-link-position-18" style="font-size: 9.3125pt;" aria-label="joomla (3 элемента)">joomla</a>
+<a href="https://www.k-max.name/tag/kerberos/" class="tag-cloud-link tag-link-333 tag-link-position-19" style="font-size: 10.40625pt;" aria-label="kerberos (4 элемента)">kerberos</a>
+<a href="https://www.k-max.name/tag/kernel/" class="tag-cloud-link tag-link-209 tag-link-position-20" style="font-size: 9.3125pt;" aria-label="kernel (3 элемента)">kernel</a>
+<a href="https://www.k-max.name/tag/kx-tda100/" class="tag-cloud-link tag-link-215 tag-link-position-21" style="font-size: 8pt;" aria-label="KX-TDA100 (2 элемента)">KX-TDA100</a>
+<a href="https://www.k-max.name/tag/life/" class="tag-cloud-link tag-link-394 tag-link-position-22" style="font-size: 12.046875pt;" aria-label="Life (6 элементов)">Life</a>
+<a href="https://www.k-max.name/tag/linux/" class="tag-cloud-link tag-link-379 tag-link-position-23" style="font-size: 22pt;" aria-label="Linux (56 элементов)">Linux</a>
+<a href="https://www.k-max.name/tag/microsoft-windows/" class="tag-cloud-link tag-link-355 tag-link-position-24" style="font-size: 17.1875pt;" aria-label="Microsoft Windows (20 элементов)">Microsoft Windows</a>
+<a href="https://www.k-max.name/tag/mysql/" class="tag-cloud-link tag-link-382 tag-link-position-25" style="font-size: 10.40625pt;" aria-label="MySQL (4 элемента)">MySQL</a>
+<a href="https://www.k-max.name/tag/netapp/" class="tag-cloud-link tag-link-403 tag-link-position-26" style="font-size: 10.40625pt;" aria-label="NetApp (4 элемента)">NetApp</a>
+<a href="https://www.k-max.name/tag/network/" class="tag-cloud-link tag-link-275 tag-link-position-27" style="font-size: 17.1875pt;" aria-label="network (20 элементов)">network</a>
+<a href="https://www.k-max.name/tag/openoffice/" class="tag-cloud-link tag-link-124 tag-link-position-28" style="font-size: 8pt;" aria-label="OpenOffice (2 элемента)">OpenOffice</a>
+<a href="https://www.k-max.name/tag/panasonic/" class="tag-cloud-link tag-link-392 tag-link-position-29" style="font-size: 8pt;" aria-label="Panasonic (2 элемента)">Panasonic</a>
+<a href="https://www.k-max.name/tag/php-2/" class="tag-cloud-link tag-link-74 tag-link-position-30" style="font-size: 12.59375pt;" aria-label="php (7 элементов)">php</a>
+<a href="https://www.k-max.name/tag/samba-2/" class="tag-cloud-link tag-link-295 tag-link-position-31" style="font-size: 12.046875pt;" aria-label="SAMBA (6 элементов)">SAMBA</a>
+<a href="https://www.k-max.name/tag/squid/" class="tag-cloud-link tag-link-402 tag-link-position-32" style="font-size: 12.046875pt;" aria-label="SQUID (6 элементов)">SQUID</a>
+<a href="https://www.k-max.name/tag/syslog/" class="tag-cloud-link tag-link-228 tag-link-position-33" style="font-size: 9.3125pt;" aria-label="syslog (3 элемента)">syslog</a>
+<a href="https://www.k-max.name/tag/unix/" class="tag-cloud-link tag-link-58 tag-link-position-34" style="font-size: 14.890625pt;" aria-label="UNIX (12 элементов)">UNIX</a>
+<a href="https://www.k-max.name/tag/vim/" class="tag-cloud-link tag-link-69 tag-link-position-35" style="font-size: 9.3125pt;" aria-label="vim (3 элемента)">vim</a>
+<a href="https://www.k-max.name/tag/vmware-2/" class="tag-cloud-link tag-link-375 tag-link-position-36" style="font-size: 11.28125pt;" aria-label="vmware (5 элементов)">vmware</a>
+<a href="https://www.k-max.name/tag/web/" class="tag-cloud-link tag-link-381 tag-link-position-37" style="font-size: 11.28125pt;" aria-label="Web (5 элементов)">Web</a>
+<a href="https://www.k-max.name/tag/wins/" class="tag-cloud-link tag-link-301 tag-link-position-38" style="font-size: 9.3125pt;" aria-label="WINS (3 элемента)">WINS</a>
+<a href="https://www.k-max.name/tag/wordpress/" class="tag-cloud-link tag-link-385 tag-link-position-39" style="font-size: 9.3125pt;" aria-label="Wordpress (3 элемента)">Wordpress</a>
+<a href="https://www.k-max.name/tag/fajlovaya-sistema/" class="tag-cloud-link tag-link-54 tag-link-position-40" style="font-size: 11.28125pt;" aria-label="Файловая система (5 элементов)">Файловая система</a>
+<a href="https://www.k-max.name/tag/zagruzka/" class="tag-cloud-link tag-link-47 tag-link-position-41" style="font-size: 11.28125pt;" aria-label="загрузка (5 элементов)">загрузка</a>
+<a href="https://www.k-max.name/tag/komandy/" class="tag-cloud-link tag-link-65 tag-link-position-42" style="font-size: 17.40625pt;" aria-label="команды (21 элемент)">команды</a>
+<a href="https://www.k-max.name/tag/nastrojka/" class="tag-cloud-link tag-link-84 tag-link-position-43" style="font-size: 16.75pt;" aria-label="настройка (18 элементов)">настройка</a>
+<a href="https://www.k-max.name/tag/osnovy/" class="tag-cloud-link tag-link-101 tag-link-position-44" style="font-size: 20.359375pt;" aria-label="основы (40 элементов)">основы</a>
+<a href="https://www.k-max.name/tag/oshibki/" class="tag-cloud-link tag-link-94 tag-link-position-45" style="font-size: 13.140625pt;" aria-label="ошибки (8 элементов)">ошибки</a></div>
+</div><div id="widget_tptn_pop-3" class="sidebar-box tptn_posts_list_widget"><h6>Популярные записи</h6><div class="tptn_posts  tptn_posts_widget tptn_posts_widget3"><ul><li><span class="tptn_after_thumb"><a href="https://www.k-max.name/cv/"    target="_blank"  class="tptn_link"><span class="tptn_title">Resume</span></a> <span class="tptn_list_count">(48)</span></span></li><li><span class="tptn_after_thumb"><a href="https://www.k-max.name/linux/netfilter-iptables-v-linux/"    target="_blank"  class="tptn_link"><span class="tptn_title">Основные понятия iptables в Linux</span></a> <span class="tptn_list_count">(20)</span></span></li><li><span class="tptn_after_thumb"><a href="https://www.k-max.name/linux/replikaciya-mysql-master-slave/"    target="_blank"  class="tptn_link"><span class="tptn_title">Репликация Mysql (master-slave, master-master)</span></a> <span class="tptn_list_count">(18)</span></span></li><li><span class="tptn_after_thumb"><a href="https://www.k-max.name/coding/python-introduction/"    target="_blank"  class="tptn_link"><span class="tptn_title">Python основы</span></a> <span class="tptn_list_count">(17)</span></span></li><li><span class="tptn_after_thumb"><a href="https://www.k-max.name/linux/tekstovyj-redaktor-vim-osnovy-raboty/"    target="_blank"  class="tptn_link"><span class="tptn_title">Текстовый редактор VIM, основы работы</span></a> <span class="tptn_list_count">(12)</span></span></li><li><span class="tptn_after_thumb"><a href="https://www.k-max.name/linux/tcpdump-v-primerax/"    target="_blank"  class="tptn_link"><span class="tptn_title">tcpdump в примерах (или шпаргалка по tcpdump)</span></a> <span class="tptn_list_count">(10)</span></span></li><li><span class="tptn_after_thumb"><a href="https://www.k-max.name/windows/oshibka-0x80004005-0x80070035-na-windows-10/"    target="_blank"  class="tptn_link"><span class="tptn_title">Ошибка 0x80004005 0x80070035 на Windows 10 при доступе к сетевой папке</span></a> <span class="tptn_list_count">(9)</span></span></li><li><span class="tptn_after_thumb"><a href="https://www.k-max.name/linux/ddrescue-hdd-vosstanovlenie-and-examples/"    target="_blank"  class="tptn_link"><span class="tptn_title">ddrescue или спасаем данные с HDD</span></a> <span class="tptn_list_count">(9)</span></span></li><li><span class="tptn_after_thumb"><a href="https://www.k-max.name/linux/iptables-v-primerax/"    target="_blank"  class="tptn_link"><span class="tptn_title">iptables в простейших примерах</span></a> <span class="tptn_list_count">(8)</span></span></li><li><span class="tptn_after_thumb"><a href="https://www.k-max.name/linux/sprint-lingoda-ex-marafon-lingoda-promokod/"    target="_blank"  class="tptn_link"><span class="tptn_title">Спринт Lingoda (ex Марафон Lingoda) + промокод.</span></a> <span class="tptn_list_count">(6)</span></span></li></ul><div class="tptn_clear"></div></div></div><div id="calendar-2" class="sidebar-box widget_calendar"><div id="calendar_wrap" class="calendar_wrap"><table id="wp-calendar" class="wp-calendar-table">
+	<caption>Февраль 2022</caption>
+	<thead>
+	<tr>
+		<th scope="col" title="Понедельник">Пн</th>
+		<th scope="col" title="Вторник">Вт</th>
+		<th scope="col" title="Среда">Ср</th>
+		<th scope="col" title="Четверг">Чт</th>
+		<th scope="col" title="Пятница">Пт</th>
+		<th scope="col" title="Суббота">Сб</th>
+		<th scope="col" title="Воскресенье">Вс</th>
+	</tr>
+	</thead>
+	<tbody>
+	<tr>
+		<td colspan="1" class="pad">&nbsp;</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td id="today">6</td>
+	</tr>
+	<tr>
+		<td>7</td><td>8</td><td>9</td><td>10</td><td>11</td><td>12</td><td>13</td>
+	</tr>
+	<tr>
+		<td>14</td><td>15</td><td>16</td><td>17</td><td>18</td><td>19</td><td>20</td>
+	</tr>
+	<tr>
+		<td>21</td><td>22</td><td>23</td><td>24</td><td>25</td><td>26</td><td>27</td>
+	</tr>
+	<tr>
+		<td>28</td>
+		<td class="pad" colspan="6">&nbsp;</td>
+	</tr>
+	</tbody>
+	</table><nav aria-label="Предыдущий и следующий месяцы" class="wp-calendar-nav">
+		<span class="wp-calendar-nav-prev"><a href="https://www.k-max.name/2021/04/">&laquo; Апр</a></span>
+		<span class="pad">&nbsp;</span>
+		<span class="wp-calendar-nav-next">&nbsp;</span>
+	</nav></div></div><div id="archives-3" class="sidebar-box widget_archive"><h6>Архивы</h6>
+			<ul>
+					<li><a href='https://www.k-max.name/2021/04/'>Апрель 2021</a>&nbsp;(1)</li>
+	<li><a href='https://www.k-max.name/2021/01/'>Январь 2021</a>&nbsp;(1)</li>
+	<li><a href='https://www.k-max.name/2020/02/'>Февраль 2020</a>&nbsp;(1)</li>
+	<li><a href='https://www.k-max.name/2020/01/'>Январь 2020</a>&nbsp;(1)</li>
+	<li><a href='https://www.k-max.name/2019/12/'>Декабрь 2019</a>&nbsp;(1)</li>
+	<li><a href='https://www.k-max.name/2019/02/'>Февраль 2019</a>&nbsp;(1)</li>
+	<li><a href='https://www.k-max.name/2017/04/'>Апрель 2017</a>&nbsp;(1)</li>
+	<li><a href='https://www.k-max.name/2015/10/'>Октябрь 2015</a>&nbsp;(1)</li>
+	<li><a href='https://www.k-max.name/2015/04/'>Апрель 2015</a>&nbsp;(1)</li>
+	<li><a href='https://www.k-max.name/2014/12/'>Декабрь 2014</a>&nbsp;(1)</li>
+	<li><a href='https://www.k-max.name/2014/03/'>Март 2014</a>&nbsp;(2)</li>
+	<li><a href='https://www.k-max.name/2014/02/'>Февраль 2014</a>&nbsp;(1)</li>
+	<li><a href='https://www.k-max.name/2014/01/'>Январь 2014</a>&nbsp;(1)</li>
+	<li><a href='https://www.k-max.name/2013/11/'>Ноябрь 2013</a>&nbsp;(1)</li>
+	<li><a href='https://www.k-max.name/2013/09/'>Сентябрь 2013</a>&nbsp;(3)</li>
+	<li><a href='https://www.k-max.name/2013/08/'>Август 2013</a>&nbsp;(1)</li>
+	<li><a href='https://www.k-max.name/2013/06/'>Июнь 2013</a>&nbsp;(1)</li>
+	<li><a href='https://www.k-max.name/2013/05/'>Май 2013</a>&nbsp;(2)</li>
+	<li><a href='https://www.k-max.name/2013/04/'>Апрель 2013</a>&nbsp;(2)</li>
+	<li><a href='https://www.k-max.name/2013/03/'>Март 2013</a>&nbsp;(1)</li>
+	<li><a href='https://www.k-max.name/2012/12/'>Декабрь 2012</a>&nbsp;(1)</li>
+	<li><a href='https://www.k-max.name/2012/10/'>Октябрь 2012</a>&nbsp;(2)</li>
+	<li><a href='https://www.k-max.name/2012/09/'>Сентябрь 2012</a>&nbsp;(1)</li>
+	<li><a href='https://www.k-max.name/2012/05/'>Май 2012</a>&nbsp;(4)</li>
+	<li><a href='https://www.k-max.name/2012/04/'>Апрель 2012</a>&nbsp;(3)</li>
+	<li><a href='https://www.k-max.name/2012/03/'>Март 2012</a>&nbsp;(2)</li>
+	<li><a href='https://www.k-max.name/2012/02/'>Февраль 2012</a>&nbsp;(4)</li>
+	<li><a href='https://www.k-max.name/2012/01/'>Январь 2012</a>&nbsp;(4)</li>
+	<li><a href='https://www.k-max.name/2011/12/'>Декабрь 2011</a>&nbsp;(6)</li>
+	<li><a href='https://www.k-max.name/2011/11/'>Ноябрь 2011</a>&nbsp;(2)</li>
+	<li><a href='https://www.k-max.name/2011/10/'>Октябрь 2011</a>&nbsp;(1)</li>
+	<li><a href='https://www.k-max.name/2011/08/'>Август 2011</a>&nbsp;(2)</li>
+	<li><a href='https://www.k-max.name/2011/07/'>Июль 2011</a>&nbsp;(4)</li>
+	<li><a href='https://www.k-max.name/2011/06/'>Июнь 2011</a>&nbsp;(4)</li>
+	<li><a href='https://www.k-max.name/2011/05/'>Май 2011</a>&nbsp;(1)</li>
+	<li><a href='https://www.k-max.name/2011/04/'>Апрель 2011</a>&nbsp;(3)</li>
+	<li><a href='https://www.k-max.name/2011/03/'>Март 2011</a>&nbsp;(4)</li>
+	<li><a href='https://www.k-max.name/2011/02/'>Февраль 2011</a>&nbsp;(5)</li>
+	<li><a href='https://www.k-max.name/2011/01/'>Январь 2011</a>&nbsp;(5)</li>
+	<li><a href='https://www.k-max.name/2010/12/'>Декабрь 2010</a>&nbsp;(7)</li>
+	<li><a href='https://www.k-max.name/2010/11/'>Ноябрь 2010</a>&nbsp;(7)</li>
+	<li><a href='https://www.k-max.name/2010/10/'>Октябрь 2010</a>&nbsp;(3)</li>
+	<li><a href='https://www.k-max.name/2010/09/'>Сентябрь 2010</a>&nbsp;(6)</li>
+	<li><a href='https://www.k-max.name/2010/08/'>Август 2010</a>&nbsp;(1)</li>
+	<li><a href='https://www.k-max.name/2010/07/'>Июль 2010</a>&nbsp;(5)</li>
+	<li><a href='https://www.k-max.name/2010/06/'>Июнь 2010</a>&nbsp;(3)</li>
+	<li><a href='https://www.k-max.name/2010/05/'>Май 2010</a>&nbsp;(1)</li>
+			</ul>
+
+			</div><div id="text-12" class="sidebar-box widget_text"><h6>Пузомерки )</h6>			<div class="textwidget"><noindex>
+<!-- Top100 (Kraken) Widget -->
+<span id="top100_widget"></span>
+<!-- END Top100 (Kraken) Widget -->
+
+<!-- Top100 (Kraken) Counter -->
+<script>
+    (function (w, d, c) {
+    (w[c] = w[c] || []).push(function() {
+        var options = {
+            project: 2539493,
+            element: 'top100_widget',
+        };
+        try {
+            w.top100Counter = new top100(options);
+        } catch(e) { }
+    });
+    var n = d.getElementsByTagName("script")[0],
+    s = d.createElement("script"),
+    f = function () { n.parentNode.insertBefore(s, n); };
+    s.type = "text/javascript";
+    s.async = true;
+    s.src =
+    (d.location.protocol == "https:" ? "https:" : "http:") +
+    "//st.top100.ru/top100/top100.js";
+
+    if (w.opera == "[object Opera]") {
+    d.addEventListener("DOMContentLoaded", f, false);
+} else { f(); }
+})(window, document, "_top100q");
+</script>
+<noscript>
+  <img src="//counter.rambler.ru/top100.cnt?pid=2539493" alt="Топ-100" />
+</noscript>
+<!-- END Top100 (Kraken) Counter -->
+
+<!--LiveInternet logo--><a rel="nofollow noopener" href="https://www.liveinternet.ru/click" target="_blank"><img src="//counter.yadro.ru/logo?44.3"
+title="LiveInternet"
+alt="" border="0" width="31" height="31"/></a><!--/LiveInternet-->
+
+<!-- Rating Mail.ru counter -->
+<script type="text/javascript">
+var _tmr = window._tmr || (window._tmr = []);
+_tmr.push({id: "2090176", type: "pageView", start: (new Date()).getTime()});
+(function (d, w, id) {
+  if (d.getElementById(id)) return;
+  var ts = d.createElement("script"); ts.type = "text/javascript"; ts.async = true; ts.id = id;
+  ts.src = "https://top-fwz1.mail.ru/js/code.js";
+  var f = function () {var s = d.getElementsByTagName("script")[0]; s.parentNode.insertBefore(ts, s);};
+  if (w.opera == "[object Opera]") { d.addEventListener("DOMContentLoaded", f, false); } else { f(); }
+})(document, window, "topmailru-code");
+</script><noscript><div>
+<img src="https://top-fwz1.mail.ru/counter?id=2090176;js=na" style="border:0;position:absolute;left:-9999px;" alt="Top.Mail.Ru" />
+</div></noscript>
+<!-- //Rating Mail.ru counter -->
+<!-- Rating Mail.ru logo -->
+<a href="https://top.mail.ru/jump?from=2090176">
+<img src="https://top-fwz1.mail.ru/counter?id=2090176;t=464;l=1" style="border:0;" height="31" width="88" alt="Top.Mail.Ru" /></a>
+<!-- //Rating Mail.ru logo -->
+
+<!-- HotLog -->
+<span id="hotlog_counter"></span>
+<span id="hotlog_dyn"></span>
+<script type="text/javascript">
+var hot_s = document.createElement('script');
+hot_s.type = 'text/javascript'; hot_s.async = true;
+hot_s.src = 'https://js.hotlog.ru/dcounter/2174162.js';
+hot_d = document.getElementById('hotlog_dyn');
+hot_d.appendChild(hot_s);
+</script>
+<noscript>
+<a href="https://click.hotlog.ru/?2174162" target="_blank" rel="noopener"><img
+src="https://hit39.hotlog.ru/cgi-bin/hotlog/count?s=2174162&amp;im=49" border="0"
+alt="HotLog"></a>
+</noscript>
+<!-- /HotLog -->
+
+<!--Openstat-->
+<span id="openstat2200627"></span>
+<script type="text/javascript">
+var openstat = { counter: 2200627, image: 91, color: "ff9822", next: openstat, track_links: "all" };
+(function(d, t, p) {
+var j = d.createElement(t); j.async = true; j.type = "text/javascript";
+j.src = ("https:" == p ? "https:" : "http:") + "//openstat.net/cnt.js";
+var s = d.getElementsByTagName(t)[0]; s.parentNode.insertBefore(j, s);
+})(document, "script", document.location.protocol);
+</script>
+<!--/Openstat-->
+<!--Google anal-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-25382975-1', 'auto');
+ga('require', 'displayfeatures');
+ga('require', 'linkid', 'linkid.js');
+  ga('send', 'pageview');
+
+</script>
+<!--/Google anal-->
+
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+(function (d, w, c) {
+    (w[c] = w[c] || []).push(function() {
+        try {
+            w.yaCounter1103813 = new Ya.Metrika({id:1103813,
+                    webvisor:true,
+                    trackLinks:true,
+                    accurateTrackBounce:true});
+        } catch(e) { }
+    });
+
+    var n = d.getElementsByTagName("script")[0],
+        s = d.createElement("script"),
+        f = function () { n.parentNode.insertBefore(s, n); };
+    s.type = "text/javascript";
+    s.async = true;
+    s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
+
+    if (w.opera == "[object Opera]") {
+        d.addEventListener("DOMContentLoaded", f, false);
+    } else { f(); }
+})(document, window, "yandex_metrika_callbacks");
+</script>
+<noscript><div><img src="//mc.yandex.ru/watch/1103813" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+</noindex></div>
+		</div>	</div>
+</div>    	<div class="fixed"></div>
+   </div>
+   <div class="fixed"></div>
+</div>
+	<div class="fixed"></div>
+<div id="footer">
+   <div class="inner">
+   	<p>&copy; 2022 <a href="https://www.k-max.name">Блог любителя экспериментов</a> Все права защищены </p>
+   	<div class="alignright">
+				<a class="icn_up" title="К началу страницы" href="#top"> Наверх </a>
+		</div>
+   </div>
+   <div class="fixed"></div>
+</div>
+
+<script type='text/javascript' src='https://www.k-max.name/wp-includes/js/comment-reply.min.js?ver=5.8.3' id='comment-reply-js'></script>
+<script type='text/javascript' id='tptn_tracker-js-extra'>
+/* <![CDATA[ */
+var ajax_tptn_tracker = {"ajax_url":"https:\/\/www.k-max.name\/wp-admin\/admin-ajax.php","top_ten_id":"2571","top_ten_blog_id":"1","activate_counter":"11","top_ten_debug":"0","tptn_rnd":"1486944584"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://www.k-max.name/wp-content/plugins/top-10/includes/js/top-10-tracker.min.js?ver=1.0' id='tptn_tracker-js'></script>
+<script type='text/javascript' src='https://www.k-max.name/wp-includes/js/wp-embed.min.js?ver=5.8.3' id='wp-embed-js'></script>
+<script defer type='text/javascript' src='https://www.k-max.name/wp-content/plugins/akismet/_inc/form.js?ver=4.1.12' id='akismet-form-js'></script>
+<script src='https://stats.wp.com/e-202205.js' defer></script>
+<script>
+	_stq = window._stq || [];
+	_stq.push([ 'view', {v:'ext',j:'1:10.0',blog:'81074244',post:'2571',tz:'3',srv:'www.k-max.name'} ]);
+	_stq.push([ 'clickTrackerInit', '81074244', '2571' ]);
+</script>
+
+<center></center>
+
+</body>
+</html>
