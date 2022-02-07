@@ -159,3 +159,37 @@ img {
    p {
     text-indent: 30px;
   }
+  .html5css_s {
+    background: #E5FFD3FF;
+    text-align: center;
+    display: flex;
+    align-items: center;;
+
+
+
+
+}
+h2 div.html5css_s  {
+        text-align: center;
+        vertical-align: -50%;
+    
+
+
+}
+.html5css_s_a {
+  display: block;
+  height: 50px;
+  width: 200px;
+  background: #EDFF26FF;
+  margin-left: 50%;
+    text-align: center;
+  color: red;
+  
+
+}
+h3 .html5css_s_a  {
+  text-align: center;
+  
+
+
+}
