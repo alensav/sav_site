@@ -159,35 +159,63 @@ img {
    p {
     text-indent: 30px;
   }
+  .html5css_s0 {
+    height: 100%;
+    width: 100%;
+      
+   
+
+
+
+}
   .html5css_s {
+    height: 50%;
+    width: 100%;
     background: #E5FFD3FF;
     text-align: center;
-    display: flex;
-    align-items: center;;
+        align-items: center;
 
 
 
 
 }
-h2 div.html5css_s  {
+.html5css_s1 {
+    height: 50%;
+    width: 100%;
+    background: #E5FFD3FF;
+    text-align: center;
+    
+    align-items: center;
+
+
+
+
+}
+  .html5css_s  h2 {
+        color: #0000FFFF;
         text-align: center;
-        vertical-align: -50%;
+        font-size: 30px;
+        /*vertical-align: -50%;*/
     
 
 
 }
 .html5css_s_a {
   display: block;
-  height: 50px;
-  width: 200px;
+  height: 200px;
+  width: 500px;
+  padding: -100px;
   background: #EDFF26FF;
-  margin-left: 50%;
+  margin-top: 100px;
+  margin-left: 35%;
     text-align: center;
+    font-size: 40px;
   color: red;
   
 
 }
-h3 .html5css_s_a  {
+
+ .html5css_s_a  h3 {
   text-align: center;
   
 
