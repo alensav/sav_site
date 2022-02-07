@@ -207,7 +207,7 @@ img {
   padding: -100px;
   background: #EDFF26FF;
   margin-top: 100px;
-  margin-left: 35%;
+  margin-left: calc(50% - 250px);
     text-align: center;
     font-size: 40px;
   color: red;
