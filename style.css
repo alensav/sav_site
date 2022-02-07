@@ -214,6 +214,38 @@ img {
   
 
 }
+.color1_s1 {
+  display: block;
+  height: 50px;
+  width: 140px;
+  padding: -10px;
+  background: #EDFF26FF;
+  margin-top: 10px;
+  margin-left: calc(50% - 250px);
+    text-align: center;
+    font-size: 20px;
+  color: red;
+   border-radius: 10px;
+   border:2px solid #0B23FFFF;
+  padding: 5px;
+  float: left;
+}
+.color1_s2 {
+  display: block;
+  height: 50px;
+  width: 140px;
+  padding: -10px;
+  background: #EDFF26FF;
+  margin-top: 10px;
+  margin-left: 10px);
+    text-align: center;
+    font-size: 20px;
+  color: red;
+   border-radius: 10px;
+   border:2px solid #0B23FFFF;
+  padding: 5px;
+  float: left;
+ }
 
  .html5css_s_a  h3 {
   text-align: center;
