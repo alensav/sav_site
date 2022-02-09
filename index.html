@@ -38,7 +38,18 @@ document.write(day[d.getDay()]+" " +d.getDate()+ " " + month[d.getMonth()]
 // ]]&gt;
 // ]]&gt;
 // ]]&gt;
-// ]]></script></h3></div>
+// ]]></script>
+       <script>  
+setInterval(function () {
+    var now = new Date();
+    var clock = document.getElementById("clock");
+    clock.innerHTML = now.toLocaleTimeString();
+}, 1000);
+</script>
+Сейчас: <span id="clock"
+style="color:white; font-size: 30px;">
+</span>
+</h3></div>
 	<div class="box3">
 	<div class="box3__item">MENU
 		<a href="HTML_S.html" class="box-a" target="div_s">HTML</a>
@@ -56,7 +67,7 @@ document.write(day[d.getDay()]+" " +d.getDate()+ " " + month[d.getMonth()]
 	
 	<div class="box4">
 
-     <iframe height="100%" width="100%" name="div_s" src="#"></iframe>
+     <iframe height="100%" width="100%" name="div_s" src="#" frameborder="0"></iframe>
 	</div>
 	<div class="box5">
 		<a href="git2_s.html" class="box-a1" target="div_s">GIT2</a>
