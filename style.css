@@ -23,7 +23,7 @@ h1 {
    grid-column-end: 2;
    grid-row-start: 1;
    grid-row-end: 2;
-   background: #9CDDFFFF;
+   background: #7A0000FF;
    border:none;/*2px solid #FF0F33FF;*/
 }
 .box2 {
@@ -31,7 +31,7 @@ h1 {
    grid-column-end: 5;
    grid-row-start: 1;
    grid-row-end: 2;
-   background: #0B40FFFF;
+   background: #7A0000FF;
    border:none;/*2px solid #FF0F33FF;*/
 }
 .box2 h3 {
@@ -43,7 +43,7 @@ h1 {
    grid-column-end: 2;
    grid-row-start: 2;
    grid-row-end: 3;
-   background: #0BFF48FF;
+   background: #7A0000FF;
    border:none;/*2px solid #FF0F33FF;*/
 }
 
@@ -52,7 +52,7 @@ h1 {
    grid-column-end: 5;
    grid-row-start: 2;
    grid-row-end: 3;
-   background: #F7C9FFFF;
+   background: #F3B8ACFF;
    border:none;/*2px solid #FF0F33FF;*/
 }
 .box5 {
@@ -60,7 +60,7 @@ h1 {
    grid-column-end: 5;
    grid-row-start: 3;
    grid-row-end: 4;
-   background: #D9FFD7FF;
+   background: #7A0000FF;
    border:none;/*2px solid #FF0F33FF;*/
 }
 .box3 {
@@ -137,7 +137,7 @@ h1 {
     column-gap: 30px;
     -webkit-column-rule: 1px solid #ccc;
     -moz-column-rule: 1px solid #ccc;
-    column-rule: 1px solid #ccc;
+    column-rule: 1px solid #ccc;#710000FF
   }
   div {
     overflow: hidden;
