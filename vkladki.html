@@ -6,9 +6,10 @@
 	<title>MYTETRA</title>
 	<link rel="stylesheet" href="style.css">
 	<style type="text/css">
-.tabs { width: 100%; padding: 0px; margin: 0 auto; }
+.tabs {height: 100%; width: 100%; padding: 0px; margin: 0;}/*auto; }*/
 .tabs>input { display: none; }
-.tabs>div {
+
+.tabs> div {
     display: none;
     padding: 12px;
     border: 1px solid #C0C0C0;
@@ -27,14 +28,74 @@
     -moz-column-rule: 1px solid #ccc;
     column-rule: 1px solid #ccc;
 }
-.tabs>label {
+    /*--Одна колонка для PRINT  --*/
+     #txt_4 {
+    display: none;
+    padding: 12px;
+    border: 1px solid #C0C0C0;
+    background: #FFE8D3;
+    /*Две колонки - замена на одну*/
+    -webkit-column-width: 100%;
+    -moz-column-width:100%;
+    column-width: 100%;
+    -webkit-column-count: 1;
+    -moz-column-count: 1;
+    column-count: 1;
+    -webkit-column-gap: 0;
+    -moz-column-gap: 0;
+    column-gap: 0;
+    -webkit-column-rule: 1px solid #ccc;
+    -moz-column-rule: 1px solid #ccc;
+    column-rule: 1px solid #ccc;
+    text-align: center;
+}
+ #txt_5 {
+    display: none;
+    height: 100%;
+     	width: 100%;
+    padding: 12px;
+    border: 1px solid #C0C0C0;
+    background: #FFE8D3;
+    /*Две колонки - замена на одну*/
+    -webkit-column-width: 100%;
+    -moz-column-width:100%;
+    column-width: 100%;
+    -webkit-column-count: 1;
+    -moz-column-count: 1;
+    column-count: 1;
+    -webkit-column-gap: 0;
+    -moz-column-gap: 0;
+    column-gap: 0;
+    -webkit-column-rule: 1px solid #ccc;
+    -moz-column-rule: 1px solid #ccc;
+    column-rule: 1px solid #ccc;
+    text-align: center;
+}
+     #text_4 a {
+     	margin-left: auto;
+    margin-right: auto;
+    width: 200px;
+
+     }
+     
+.tabs > label {
     display: inline-block;
     padding: 7px;
     margin: 0 -5px -1px 0;
     text-align: center;
-    color: #666666;
+    color: white;
     border: 1px solid #C0C0C0;
-    background: #E0E0E0;
+    background: #331010;
+    cursor: pointer;
+}
+.tabs1 > label {
+    display: inline-block;
+    padding: 7px;
+    margin: 0 -5px -1px 0;
+    text-align: center;
+    color: white;
+    border: 1px solid #C0C0C0;
+    background: #331010;
     cursor: pointer;
 }
 .tabs>input:checked + label {
@@ -43,16 +104,23 @@
     border-bottom: 1px solid #FFFFFF;
     background: #FFFFFF;
 }
+.tabs1>input:checked + label {
+    color: #000000;
+    border: 1px solid #C0C0C0;
+    border-bottom: 1px solid #FFFFFF;
+    background: #FFFFFF;
+}
 #tab_1:checked ~ #txt_1,
 #tab_2:checked ~ #txt_2,
 #tab_3:checked ~ #txt_3,
-#tab_4:checked ~ #txt_4 { display: block; }
+#tab_4:checked ~ #txt_4,
+#tab_5:checked ~ #txt_5 { display: block; }
 </style>
 </head>
 <body>
 	<div class="tabs">
     <input type="radio" name="inset" value="" id="tab_1" checked>
-    <label for="tab_1">Вкладка №1</label>
+    <label for="tab_1">ПЛАН</label>
 
     <input type="radio" name="inset" value="" id="tab_2">
     <label for="tab_2">РЕЦЕПТЫ</label>
@@ -61,7 +129,12 @@
     <label for="tab_3">VIDEO</label>
 
     <input type="radio" name="inset" value="" id="tab_4">
+
+
     <label for="tab_4">PRINT</label>
+    <input type="radio" name="inset" value="" id="tab_5">
+    <label for="tab_5">CSS_точечно</label>
+    
 
     <div id="txt_1">
     	<h1>САД-Прививка</h1>
@@ -208,7 +281,13 @@
     </div>
     <div id="txt_4">
     	<a href="print_big_page.html" class="box-a" target="div_s">PRINT</a>
+    	Печать плакатов
         
+    </div>
+    <div id="txt_5">
+    	<iframe height="600" width="100%" name="" src="selector-css-s.html" frameborder="0"></iframe>
+    	
+    	
     </div>
 </div>
 	

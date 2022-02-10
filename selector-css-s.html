@@ -1,0 +1,458 @@
+<!DOCTYPE html><html itemscope itemtype="http://schema.org/TechArticle"><head><meta http-equiv="content-type" content="text/html; charset=utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="keywords" itemprop="keywords" content="селектор,CSS,псевдо-класс,псевдо-элемент,HTML,атрибут,класс,идентификатор,class,id,оптимизация" /><meta name="description" itemprop="description" content="Всё о селекторах CSS и их комбинациях. Обзор и примеры использования псевдо-классов и псевдо-элементов. Оптимизация HTML." /><title>Селекторы CSS – точечное применение свойств CSS к элементам страницы (тегам) | Оптимизация HTML за счёт использования селекторов &mdash; Site on!</title><link rel="stylesheet" href="/blog/style.css" type="text/css" /><link href="/favicon.ico" rel="icon" type="image/x-icon" /><link href="/favicon.ico" rel="shortcut icon" type="image/x-icon" /><link href="http://feeds.feedburner.com/Site-on" rel="alternate" type="application/rss+xml" title="RSS 2.0" /><link rel="author" href="https://plus.google.com/118218713938364847408" />
+</head><body ><!-- Metrika --><script type="text/javascript">(function (d, w, c) { (w[c] = w[c] || []).push(function() { try { w.yaCounter20809507 = new Ya.Metrika({id:20809507, clickmap:true, trackLinks:true, accurateTrackBounce:true}); } catch(e) { } }); var n = d.getElementsByTagName("script")[0], s = d.createElement("script"), f = function () { n.parentNode.insertBefore(s, n); }; s.type = "text/javascript"; s.async = true; s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js"; if (w.opera == "[object Opera]") { d.addEventListener("DOMContentLoaded", f, false); } else { f(); } })(document, window, "yandex_metrika_callbacks");</script><noscript><div><img src="//mc.yandex.ru/watch/20809507" style="position:absolute; left:-9999px;" alt="" /></div></noscript><!--/M--><div id="h"><ul><li><div class="clear"></div><h1 itemprop="name">Селекторы CSS – точечное применение свойств CSS к элементам страницы (тегам) | Оптимизация HTML за счёт использования селекторов</h1><div id="slogan"><div>"Все аспекты самостоятельного создания и продвижения сайтов<br />от практика с многолетним опытом." &mdash; блог <span class="gw-author">Рудь Сергея</span><br /><a href="mailto:info@site-on.net">info@site-on.net</a><div class="clear"></div></div></div></div><!--<div style="text-align:center;margin-top:15px"><a target="_blank" rel="nofollow" href="https://adminvps.ru/vps/vps_russia.php?utm_source=banner&utm_medium=site-on"><img src="/images/adminvps.gif"></a></div>--><ul id="menu"><li><a title="Начните своё обучение web-технологиям прямо сейчас!" href="/"></a></li><li><a id="create" href="/create">Создание сайта</a><ul id="hidden"><li><a href="/create/html">Вёрстка сайта (HTML+CSS)</a></li><li><a href="/create/php">Динамические сайты (PHP)</a></li><li><a href="/create/cms">Системы управления контентом (CMS)</a></li></ul></li><li><a id="optimization" href="/optimization">Оптимизация и продвижение</a></li><li><a id="useful" href="/useful">Инструменты</a></li></ul><div id="width"><div id="c"><div id="gwNotice"><b>Заметка:</b> активирована адаптивная версия сайта, которая автоматически подстраивается под небольшой размер Вашего браузера и скрывает некоторые детали сайта для удобства чтения. Приятного просмотра!</div><meta itemprop="dateModified" content="2021-04-17 20:11:55" /><div id="date"><meta itemprop="dateCreated" content="2013-04-22" />22.04.2013</div><div id="soc">Раздел: <a href="/create">Создание сайта</a> / <a href="/create/html">HTML + CSS</a></div><div class="clear"></div><p>
+Здравствуйте дорогие подписчики и не менее дорогие гости <strong>Site</strong> <span class="on">on!</span> Надеюсь, вам были интересны предыдущие статьи раздела <a title="Содержание раздела" href="http://site-on.net/create/html">HTML + CSS</a>, потому как сегодня скучать точно не придётся, ведь мы рассмотрим такое понятие как <strong>селекторы CSS</strong> и как с их помощью мы можем сократить нашу разметку HTML, сделав её чище.
+</p>
+<p>
+<strong>Селектор CSS</strong> – это тот элемент, к которому мы собираемся применять CSS свойства. Слово «селектор» говорит само за себя, оно обозначает выбор.
+</p>
+<pre class="gw-css">p {color: red}
+div span {background: green}
+ul li {list-style: none}
+</pre>
+<h2>Селекторы class и id</h2>
+<p>
+В примере выше мы имеем 3 селектора – это <strong>p</strong>, <strong>div span</strong>, <strong>ul li</strong>. То есть весь наш файл стилей состоит из селекторов и их свойств. Наиболее удобно и наглядно, особенно новичкам, брать за селектор <strong>имя класса (class)</strong> тега или <strong>уникальный идентификатор (id)</strong> тега. Чтобы присвоить класс или идентификатор какому-либо тегу, мы должны указать их среди атрибутов этого тега. У конкретного тега может быть максимум 1 идентификатор и бесконечное число классов. Пример:
+</p>
+<pre class="gw-html">&lt;div id="first"&gt;текст в первом диве&lt;/div&gt;
+&lt;div class="second"&gt;текст во втором диве&lt;/div&gt;
+&lt;div id="third" class="first second third"&gt;текст в третьем диве&lt;/div&gt;
+</pre>
+<p>
+На что стоит обратить внимание:
+</p>
+<ul>
+<li>Классы и идентификаторы можно присваивать любым (всем) тегам.</li>
+<li>Каждый id уникален и не может повторяться в пределах одной страницы, в отличие от классов!</li>
+<li>Один и тот же класс может быть присвоен любым тегам и может повторяться любое количество раз на странице.</li>
+<li>Если мы хотим задать конкретному тегу несколько классов, мы просто задаём их через пробел.</li>
+<li>Имена классов и идентификаторов могут совпадать, при этом кроме имени, ничего общего между ними не будет.</li>
+</ul>
+<h3>Как обратиться к классу или id в файле стилей (CSS)?</h3>
+<p>
+Смотрим пример:
+</p><div align="center"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!-- 728*90 -->
+    <ins class="adsbygoogle"
+         style="display:inline-block;width:728px;height:90px"
+         data-ad-client="ca-pub-5153211508433278"
+         data-ad-slot="7387119145"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script></div>
+<pre class="gw-css">#first {color: red;} <span class="code-comm">/* обращаемся к id с именем first */</span>
+.second {color: blue;} <span class="code-comm">/* обращаемся к классу с именем second */</span>
+#first .second {color: orange;} <span class="code-comm">/* обращаемся к классу с именем second, ТОЛЬКО если он находится ВНУТРИ тега с идентификатором first */</span>
+.first .third {color: grey;} <span class="code-comm">/* обращаемся к классу с именем third, ТОЛЬКО если он находится ВНУТРИ тега с классом first */</span>
+</pre>
+<p>
+В нашем случае последние две инструкции не сработают, так как у нас нет классов, вложенных внутрь тегов с заданными атрибутами. Как вы могли заметить, чтобы обозначить, что мы обращаемся именно к id, нужно перед его именем без пробелов поставить знак решётки (#), если мы обращаемся к классу, то перед именем класса должны поставить точку (.).
+</p>
+<p>
+Использование классов и идентификаторов очень удобно, но оно увеличивает нашу <a title="Основы HTML (XHTML)" href="http://site-on.net/create/html/1-osnovi-html">HTML разметку</a>, в идеале (которого никогда нет) мы вовсе не должны их использовать, вместо них мы будем использовать комбинации и группировки селекторов, о них и будет вся остальная часть статьи, но! Но это совсем не означает, что вы должны полностью отказаться от использования классов и идентификаторов, просто вы должны иметь ввиду, что очень часто вместо создания нового class или id можно обойтись приёмами, описанными ниже и они также могут быть вполне удобны.
+</p>
+<h3>В чём различие class и id?</h3>
+<p>
+Кроме приведённых выше различий, стоит ещё отметить, что у свойств заданных id приоритет выше, чем у свойств, заданных классу. То есть, если мы напишем:
+</p>
+<pre class="gw-css"> &lt;style&gt;
+#first {color: red;}
+.blue {color: blue;}
+&lt;/style&gt;
+&lt;div id="first" class="blue"&gt;текст в диве&lt;/div&gt;
+</pre>
+<p>
+То цвет текста станет красным, несмотря на то, что класс находится ниже по коду и если бы у них был равный приоритет текст стал бы синим.
+</p>
+<p>
+<strong>По синтаксису:</strong> в случаи с классом мы можем выбрать, у какого именно тега должен находиться данный класс, для этого после имени тега БЕЗ пробела мы должны обратиться к классу. Пример:
+</p>
+<pre class="gw-css">.myclass {свойства} <span class="code-comm">/* применятся ко всем тегам, которые содержат класс myclass */</span>
+div.myclass {свойства} <span class="code-comm">/* применятся только к тегам div, которые содержат класс myclass */</span>
+</pre>
+<p>
+Для id это тоже будет работать, но такая запись лишена всякого смысла, так как id не может повторяться на странице, а значит достаточно просто объявлять id, без тега к которому оно относится:
+</p>
+<pre class="gw-css">&lt;style&gt;
+#super {свойства} <span class="code-comm">/* правильно */</span>
+div#super {свойства} <span class="code-comm">/* Неправильно, но работать будет */</span>
+&lt;/style&gt;
+&lt;div id="super"&gt;текст&lt;/div&gt;
+</pre>
+<p>
+Вроде бы осталось только одно неоговорённое отличие, и оно касается темы, которую в ближайшем будущем я не планировал затрагивать на этом блоге – Javascript. Но всё же обязан доложить вам о нём: если вы хотите обратиться к элементу с помощью Javascript, то для этой цели очень удобным будет наличие id у этого элемента. Чтобы обратиться к элементу по его классу в Javascript нет такой встроенной возможности, вам придётся использовать вспомогательные функции + это не всегда кроссбраузерно.
+</p>
+<p>
+<strong>Итог:</strong> id и class используем, но в меру, при этом всегда спрашивая себя, а можно ли здесь обойтись без них и насколько это целесообразно.
+</p>
+<h2>Родственный селектор</h2>
+<p>
+Идём дальше. Из статьи о <a href="http://site-on.net/create/html/4-nasledovanie-v-css-na-primerah">наследовании в CSS</a> вы уже знаете о двух самых простых видах селекторов, это селектор по тегу (элементу) и по потомку. Давайте освежим вашу память:
+</p>
+<pre class="gw-css"> div p {color: green;} <span class="code-comm">/* Селектор по потомку */</span>
+p {color: red;} <span class="code-comm">/* селектор по тегу */</span>
+</pre>
+<p>
+Но как я уже писал в предыдущей статье, в первом случае CSS свойства применятся ко всем тегам <strong>p</strong> вложенным на ЛЮБУЮ глубину тега <strong>div</strong>. А что если мы хотим применить свойства только к прямым наследникам, то есть к первому уровню вложенности:
+</p><div align="center"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- блок 2 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:728px;height:90px"
+     data-ad-client="ca-pub-5153211508433278"
+     data-ad-slot="5711909549"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+<pre class="gw-html">&lt;div&gt;
+&nbsp;&nbsp;&lt;p&gt;Прямой наследник (первый уровень)&lt;/p&gt;
+&nbsp;&nbsp;&lt;span&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;span&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;Третий уровень&lt;/p&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/span&gt;
+&nbsp;&nbsp;&lt;/span&gt;
+&nbsp;&nbsp;&lt;p&gt;Прямой наследник (первый уровень)&lt;/p&gt;
+&nbsp;&nbsp;&lt;span&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;Второй уровень&lt;/p&gt;
+&nbsp;&nbsp;&lt;/span&gt;
+&nbsp;&nbsp;&lt;p&gt;Прямой наследник (первый уровень)&lt;/p&gt;
+&lt;/div&gt;
+</pre>
+<p>
+В таком случае мы должны использовать так называемый родственный селектор, для его обозначения используется угловая скобка, пробелы можете ставить, можете не ставить, я бы не советовал:
+</p>
+<pre class="gw-css">div&gt;p {color: blue;} <span class="code-comm">/* только первый уровень вложенности */</span>
+div p {color: blue;} <span class="code-comm">/* абсолютно все параграфы внутри div */</span>
+</pre>
+<h2>Универсальный селектор</h2>
+<p>
+С этим разобрались, у нас на вооружении уже 3 вида селекторов, теперь хочу вам рассказать о весьма необычном селекторе, который выделяется среди всех остальных – это так называемый универсальный селектор, который обозначается звёздочкой (*):
+</p>
+<p>
+<pre class="gw-css">* {margin: 0; padding: 0;}</pre>
+</p>
+<p>
+Так у меня начинается каждый новый проект, советую вам делать также. Универсальный селектор распространяется на все элементы страницы (теги), но имеет нулевой приоритет (ниже только отсутствие приоритета вовсе). Его обычно используют, чтобы перебить CSS свойства, которые браузеры устанавливают по умолчанию для некоторых тегов. Представьте себе, и такое имеет место быть! Достаточно многим тегам браузеры по умолчанию устанавливают свои свойства, например, тегу гиперссылки &lt;a&gt; синий цвет текста и подчёркивание, тегу body они задают поля (padding) и тд. Нам это запоминать, знать и использовать совсем не к чему, поэтому самые банальные свойства мы сразу же убираем с помощью <strong>универсального селектора</strong>, однако я бы не советовал дописывать в него что-то ещё (или дописывать, но аккуратно), несмотря на наименьший (нулевой) приоритет универсального селектора, он в некоторых случаях всё же может перебить вам другие свойства, так что имейте это в виду.
+</p>
+<p>
+Кстати говоря, при работе с селекторами, как и при любой работе связанной с вёрсткой макета очень удобно использовать <a title="Как просмотреть элементы страницы?" href="http://site-on.net/useful/1-web-inspectori-prosmotr-koda-stranitsi">просмотр элементов страницы</a>. Если вы ещё не в курсе таких вещей как <strong>Opera Dragonfly</strong>, <strong>Firebug</strong> и <strong>веб-инспекторы</strong> в целом, то вам без преувеличений срочно нужно прочесть статью по ссылке выше! А кто уже использовал подобные вещи, прошу дальше за мной.
+</p>
+<h2>Псевдо-классы</h2>
+<p>
+В отличие от классов, псевдо-классы не нужно указывать в HTML разметке, они сами вычисляются браузером. У нас есть 4 статических псевдо-класса и 3 динамических псевдо-класса, без учёта CSS 3, о нём ближе к концу. К статическим относятся ( :first-child, :link, :visited, : lang() ):
+</p>
+<pre class="gw-html">&lt;style&gt;
+p:first-child {color: green;} <span class="code-comm">/* сработает, если p является первым ребёнком своего родителя */</span>
+&lt;/style&gt;
+&lt;div&gt;
+&nbsp;&nbsp;&lt;p&gt;Прямой наследник (первый уровень)&lt;/p&gt;
+&nbsp;&nbsp;&lt;span&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;span&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;Третий уровень&lt;/p&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/span&gt;
+&nbsp;&nbsp;&lt;/span&gt;
+&nbsp;&nbsp;&lt;p&gt;Прямой наследник (первый уровень)&lt;/p&gt;
+&nbsp;&nbsp;&lt;span&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;Второй уровень&lt;/p&gt;
+&nbsp;&nbsp;&lt;/span&gt;
+&nbsp;&nbsp;&lt;p&gt;Прямой наследник (первый уровень)&lt;/p&gt;
+&lt;/div&gt;
+</pre>
+<p>
+Результат:
+</p>
+<p align="center">
+<img src="/images/articles/screen5.png" alt="селекторы в css" width="262" height="202" />
+</p>
+<p>
+Естественно можно комбинировать селекторы как захотим, например:
+</p>
+<pre class="gw-css">div&gt;span p:first-child {color: green;} <span class="code-comm">/*сработает, если p является первым ребёнком своего родителя и находится внутри тега span, который является прямым потомком тега div */</span>
+</pre>
+<p>
+Название представленного выше псевдо-класса говорит само за себя first-child - первый ребёнок.
+</p><div align="center"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Блок 3 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:728px;height:90px"
+     data-ad-client="ca-pub-5153211508433278"
+     data-ad-slot="7049041945"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+<p>
+Следующие два статических псевдо-класса применяются только к тегу гиперссылки (:link, :visited), они применяют CSS свойства в зависимости от того, посещалась данная ссылка конкретным пользователем или нет:
+</p>
+<pre class="gw-css">a:link {color: blue;} <span class="code-comm">/* у не посещённых ссылок задаём синий цвет, и по умолчанию они подчёркнуты */</span>
+a:visited {color: green; text-decoration: none;} <span class="code-comm">/* у посещённых ссылок текст будет зелёным, убираем подчёркивание */</span>
+</pre>
+<p>
+Псевдо-класс :lang() используется для задания разного стиля оформления в зависимости от языка. В скобочках указывается язык, к которому нужно применить оформление. Это можно использовать, например,  для задания разных стилей кавычек в цитатах:
+</p>
+<pre class="gw-css">q:lang(de) {quotes: "\201E" "\201C";} <span class="code-comm">/* кавычки для немецкого языка */</span>
+q:lang(en) {quotes: "\201C" "\201D";} <span class="code-comm">/* кавычки для английского языка */</span>
+q:lang(ru) {quotes: "\00AB" "\00BB";} <span class="code-comm">/* кавычки для русского языка */</span>
+</pre>
+<p>
+Это, пожалуй, единственный из всех возможных видов селекторов, который я никогда не использовал.
+</p>
+<h2>Динамические псевдо-классы</h2>
+<p>
+Динамические псевдо-классы – это :active, :hover, :focus. Динамические псевдо-классы срабатывают по определённому действию на странице, они работают для всех тегов, а не только для ссылок как многие думают и даже утверждают в своих блогах! Рассмотрим их применение:
+</p>
+<pre class="gw-css">p:active {background: red;} <span class="code-comm">/* стиль, который применится к тегу по нажатию на него (клику мышью) */</span>
+input:focus {width: 400px;} <span class="code-comm">/* стиль, который применится к элементу, на котором в данный момент фокус (работает, к примеру, для текстовых полей ввода: textarea, input). В данном случае по взятию в фокус, ширина input станет равна 400 пикселей, удобно использовать для красивого эффекта удлинения поля по клику. */</span>
+div:hover {background: green;} <span class="code-comm">/* срабатывает по наведению курсора на элемент, в основном применяется для создания красивого эффекта при наведении на ссылки. */</span>
+</pre>
+<p>
+Примените данные стили к нашему примеру выше, и вы сами всё увидите.
+</p>
+<h2>Смежные селекторы</h2>
+<p>
+Смежные селекторы – это ближайший сосед ниже по коду, не ребёнок! Очень удобный селектор:
+</p>
+<pre class="gw-css">&lt;style&gt;
+div + p {background: green; color: white;} <span class="code-comm">/* Применить свойства к тегу p, если сразу после закрывающегося тега div открывается тег p */</span>
+p + span {background: orange;} <span class="code-comm">/* не сработает, так как у нас нет открывающегося тега span, сразу после закрывающегося тега p */</span>
+&lt;/style&gt;
+&lt;div&gt;
+&nbsp;&nbsp;&lt;p&gt;текст в параграфе первого div&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;текст в параграфе ВНЕ div&lt;/p&gt;
+&lt;div&gt;
+&nbsp;&nbsp;&lt;p&gt;текст в параграфе второго div&lt;/p&gt;
+&lt;/div&gt;
+&lt;span&gt;текст в спане&lt;/span&gt;
+&lt;p&gt;снова параграф вне div&lt;/p&gt;
+</pre>
+<p>
+Результат:
+</p>
+<p align="center">
+<img src="/images/articles/screen5.2.png" alt="class и id" width="233" height="207" />
+</p>
+<h2>Обобщённые смежные селекторы</h2>
+<p>
+Обобщённые смежные селекторы действуют точно также как и обычные смежные селекторы, за исключением того, что свойства применяются не только к первому соседу ниже, а ко всем заданным соседям ниже:
+</p>
+<pre class="gw-html">&lt;style&gt;
+div~p{color: green;}
+&lt;/style&gt;
+<br />&lt;div&gt;текст в диве&lt;/div&gt;
+<br />&lt;p&gt;параграф&lt;/p&gt;
+&lt;p&gt;параграф&lt;/p&gt;
+&lt;p&gt;параграф&lt;/p&gt;
+<br />&lt;span&gt;текст в спане&lt;/span&gt;
+<br />&lt;p&gt;параграф&lt;/p&gt;
+&lt;p&gt;параграф&lt;/p&gt;
+<br />&lt;div&gt;
+&lt;p&gt;параграф в диве&lt;/p&gt;
+&lt;p&gt;параграф в диве&lt;/p&gt;
+&lt;/div&gt;
+<br />&lt;span&gt;текст в спане&lt;/span&gt;
+&lt;p&gt;параграф&lt;/p&gt;
+</pre>
+<p>
+Результат:
+</p>
+<p align="center">
+<img src="/images/articles/screen5.3.png" alt="смежные селекторы" width="134" height="412" />
+</p>
+<h2>Селекторы атрибутов</h2>
+<p>
+Селекторы атрибутов позволяют нам обратиться к тегам, имеющим необходимый нам атрибут или даже конкретное его значение:
+</p>
+<pre class="gw-css">p[align] {свойства} <span class="code-comm">/* применить ко всем тегам p, у которых есть атрибут align */</span>
+<br />p[align="center"] {свойства} <span class="code-comm">/* где значение атрибута align равно center */</span>
+<br />p[align^="center"] {свойства} <span class="code-comm">/* где значение атрибута align начинается на center */</span>
+<br />p[align*="center"] {свойства} <span class="code-comm">/* где значение атрибута align содержит center */</span>
+<br />p[class~="site"] {свойства} <span class="code-comm">/* где site может находиться среди других слов, отделенных пробелами (&lt;p class="support site magazine"&gt;&lt;/p&gt;) */</span>
+<br />p[class|="site"] {свойства} <span class="code-comm">/* где значение атрибута class состоит только из слова site или начинается им, после чего ставится дефис и пишется остальная часть значения (&lt;p class="site-On"&gt;&lt;/p&gt; или &lt;p class="site-off"&gt;&lt;/p&gt;) */</span>
+<br />p[class$="site"] {свойства} <span class="code-comm">/* где значение атрибута align заканчивается на site */</span>
+</pre>
+<h2>CSS 3 псевдо-классы</h2>
+<p>
+Вы уже ознакомились со всеми основными селекторами и вам на первых парах этого должно хватить с горкой. Однако в CSS 3 появилось множество новых псевдо-классов, теперь мы можем брать не только первого ребёнка, но и любого другого по счёту, можем идти от обратного, брать не первого, а последнего ребёнка и так далее и тому подобное. Всё это очень удобно и практично, разве что у вас могут возникнуть проблемы со старыми версиями IE. Давайте соберём все силы в кулак и пробежимся по всем оставшимся селекторам, чтобы потом уже вы могли иметь их ввиду при вёрстке собственного макета.
+</p>
+<p>
+<strong>:last-child</strong> – аналог :first-child, только берёт не первого, а последнего ребёнка.
+</p>
+<p>
+<strong>:only-child</strong> – сработает, если элемент (тег) является единственным ребёнком.
+</p>
+<p>
+<strong>:only-of-type</strong> - сработает, если элемент (тег) является единственным ребёнком своего типа.
+</p>
+<p>
+<strong>:nth-child()</strong> – обращается к потомкам по их порядковым номерам, можно обращаться ко всем чётным или нечётным (even или odd) числам. Например:
+</p>
+<pre class="gw-css">&lt;style&gt;
+div p:nth-child(5) {background-color: green;} <span class="code-comm">/* Обращаемся к 5 по счёту ребёнку, если он является тегом p. */</span>
+<br />div p:nth-child(2n) {background-color: yellow;} <span class="code-comm">/* Обращаемся к каждому второму ребёнку, если он является тегом p. */</span>
+<br />div p:nth-child(2n+6) {background-color: red;} <span class="code-comm">/* Обращаемся к каждому второму ребёнку начиная с шестого, если он является тегом p. */</span>
+&lt;/style&gt;
+<br />&lt;div&gt;
+&lt;p&gt;параграф&lt;/p&gt;
+&lt;p&gt;параграф&lt;/p&gt;
+&lt;p&gt;параграф&lt;/p&gt;
+<br />&lt;span&gt;текст в спане&lt;/span&gt;
+<br />&lt;p&gt;параграф&lt;/p&gt;
+&lt;p&gt;параграф&lt;/p&gt;
+&lt;p&gt;параграф&lt;/p&gt;
+&lt;p&gt;параграф&lt;/p&gt;
+&lt;p&gt;параграф&lt;/p&gt;
+&lt;p&gt;параграф&lt;/p&gt;
+&lt;/div&gt;
+</pre>
+<p>
+Результат:
+</p>
+<p align="center">
+<img src="/images/articles/screen5.4.png" alt="псевдо-классы" width="245" height="379" />
+</p>
+<p>
+<strong>:nth-last-child</strong> – работает также как и предыдущий, но отчёт начинается с конца.
+</p>
+<p>
+<strong>:first-of-type</strong> – первый ребёнок своего типа в рамках прямого родителя.
+</p>
+<p>
+<strong>:last-of-type</strong> – последний ребёнок своего типа в рамках прямого родителя.
+</p>
+<p>
+<strong>:empty</strong> – сработает для тех тегов, внутри которых нет ни одного символа (без текста).
+</p>
+<p>
+<strong>:not()</strong> – делает исключение для заданных элементов. Пример:
+</p>
+<pre class="gw-css">&lt;style&gt;
+p:not(.roll) {color: red;} <span class="code-comm">/* для всех параграфов на странице делаем красный цвет текста, за исключением параграфов с классом roll */</span>
+&lt;/style&gt;
+<br />&lt;p class="roll"&gt;параграф с классом roll&lt;/p&gt;
+<br />&lt;p&gt;параграф&lt;/p&gt;
+&lt;p&gt;параграф&lt;/p&gt;
+<br />&lt;p class="roll"&gt;параграф с классом roll&lt;/p&gt;
+</pre>
+<p>
+Результат:
+</p>
+<p align="center">
+<img src="/images/articles/screen5.5.png" alt="псевдо-классы" width="249" height="171" />
+</p>
+<h2>Управление полями, формами, переключателями и флажками в CSS</h2>
+<p>
+<strong>:enabled</strong> - применяется к доступным элементам интерфейса как формы, кнопки, переключатели и тд. По умолчанию все элементы интерфейса являются доступными.
+</p>
+<p>
+<strong>:disabled</strong> - применяется к заблокированным элементам интерфейса как кнопки, формы и так далее. Элементы интерфейса являются заблокированными, если к ним в HTML добавить атрибут disabled или в XHTML disabled=”disabled”.
+</p>
+<p>
+<strong>:checked</strong> – применяется к элементам интерфейса типа переключатели (radio) и флажки (checkbox), когда они находятся во включённом положении.
+</p>
+<h2>Псевдо-элементы</h2>
+<p>
+Псевдо-элементы, аналогично псевдо-классам вычисляются браузером автоматически, нам об этом заботиться не нужно. Чтобы не путать псевдо-элементы с псевдо-классами в спецификации CSS 3 было решено использовать двойное двоеточие, вместо одинарного, как было в CSS 2. Поэтому в Интернете вы можете встретить псевдо-элементы как с одинарным двоеточием так и с двойным – и тот и тот вариант верен. Однако для лучшей совместимости с IE рекомендуют использовать одинарное двоеточие.
+</p>
+<p>
+<strong>:first-line</strong> – первая строка внутри блочного или табличного элемента.
+</p>
+<p>
+<strong>:first-letter</strong> – первая буква внутри блочного элемента.
+</p>
+<p>
+<strong>:before и :after</strong> – используются чтобы с помощью CSS вставить содержимое до или после элемента, к которому они относятся, лично я ими не пользовался, поэтому сильно расписывать не буду. А как часто вы используете данные псевдо-элементы в своих проектах? Можете поделиться своим опытом в комментариях к данной статье.
+</p>
+<p>
+<strong>Итоги:</strong> теперь вы знаете и можете использовать всю мощь каскадных таблиц стилей, однако это не значит, что нужно сразу ринуться верстать макеты сайтов, используя как можно больше изученных сегодня селекторов, псевдо-классов и псевдо-элементов. Я перечислил все возможные инструменты, а вы должны выбрать лишь самое нужное для себя.
+</p>
+<h2>Преимущества оптимизации HTML за счёт CSS</h2>
+<p>
+Суть всего написанного выше отчасти заключается в том, чтобы отказаться от повсеместного использования атрибутов class и id в HTML, тем самым возложив всё на плечи могучих таблиц стилей.
+</p>
+<p>
+Внешние файлы стилей, как и внешние файлы Javascript отлично кэшируются, а это значит, что зайдя первый раз на любую страницу вашего сайта, браузер пользователя запоминает эти файлы и более их не скачивает, в отличие от самой страницы сайта, то есть вашей HTML разметки, картинок и текста, которую браузер загружает снова и снова. Тоже самое касается и поисковых систем, им вообще нет дела до ваших внешних файлов, но вот до объёма и содержания вашей HTML разметки им дело есть. Поисковым системам приходится сканировать всю структуру страницы и в ваших же интересах помочь им в этом, сосредоточить их усилия на контенте, а не на громоздкой стене разметки состоящей из кучи классов и идентификаторов или того хуже – Javascript обработчиков событий и CSS стилей прямо в атрибутах тегов (и такое до сих пор бывает).
+</p>
+<p>
+Вы можете со мной поспорить, мол, мы можем заставить клиентский браузер скачивать себе в локальную среду все подключаемые файлы, картинки, закэшировать всю страницу целиком и так далее и тому подобное. На таком фоне подобная мелочь совсем теряется, но так или иначе <strong>максимально сократив HTML разметку, вы только выигрываете</strong>, при этом ничего не потеряв, кроме возможной привычки.
+</p>
+<p>
+<strong>Подытожим:</strong> благодаря оптимизации и сокращению HTML мы имеем совсем небольшой выигрыш в скорости загрузки сайта и в SEO (поисковой оптимизации), а также более чистый код.
+</p><div class="author">С уважением, <a title="Об авторе" target="_blank" href="/about" itemprop="author">Сергей Рудь</a>.</div>
+<div class="navigation"><a href="http://site-on.net/create/html/4-nasledovanie-v-css-na-primerah">&lt;&lt; Предыдущая статья</a><a href="http://site-on.net/create/html/6-vertical-align">Следующая статья &gt;&gt;</a></div>
+<div id="rating-div" itemprop="aggregateRating" itemscope="itemscope" itemtype="http://schema.org/AggregateRating"><h6>Пожалуйста, оцените эту статью</h6><div class="rating"><label for="vote"><span class="vmicon ratingbox" ><span style="width:116.88px" class="stars-orange" ></span></span></label><form class="rating-form" method="post" action="/create/html/5-selectori-css-tochechnoe-primenenie-svoistv-css-optimizaciya-html"><input type="hidden" id="vote" value="0" name="vote"><input class="mail" type="submit" value="Применить"></form></div>
+Средняя оценка: <span itemprop="ratingValue">4.87</span> из <span itemprop="bestRating">5</span> (проголосовало: <span itemprop="ratingCount">316</span>)<script type="text/javascript">
+(function(){
+	var steps = '5';
+	//var parentPos= $('.rating .ratingbox').position();
+	var boxWidth = document.querySelector('.rating .ratingbox').clientWidth;// nbr of total pixels
+	var starSize = (boxWidth/steps);
+	var ratingboxPos= document.querySelector('.rating .ratingbox').getBoundingClientRect();
+
+	document.querySelector('.rating .ratingbox').onmousemove = function(e){
+		var span = this.children[0];
+		ratingboxPos = this.getBoundingClientRect();
+		var dif = e.pageX-ratingboxPos.left; // nbr of pixels
+		difRatio = Math.floor(dif/boxWidth* steps )+1; //step
+		span.style.width = difRatio*starSize + 'px';
+		this.onclick = function(){
+			document.getElementById('vote').value = difRatio;
+		};
+		this.onmouseout = function(){
+			span.style.width = document.getElementById('vote').value*starSize + 'px';
+		};
+	};
+})()
+</script>
+</div>
+<div id="subs"><h6>Статья оказалась вам полезной? Подпишитесь, чтобы не пропустить новые!</h6><form action="http://feedburner.google.com/fb/a/mailverify" method="post" target="popupwindow" onsubmit="window.open('http://feedburner.google.com/fb/a/mailverify?uri=Site-on', 'popupwindow', 'scrollbars=yes,width=550,height=520');return true"><br />Ваш email: <input type="text" name="email"/> <input type="hidden" value="Site-on" name="uri"/><input type="hidden" name="loc" value="ru_RU"/><input class="mail" type="submit" value="Подписаться!" /></form></div>
+<div id="soc2"><h6>Вы можете помочь развитию проекта, сделав всего 1 клик:</h6><div class="g-plusone" data-size="tall"></div><div class="yashare-auto-init" data-yashareL10n="ru" data-yashareQuickServices="yaru,vkontakte,facebook,twitter,odnoklassniki" data-yashareTheme="counter"></div>Спасибо!</div>
+<div id="commentdiv"><div class="commentdiv2"><h6>Пожалуйста, прокомментируйте, как Вам моя статья?</h6><form id="f1" method="post" action="/create/html/5-selectori-css-tochechnoe-primenenie-svoistv-css-optimizaciya-html">Имя: <input required="required" maxlength="30" type="text" name="fname" /><br />Комментарий: <br /><textarea rows="7" cols="60" required="required" name="lname"></textarea><br /><strong>Если Вы хотите вставить код, пожалуйста, заключайте его в [code][/code]</strong><br /><br />Подписаться на новые комментарии: <input type="checkbox" name="echeck" /><p>E-mail: <input type="text" name="email" /></p><br /><strong>Защита от спама: пожалуйста, напишите слово "сел" справа налево</strong><br />Ответ: <input type="text" name="demon" id="demon" size="20"/><br /></form><form method="post" action="/create/html/5-selectori-css-tochechnoe-primenenie-svoistv-css-optimizaciya-html">Подписаться на новые комментарии без комментирования - Email: <input type="text" name="email2" /><br /><strong>Защита от спама: пожалуйста, напишите слово "сел" справа налево</strong><br />Ответ: <input type="text" name="demon" id="demon2" size="20"/><br /></form></div><meta itemprop="interactionCount" content="UserComments:39"/><br /><div class="branch"><div class="gwfirst" itemprop="comment" itemscope="itemscope" itemtype="http://schema.org/UserComments"><span class="com-time" itemprop="commentTime" content="2013-08-26T17:09:32">26.08.2013 17:09:32</span> <span class="com-author" itemprop="creator">Олег</span>:<div itemprop="commentText">"То цвет текста станет красным, несмотря на то, что класс находится ниже по коду и если бы у них был равный приоритет текст стал бы синим." Не станет, потому что в теге стиля указан #first {color: red;} а идентификатор id="footer" - не совпадают ни разу ;)</div></div><div class="admin" itemprop="comment" itemscope="itemscope" itemtype="http://schema.org/UserComments"><span class="com-time" itemprop="commentTime" content="2013-08-26T19:05:48">26.08.2013 19:05:48</span> <span class="com-author" itemprop="creator">Сергей</span> отвечает:<div class="com-text" itemprop="commentText">Спасибо, что заметили, исправил.</div></div></div>
+<p><a class="answer" rel="nofollow" href="#answer1"><!--noindex-->Ответить на комментарий<!--/noindex--></a></p><br /><div class="branch"><div class="gwfirst" itemprop="comment" itemscope="itemscope" itemtype="http://schema.org/UserComments"><span class="com-time" itemprop="commentTime" content="2013-10-13T07:44:32">13.10.2013 07:44:32</span> <span class="com-author" itemprop="creator">Александр</span>:<div itemprop="commentText">Отличные статьи! Для новичка в самый раз, но в данной Вы перепутали:<br>Цитата:<br><span class="code">p[align*=" center"] {свойства} /* где значение атрибута align заканчивается на center */</span><br>и<br>Цитата:<br><span class="code">p[class$="site"] {свойства} /* где значение атрибута class содержит site */</span><br>друг с другом.</div></div><div class="admin" itemprop="comment" itemscope="itemscope" itemtype="http://schema.org/UserComments"><span class="com-time" itemprop="commentTime" content="2013-10-19T13:44:14">19.10.2013 13:44:14</span> <span class="com-author" itemprop="creator">Сергей</span> отвечает:<div class="com-text" itemprop="commentText">Вы правы, спасибо, исправил статью.</div></div></div>
+<p><a class="answer" rel="nofollow" href="#answer2"><!--noindex-->Ответить на комментарий<!--/noindex--></a></p><br /><div class="branch"><div class="gwfirst" itemprop="comment" itemscope="itemscope" itemtype="http://schema.org/UserComments"><span class="com-time" itemprop="commentTime" content="2014-04-25T22:53:59">25.04.2014 22:53:59</span> <span class="com-author" itemprop="creator">Александр</span>:<div class="com-text" itemprop="commentText">В этом примере кода, кажись, одна угловая скобка в самом начале лишняя (опечатка)?<br /><br />&lt;div&gt;span p:first-child {color: green;} /*сработает, если p является первым ребёнком своего родителя и находится внутри тега span, который является прямым потомком тега div */<br /><br />Спасибо!</div></div></div>
+<p><a class="answer" rel="nofollow" href="#answer3"><!--noindex-->Ответить на комментарий<!--/noindex--></a></p><br /><div class="branch"><div class="gwfirst" itemprop="comment" itemscope="itemscope" itemtype="http://schema.org/UserComments"><span class="com-time" itemprop="commentTime" content="2014-04-25T23:27:10">25.04.2014 23:27:10</span> <span class="com-author" itemprop="creator">Александр</span>:<div class="com-text" itemprop="commentText">В примере про селекторы атрибутов тоже опечатка:<br /><br />стоит так: p[align*=" center"] {свойства} /* где значение атрибута class содержит site */<br /><br />Видимо, подразумевалось "где значение атрибута align заканчивается на center */"</div></div><div class="admin" itemprop="comment" itemscope="itemscope" itemtype="http://schema.org/UserComments"><span class="com-time" itemprop="commentTime" content="2014-04-26T13:07:07">26.04.2014 13:07:07</span> <span class="com-author" itemprop="creator">Сергей</span> отвечает:<div class="com-text" itemprop="commentText">Исправил опечатки, спасибо. Но нет, не заканчивается на center, а содержит center в любом месте (в начале, в середине, в конце). center может быть частью другого слова.</div></div></div>
+<p><a class="answer" rel="nofollow" href="#answer4"><!--noindex-->Ответить на комментарий<!--/noindex--></a></p><br /><div class="branch"><div class="gwfirst" itemprop="comment" itemscope="itemscope" itemtype="http://schema.org/UserComments"><span class="com-time" itemprop="commentTime" content="2014-06-30T02:37:05">30.06.2014 02:37:05</span> <span class="com-author" itemprop="creator">Влад</span>:<div class="com-text" itemprop="commentText">К сожалению не описан случай комбинирования селекторов &lt;div class="abc xyz" id="def"&gt;&lt;/div&gt;. Как в таком случае прописывать свойства:<br /> <span class="code"><br />.abc #def{<br />color: blue;<br />}</span><br />Так или иначе? А то я запутался.</div></div><div class="admin" itemprop="comment" itemscope="itemscope" itemtype="http://schema.org/UserComments"><span class="com-time" itemprop="commentTime" content="2014-06-30T08:36:53">30.06.2014 08:36:53</span> <span class="com-author" itemprop="creator">Сергей</span> отвечает:<div class="com-text" itemprop="commentText">Напишите, пожалуйста, что Вам нужно сделать? Писать .abc #def нет смысла, так как #def (как и любой другой id) - встречается один раз на странице, об этом я писал. Поэтому если Вы хотели обратиться именно к id, то:<br /><span class="code">#def{<br />color: blue;<br />}</span><br /><br />Но Ваша запись тоже будет работать.</div></div><div itemprop="comment" itemscope="itemscope" itemtype="http://schema.org/UserComments"><span class="com-time" itemprop="commentTime" content="2014-08-30T11:33:53">30.08.2014 11:33:53</span> <span class="com-author" itemprop="creator">Мих</span> отвечает:<div class="com-text" itemprop="commentText">Возможно Влад хотел сказать о возможности прописывать несколько классов через пробел<br />class="abc xyz"</div></div></div>
+<p><a class="answer" rel="nofollow" href="#answer5"><!--noindex-->Ответить на комментарий<!--/noindex--></a></p><br /><div class="branch"><div class="gwfirst" itemprop="comment" itemscope="itemscope" itemtype="http://schema.org/UserComments"><span class="com-time" itemprop="commentTime" content="2014-10-06T20:29:36">06.10.2014 20:29:36</span> <span class="com-author" itemprop="creator">Tokushirou</span>:<div class="com-text" itemprop="commentText">div&gt;span p:first-child {color: green;} /*сработает, если p является первым ребёнком своего родителя и находится внутри тега span, который является прямым потомком тега div */<br /><br />здесь у меня правило работает и для "третий уровень"<br />т.е. для div-span-span-p хотя span-p прямой потомок span а не div<br />как так?</div></div><div itemprop="comment" itemscope="itemscope" itemtype="http://schema.org/UserComments"><span class="com-time" itemprop="commentTime" content="2014-11-07T07:43:27">07.11.2014 07:43:27</span> <span class="com-author" itemprop="creator">Сашок</span> отвечает:<div class="com-text" itemprop="commentText">Мой маил info@whatswap.ru////  у меня такой вот вопрос разве такое можеть быть &lt;div class="log txt"&gt; так можно писать? и если можно тогда как на CSS  имя класса писать // пробывал так . log txt { };  не работает. Уважаемый Админ пожалуйста подскажите  )))) Плиз</div></div><div class="admin" itemprop="comment" itemscope="itemscope" itemtype="http://schema.org/UserComments"><span class="com-time" itemprop="commentTime" content="2014-11-08T10:34:03">08.11.2014 10:34:03</span> <span class="com-author" itemprop="creator">Сергей</span> отвечает:<div class="com-text" itemprop="commentText">Такое может быть. Обращаться вот так: .log.txt{}</div></div></div>
+<p><a class="answer" rel="nofollow" href="#answer6"><!--noindex-->Ответить на комментарий<!--/noindex--></a></p><br /><div class="branch"><div class="gwfirst" itemprop="comment" itemscope="itemscope" itemtype="http://schema.org/UserComments"><span class="com-time" itemprop="commentTime" content="2014-11-26T21:54:40">26.11.2014 21:54:40</span> <span class="com-author" itemprop="creator">Владимир</span>:<div class="com-text" itemprop="commentText">Действительно хорошая статья. Но вот имеется интересный вопрос, задачка, которую сложно решить - в хтмл-е у нас есть список, в каждом пункте которого теги "а", в которые в свою очередь вложены "img"(которых изначально там не было), всё это "растянуто" в кнопки менюшки сайта через id-шку buttons.<br /><span class="code">#buttons {<br />	width: 100%;<br />	border-radius: 8px;<br />	-moz-border-radius: 8px;<br />	-khtml-border-radius: 8px;<br />	-webkit-border-radius: 8px;<br />	background: -webkit-gradient(linear, left top, left bottom, from(#444444), to(#000000));<br />	background: -moz-linear-gradient(top,  #444444,  #000000);<br />	background-image: -o-linear-gradient(top,rgb(68,68,68), rgb(102,102,102));<br />	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#444444', endColorstr='#000000');<br />	border: none;<br />	list-style: none;<br />	padding: 0;<br />	margin: 0;<br />	float: left;<br />	box-shadow: 0 1px rgba(0,0,0,.1) inset, 0 0 5px 1px #ff0000;<br />}</span><br />При наведении(то есть hover)оформление этих кнопок меняется, а прописано через: <span class="code">#buttons li a:hover {}</span><br />Добавив на эти "кнопки" иконки я их соответственно оформил(внеш. внутр. тени, радиус и т. д.) через отдельный класс для тегов "img":<span class="code">header .images {}</span><br />В итоге нужно динамику изменения внешнего вида кнопок и иконок на них привязать на один "hover", но у обоих есть взаимоисключающие параметры(радиусы и фон)... Как без изменения блоков кода это дело организовать, уже много всего испробовал, но чувствую, что выход должен быть.</div></div><div itemprop="comment" itemscope="itemscope" itemtype="http://schema.org/UserComments"><span class="com-time" itemprop="commentTime" content="2014-12-30T13:47:42">30.12.2014 13:47:42</span> <span class="com-author" itemprop="creator">Юрий</span> отвечает:<div class="com-text" itemprop="commentText">Напишите хтмл, чтоб понятна была структура меню</div></div><div itemprop="comment" itemscope="itemscope" itemtype="http://schema.org/UserComments"><span class="com-time" itemprop="commentTime" content="2014-12-30T14:17:17">30.12.2014 14:17:17</span> <span class="com-author" itemprop="creator">Юрий</span> отвечает:<div class="com-text" itemprop="commentText">А вообще? не вижу проблемы. Написать два раза стили <br />1. a:hover {стили для кнопки}<br />2. a:hover img{ стили для картинки }</div></div><div itemprop="comment" itemscope="itemscope" itemtype="http://schema.org/UserComments"><span class="com-time" itemprop="commentTime" content="2015-01-04T18:09:04">04.01.2015 18:09:04</span> <span class="com-author" itemprop="creator">Владимир</span> отвечает:<div class="com-text" itemprop="commentText">Юрий, Ваш вариант не подходит, сейчас так и сделано(я правда пока ушел на наузу, некогда вникать в это), код о котором идет речь можете взглянуть тут: http://jsbin.com/yezijekaji/1/edit?html,css,output Проблема этого способа в том, что размер кнопки сильно отличается от размера изображения, в итоге при подводе к краюшку кнопки изменений в картинке не происходит, ну собственно по ссылке всё прекрасно видно.</div></div><div itemprop="comment" itemscope="itemscope" itemtype="http://schema.org/UserComments"><span class="com-time" itemprop="commentTime" content="2015-01-04T23:28:26">04.01.2015 23:28:26</span> <span class="com-author" itemprop="creator">Юрий</span> отвечает:<div class="com-text" itemprop="commentText">Ну так я правильно Вам написал в предыдущем комменте. Напишите два ховера на тег а.<br />У Вас там два ховера на два разных элемента:<br />- .images:hover  (этот на &lt;img&gt;)<br />- a:hover  (этот на &lt;a&gt;)<br />Переделайте <br />.images:hover <br />на <br />a:hover .images<br />и будет Вам счастье</div></div></div>
+<p><a class="answer" rel="nofollow" href="#answer7"><!--noindex-->Ответить на комментарий<!--/noindex--></a></p><br /><div class="branch"><div class="gwfirst" itemprop="comment" itemscope="itemscope" itemtype="http://schema.org/UserComments"><span class="com-time" itemprop="commentTime" content="2014-12-24T00:02:04">24.12.2014 00:02:04</span> <span class="com-author" itemprop="creator">Вячеслав</span>:<div class="com-text" itemprop="commentText">Отличная статья. Добавить только бы про специфичность и приоритетность.</div></div></div>
+<p><a class="answer" rel="nofollow" href="#answer8"><!--noindex-->Ответить на комментарий<!--/noindex--></a></p><br /><div class="branch"><div class="gwfirst" itemprop="comment" itemscope="itemscope" itemtype="http://schema.org/UserComments"><span class="com-time" itemprop="commentTime" content="2015-11-13T23:10:07">13.11.2015 23:10:07</span> <span class="com-author" itemprop="creator">Ром</span>:<div class="com-text" itemprop="commentText">спасибо, очень доходчиво!<br /><br />некоторые опечатки:<br /><br />a:visited {color: green; text-decoration: none;} /* у посещённых ссылок текст будет красным<br /><br />p[class$="site"] {свойства} /* где значение атрибута align заканчивается на center */<br /><br />флажки (radio) и переключатели (checkbox)</div></div><div class="admin" itemprop="comment" itemscope="itemscope" itemtype="http://schema.org/UserComments"><span class="com-time" itemprop="commentTime" content="2015-11-14T11:03:25">14.11.2015 11:03:25</span> <span class="com-author" itemprop="creator">Сергей</span> отвечает:<div class="com-text" itemprop="commentText">Спасибо, исправил.</div></div></div>
+<p><a class="answer" rel="nofollow" href="#answer9"><!--noindex-->Ответить на комментарий<!--/noindex--></a></p><br /><div class="branch"><div class="gwfirst" itemprop="comment" itemscope="itemscope" itemtype="http://schema.org/UserComments"><span class="com-time" itemprop="commentTime" content="2016-01-04T22:10:20">04.01.2016 22:10:20</span> <span class="com-author" itemprop="creator">Александр</span>:<div class="com-text" itemprop="commentText">Хорошо но не нашел  про то что искал</div></div></div>
+<p><a class="answer" rel="nofollow" href="#answer10"><!--noindex-->Ответить на комментарий<!--/noindex--></a></p><br /><div class="branch"><div class="gwfirst" itemprop="comment" itemscope="itemscope" itemtype="http://schema.org/UserComments"><span class="com-time" itemprop="commentTime" content="2016-05-07T10:09:52">07.05.2016 10:09:52</span> <span class="com-author" itemprop="creator">Ник</span>:<div class="com-text" itemprop="commentText">Здравствуйте, Сергей, большое спасибо за статью! Я во всем этом совсем новичок и у меня возникла следующая проблема:<br />если <br /><span class="code"><br />p:active {background: red;} <br />input:focus {width: 400px;} <br />div:hover {background: green;}<br /></span><br />Поместить не в style в разметке, а в CSS, то ничего не работает. Можете подсказать, что я делаю не так?</div></div><div class="admin" itemprop="comment" itemscope="itemscope" itemtype="http://schema.org/UserComments"><span class="com-time" itemprop="commentTime" content="2016-05-07T14:01:32">07.05.2016 14:01:32</span> <span class="com-author" itemprop="creator">Сергей</span> отвечает:<div class="com-text" itemprop="commentText">Добрый день. Что значит поместили в CSS ? Вы имели ввиду поместили в отдельный файл с расширением .css? Возможно, указан неправильный путь.<br /><br />Посмотрите в консоли браузера, есть ли ошибки (CTRL+SHIFT+I для Opera & Chrome)</div></div><div class="admin" itemprop="comment" itemscope="itemscope" itemtype="http://schema.org/UserComments"><span class="com-time" itemprop="commentTime" content="2016-05-07T14:03:17">07.05.2016 14:03:17</span> <span class="com-author" itemprop="creator">Сергей</span> отвечает:<div class="com-text" itemprop="commentText">Либо у вашей записи приоритет ниже. Другие CSS правила переписывают (перекрывают) Ваши.</div></div><div itemprop="comment" itemscope="itemscope" itemtype="http://schema.org/UserComments"><span class="com-time" itemprop="commentTime" content="2016-05-07T17:32:30">07.05.2016 17:32:30</span> <span class="com-author" itemprop="creator">Ник</span> отвечает:<div class="com-text" itemprop="commentText">Спасибо большое за ответ! Пeть верный, а в файле эти строки нечему переписывать. Через консоль посмотрел, ошибка есть: ругается, что "p" - unknown property name (при помещении в style в html все работает, но хотелось бы знать, как через css все это работать заставить)</div></div><div itemprop="comment" itemscope="itemscope" itemtype="http://schema.org/UserComments"><span class="com-time" itemprop="commentTime" content="2016-05-07T17:34:52">07.05.2016 17:34:52</span> <span class="com-author" itemprop="creator">Ник</span> отвечает:<div class="com-text" itemprop="commentText">Все, спасибо, разобрался.<br />Нужно было убрать все это из "body {}"</div></div><div itemprop="comment" itemscope="itemscope" itemtype="http://schema.org/UserComments"><span class="com-time" itemprop="commentTime" content="2016-05-07T17:35:04">07.05.2016 17:35:04</span> <span class="com-author" itemprop="creator">Ник</span> отвечает:<div class="com-text" itemprop="commentText">Все, спасибо, разобрался.<br />Нужно было убрать все это из "body {}"</div></div></div>
+<p><a class="answer" rel="nofollow" href="#answer11"><!--noindex-->Ответить на комментарий<!--/noindex--></a></p><br /><div class="branch"><div class="gwfirst" itemprop="comment" itemscope="itemscope" itemtype="http://schema.org/UserComments"><span class="com-time" itemprop="commentTime" content="2016-05-20T13:01:43">20.05.2016 13:01:43</span> <span class="com-author" itemprop="creator">Андрей</span>:<div class="com-text" itemprop="commentText">Здравствуйте!<br />Можно ли с помощью псевдо-класса first-child назначить картинке вложенной в список свой стиль оформления (больший размер)? Стиль первого элемента li изменяется, а вот картинка вложенная в него - нет.</div></div></div>
+<p><a class="answer" rel="nofollow" href="#answer12"><!--noindex-->Ответить на комментарий<!--/noindex--></a></p><br /><div class="branch"><div class="gwfirst" itemprop="comment" itemscope="itemscope" itemtype="http://schema.org/UserComments"><span class="com-time" itemprop="commentTime" content="2016-09-03T02:48:50">03.09.2016 02:48:50</span> <span class="com-author" itemprop="creator">Леонид</span>:<div class="com-text" itemprop="commentText">Здравствуйте<br />Подскажите, возможно ли средствами CSS выделить строки 10-13 и 16-19 (всего 8 шт.):<br /><span class="code"><br />&lt;td id="symbolNameXXX"&gt;&lt;a href="/xxx/yyy" class="kkkk"&gt; MMMM&lt;/a&gt;<br />                &lt;input id="Ip4" style="display:none" value="<br />                    &lt;table class='ppppp kkkkkk'&gt;<br />                        &lt;th class='padd5'&gt;Name&lt;/th&gt;<br />                        &lt;th class='padd5'&gt;Action&lt;/th&gt;<br />                        &lt;tr&gt;<br />                            &lt;td rowspan='3'&gt;MMMM&lt;/td&gt;<br />                        &lt;/tr&gt;<br />                        &lt;tr&gt;<br />                            &lt;td&gt;Left&lt;/td&gt;<br />                            &lt;td&gt;56&lt;/td&gt;<br />                            &lt;td&gt;4582&lt;/td&gt;<br />                            &lt;td&gt;7852&lt;/td&gt;<br />                        &lt;/tr&gt;<br />                        &lt;tr&gt;<br />                            &lt;td&gt;Right&lt;/td&gt;<br />                            &lt;td&gt;15&lt;/td&gt;<br />                            &lt;td&gt;4518 Lots&lt;/td&gt;<br />                            &lt;td&gt;4321&lt;/td&gt;<br />                        &lt;/tr&gt;<br />                    &lt;/table&gt;<br /> &lt;/td&gt;<br /></span></div></div><div itemprop="comment" itemscope="itemscope" itemtype="http://schema.org/UserComments"><span class="com-time" itemprop="commentTime" content="2016-09-29T13:12:04">29.09.2016 13:12:04</span> <span class="com-author" itemprop="creator">Евгений</span> отвечает:<div class="com-text" itemprop="commentText">Вот читаю о псевдо-селекторах и понимаю, какие мы с вами задроты для обычных людей...</div></div><div class="admin" itemprop="comment" itemscope="itemscope" itemtype="http://schema.org/UserComments"><span class="com-time" itemprop="commentTime" content="2016-10-13T19:53:35">13.10.2016 19:53:35</span> <span class="com-author" itemprop="creator">Сергей</span> отвечает:<div class="com-text" itemprop="commentText">:)</div></div></div>
+<p><a class="answer" rel="nofollow" href="#answer13"><!--noindex-->Ответить на комментарий<!--/noindex--></a></p><br /><div class="branch"><div class="gwfirst" itemprop="comment" itemscope="itemscope" itemtype="http://schema.org/UserComments"><span class="com-time" itemprop="commentTime" content="2017-03-01T18:14:59">01.03.2017 18:14:59</span> <span class="com-author" itemprop="creator">Кирилл</span>:<div class="com-text" itemprop="commentText">Хорошая статья! Но передо мной стоит задача задать свойства родителю при нажатии кнопкой мыши на родителя. Есть способы, как это сделать?</div></div></div>
+<p><a class="answer" rel="nofollow" href="#answer14"><!--noindex-->Ответить на комментарий<!--/noindex--></a></p><br /><div class="branch"><div class="gwfirst" itemprop="comment" itemscope="itemscope" itemtype="http://schema.org/UserComments"><span class="com-time" itemprop="commentTime" content="2017-03-06T15:20:45">06.03.2017 15:20:45</span> <span class="com-author" itemprop="creator">Алексей</span>:<div class="com-text" itemprop="commentText">Подскажите как правильно перечислить в скобке где цыфра 2 ещё цыфры?<br /><br />.jshop_list_category &gt; table &gt; tbody &gt; tr:nth-child(1) &gt; td:nth-child(1) &gt; table &gt; tbody<br />{border: 1px solid #CCC;}</div></div></div>
+<p><a class="answer" rel="nofollow" href="#answer15"><!--noindex-->Ответить на комментарий<!--/noindex--></a></p><br /><div class="branch"><div class="gwfirst" itemprop="comment" itemscope="itemscope" itemtype="http://schema.org/UserComments"><span class="com-time" itemprop="commentTime" content="2019-01-20T01:27:09">20.01.2019 01:27:09</span> <span class="com-author" itemprop="creator">Иван</span>:<div class="com-text" itemprop="commentText">Спасибо за труды, кое что подчерпнул! Но заметил недочеты как я считаю:<br /><br />1. Грубая ошибка, нельзя блочные элементы вкладывать в строчные.<br />&lt;span&gt;<br />      &lt;p&gt;Третий уровень&lt;/p&gt;<br />&lt;/span&gt;<br /><br />2. * {margin: 0; padding: 0;} - такая конструкция будет нагружать браузер, не советую</div></div><div itemprop="comment" itemscope="itemscope" itemtype="http://schema.org/UserComments"><span class="com-time" itemprop="commentTime" content="2020-11-20T14:01:42">20.11.2020 14:01:42</span> <span class="com-author" itemprop="creator">Наталья</span> отвечает:<div class="com-text" itemprop="commentText">Параграф, вроде, и есть строчный элемент, если его не объявили блочным специально?</div></div></div>
+<p><a class="answer" rel="nofollow" href="#answer16"><!--noindex-->Ответить на комментарий<!--/noindex--></a></p><br /><div class="branch"><div class="gwfirst" itemprop="comment" itemscope="itemscope" itemtype="http://schema.org/UserComments"><span class="com-time" itemprop="commentTime" content="2020-07-11T20:43:05">11.07.2020 20:43:05</span> <span class="com-author" itemprop="creator">irmaseo.ru</span>:<div class="com-text" itemprop="commentText">Очень полезная информация, спасибо</div></div></div>
+<p><a class="answer" rel="nofollow" href="#answer17"><!--noindex-->Ответить на комментарий<!--/noindex--></a></p><br /><div class="branch"><div class="gwfirst" itemprop="comment" itemscope="itemscope" itemtype="http://schema.org/UserComments"><span class="com-time" itemprop="commentTime" content="2021-02-17T21:03:46">17.02.2021 21:03:46</span> <span class="com-author" itemprop="creator">Павел</span>:<div class="com-text" itemprop="commentText">Спасибо большое, Сергей, за ваш труд!</div></div></div>
+<p><a class="answer" rel="nofollow" href="#answer18"><!--noindex-->Ответить на комментарий<!--/noindex--></a></p><br /><div class="branch"><div class="gwfirst" itemprop="comment" itemscope="itemscope" itemtype="http://schema.org/UserComments"><span class="com-time" itemprop="commentTime" content="2021-04-17T20:11:55">17.04.2021 20:11:55</span> <span class="com-author" itemprop="creator">Владимир</span>:<div class="com-text" itemprop="commentText">фывфывафыв</div></div></div>
+<p><a class="answer" rel="nofollow" href="#answer19"><!--noindex-->Ответить на комментарий<!--/noindex--></a></p></div>
+<script type="text/javascript">
+	(function(){var form=document.getElementById('f1'),email=form.email,eCheck=form.echeck,error=document.createElement('P'),inputHeight=email.offsetHeight;
+
+var addAnswer=function(e){e=e||window.event;var target=e.target||event.srcElement;while(target!=this){if(hasClass(target,'answer')){break;}
+target=target.parentNode;}
+if(target===this)return;var newForm=document.createElement('FORM'),pElem=target.parentNode,value=target.href.split('answer')[1],height,val;newForm.setAttribute('method','post');newForm.innerHTML='Имя: <input required="required" type="text" name="fname" /><br />Ваш ответ: <br /><textarea rows="7" cols="60" required="required" name="lname"></textarea><br />Подписаться на новые комментарии: <input type="checkbox" name="echeck" /><p style="display:none" >Email: <input type="text" name="email"  /></p><br /><strong>Защита от спама: пожалуйста, напишите слово "сел" справа налево</strong><br />Ответ: <input type="text" name="demon" size="20"/><br />'/**/+'<input maxlength="3" type="hidden" value="'+value+'" name="answer" />';newForm.style.opacity=0;newForm.style.display='block';this.insertBefore(newForm,pElem);height=newForm.offsetHeight+inputHeight+25;newForm.style.height='0px';animate({duration:400,delta:makeEaseOut(back),step:function(delta){val=delta*height;newForm.style.height=val+'px';newForm.style.opacity=delta;}})
+newForm.demon.onkeyup = function(e){var v = this.value;if(v.match(/^лес$/i)){var inp = document.createElement('DIV');inp.innerHTML = '<input type="submit" value="Отправить!" />';this.parentNode.insertBefore(inp,this.nextSibling);this.onkeyup = null;}}
+pElem.style.display='none';newForm.echeck.onclick=showEmail;return false;}
+function showEmail(){var email=this.parentNode.getElementsByTagName('INPUT')[2];email.value='';if(this.checked){email.parentNode.style.height='0px';email.parentNode.style.display='';animate({duration:600,delta:linear,step:function(delta){val=delta*inputHeight;email.parentNode.style.height=val+'px';email.parentNode.style.opacity=delta;}})}
+else{animate({duration:600,delta:linear,step:function(delta){val=inputHeight-delta*inputHeight;email.parentNode.style.height=val+'px';email.parentNode.style.opacity=1-delta;},complete:function(){email.parentNode.style.display='none';}})}}
+email.parentNode.style.display='none';document.getElementById('commentdiv').onclick=addAnswer;eCheck.onclick=showEmail;if(!navigator.cookieEnabled){error.innerHTML='Чтобы отправить комментарий, пожалуйста, включите cookie';form.insertBefore(error,form.lastChild.previousSibling);}}())
+document.getElementById('demon').onkeyup = document.getElementById('demon2').onkeyup = function(e){var v = this.value;if(v.match(/^лес$/i)){var inp = document.createElement('DIV');inp.innerHTML = '<input type="submit" value="Отправить!" />';this.parentNode.insertBefore(inp,this.nextSibling);this.onkeyup = null;}}
+</script>
+<style type="text/css">.ya-page_js_yes .ya-site-form_inited_no { display: none; }</style><script type="text/javascript" src="//yandex.st/share/share.js" charset="utf-8"></script><a id="down"></a></div><div id="r"><div class="subscribe"><h5>Подписка по Email</h5>Получайте уникальные уроки о создании, продвижении и заработке на сайте первыми!
+    <form action="http://feedburner.google.com/fb/a/mailverify" method="post" target="popupwindow" onsubmit="window.open('http://feedburner.google.com/fb/a/mailverify?uri=Site-on', 'popupwindow', 'scrollbars=yes,width=550,height=520');return true"><br />Ваш email: <input type="text" name="email"/> <input type="hidden" value="Site-on" name="uri"/><input type="hidden" name="loc" value="ru_RU"/><br /><input class="mail" type="submit" value="Подписаться!" /></form>
+    Пора опережать конкурентов и экономить своё время.
+    </div>
+<div><h5>Использую для работы</h5><ul><li><a rel="nofollow" target="_blank" href="http://www.ukraine.com.ua/?page=97681">Хостинг "Украина" – профессиональный хостинг с надёжной защитой и большим функционалом. </a></li><li><a href="http://site-on.net/useful/2-sublime-text-2">Sublime Text 2 - один из лучших редакторов кода.</a></li><li><a href="http://site-on.net/useful/11-smartresponder">SmartResponder - собираем урожай подписчиков</a></li><a href="http://site-on.net/useful/12-sms">Массовая и автоматизированная рассылка SMS</a></li></ul></div><div><h5>Мои расширения</h5><ul><li><a href="http://site-on.net/create/cms/13-gw-sms-sender-for-virtuemart">Плагин отправки SMS при заказе и смене статуса в VirtueMart 2</a></li><li><a href="http://site-on.net/create/cms/16-gw-ajax-hiding-for-seo">Плагин отложенной загрузки элементов страницы</a></li><li><a href="http://site-on.net/create/cms/23-gw-spam-protect">Защита от автоматических регистраций в Joomla и VirtueMart</a></li></ul></div><div><h5>Свежие статьи</h5><ul>
+<li><a href="http://site-on.net/optimization/14-pattern-seo-audit">Шаблон SEO аудита – checklist для каждого сайта</a></li>
+<li><a href="http://site-on.net/about/2-new-year-2015">С наступающими праздниками!</a></li>
+<li><a href="http://site-on.net/contests/3-crossword">Поймай удачу за хвост!</a></li>
+<li><a href="http://site-on.net/useful/13-bannerbro">БаннерБро – обзор скрипта нового поколения для автоматизированной продажи рекламы с сайта</a></li>
+<li><a href="http://site-on.net/create/php/14-include">Принцип подключения файлов в PHP</a></li>
+<li><a href="http://site-on.net/create/php/13-built-in-functions">О возможностях PHP и встроенных функциях для ежедневного использования</a></li>
+<li><a href="http://site-on.net/create/php/12-function-part2">Все нюансы работы с функциями в PHP. Часть 2</a></li>
+<li><a href="http://site-on.net/about/1-june-2014">Куда я пропадал? Мои дальнейшие планы и новости</a></li>
+<li><a href="http://site-on.net/create/cms/27-insert-advertising">Как автоматически вставить рекламу в статьи Joomla и Wordpress</a></li>
+<li><a href="http://site-on.net/useful/12-sms">Как и с помощью чего организовать массовую рассылку СМС</a></li>
+<li><a href="http://site-on.net/useful/11-smartresponder">SmartResponder - собираем урожай подписчиков</a></li>
+<li><a href="http://site-on.net/optimization/13-unique-pictures">Уникальные картинки на сайте - мощнейший фактор продвижения</a></li>
+<li><a href="http://site-on.net/create/php/11-function">Собственные (пользовательские) функции в PHP. Часть 1</a></li>
+</ul></div><div><h5>Рекомендую</h5><ul><li><a href="http://site-on.net/create/1-vvedenie">Из чего состоит сайт? Введение в сайтостроение</a></li><li><a href="http://site-on.net/create/cms/4-import">Автоматический импорт, экспорт и обновление товаров из прайс-листа в VirtueMart 2</a></li><li><a href="http://site-on.net/optimization/3-alternativa-robots-kak-navsegda-izbavitsya-ot-dublei-stranic-na-saite">Альтернатива robots.txt – как навсегда избавиться от дублей страниц на сайте</a></li><li><a href="http://site-on.net/create/cms/17-virtuemart-jotcache-speed-up">Ускорение VirtueMart 2 благодаря гибкому кешированию с помощью плагина JotCache</a></li><li><a href="http://site-on.net/create/cms/11-template">Как создать свой собственный шаблон для Joomla 2.5 и Joomla 3</a></li></ul></div><div><h5>Горячо обсуждаемые</h5><ul><li><a href="http://site-on.net/optimization/3-alternativa-robots-kak-navsegda-izbavitsya-ot-dublei-stranic-na-saite">Альтернатива robots.txt – как навсегда избавиться от дублей страниц на сайте</a></li><li><a href="http://site-on.net/create/php/6-callback-and-feedback-for-site-joomla">Форма обратной связи или обратный звонок на сайт</a></li><li><a href="http://site-on.net/create/php/8-apache-php-mysql">Чистая установка веб-сервера Apache с PHP и базой данных MySQL на Windows</a></li></ul></div><div id="p"><h5>Подписка</h5><div class="g-person" data-width="276" data-href="//plus.google.com/118218713938364847408" data-showtagline="false" data-showcoverphoto="false" data-rel="author"></div><script type="text/javascript">window.___gcfg = {lang: 'ru'};(function(){var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;po.src = 'https://apis.google.com/js/platform.js';var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);})();</script><ul><li>Следовать в twitter: <a rel="nofollow" target="_blank" href="https://twitter.com/SiteOnNet1"><div class="t"></div></a></li><li>Подписаться по RSS: <a rel="nofollow" target="_blank" href="http://feeds.feedburner.com/Site-on"><div class="rss"></div></a></li><li>Подписаться по E-mail: <a rel="nofollow" target="_blank" href="http://feedburner.google.com/fb/a/mailverify?uri=Site-on&amp;loc=ru_RU"><div class="e"></div></a></li><li>Следить ВКонтакте:<a rel="nofollow" target="_blank" href="http://vk.com/siteonnet"><div class="vk"></div></a></li><li>Следить на Facebook:<a rel="nofollow" target="_blank" href="http://www.facebook.com/pages/Site-on-всё-о-создании-и-продвижении-сайтов/178233722327885"><div class="face"></div></a></li></ul></div></div></div><!--/width--><div id="f"></div><div id="f2"><div><a target="_blank" href="/copy">Пользовательское соглашение об условиях использования сайта и Политика конфиденциальности</a><br />Перепечатывание или копирование материалов сайта (текста, изображений и другого содержимого) для их публичного или коммерческого использования в сети Интернет, либо в печатных изданиях строго запрещены. При нарушении данного правила, с нашей стороны будут предприняты соответствующие меры, вплоть до судебной жалобы.<br />&copy; site-on.net</div></div><div id="gw-navigation"><div class="font-size">Шрифт: <span id="font-plus">+</span><span id="font-degault">стандартно</span><span id="font-minus">-</span></div><div><ul class="bottom-menu"><li><a title="Начните своё обучение web-технологиям прямо сейчас!" href="/">Старт</a></li><li><a href="/create">Создание сайта</a><ul id="hidden2"><li><a href="/create/html">Вёрстка сайта (HTML+CSS)</a></li><li><a href="/create/php">Динамические сайты (PHP)</a></li><li><a href="/create/cms">Системы управления контентом (CMS)</a></li></ul></li><li><a href="/optimization">Оптимизация и продвижение</a></li><li><a href="/useful">Инструменты</a></li><li><a href="/contests">Конкурсы</a></li><li><a href="/rookie">С чего начать?</a></li></ul></div><div><div title="В начало страницы" id="up"></div></div></div><script type="text/javascript" src="/blog/all-js.js"></script></body></html>
