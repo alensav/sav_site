@@ -252,7 +252,110 @@ img {
 
  .html5css_s_a  h3 {
   text-align: center;
-  
 
 
 }
+.css_box_model {
+  display: flex;
+}
+.css_box_model_a {
+  display: block;
+  width: 300px;
+  height: 150px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 100px;
+  font-size:40px;
+  text-align: center;
+  line-height: 150px;
+
+  background: #462300FF;
+  color: white;
+}
+
+.db_mysql {
+display: flex;
+
+}
+.db_mysql_a {
+
+display: block;
+  width: 300px;
+  height: 150px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 100px;
+  font-size:40px;
+  text-align: center;
+  line-height: 150px;
+
+  background: #462300FF;
+  color: white;
+
+}
+.git_s {
+  display: block;
+    padding: 12px;
+    border: none;
+    /*background: #FFE8D3;*/
+    /*Две колонки*/
+    -webkit-column-width: 49,2%;
+    -moz-column-width:49.2%;
+    column-width: 49.2%;
+    -webkit-column-count: 2;
+    -moz-column-count: 2;
+    column-count: 2;
+    -webkit-column-gap: 30px;
+    -moz-column-gap: 30px;
+    column-gap: 30px;
+    -webkit-column-rule: 1px solid #ccc;
+    -moz-column-rule: 1px solid #ccc;
+    column-rule: 1px solid #ccc;
+    font-size: 20px;
+}
+.dlna_s {
+
+    font-size: 20px;
+
+}
+.scss_s {
+  display: block;
+    padding: 12px;
+    border: none;
+    /*background: #FFE8D3;*/
+    /*Две колонки*/
+    -webkit-column-width: 49,2%;
+    -moz-column-width:49.2%;
+    column-width: 49.2%;
+    -webkit-column-count: 2;
+    -moz-column-count: 2;
+    column-count: 2;
+    -webkit-column-gap: 30px;
+    -moz-column-gap: 30px;
+    column-gap: 30px;
+    -webkit-column-rule: 1px solid #ccc;
+    -moz-column-rule: 1px solid #ccc;
+    column-rule: 1px solid #ccc;
+    font-size: 20px;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
