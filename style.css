@@ -85,6 +85,36 @@ h1 {
 	
 
 }
+.box-a3 {
+  display: block;
+  border-radius: 10px;
+  /*Центрирование */
+   margin-left: auto;
+    margin-right: auto;
+    margin-top: 7px;
+    height: 30px;
+  width: 80px;
+  border:2px solid #0B23FFFF;
+  padding: 5px;
+  text-align: center;
+  background: #FFC652FF;
+  line-height: 30px;
+  -webkit-column-width: 49,2%;
+    -moz-column-width:49.2%;
+    column-width: 49.2%;
+    -webkit-column-count: 2;
+    -moz-column-count: 2;
+    column-count: 2;
+    -webkit-column-gap: 30px;
+    -moz-column-gap: 30px;
+    column-gap: 30px;
+    -webkit-column-rule: 1px solid #ccc;
+    -moz-column-rule: 1px solid #ccc;
+    column-rule: 1px solid #ccc;
+    font-size: 20px;
+  
+
+}
 .box-a1 {
   display: block;
   float: left;
