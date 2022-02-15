@@ -29,7 +29,7 @@
     column-rule: 1px solid #ccc;
 }
     /*--Одна колонка для PRINT  --*/
-     #txt_4 {
+     #txt_4, #txt_8, #txt_9{
     display: none;
     padding: 12px;
     border: 1px solid #C0C0C0;
@@ -161,8 +161,10 @@
 #tab_4:checked ~ #txt_4,
 #tab_5:checked ~ #txt_5,
 #tab_6:checked ~ #txt_6,
+#tab_7:checked ~ #txt_7,
+#tab_8:checked ~ #txt_8,
 
-#tab_7:checked ~ #txt_7 { display: block; }
+#tab_9:checked ~ #txt_9 { display: block; }
 </style>
 </head>
 <body>
@@ -186,7 +188,10 @@
     <label for="tab_6">CSS_BOX</label>
     <input type="radio" name="inset" value="" id="tab_7">
     <label for="tab_7">DB_MYSQL</label>
-    
+        <input type="radio" name="inset" value="" id="tab_8">
+    <label for="tab_8">BUTTON</label>
+    <input type="radio" name="inset" value="" id="tab_9">
+    <label for="tab_9">BUTTON2</label>
 
     <div id="txt_1">
     	<h1>САД-Прививка</h1>
@@ -347,6 +352,14 @@
     	<div id="txt_7">
     	<iframe height="600" width="100%" name="" src="db_mysql_s.html" frameborder="0"></iframe>
     	
+    </div>
+    <div id="txt_8">
+        <iframe height="600" width="100%" name="" src="button_s.html" frameborder="0"></iframe>
+        
+    </div>
+     <div id="txt_9">
+        <iframe height="600" width="100%" name="" src="button2_s.html" frameborder="0"></iframe>
+        
     </div>
 </div>
 	
