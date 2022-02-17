@@ -1,0 +1,33 @@
+//BUTTON
+$button-padding: 0.5rem 1rem;
+$font-size: 12px;             // 1 factor below base 16px in modular type scale
+$button-bgcolor: #d9534f;     // the primary brand color
+$button-border-width: 1px;    // border width for all form inputs
+$button-color-hover: #fcfcfc; // the light/white brand color
+
+//Это неплохое начало, теперь все магические числа имеют смысл. После того, как //все важные базовые и компонентные стили определены, можно сделать еще один шаг //вперед и связать эти переменные со свойствами.
+
+// Pseudocode, for this example
+$button-padding: 0.5rem 1rem;
+$font-size: type-scale(-1);                // utility function
+$button-bgcolor: $color-primary;           // from 'base/_colors.scss'
+$button-border-width: $input-border-width; // from 'component/_input.scss'
+$button-color-hover: $color-light;         // from 'base/_colors.scss'
+
+
+//Основная структура нашей кнопки-образца должна оставаться стабильной, но цвет //ее можно изменять:
+
+@mixin scotch-button-theme($color, $color-text-hover: $color-light) {
+    color: $color;
+    border-color: $color;
+    background-color: transparent;
+
+    &:hover {
+        color: $color-text-hover;
+        background-color: $color;
+    }
+}
+
+//Теперь мы с легкостью можем создавать различные цветовые варианты нашей кнопки, //просто 
+
+@include scotch-button-theme(blue).
