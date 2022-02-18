@@ -377,6 +377,15 @@ display: block;
     font-size: 20px;
 
 }
+.psdo>h3 {
+  text-align: center;
+}
+.psdo a {
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+  text-align: center;
+}
 
 
 
