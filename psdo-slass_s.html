@@ -61,35 +61,35 @@
 <br>Она использует SSH для передачи данных, ту же аутентификацию и те же меры безопасности, что и SSH.
 <br>Во время копирования исходного фала в файл назначения, который уже существует, SCP перезаписывает файл назначения. Если файл назначения еще не существует, тогда создается пустой файл, ему задается имя файла назначения и уже в него записывается содержимое копируемого файла.</p>
 <br>Пример 1 : Копируем файл "file.txt" из удаленного сервера на локальный компьютер.
-<br>$ scp user@remote.host:file.txt /some/local/directory
+<br><strong>$ scp user@remote.host:file.txt /some/local/directory</strong>
 
 <br>Пример 2 : Копируем файл "file.txt" с локального компьютера на удаленный сервер.
-<br>$ scp file.txt user@remote.host:/some/remote/directory
+<br><strong>$ scp file.txt user@remote.host:/some/remote/directory</strong>
 <br>scp /home/alensav/Загрузки/Prosipaysya.mp3 orangepi@192.168.1.41:~/
 
 <br>Пример 3 : Копируем папку "dir1" с локального хоста в директорию "dir2" на удаленном хосте.
-<br>$ scp -r dir1 user@remote.host:/some/remote/directory/dir2
+<br><strong>$ scp -r dir1 user@remote.host:/some/remote/directory/dir2</strong>
 
 <br>Пример 4 : Копируем файл "file.txt" с одного удаленного сервера "remote.host1" на другой удаленный сервер "remote.host2".
-<br>$ scp user@remote.host1:/directory/file.txt user@remote.host2:/some/directory/
+<br><strong>$ scp user@remote.host1:/directory/file.txt user@remote.host2:/some/directory/</strong>
 
 <br>Пример 5 : Копируем файлы "file1.txt" и "file2.txt" с локального компьютера в Ваш домашний каталог на удаленном сервере.
-<br>$ scp file1.txt file2.txt user@remote.host:~
+<br><strong>$ scp file1.txt file2.txt user@remote.host:~</strong>
 
 <br>Пример 6 : Копируем файл "file.txt" с локального хоста на удаленный хост, используя порт 2222.
-<br>$ scp -P 2222 file.txt user@remote.host:/some/remote/directory
+<br><strong>$ scp -P 2222 file.txt user@remote.host:/some/remote/directory</strong>
 
 <br>Пример 7 : Копируем файл "file.txt" с локального компьютера в Ваш домашний каталог на удаленном сервере. Сохраняем время изменения и время доступа и права копируемого фала.
-<br>$ scp -p file.txt user@remote.host:~
+<br><strong>$ scp -p file.txt user@remote.host:~</strong>
 
 <br>Пример 8 : Копируем файл "file.txt" с локального компьютера в Ваш домашний каталог на удаленном сервере. Увеличиваем скорость работы SCP изменяя алгоритм шифрования с AES-128 (по умолчанию) на Blowfish.
-<br>$ scp -c blowfish file.txt user@remote.host:~
+<br><strong>$ scp -c blowfish file.txt user@remote.host:~</strong>
 
 <br>Пример 9 : Копируем файл "file.txt" с локального компьютера в Ваш домашний каталог на удаленном сервере. Ограничиваем ширину канала используемого командой SCP до 100 Kbit/s.
-<br>$ scp -l 100 file.txt user@remote.host:~
+<br><strong>$ scp -l 100 file.txt user@remote.host:~</strong>
 
 <br>Пример 10 : Копируем несколько файлов с удаленного хост в текущую директорию на Вашем локальном хосте.
-<br>$ scp user@remote.host:~/\{file1,file2,file3\} .
+<br><strong>$ scp user@remote.host:~/\{file1,file2,file3\} .
 <p>источник: http://www.shellhacks.com/ru/10-Primerov-Kopirovanie-faylov-cherez-SSH 
 Вы можете задать вопрос по статье специалисту. 
 systemctl status sshd</p>
