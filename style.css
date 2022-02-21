@@ -392,6 +392,32 @@ display: block;
 #txt_11{
   font-size: 20px;
 }
+.spravka_ul {
+  padding: 0;
+  /*display: flex; */ 
+  height: 800px;
+  width: 7%;
+  border: 1px solid #000;
+}
+.spravka_s {
+  padding: 0:;
+  /*display: flex; */ 
+  height: 800px;
+  width: 93%;
+  margin:5px;
+  border: 1px solid #000;
+}
+.spravka_ul a {
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+.spravka {
+  height: 100%;
+  width: 100%;
+  display: flex;
+}
+
 
 
 
