@@ -1,0 +1,326 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>
+    FreeSource :
+    Ruslan&nbsp;Hihin&nbsp;/&nbsp;gitusermanual&nbsp;/&nbsp;Chapter&nbsp;1
+  </title>
+  <meta charset="UTF-8">
+  
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+  <meta http-equiv="content-type" content="text/html; charset=windows-1251" />
+  <link rel="stylesheet" type="text/css" href="http://freesource.info/wiki/themes/coffee/css/wakka.css" />
+  <link rel="shortcut icon" href="http://freesource.info/wiki/themes/coffee/icons/wacko.ico" type="image/x-icon" />
+  <link rel="alternate" type="application/rss+xml" title="RecentChanges in RSS" href="http://freesource.info/wiki/xml/recentchanges_freesource.xml" />
+  <link rel="alternate" type="application/rss+xml" title="History/revisions of RuslanHihin/gitusermanual/Chapter1 in RSS" href="http://freesource.info/wiki/RuslanHihin/gitusermanual/Chapter1/revisions.xml" />
+  <script language="JavaScript" type="text/javascript" src="http://freesource.info/wiki/js/default.js"></script>
+  <script language="JavaScript" type="text/javascript" src="http://freesource.info/wiki/js/protoedit.js"></script>
+  <script language="JavaScript" type="text/javascript" src="http://freesource.info/wiki/js/wikiedit2.js"></script>
+
+  
+</head>
+
+<body onload="all_init();">
+
+<form action="http://freesource.info/wiki/Login"  method="post" >
+
+<input type="hidden" name="action" value="login" />
+
+<div class="header">
+        <div class="user">
+
+  
+                <span class="nobr"><input type="hidden" name="goback" value="RuslanHihin/gitusermanual/Chapter1" /><strong>Вход:&nbsp;</strong><input type="text" name="name" size="18" class="login" />&nbsp;Пароль:&nbsp;<input type="password" name="password" class="login" size="8" />&nbsp;<input type="submit" value="Ok" /></span>
+
+  
+
+        </div>
+        <div class="title">
+                FreeSource: <a name="ruslanhihin" href="http://freesource.info/wiki/RuslanHihin?v=1ca6&" class="" title="Ruslan&nbsp;Hihin">RuslanHihin</a>/<a name="ruslanhihin.gitusermanual" href="http://freesource.info/wiki/RuslanHihin/gitusermanual?v=b7s&" class="" title="Ruslan&nbsp;Hihin&nbsp;/&nbsp;gitusermanual">gitusermanual</a>/Chapter1
+            <a class="Search" title="" href="http://freesource.info/wiki/TextSearch?phrase=RuslanHihin%2Fgitusermanual%2FChapter1">...</a>
+        </div>
+
+</div>
+
+<div class="bookmarks">
+
+        <a href="http://freesource.info/wiki/FreeSource">Free&nbsp;Source</a>
+         |
+        <a name="katalog" href="http://freesource.info/wiki/Katalog?v=6ad&" class="" title="Каталог">Каталог</a> | <a name="izmenenija" href="http://freesource.info/wiki/Izmenenija?v=14fp&" class="" title="Изменения">Изменения</a> | <a name="novyekommentarii" href="http://freesource.info/wiki/NovyeKommentarii?v=6ad&" class="" title="Новые&nbsp;Комментарии">НовыеКомментарии</a> | <a name="pol_zovateli" href="http://freesource.info/wiki/Pol'zovateli?v=1csw&" class="" title="Пользователи">Пользователи</a> | <a name="registracija" href="http://freesource.info/wiki/Registracija?v=1bcu&" class="" title="Регистрация">Регистрация</a>
+         |
+        
+
+
+</div>
+
+</form>
+
+<div class="pageBefore"><img src="http://freesource.info/wiki/images/z.gif" width="1" height="1" border="0" alt="" style="display:block" align="top" /></div><div class="page">
+<a name="h8487-1"></a><h1> Глава 1. Репозитории и&nbsp;ветки </h1>
+<br /><a name="p40559-1"></a><p class="auto" id="p40559-1">
+<!--notypo--><fieldset><legend><strong> Оглавление документа Репозитории и ветки  </strong></legend><div class="toc1"><a href="#h8487-2">1.  Как&nbsp;получить git&nbsp;репозиторий </a></div><div class="toc1"><a href="#h8487-3">2.  Как&nbsp;проверить различные версии проекта </a></div><div class="toc1"><a href="#h8487-4">3.  Понятие истории </a></div><div class="toc2"><a href="#h8487-5">3.1. Понятие истории: Коммиты </a></div><div class="toc2"><a href="#h8487-6">3.2.  Понятие истории: Коммиты, родители и&nbsp;доступность </a></div><div class="toc2"><a href="#h8487-7">3.3.  Понятие истории: Диаграммы истории </a></div><div class="toc2"><a href="#h8487-8">3.4.  Понятие истории: Что&nbsp;такое ветка? </a></div><div class="toc1"><a href="#h8487-9">4.  Действия с&nbsp;ветками </a></div><div class="toc1"><a href="#h8487-10">5.  Изучение старой версия без&nbsp;создания новой ветки </a></div><div class="toc1"><a href="#h8487-11">6.  Изучение веток удалённого репозитория </a></div><div class="toc1"><a href="#h8487-12">7.  Имена веток, ярлыков, а&nbsp;также другие ссылки </a></div><div class="toc1"><a href="#h8487-13">8.  Обновление репозитория через git&nbsp;fetch </a></div><div class="toc1"><a href="#h8487-14">9.  Извлечение веток из&nbsp;других репозиториев </a></div></fieldset><!--/notypo--></p><br />
+<a name="h8487-2"></a><h2>1.  Как&nbsp;получить git&nbsp;репозиторий </h2><a name="p40559-2"></a><p class="auto" id="p40559-2">
+Будет полезно иметь git&nbsp;хранилище для&nbsp;экспериментов, пока вы&nbsp;читаете это&nbsp;руководство. </p><br /><a name="p40559-3"></a><p class="auto" id="p40559-3">
+Лучший способ получить его&nbsp;с&nbsp;помощью команды git-clone(1), которая загрузит копию существующего репозитория. Если у&nbsp;Вы ещё не&nbsp;сообразили как&nbsp;это сделать, приведу несколько интересных примеров: </p><br />
+<blockquote>
+# взять сам&nbsp;git (примерно. 10MB закачки): <br />
+$ git&nbsp;clone git://git.kernel.org/pub/scm/git/git.git <br />
+# Ядро linux (примерно. 150MB закачки): <br />
+$ git&nbsp;clone git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux-2.6.git 
+</blockquote><br /><a name="p40559-4"></a><p class="auto" id="p40559-4">
+Первоначальное клонирование может занять много времени, если вы&nbsp;берёте крупный проект, но&nbsp;вам нужно клонировать только один раз. </p><br /><a name="p40559-5"></a><p class="auto" id="p40559-5">
+Команда clone создаёт новый каталог с&nbsp;именем проекта ( &#8220;git&#8221; или&nbsp;&#8220;linux-2.6&#8221; в&nbsp;приведённых выше примерах выше). </p><br /><a name="p40559-6"></a><p class="auto" id="p40559-6">
+После того как&nbsp;вы&nbsp;перейдёте в&nbsp;каталог с&nbsp;репозиторием, вы&nbsp;увидите, что&nbsp;он&nbsp;содержит копии файлов проекта, образуя рабочее дерево, а&nbsp;также содержит специальные каталог с&nbsp;именем &#8220;.git&#8221;, в&nbsp;котором содержится вся&nbsp;история проекта . </p><a name="h8487-3"></a><h2>2.  Как&nbsp;проверить различные версии проекта </h2><a name="p40559-7"></a><p class="auto" id="p40559-7">
+Git&nbsp;это наилучший инструмент для&nbsp;хранении истории коллекции файлов. <br />
+Он&nbsp;хранит историю в&nbsp;виде сжатой коллекции взаимосвязанных отпечатков (снапшотов) содержимого проекта. В&nbsp;git каждая такая версия называется коммит. </p><br /><a name="p40559-8"></a><p class="auto" id="p40559-8">
+Эти&nbsp;отпечатки, не&nbsp;обязательно, обычно образуют одну линию разработки от&nbsp;старейшего снапшота,  до&nbsp;новейшего; вместе с&nbsp;тем, они&nbsp;могут образовывать параллельные линии разработки, называемые ветками, которые можно объединять и&nbsp;разделять. </p><br /><a name="p40559-9"></a><p class="auto" id="p40559-9">
+Один Git&nbsp;репозиторий может отслеживать развитие в&nbsp;нескольких ветках. <br />
+Это&nbsp;позволяет сохранять список основных вершин (head) которые ссылаются на&nbsp;последние коммиты каждой ветки; команда git-branch показывает список вершин веток: </p><blockquote>
+$ git&nbsp;branch <br />
+* master 
+</blockquote><br /><a name="p40559-10"></a><p class="auto" id="p40559-10">
+Свежие склонированные репозитории содержат одну вершину ветки, по&nbsp;умолчанию имеющую название &#8220;master&#8221;, и&nbsp;стартовый рабочий каталог в&nbsp;соответствии с&nbsp;вершиной ветки master. </p><br /><a name="p40559-11"></a><p class="auto" id="p40559-11">
+Большинство проектов также используют теги. </p><br /><a name="p40559-12"></a><p class="auto" id="p40559-12">
+Тэги, подобно вершинам, являются ссылками в&nbsp;истории проекта, и&nbsp;могут быть перечислены командой git-tag(1): </p><br />
+<blockquote>
+$ git&nbsp;tag -l <br />
+v2.6.11 <br />
+v2.6.11-tree <br />
+v2.6.12 <br />
+v2.6.12-rc2 <br />
+v2.6.12-rc3 <br />
+v2.6.12-rc4 <br />
+v2.6.12-rc5 <br />
+v2.6.12-rc6 <br />
+v2.6.13 <br />
+... 
+</blockquote><br /><a name="p40559-13"></a><p class="auto" id="p40559-13">
+Предполагается, что&nbsp;тэги это&nbsp;постоянные точки указывающие на&nbsp;некоторые версии проекта, в&nbsp;то время как&nbsp;вершины отмечают текущее развитие разработки проекта. </p><br /><a name="p40559-14"></a><p class="auto" id="p40559-14">
+Создать новую вершину ветки указывающую на&nbsp;одну из&nbsp;этих версий и&nbsp;проверить её можно с&nbsp;с помощью git&nbsp;checkout : </p><blockquote>
+$ git&nbsp;checkout -b new&nbsp;v2.6.13 
+</blockquote><br /><a name="p40559-15"></a><p class="auto" id="p40559-15">
+Рабочий каталог теперь отражает то&nbsp;содержимое проекта которое было при&nbsp;установке тега v2.6.13, а&nbsp;git-branch(1) показывает две&nbsp;ветви, причём звёздочкой помечена ветка указанная в&nbsp;команде git&nbsp;checkout : </p><blockquote>
+$ git&nbsp;branch <br />
+master <br />
+* new&nbsp;</blockquote><br /><a name="p40559-16"></a><p class="auto" id="p40559-16">
+Если вы&nbsp;решите, что&nbsp;вы&nbsp;хотите увидеть версию 2.6.17, вы&nbsp;можете изменить текущую ветку на&nbsp;точку v2.6.17 вместо текущей </p><blockquote>
+$ git&nbsp;reset --hard v2.6.17 
+</blockquote><br /><a name="p40559-17"></a><p class="auto" id="p40559-17">
+Заметим, что&nbsp;если текущая вершина ветки была лишь ссылкой на&nbsp;конкретный момент истории, а&nbsp;затем была сброшена вами это&nbsp;может привести к&nbsp;потери части истории, поэтому используйте эту&nbsp;команду осторожно. </p><a name="h8487-4"></a><h2>3.  Понятие истории </h2><a name="h8487-5"></a><h3>3.1. Понятие истории: Коммиты </h3><a name="p40559-18"></a><p class="auto" id="p40559-18">
+Каждое изменение в&nbsp;истории проекта представлено в&nbsp;виде фиксации (коммита). <br />
+Команда git-show(1) показывает самые последние коммиты текущей ветки: </p><br />
+<blockquote>
+$ git&nbsp;show<br />
+ commit 17cf781661e6d38f737f15f53ab552f1e95960d7<br />
+ Author: Linus Torvalds &lt;torvalds@ppc970.osdl.org.(none)&gt;<br />
+ Date:   Tue&nbsp;Apr 19 14:11:06 2005 -0700<br />
+<div class="indent"><div class="indent"> Remove duplicate getenv(DB_ENVIRONMENT) call</div><a name="p40559-19"></a><p class="auto" id="p40559-19"></div>
+ <br />
+<div class="indent"></p><div class="indent"> Noted by&nbsp;Tony Luck.</div></div>
+ <br /><a name="p40559-20"></a><p class="auto" id="p40559-20">
+ diff --git a/init-db.c b/init-db.c<br />
+ index 65898fa..b002dc6 100644</p><br /><a name="p40559-21"></a><p class="auto" id="p40559-21">
+a/init-db.c<br />
+ +++ b/init-db.c<br />
+ @@ -7,7 +7,7 @@</p><br />
+<div class="indent">int main(int argc, char **argv)<br />
+{</div><a name="p40559-22"></a><p class="auto" id="p40559-22">
+ &ndash;       char *sha1_dir = getenv(DB_ENVIRONMENT), *path;<br />
+ +       char *sha1_dir, *path;</p><div class="indent"><div class="indent"><div class="indent"><div class="indent"> int&nbsp;len, i;</div></div></div><a name="p40559-23"></a><p class="auto" id="p40559-23"></div>
+ <br />
+<div class="indent"></p><div class="indent"><div class="indent"><div class="indent"> if&nbsp;(mkdir(&laquo;.git&raquo;, 0755) &lt; 0) {</div></div></div></div>
+</blockquote><br /><a name="p40559-24"></a><p class="auto" id="p40559-24">
+Как&nbsp;вы&nbsp;можете увидеть, в&nbsp;коммите указатся кто&nbsp;сделал последние изменений, что&nbsp;сделал и&nbsp;почему. </p><br /><a name="p40559-25"></a><p class="auto" id="p40559-25">
+Каждый коммит имеет 40-значный шестнадцатеричный идентификатор, который иногда называются &laquo;именем объекта&raquo; или&nbsp;&laquo;SHA1 идентификатором&raquo;, и&nbsp;показывается в&nbsp;первой строке вывода &#8220;git show&#8221;. </p><br /><a name="p40559-26"></a><p class="auto" id="p40559-26">
+Обычно, вы&nbsp;можете, ссылаться на&nbsp;коммит через короткое имя, такое как&nbsp;тег или&nbsp;имя ветви, но&nbsp;и имя&nbsp;образуемое SHA1 идентификатором часто тоже бывает полезным. </p><br /><a name="p40559-27"></a><p class="auto" id="p40559-27">
+Самое главное в&nbsp;нём, что&nbsp;это уникальное имя&nbsp;для этого коммита: так, если вы&nbsp;скажите кому-нибудь другому название объекта (например, в&nbsp;электронной почте), то&nbsp;вам гарантируется, что&nbsp;это имя&nbsp;будет относиться к&nbsp;тому же&nbsp;коммиту что&nbsp;и&nbsp;в у&nbsp;вас (предполагается, что&nbsp;этот коммит есть у&nbsp;всех). <br />
+Это&nbsp;имя объекта вычисляется как&nbsp;хэш его&nbsp;содержимого коммита, и&nbsp;вам гарантируется, что&nbsp;содержимое коммита не&nbsp;может изменится без&nbsp;изменения его&nbsp;имени. </p><br /><a name="p40559-28"></a><p class="auto" id="p40559-28">
+Фактически в&nbsp;Главе 7 «Концепция Git» мы&nbsp;увидим, что&nbsp;всё хранящиеся в&nbsp;истории git, включая файлы данных и&nbsp;содержимое каталога, хранится в&nbsp;объектах с&nbsp;именем которого является хэш&nbsp;его содержимого. </p><a name="h8487-6"></a><h3>3.2.  Понятие истории: Коммиты, родители и&nbsp;доступность </h3><a name="p40559-29"></a><p class="auto" id="p40559-29">
+Каждый коммит (за исключением самого первого коммита в&nbsp;проекте) имеет родительские коммит, которые показывает, что&nbsp;произошло до&nbsp;этого коммита. <br />
+После цепочки родителей, в&nbsp;конечном итоге мы&nbsp;перейдём обратно в&nbsp;начальное состояние проекта. <br />
+Тем&nbsp;не&nbsp;менее, коммиты не&nbsp;образуют простой список; git&nbsp;позволяет разделять линии разработки, а&nbsp;затем объединять их&nbsp;снова, и&nbsp;точки, где&nbsp;два направления разработки объединяются в&nbsp;одно называются &laquo;слиянием&raquo; (merge). </p><br /><a name="p40559-30"></a><p class="auto" id="p40559-30">
+Коммит, представляющий собой слияние, может иметь более одного родителя, представляющих из&nbsp;себя самые последние коммиты в&nbsp;каждой линии разработки, ведущих к&nbsp;этому коммиту. </p><br /><a name="p40559-31"></a><p class="auto" id="p40559-31">
+Лучший способ узнать, как&nbsp;это работает, запустите команду gitk (1); gitk работает сейчас на&nbsp;git хранилище, и&nbsp;показывает слияния коммитов и&nbsp;поможет вам&nbsp;понять, каким образом git&nbsp;организует историю. </p><br /><a name="p40559-32"></a><p class="auto" id="p40559-32">
+Далее, мы&nbsp;говорим, что&nbsp;коммит Х&nbsp;&laquo;доступен&raquo; от&nbsp;коммита Y, если коммит Х&nbsp;предок коммита Y. Эквивалентно, можно сказать, что&nbsp;Y&nbsp;является потомком X, или&nbsp;что существует цепь родства (родителей), идущая от&nbsp;коммита Y&nbsp;до коммита X. </p><a name="h8487-7"></a><h3>3.3.  Понятие истории: Диаграммы истории </h3><a name="p40559-33"></a><p class="auto" id="p40559-33">
+Мы&nbsp;будем иногда представлять git&nbsp;историю с&nbsp;помощью диаграмм, как&nbsp;показано ниже. Коммиты показаны буквой &#8220;o&#8221;, а&nbsp;связь между ними &mdash; линиями оканчивающимися &ndash; / и&nbsp;\. Время идет слева направо. Если нам&nbsp;нужно говорить о&nbsp;конкретном коммите символ &#8220;o&#8221; может быть заменён другой буквой или&nbsp;номером : </p><br />
+<blockquote>
+<div class="indent"><div class="indent"><div class="indent"><div class="indent"> o<s>o</s>o «-- Branch A<br />
+ /<br />
+</div></div></div><a name="p40559-34"></a><p class="auto" id="p40559-34">o<s>o</s>o «-- master</p><div class="indent"><div class="indent"><div class="indent"> \<div class="indent">o<s>o</s>o «-- Branch B</div></div></div></div></div>
+ 
+</blockquote><br />
+<a name="h8487-8"></a><h3>3.4.  Понятие истории: Что&nbsp;такое ветка? </h3><a name="p40559-35"></a><p class="auto" id="p40559-35">
+Когда нам&nbsp;нужно быть точными, мы&nbsp;будем использовать слово &laquo;ветка&raquo; (branch) которое означает линию разработки, и&nbsp;&laquo;вершина ветки&raquo; (или просто &laquo;вершина&raquo; (head))  означает ссылку на&nbsp;последний коммит на&nbsp;ветке . <br />
+В&nbsp;приведенном выше примере, вершина ветки имеет имя&nbsp;«А» и&nbsp;является указателем на&nbsp;один конкретный коммит, но&nbsp;когда мы&nbsp;ссылаемся на&nbsp;линию из&nbsp;трех коммитов до&nbsp;этой точки, мы&nbsp;называем эту&nbsp;цепочку коммитов «веткой А». </p><br /><a name="p40559-36"></a><p class="auto" id="p40559-36">
+Однако, когда понятно к&nbsp;чему относится термин, мы&nbsp;просто будем использовать термин &laquo;ветвь&raquo; как&nbsp;для ветви, так&nbsp;и&nbsp;только для&nbsp;вершины этой ветви. </p><a name="h8487-9"></a><h2>4.  Действия с&nbsp;ветками </h2><a name="p40559-37"></a><p class="auto" id="p40559-37">
+Создать, удалить и&nbsp;измененить ветку можно очень быстро и&nbsp;очень просто, вот&nbsp;сумма команд: </p><blockquote>
+git&nbsp;branch <div class="indent"><div class="indent"> список всех веток </div></div><a name="p40559-38"></a><p class="auto" id="p40559-38">
+git&nbsp;branch «branch» </p><div class="indent"><div class="indent"> создать новую ветку с&nbsp;именем «branch», ссылающуюся на&nbsp;некотрую точку в&nbsp;истории <br />
+ текущей ветки </div></div><a name="p40559-39"></a><p class="auto" id="p40559-39">
+git&nbsp;branch «branch» «start-point» </p><div class="indent"><div class="indent"> создать новую ветку с&nbsp;именем «branch», ссылающуюся на&nbsp;точку «start-point», которая <br />
+ может быть указана так, как&nbsp;вы&nbsp;хотите &ndash; через имя&nbsp;ветки или&nbsp;имя тэга. </div></div><a name="p40559-40"></a><p class="auto" id="p40559-40">
+git&nbsp;branch -d «branch» </p><div class="indent"><div class="indent"> удалить ветвь «branch», если удаляемая вами ветвь имеет точки вне&nbsp;доступности от&nbsp;<br />
+ текущей ветки, то&nbsp;эта команда завершится неудачно с&nbsp;предупреждением. </div></div><a name="p40559-41"></a><p class="auto" id="p40559-41">
+git&nbsp;branch -D «branch» </p><div class="indent"><div class="indent">даже если точки ветви недоступны из&nbsp;текущей ветви, вы&nbsp;можете знать, что&nbsp;коммит <br />
+ доступен из&nbsp;другой ветки или&nbsp;тэга В&nbsp;этом случае можно с&nbsp;уверенностью использовать эту&nbsp;<br />
+ команду, чтобы удалить ветвь. </div></div><a name="p40559-42"></a><p class="auto" id="p40559-42">
+git&nbsp;checkout «branch» </p><div class="indent"><div class="indent">сделать ветку «branch» текущей, при&nbsp;этом обновляется рабочий каталог, отражая <br />
+состояние ветки «branch» </div></div><a name="p40559-43"></a><p class="auto" id="p40559-43">
+git&nbsp;checkout -b «new» «start-point» </p><div class="indent"><div class="indent">создать новую ветку «new» ссылающуюся на&nbsp;«start-point», и&nbsp;сделать её текущей.</div></div>
+</blockquote><br /><a name="p40559-44"></a><p class="auto" id="p40559-44">
+<strong>Специальный символ &#8220;HEAD&#8221; всегда означает вершину текущей ветки</strong>. Фактически, git&nbsp;использует файл с&nbsp;именем &#8220;HEAD&#8221; в&nbsp;.git каталоге, чтобы запомнить, текущую ветку : </p><blockquote>
+$ cat&nbsp;.git/HEAD <br />
+ref: refs/heads/master 
+</blockquote><br />
+<a name="h8487-10"></a><h2>5.  Изучение старой версия без&nbsp;создания новой ветки </h2><a name="p40559-45"></a><p class="auto" id="p40559-45">
+Команда git-checkout,  как&nbsp;правило, ожидает что&nbsp;вы&nbsp;укажете вершину ветки, но&nbsp;она также принимает произвольный коммит, например, вы&nbsp;можете проверить коммит, на&nbsp;который указывает тег: </p><br />
+<blockquote>
+$ git&nbsp;checkout v2.6.17 
+</blockquote><br /><a name="p40559-46"></a><p class="auto" id="p40559-46">
+Примечание: переход к&nbsp;&#8220;v2.6.17&#8221;, который не&nbsp;входит в&nbsp;локальную ветвь. Если вы&nbsp;хотите создать новую ветку через checkout, вы&nbsp;можете сделать (сейчас или&nbsp;позже), используя команды checkout. Пример: </p><blockquote>
+git&nbsp;checkout -b «new_branch_name» <br />
+HEAD is&nbsp;now at&nbsp;427abfa... Linux v2.6.17 
+</blockquote><br /><a name="p40559-47"></a><p class="auto" id="p40559-47">
+HEAD ссылается через имя&nbsp;SHA1 на&nbsp;коммит, а&nbsp;не на&nbsp;ветку, и&nbsp;git branch показывает, что&nbsp;вы&nbsp;вне ветки: </p><blockquote>
+$ cat&nbsp;.git/HEAD <br />
+427abfa28afedffadfca9dd8b067eb6d36bac53f <br />
+$ git&nbsp;branch<br />
+ (no branch)<br />
+master
+</blockquote><br /><a name="p40559-48"></a><p class="auto" id="p40559-48">
+В&nbsp;данном случае мы&nbsp;можем сказать, что&nbsp;вершина «отделена». </p><br /><a name="p40559-49"></a><p class="auto" id="p40559-49">
+Это&nbsp;простой способ проверить конкретную версию не&nbsp;имея новой ветки. Вы&nbsp;можете создать новую ветку (или тэг) для&nbsp;этой версии позже, если вы&nbsp;решите сделать это. </p><a name="h8487-11"></a><h2>6.  Изучение веток удалённого репозитория </h2><a name="p40559-50"></a><p class="auto" id="p40559-50">
+Ветвь «master», которая была создана во&nbsp;время клонирования является копией HEAD клонированного репозитория. </p><br /><a name="p40559-51"></a><p class="auto" id="p40559-51">
+Этот репозиторий, возможно, также имеет другие ветки, и&nbsp;в вашем локальном репозитории есть ветки, с&nbsp;помощью которых можно проследить каждую из&nbsp;этих удаленных веток, используя оппцию «-r» git-branch(1): </p><blockquote>
+$ git&nbsp;branch -r <br />
+origin/HEAD <br />
+origin/html <br />
+origin/maint <br />
+origin/man <br />
+origin/master <br />
+origin/next <br />
+origin/pu <br />
+origin/todo 
+</blockquote><br /><a name="p40559-52"></a><p class="auto" id="p40559-52">
+Вы&nbsp;не можете проверить их&nbsp;удалённо, но&nbsp;вы можете проверить их&nbsp;ветви в&nbsp;вашем репозитории, используя теги: </p><blockquote>
+$ git&nbsp;checkout -b my-todo-copy origin/todo 
+</blockquote><br /><a name="p40559-53"></a><p class="auto" id="p40559-53">
+Заметим, что&nbsp;название &#8220;origin&#8221; это&nbsp;просто название, которое git&nbsp;использует по&nbsp;умолчанию для&nbsp;обозначения репозитория, откуда был&nbsp;клонирован текущий репозиторий. </p><a name="h8487-12"></a><h2>7.  Имена веток, ярлыков, а&nbsp;также другие ссылки </h2><a name="p40559-54"></a><p class="auto" id="p40559-54">
+Ветки, удалённое отслеживание веток и&nbsp;тэги &ndash; все&nbsp;это ссылки на&nbsp;коммиты. Все&nbsp;ссылки имеют полное имя&nbsp;с&nbsp;слеш-разделителем (косой чертой) и&nbsp;путем, которое начинается с&nbsp;&#8220;refs&#8221;; фактически раньше мы&nbsp;пользовались короткими именами (сокращениями): </p><blockquote>
+* ветка &laquo;тест&raquo; это&nbsp;сокращение &laquo;refs/heads/test&raquo;. <br />
+* тег&nbsp;&#8220;v2.6.18&#8221;' это&nbsp;сокращение &laquo;refs/tags/v2.6.18&#8221;. <br />
+* &laquo;origin/master&raquo; это&nbsp;сокращение &laquo;refs/remotes/origin/master&raquo;.. 
+</blockquote><br /><a name="p40559-55"></a><p class="auto" id="p40559-55">
+Полное имя&nbsp;может пригодиться, если, например, существует и&nbsp;тег, и&nbsp;ветвь с&nbsp;одним и&nbsp;тем-же именем. (Вновь созданные ссылки на&nbsp;самом деле хранятся в&nbsp;каталоге .git/refs по&nbsp;пути заданным их&nbsp;именем. Однако для&nbsp;эффективности они&nbsp;также могут быть упакованы вместе в&nbsp;один общий файл, см.&nbsp;git-pack-refs(1) ). </p><br /><a name="p40559-56"></a><p class="auto" id="p40559-56">
+Другой, часто полезный ярлык это&nbsp;&#8220;HEAD&#8221;, на&nbsp;него можно сослаться только используя название репозитория. Так, например, &#8220;origin&#8221;, как&nbsp;правило, ярлык на&nbsp;HEAD ветки в&nbsp;репозитории &#8220;origin&#8221;. </p><br /><a name="p40559-57"></a><p class="auto" id="p40559-57">
+Для&nbsp;полного списка путей которые git&nbsp;проверяют по&nbsp;ссылкам, и&nbsp;о порядке их&nbsp;использования для&nbsp;решения выбора, когда имеются несколько ссылок с&nbsp;одним сокращением, см.&nbsp;в&nbsp;выводе команды git-rev-parse(1) раздел SPECIFYING REVISIONS (Указание ревизий)  . </p><a name="h8487-13"></a><h2>8.  Обновление репозитория через git&nbsp;fetch </h2><a name="p40559-58"></a><p class="auto" id="p40559-58">
+В&nbsp;конечном итоге разработчик склонировав репозиторий и&nbsp;выполнив в&nbsp;нём определённую работу, создаёт новый коммит и&nbsp;наращивает ветку до&nbsp;нового коммита. </p><br /><a name="p40559-59"></a><p class="auto" id="p40559-59">
+Команда &#8220;git fetch&#8221;, без&nbsp;дополнительных аргументов, будет обновлять все&nbsp;отслеживаемые ветки до&nbsp;последней версии найденной в&nbsp;этом репозитории. <br />
+Это&nbsp;касается не&nbsp;только ваших веток, это&nbsp;коснётся и&nbsp;даже ветки &#8220;master&#8221;, которая была создана при&nbsp;вашем клонировании. </p><a name="h8487-14"></a><h2>9.  Извлечение веток из&nbsp;других репозиториев </h2><a name="p40559-60"></a><p class="auto" id="p40559-60">
+Вы&nbsp;также можете отслеживать ветки из&nbsp;других репозиториев, отличных от&nbsp;вашего источника клонирования используя git-remote(1) : </p><blockquote>
+$ git&nbsp;remote add&nbsp;linux-nfs git://linux-nfs.org/pub/nfs-2.6.git <br />
+$ git&nbsp;fetch linux-nfs <br />
+* refs/remotes/linux-nfs/master: storing branch 'master' ...<br />
+commit: bf81b46 
+</blockquote><br /><a name="p40559-61"></a><p class="auto" id="p40559-61">
+Новая ветка удалённого отслеживания будут сохранена с&nbsp;коротким именем, которое вы&nbsp;задали в&nbsp;команде «git remote add», в&nbsp;данном случае c&nbsp;именем «linux-nfs»: </p><blockquote>
+$ git&nbsp;branch -r <br />
+linux-nfs/master <br />
+origin/master 
+</blockquote><br /><a name="p40559-62"></a><p class="auto" id="p40559-62">
+Если вы&nbsp;запустите &laquo;git fetch «remote»" позже, то&nbsp;отслеживаемая ветка с&nbsp;именем «remote» будет обновлена. </p><br /><a name="p40559-63"></a><p class="auto" id="p40559-63">
+Если проанализировать файл .git/config, то&nbsp;можно увидить, как&nbsp;git добавляет новые блоки: </p><blockquote>
+$ cat&nbsp;.git/config <br />
+... <br />
+[remote &#8220;linux-nfs&#8221;] <br />
+url&nbsp;= git://linux-nfs.org/pub/nfs-2.6.git <br />
+fetch = +refs/heads/*:refs/remotes/linux-nfs/* <br />
+... 
+</blockquote><br /><a name="p40559-64"></a><p class="auto" id="p40559-64">
+Как&nbsp;git  отслеживает удалённые ветки; <br />
+Вы&nbsp;можете модифицировать или&nbsp;удалять параметры конфигурации, редактируя файл .git/config в&nbsp;текстовым редакторе. (См. раздел &#8220;CONFIGURATION FILE&#8221; в&nbsp;выводе команды git-config(1) для&nbsp;изучения деталей). </p><br /><a name="p40559-65"></a><p class="auto" id="p40559-65">
+<a name="chapter2" href="http://freesource.info/wiki/RuslanHihin/gitusermanual/Chapter2?v=1dbb&" class="" title="RuslanHihin/gitusermanual/Chapter&nbsp;2">Далее</a> <a name=".." href="http://freesource.info/wiki/RuslanHihin/gitusermanual?v=b7s&" class="" title="RuslanHihin/gitusermanual/..">Содержание</a></p>   <script language="JavaScript" type="text/javascript">
+   var dbclick = "page";
+  </script>
+ <br style="clear:both" />&nbsp;
+</div>
+    <div class="filesheader">
+    Файлов нет.
+    [<a href="http://freesource.info/wiki/RuslanHihin/gitusermanual/Chapter1?show_files=1#files">Показать файлы/форму</a>]
+
+    </div>
+    
+    <div class="commentsheader">
+    Комментариев нет.
+    [<a href="http://freesource.info/wiki/RuslanHihin/gitusermanual/Chapter1?show_comments=1#comments">Показать комментарии/форму</a>]
+
+    </div>
+    <form action="http://freesource.info/wiki/TextSearch"  method="get" >
+
+<div class="footer">
+
+
+  <a href="http://freesource.info/wiki/RuslanHihin/gitusermanual/Chapter1/revisions" title="Нажмите, чтобы увидеть список изменений">2008-06-05 14:24:06</a> |
+
+
+  
+
+    
+
+      
+          Владелец: <a  href="http://freesource.info/wiki/RuslanHihin?v=1ca6&" class="">Ruslan&nbsp;Hihin</a>
+      
+    
+    
+
+    
+
+    | <a href="http://freesource.info/wiki/RuslanHihin/gitusermanual/Chapter1/settings" >Свойства</a> |
+
+
+  
+
+
+  <a href="http://freesource.info/wiki/RuslanHihin/gitusermanual/Chapter1/watch"><img src="http://freesource.info/wiki/themes/coffee/icons/visibl.gif" title="Наблюдать" alt="Наблюдать"  align="absmiddle" border="0" /></a> |
+
+  <a href="http://freesource.info/wiki/RuslanHihin/gitusermanual/Chapter1/print" target="_new"><img src="http://freesource.info/wiki/themes/coffee/icons/1print.gif" title="Версия для печати" alt="Версия для печати"  align="absmiddle" border="0" /></a> |
+  <div class="searchbar">
+    <span class="nobr">Поиск: 
+    <input type="text" name="phrase" size="15" style="border: none; border-bottom: 1px solid #CCCCAA; padding: 0px; margin: 0px;" /></span>
+  </div>
+</div>
+
+</form>
+
+
+<!-- SpyLOG f:1111 -->
+<script language="javascript" type="text/javascript"><!--
+Mu="u3154.88.spylog.com";Md=document;Mnv=navigator;Mp=1;
+Mn=(Mnv.appName.substring(0,2)=="Mi")?0:1;Mrn=Math.random();
+Mt=(new Date()).getTimezoneOffset();
+Mz="p="+Mp+"&rn="+Mrn+"&t="+Mt;
+My="";
+My+="<a href='http://"+Mu+"/cnt?cid=315488&f=3&p="+Mp+"&rn="+Mrn+"' target='_blank'>";
+My+="<img src='http://"+Mu+"/cnt?cid=315488&"+Mz+"&r1="+escape(Md.referrer)+"&r="+escape(parent.document.referrer)+"&pg="+escape(window.location.href)+"' border=0 width=88 height=31 alt='SpyLOG'>";
+My+="</a>";Md.write(My);//--></script><noscript>
+<a href="http://u3154.88.spylog.com/cnt?cid=315488&f=3&p=1" target="_blank">
+<img src="http://u3154.88.spylog.com/cnt?cid=315488&p=1" alt='SpyLOG' border='0' width=88 height=31 >
+</a></noscript>
+<!-- SpyLOG -->
+
+<a href="http://liga1199.ru">
+<iimg src="http://liga1199.ru/adv/468x60.1.gif">
+</a>
+
+
+<div class="copyright">
+<a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-sa/3.0/80x15.png" /></a>
+
+Powered by <a href="http://wackowiki.com/WackoWiki" target="_blank" title="" class="outerlink">WackoWiki R4.2</a>
+</div>
+
+
+  
+</body></html>

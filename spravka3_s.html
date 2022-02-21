@@ -1,0 +1,1768 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+		<meta charset="utf-8">				
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+	<title>Как сделать кнопкe css и кнопку html в генераторе. Примеры кнопок</title>
+
+		<link rel="stylesheet" href="https://sdelatlending.ru/wp-content/themes/xmarkup/style.css" type="text/css" media="screen" />
+		<link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="https://sdelatlending.ru/feed" />
+		<link rel="alternate" type="text/xml" title="RSS .92" href="https://sdelatlending.ru/feed/rss" />
+		<link rel="alternate" type="application/atom+xml" title="Athom 0.3" href="" />
+		<link rel="pingback" href="https://sdelatlending.ru/xmlrpc.php" />
+			
+		<!-- Responsive utils -->
+		<link href="https://sdelatlending.ru/wp-content/themes/xmarkup/css/style-lg.css" rel="stylesheet">
+		<link href="https://sdelatlending.ru/wp-content/themes/xmarkup/css/style-md.css" rel="stylesheet">
+		<link href="https://sdelatlending.ru/wp-content/themes/xmarkup/css/style-sm.css" rel="stylesheet">
+		<link href="https://sdelatlending.ru/wp-content/themes/xmarkup/css/style-xs.css" rel="stylesheet">
+
+		<!-- Print me -->
+		<link href="https://sdelatlending.ru/wp-content/themes/xmarkup/css/print.css" rel="stylesheet">
+
+		<!-- Retina ready -->
+		<link href="https://sdelatlending.ru/wp-content/themes/xmarkup/css/retina.css" rel="stylesheet">
+
+		<!-- Animation rules -->
+		<link href="https://sdelatlending.ru/wp-content/themes/xmarkup/css/animation.css" rel="stylesheet">
+		
+		<!--[if IE]>
+			<script type="text/javascript" href="https://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+			<link rel="stylesheet" type="text/css" href="all-ie-only.css" />
+		<![endif]-->
+		<script>
+			function ScrollUp(){
+				$("#up_button").hide();
+				$(function () {
+					$(window).scroll(function () {
+						if ($(this).scrollTop() > 50) {
+							$('#up_button').fadeIn();
+						} else {
+							$('#up_button').fadeOut();
+							}
+					});
+
+				$('#up_button').click(function () {
+					$('body,html').animate({
+						scrollTop: 0
+					}, 800);
+					return false;
+					});
+				});
+			}
+
+		</script>
+		  	
+	
+<!-- This site is optimized with the Yoast SEO plugin v9.4 - https://yoast.com/wordpress/plugins/seo/ -->
+<meta name="description" content="Для создания кнопки css используем генератор кнопки онлайн. Все основные свойства кнопки css и html. Двенадцать примеров красивых кнопок css"/>
+<link rel="canonical" href="https://sdelatlending.ru/generator-knopki-css-onlajn" />
+<!-- / Yoast SEO plugin. -->
+
+<link rel='dns-prefetch' href='//ajax.googleapis.com' />
+<link rel='dns-prefetch' href='//s.w.org' />
+		<script type="text/javascript">
+			'use strict';
+			(function (w) {
+				var darx = {};
+
+				darx.addEvent = function (elem, event, fn) {
+					if (elem.addEventListener) {
+						elem.addEventListener(event, fn, false);
+					} else {
+						elem.attachEvent('on' + event, function () {
+							return (fn.call(elem, window.event));
+						});
+					}
+				};
+
+				darx.fireEvent = function (elem, event) {
+					var evt = elem.createEvent('Event');
+					evt.initEvent(event, true, true);
+					elem.dispatchEvent(evt);
+				};
+
+				darx.get = function (url, data, callback) {
+					sendRequest('GET', url, data, callback);
+				};
+
+				darx.post = function (url, data, callback) {
+					sendRequest('POST', url, data, callback);
+				};
+
+				darx.getJSON = function (url, data, callback) {
+					var callbackName = 'darx_jsonp_' + Math.round(1000000000 * Math.random());
+					window[callbackName] = function(data) {
+						delete window[callbackName];
+						document.body.removeChild(script);
+						callback(data);
+					};
+					
+					
+					var script = document.createElement('script');
+					script.type = "text/javascript";
+					script.async = true;
+					data.callback = callbackName;
+					script.src = url + '?' + http_build_query(data);
+					document.body.appendChild(script);
+				};
+
+				var http_build_query = function (data) {
+					var params = [];
+					var type;
+					for (var key in data){
+						if (data.hasOwnProperty(key)) {
+							type = Object.prototype.toString.call(data[key]);
+							if (type === '[object Array]' || type === '[object Object]') {
+								for (var i in data[key]) {
+									if (data[key].hasOwnProperty(i)) {
+										params.push(encodeURIComponent(key) + '[]=' + encodeURIComponent(data[key][i]));
+									}
+								}
+							} else {
+								params.push(encodeURIComponent(key) + '=' + encodeURIComponent(data[key]));
+							}
+						}
+					}
+					return params.join('&');
+				};
+
+				var sendRequest = function (method, url, data, callback) {
+					var xhr = false;
+					var XMLHttpFactories = [
+						function () {return new XMLHttpRequest()},
+						function () {return new ActiveXObject("Msxml2.XMLHTTP")},
+						function () {return new ActiveXObject("Msxml3.XMLHTTP")},
+						function () {return new ActiveXObject("Microsoft.XMLHTTP")}
+					];
+					for (var i=0; i<XMLHttpFactories.length; ++i) {
+						try { xhr = XMLHttpFactories[i]() } catch (e) { continue; }
+						break;
+					}
+
+					if (!xhr) return;
+
+					if (method === 'GET')  {
+						data.r = Math.random();
+						url += '?' + http_build_query(data);
+					}
+
+					xhr.open(method, url, true);
+					xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+					xhr.timeout = 5000;
+
+					if (callback) {
+						xhr.loaded = xhr.onreadystatechange = function () {
+							if (xhr.readyState !== 4) return;
+							callback(xhr.responseText, xhr);
+						}
+					}
+
+					if (method !== 'GET')  {
+						xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+						xhr.send(http_build_query(data));
+					} else {
+						xhr.send(null);
+					}
+				};
+
+				w.darx = darx;
+			}(window));
+		</script>
+				<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/11\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/11\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/sdelatlending.ru\/wp-includes\/js\/wp-emoji-release.min.js?ver=5.0.15"}};
+			!function(e,a,t){var n,r,o,i=a.createElement("canvas"),p=i.getContext&&i.getContext("2d");function s(e,t){var a=String.fromCharCode;p.clearRect(0,0,i.width,i.height),p.fillText(a.apply(this,e),0,0);e=i.toDataURL();return p.clearRect(0,0,i.width,i.height),p.fillText(a.apply(this,t),0,0),e===i.toDataURL()}function c(e){var t=a.createElement("script");t.src=e,t.defer=t.type="text/javascript",a.getElementsByTagName("head")[0].appendChild(t)}for(o=Array("flag","emoji"),t.supports={everything:!0,everythingExceptFlag:!0},r=0;r<o.length;r++)t.supports[o[r]]=function(e){if(!p||!p.fillText)return!1;switch(p.textBaseline="top",p.font="600 32px Arial",e){case"flag":return s([55356,56826,55356,56819],[55356,56826,8203,55356,56819])?!1:!s([55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447],[55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447]);case"emoji":return!s([55358,56760,9792,65039],[55358,56760,8203,9792,65039])}return!1}(o[r]),t.supports.everything=t.supports.everything&&t.supports[o[r]],"flag"!==o[r]&&(t.supports.everythingExceptFlag=t.supports.everythingExceptFlag&&t.supports[o[r]]);t.supports.everythingExceptFlag=t.supports.everythingExceptFlag&&!t.supports.flag,t.DOMReady=!1,t.readyCallback=function(){t.DOMReady=!0},t.supports.everything||(n=function(){t.readyCallback()},a.addEventListener?(a.addEventListener("DOMContentLoaded",n,!1),e.addEventListener("load",n,!1)):(e.attachEvent("onload",n),a.attachEvent("onreadystatechange",function(){"complete"===a.readyState&&t.readyCallback()})),(n=t.source||{}).concatemoji?c(n.concatemoji):n.wpemoji&&n.twemoji&&(c(n.twemoji),c(n.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel='stylesheet' id='yarppWidgetCss-css'  href='https://sdelatlending.ru/wp-content/plugins/yet-another-related-posts-plugin/style/widget.css?ver=5.0.15' type='text/css' media='all' />
+<link rel='stylesheet' id='crayon-css'  href='https://sdelatlending.ru/wp-content/plugins/crayon-syntax-highlighter/css/min/crayon.min.css?ver=_2.7.2_beta' type='text/css' media='all' />
+<link rel='stylesheet' id='wp-block-library-css'  href='https://sdelatlending.ru/wp-includes/css/dist/block-library/style.min.css?ver=5.0.15' type='text/css' media='all' />
+<link rel='stylesheet' id='toc-screen-css'  href='https://sdelatlending.ru/wp-content/plugins/table-of-contents-plus/screen.min.css?ver=1509' type='text/css' media='all' />
+<link rel='stylesheet' id='social-button-css'  href='https://sdelatlending.ru/wp-content/plugins/vkontakte-api/assets/css/social-button.css?ver=4.0.1' type='text/css' media='all' />
+<link rel='stylesheet' id='wordpress-popular-posts-css-css'  href='https://sdelatlending.ru/wp-content/plugins/wordpress-popular-posts/public/css/wpp.css?ver=4.2.2' type='text/css' media='all' />
+<link rel='stylesheet' id='wp-syntax-css-css'  href='https://sdelatlending.ru/wp-content/plugins/wp-syntax/css/wp-syntax.css?ver=1.1' type='text/css' media='all' />
+<script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js?ver=1.7.2'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var CrayonSyntaxSettings = {"version":"_2.7.2_beta","is_admin":"0","ajaxurl":"https:\/\/sdelatlending.ru\/wp-admin\/admin-ajax.php","prefix":"crayon-","setting":"crayon-setting","selected":"crayon-setting-selected","changed":"crayon-setting-changed","special":"crayon-setting-special","orig_value":"data-orig-value","debug":""};
+var CrayonSyntaxStrings = {"copy":"Press %s to Copy, %s to Paste","minimize":"Click To Expand Code"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://sdelatlending.ru/wp-content/plugins/crayon-syntax-highlighter/js/min/crayon.min.js?ver=_2.7.2_beta'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var wpp_params = {"sampling_active":"0","sampling_rate":"100","ajax_url":"https:\/\/sdelatlending.ru\/wp-json\/wordpress-popular-posts\/v1\/popular-posts\/","ID":"1159","token":"fc02ed0eb3","debug":""};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://sdelatlending.ru/wp-content/plugins/wordpress-popular-posts/public/js/wpp-4.2.0.min.js?ver=4.2.2'></script>
+<link rel='https://api.w.org/' href='https://sdelatlending.ru/wp-json/' />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://sdelatlending.ru/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://sdelatlending.ru/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress 5.0.15" />
+<link rel='shortlink' href='https://sdelatlending.ru/?p=1159' />
+<link rel="alternate" type="application/json+oembed" href="https://sdelatlending.ru/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fsdelatlending.ru%2Fgenerator-knopki-css-onlajn" />
+<link rel="alternate" type="text/xml+oembed" href="https://sdelatlending.ru/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fsdelatlending.ru%2Fgenerator-knopki-css-onlajn&#038;format=xml" />
+<style type='text/css'>
+#widget-collapscat-2-top span.collapsing.categories {
+        border:0;
+        padding:0; 
+        margin:0; 
+        cursor:pointer;
+} 
+
+#widget-collapscat-2-top li.widget_collapscat h2 span.sym {float:right;padding:0 .5em}
+#widget-collapscat-2-top li.collapsing.categories.self a {font-weight:bold}
+#widget-collapscat-2-top:before {content:'';} 
+#widget-collapscat-2-top  li.collapsing.categories:before {content:'';} 
+#widget-collapscat-2-top  li.collapsing.categories {list-style-type:none}
+#widget-collapscat-2-top  li.collapsing.categories{
+       padding:0 0 0 1em;
+       text-indent:-1em;
+}
+#widget-collapscat-2-top li.collapsing.categories.item:before {content: '\00BB \00A0' !important;} 
+#widget-collapscat-2-top li.collapsing.categories .sym {
+   cursor:pointer;
+   font-size:1.1em;
+   font-family:Arial, Helvetica;
+    padding-right:5px;}</style>
+<style type="text/css" id="custom-background-css">
+body.custom-background { background-color: #ffffff; background-image: url("https://sdelatlending.ru/wp-content/uploads/2017/12/whitey.png"); background-position: left top; background-size: auto; background-repeat: repeat; background-attachment: scroll; }
+</style>
+<link rel="icon" href="https://sdelatlending.ru/wp-content/uploads/2017/08/logo1-150x150.png" sizes="32x32" />
+<link rel="icon" href="https://sdelatlending.ru/wp-content/uploads/2017/08/logo1-300x300.png" sizes="192x192" />
+<link rel="apple-touch-icon-precomposed" href="https://sdelatlending.ru/wp-content/uploads/2017/08/logo1-300x300.png" />
+<meta name="msapplication-TileImage" content="https://sdelatlending.ru/wp-content/uploads/2017/08/logo1-300x300.png" />
+<meta property="vk:app_id" content="6154553" />	
+</head>
+<body class="page-template page-template-page_button page-template-page_button-php page page-id-1159 custom-background full-width single-author">
+	<h2 id="form">FORM</h2>
+<header id="header">
+	<div class="wrapper">
+		<!--<a href="https://sdelatlending.ru" id="logo-site"><img src="https://sdelatlending.ru/wp-content/themes/xmarkup/images/logo.png"></a>-->
+						<a href="https://sdelatlending.ru/" id="logo-site"><img src="https://sdelatlending.ru/wp-content/uploads/2017/12/121.png" class="header-image" width="950" height="50" alt=""></a>
+					<span id="site-description"></span>
+	
+
+
+
+
+
+	
+    </div><!--End .wrapper-->
+    <div class="all-width">
+    	<div class="wrapper">
+    		<nav role="navigation">
+				<ul class="menu-search-hidden">
+					<li><form method="get" class="searchform" action="https://sdelatlending.ru/">
+	<input type="text" placeholder="Поиск" name="s" class="s">
+	<input type="submit" value="">
+</form></li>
+					<li id="menu_open_link">Открыть меню блога</li>
+				</ul>
+				<ul id="menu-header_menu_top" class="menu"><li id="menu-item-16" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-16"><a href="https://sdelatlending.ru/">Главная</a></li>
+<li id="menu-item-19" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-19"><a href="https://sdelatlending.ru/stati-sajta">Статьи сайта</a></li>
+<li id="menu-item-18" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-18"><a href="https://sdelatlending.ru/podbor-cveta">подбор цвета</a></li>
+</ul>			</nav>
+    	</div>
+    </div>
+
+<script src="https://vk.com/js/api/openapi.js?151" type="text/javascript"></script>
+
+</header><!--End #header-->	
+<section id="content"><!-- content -->
+	<div class="wrapper">
+		<article id="main_content">
+		<div class="mainphoto-page"></div>
+			                    <script type="text/javascript">
+                        window.stManager = {};
+                        window.stManager.done = function(type) {
+                            if( type === 'api/share.js' ) {
+                                darx.fireEvent(document, 'vkapi_vkshare');
+                            }
+                        };
+                    </script>
+                <h1 style="text-align: center;">Генератор кнопки css</h1>
+<p>Чтобы получить <strong>готовый css код кнопки нажми на нее</strong> и скопируй.</p>
+
+<body>
+
+
+<script src="//yastatic.net/es5-shims/0.0.2/es5-shims.min.js"></script>
+<script src="//yastatic.net/share2/share.js"></script>
+<div class="ya-share2" data-services="vkontakte,facebook,odnoklassniki,moimir,gplus,twitter,telegram" data-counter=""></div>		
+
+
+ 
+  <div id="button-box">
+
+    <button href="#" class="button">Скопировать код кнопок css</button>
+
+  </div>
+
+  <div id="controls">
+
+    <h2 class="text-center">Все параметры кнопки</h2>
+
+    <div class="sliderBar" id="sizer">Размер кнопки</div>
+    <div class="sliderBar" id="font-sizer">Размер шрифта</div>
+    <div class="sliderBar" id="border-rounder">Закруглить края кнопки</div>
+
+    <div id="colors">
+
+      <div>
+        <label for="topGradientValue">Верхний цвет градиента кнопки</label>
+        <input type="text" maxlength="6" size="6" id="topGradientValue" class="pickable" rel="backgroundTop" value="3e779d" style="background: #9575CD;" />
+      </div>
+
+      <div>
+        <label for="bottomGradientValue">Нижний цвет градиента кнопки</label>
+        <input type="text" maxlength="6" size="6" id="bottomGradientValue" class="pickable" rel="backgroundBottom" value="65a9d7" style="background: #F06292;" />
+      </div>
+
+      <div>
+        <label for="borderTopColorValue">Полоса сверху кнопки</label>
+        <input type="text" maxlength="6" size="6" id="borderTopColorValue" class="pickable" rel="borderTopColor" value="96d1f8" style="background: #4DB6AC;" />
+      </div>
+
+      <div>
+        <label for="hoverBackgroundColorValue">Цвет кнопки при наведении</label>
+        <input type="text" maxlength="6" size="6" id="hoverBackgroundColorValue" class="pickable" rel="hoverBackground" value="28597a" style="background: #FFD54F;" />
+      </div>
+
+      <div>
+        <label for="textColor">Цвет текста</label>
+        <input type="text" maxlength="6" size="6" id="textColor" class="pickable" rel="textColor" value="ffffff" style="background: #A1887F;" />
+      </div>
+
+      <div>
+        <label for="hoverTextColorValue">Цвет текста после наведения</label>
+        <input type="text" maxlength="6" size="6" id="hoverTextColorValue" class="pickable" rel="hoverColor" value="cccccc" style="background: #90A4AE;" />
+      </div>
+
+      <div>
+        <label for="activeBackgroundColor">Цвет кнопки при нажатии</label>
+        <input type="text" maxlength="6" size="6" id="activeBackgroundColor" class="pickable" rel="activeBackground" value="1b435e" style="background: #4DD0E1;" />
+      </div>
+
+    </div>
+    <h3>Выбери шрифт у кнопки</h3>
+    <select id="fontSelector">
+      <option value="Helvetica, Arial, Sans-Serif">Helvetica</option>
+      <option selected="seleted" value="Georgia, Serif">Georgia</option>
+      <option value="'Lucida Grande', Helvetica, Arial, Sans-Serif">Lucida Grande</option>
+    </select>
+
+  </div>
+</br> 
+</br> 
+</br> 
+  
+
+  <div id="the-css"></div>
+
+	<link rel="stylesheet" href="https://sdelatlending.ru/wp-content/themes/xmarkup/box/css/buttmain.min.css">
+	<script src="https://sdelatlending.ru/wp-content/themes/xmarkup/box/js/buttscripts.min.js"></script>
+<br>	
+<br> 
+<h2 style="text-align: center;">Как сделать кнопку в генераторе css</h2>
+<p>Чтобы сделать красивую кнопку css воспользуемся генератором. У кнопки есть параметры.</p>
+<ul>
+  <li><strong>Размер кнопки css.</strong> Изменяем форму кнопки высоту и ширину кнопки.</li>
+  <li><strong>Размер текста у кнопки.</strong> Задается свойством font-size.</li>
+  <li><strong>Закругление краев.</strong> Если нужна круглая кнопка используем свойство border-radius: 50%.</li>
+</ul>
+<h3>Зададим все цвета кнопки css.</h3>
+<ol>
+  <li><strong>Верхний цвет градиента. </strong>Установим цвет в позиции top.</li>
+  <li><strong>Нижний цвет градиента. </strong>Задаем в позиции bottom.</li>
+  <li><strong>Полоса сверху кнопки. </strong>Дополнительная функция украшения.</li>
+  <li><strong>Цвет при наведении. </strong>Используем класс hover.</li>
+  <li><strong>Цвет текста. </strong>Подбираем цвет контрастный цвету кнопки.</li>
+  <li><strong>Цвет текста кнопки после наведения. </strong>Если изменим фон со светлого на темный, то и цвет должен стать другим.</li>
+  <li><strong>Цвет кнопки при нажатии. </strong>Установим третий цвет для класса active.</li>
+</ol>
+&nbsp;
+
+<p>После установки всех параметров наживаем на скопировать код кнопки css и переносим в проект. В файле индекса зададим html код для кнопки с классом button. Теперь можно с <em>генерировать тень box shadow</em> и добавить ее при наведении на кнопку, получится красивый эффект.</p>
+<img class="aligncenter" src="https://sdelatlending.ru/wp-content/themes/xmarkup/img/buttgen1.jpg" alt="Как сделать кнопку html" title="Как сделать кнопку css генератор онлайн" width="600" height="600" />
+<h2 style="text-align: center;">оформление кнопок css</h2>
+<p>Чтобы сделать красивую html кнопку воспользуемся псевдоклассами.</p>
+<blockquote>
+<ol>
+  <li><strong>&amp;:active</strong> момент нажатия на кнопку добавляем свойство изменение цвета.</li>
+  <li><strong>&amp;:hover</strong> навели курсор мышки на кнопку и она изменила цвет текста и фона.</li>
+</ol>
+</blockquote>
+&nbsp;
+
+<ul>
+  <li>
+    <p>Чтобы сделать кнопку по центру используем свойство margin: 0 auto. Подробно <a href="http://backupsite/pozicionirovanie-elementov-osnovnye-svojstva-css.html" target="_blank" rel="noopener">о позиционирование элементов написано тут.</a></p>
+  </li>
+  <li>
+    <p>Можно сделать<a href="http://backupsite/animaciya-knopki-i-logotipa-dlya-lending.html" target="_blank" rel="noopener"> красивую кнопку с анимацией, читать тут.</a></p>
+  </li>
+  <li>
+    <p>Как сделать <a href="http://backupsite/dobavim-v-blok-shapki-krasivuyu-knopku-dlya-zakaza.html" target="_blank" rel="noopener">каркас для кнопки в html можно прочитать тут.</a></p>
+  </li>
+</ul>
+<h2 style="text-align: center;">Примеры красивых кнопок css</h2>
+<p>Рассмотрим стили css у 12 разных видов кнопок. </p>
+<h3 style="text-align: center;">Прозрачная кнопка css</h3>
+
+<button class="button1">Оформить</button> 
+
+<style class="style" href=" contenteditable">
+button.button1 {
+    color:#fff;
+    line-height: 32px;
+    border: 0px;
+    text-align: center;
+    width: 100px;
+    border-radius:16px;
+    background:transparent;
+    background-image: -webkit-linear-gradient(#127009, #3b9932, #409e37);
+    background-image: -moz-linear-gradient(#127009, #3b9932, #409e37);
+    background-image: -o-linear-gradient(#127009, #3b9932, #409e37);
+    -moz-box-shadow: inset 0 0 7px rgba(0,0,0,0.5);
+    -webkit-box-shadow: inset 0 0 7px rgba(0,0,0,0.5);
+    -o-box-shadow: inset 0 0 7px rgba(0,0,0,0.5);
+    box-shadow: inset 0 0 7px rgba(0,0,0,0.5);
+    display: block;
+    text-decoration: none;
+    font-size: 14px;
+    padding: 0px;
+}
+button.button1:before {
+    content: ".";
+    color:transparent;
+    line-height: 16px;
+    width: 90px;
+    margin-top: 0px;
+    margin-bottom: -17px;
+    margin-left: 5px;
+    background-image: -webkit-linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.1) );
+    background-image:-moz-linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.1));
+    background-image: -o-linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.1));
+    border-radius:16px; 
+    display:block;
+}
+</style>
+
+<strong>Прозрачная кнопка</strong>
+<pre lang="php" line="1" escaped="true" class="">
+button.button11
+    color:#fff;
+    line-height: 32px;
+    border: 0px;
+    text-align: center;
+    width: 100px;
+    border-radius:16px;
+    background:transparent;
+    background-image: -webkit-linear-gradient(#127009, #3b9932, #409e37);
+    background-image: -moz-linear-gradient(#127009, #3b9932, #409e37);
+    background-image: -o-linear-gradient(#127009, #3b9932, #409e37);
+    -moz-box-shadow: inset 0 0 7px rgba(0,0,0,0.5);
+    -webkit-box-shadow: inset 0 0 7px rgba(0,0,0,0.5);
+    -o-box-shadow: inset 0 0 7px rgba(0,0,0,0.5);
+    box-shadow: inset 0 0 7px rgba(0,0,0,0.5);
+    display: block;
+    text-decoration: none;
+    font-size: 14px;
+    padding: 0px;
+}
+button.button1:before {
+    content: ".";
+    color:transparent;
+    line-height: 16px;
+    width: 90px;
+    margin-top: 0px;
+    margin-bottom: -17px;
+    margin-left: 5px;
+    background-image: -webkit-linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.1) );
+    background-image:-moz-linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.1));
+    background-image: -o-linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.1));
+    border-radius:16px; 
+    display:block;
+}</pre>
+
+
+<button class="button2">Ку</button> 
+
+<style class="style" href=" contenteditable">
+button.button2 {
+    color:#fff;
+    line-height: 48px;
+    border: 0px;
+    text-align: center;
+    width: 48px;
+    border-radius:24px;
+    background:transparent;
+    background-image:-moz-radial-gradient(center bottom, circle cover, rgba(16, 236, 236, 1) 20%, rgba(0, 44, 228, 1) 80%);
+    background-image:-webkit-radial-gradient(center bottom, circle cover, rgba(16, 236, 236, 1) 20%, rgba(0, 44, 228, 1) 80%);
+    background-image:-o-radial-gradient(center bottom, circle cover, rgba(16, 236, 236, 1) 20%, rgba(0, 44, 228, 1) 80%);
+    display: block;
+    padding: 0px;
+    text-decoration: none;
+}
+button.button2:before {
+    content: ".";
+    color:transparent;
+    line-height: 24px;
+    width: 40px;
+    margin-left: 4px;
+    margin-bottom: -24px;
+    background-image: -webkit-linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0) );
+    background-image:-moz-linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0));
+    background-image: -o-linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0));
+    border-radius:24px; 
+    display:block;
+}
+</style>
+
+<strong>Вторая прозрачная кнопка</strong>
+<pre lang="php" line="1" escaped="true" class="">
+button.button2 {
+    color:#fff;
+    line-height: 48px;
+    border: 0px;
+    text-align: center;
+    width: 48px;
+    border-radius:24px;
+    background:transparent;
+    background-image:-moz-radial-gradient(center bottom, circle cover, rgba(16, 236, 236, 1) 20%, rgba(0, 44, 228, 1) 80%);
+    background-image:-webkit-radial-gradient(center bottom, circle cover, rgba(16, 236, 236, 1) 20%, rgba(0, 44, 228, 1) 80%);
+    background-image:-o-radial-gradient(center bottom, circle cover, rgba(16, 236, 236, 1) 20%, rgba(0, 44, 228, 1) 80%);
+    display: block;
+    padding: 0px;
+    text-decoration: none;
+}
+button.button2:before {
+    content: ".";
+    color:transparent;
+    line-height: 24px;
+    width: 40px;
+    margin-left: 4px;
+    margin-bottom: -24px;
+    background-image: -webkit-linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0) );
+    background-image:-moz-linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0));
+    background-image: -o-linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0));
+    border-radius:24px; 
+    display:block;
+}
+}</pre>
+
+
+
+
+<button class="button3">Заказать</button> 
+
+<style class="style" href=" contenteditable">
+button.button3{
+  border-radius: 10px;
+  border: none;
+  padding: 10px 10px 14px 10px;
+  color: #111;
+  border-radius: 10px;
+  font-size: 1.2em;
+  font-weight: 200;
+  transition: all 0.2s;
+  margin: 5px;
+  border-bottom: 0px solid #eee;
+  cursor:pointer;
+}
+button.button3:active{
+  transform: scaleX(0.9) translateY(4px);
+}
+button.button3.green{
+  background: #82CA9D;
+}
+button:not(:active){
+  box-shadow: 0 -4px 0 rgba(0, 0, 0, 0.18) inset;
+}
+</style>
+
+<strong>Кнопка с деформацией</strong>
+<pre lang="php" line="1" escaped="true" class="">
+button.button3{
+  border-radius: 10px;
+  border: none;
+  padding: 10px 10px 14px 10px;
+  color: #111;
+  border-radius: 10px;
+  font-size: 1.2em;
+  font-weight: 200;
+  transition: all 0.2s;
+  margin: 5px;
+  border-bottom: 0px solid #eee;
+  cursor:pointer;
+
+}
+button.button3:active{
+  transform: scaleX(0.9) translateY(4px);
+}
+button.button3.green{
+  background: #82CA9D;
+}
+button:not(:active){
+  box-shadow: 0 -4px 0 rgba(0, 0, 0, 0.18) inset;
+}</pre>
+
+
+<button class="button4">Заказать</button> 
+
+<style class="style" href=" contenteditable">
+button.button4{
+  text-decoration: none;
+  outline: none;
+  display: inline-block;
+  width: 140px;
+  height: 45px;
+  line-height: 45px;
+  border-radius: 45px;
+  margin: 10px 20px;
+  font-size: 11px;
+  text-transform: uppercase;
+  text-align: center;
+  letter-spacing: 3px;
+  font-weight: 600;
+  color: #524f4e;
+  background: white;
+  box-shadow: 0 8px 15px rgba(0,0,0,.1);
+  transition: .3s;
+}
+button.button4:hover {
+  background: #2EE59D;
+  box-shadow: 0 15px 20px rgba(46,229,157,.4);
+  color: white;
+  transform: translateY(-7px);
+}
+</style>
+
+<strong>Стиль кнопки с изменением положения</strong>
+<pre lang="php" line="1" escaped="true" class="">
+button.button4{
+  text-decoration: none;
+  outline: none;
+  display: inline-block;
+  width: 140px;
+  height: 45px;
+  line-height: 45px;
+  border-radius: 45px;
+  margin: 10px 20px;
+  font-size: 11px;
+  text-transform: uppercase;
+  text-align: center;
+  letter-spacing: 3px;
+  font-weight: 600;
+  color: #524f4e;
+  background: white;
+  box-shadow: 0 8px 15px rgba(0,0,0,.1);
+  transition: .3s;
+}
+button.button4:hover {
+  background: #2EE59D;
+  box-shadow: 0 15px 20px rgba(46,229,157,.4);
+  color: white;
+  transform: translateY(-7px);
+}</pre>
+
+
+<button class="button5">Заказать</button> 
+
+<style class="style" href=" contenteditable">
+button.button5{
+  text-decoration: none;
+  outline: none;
+  display: inline-block;
+  padding: 12px 40px;
+  margin: 10px 20px;
+  border-radius: 30px;
+  background-image: linear-gradient(45deg, #6ab1d7 0%, #33d9de 50%, #002878 100%);
+  background-position: 100% 0;
+  background-size: 200% 200%;
+  font-size: 24px;
+  font-weight: 300;
+  color: white;
+  box-shadow: 0 16px 32px 0 rgba(0,40,120,.35);
+  transition: .5s;
+}
+button.button5:hover {
+  box-shadow: 0 0 0 0 rgba(0,40,120,0);
+  background-position: 0 0;
+}
+</style>
+
+<strong>Стиль с бликом</strong>
+<pre lang="php" line="1" escaped="true" class="">
+button.button5{
+  text-decoration: none;
+  outline: none;
+  display: inline-block;
+  padding: 12px 40px;
+  margin: 10px 20px;
+  border-radius: 30px;
+  background-image: linear-gradient(45deg, #6ab1d7 0%, #33d9de 50%, #002878 100%);
+  background-position: 100% 0;
+  background-size: 200% 200%;
+  font-size: 24px;
+  font-weight: 300;
+  color: white;
+  box-shadow: 0 16px 32px 0 rgba(0,40,120,.35);
+  transition: .5s;
+}
+button.button5:hover {
+  box-shadow: 0 0 0 0 rgba(0,40,120,0);
+  background-position: 0 0;
+}</pre>
+
+
+<button class="button6">Заказать</button> 
+
+<style class="style" href=" contenteditable">
+button.button6{
+  text-decoration: none;
+  outline: none;
+  display: inline-block;
+  margin: 10px;
+  color: white;
+  box-shadow: 0 0 0 2px white;
+  padding: 20px 0;
+  width: 150px;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  position: relative;
+  overflow: hidden;
+}
+span {
+  position: relative;
+  z-index: 5;
+}
+button.button6:before, 
+button.button6:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+}
+button.button6:before{
+  transform: translateX(-100%);
+  background: white;
+  transition: transform .3s cubic-bezier(.55,.055,.675,.19);
+}
+button.button6:after {
+  background: #413ad5;
+  transform: translateX(100%);
+  transition: transform .3s cubic-bezier(.16,.73,.58,.62) .3s;
+}
+button.button6:hover:before,
+button.button6:hover:after {transform: translateX(0);}
+</style>
+
+<strong>Кнопка с цветовой полосой</strong>
+<pre lang="php" line="1" escaped="true" class="">
+button.button6{
+  text-decoration: none;
+  outline: none;
+  display: inline-block;
+  margin: 10px;
+  color: white;
+  box-shadow: 0 0 0 2px white;
+  padding: 20px 0;
+  width: 150px;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  position: relative;
+  overflow: hidden;
+}
+span {
+  position: relative;
+  z-index: 5;
+}
+button.button6:before, 
+button.button6:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+}
+button.button6:before{
+  transform: translateX(-100%);
+  background: white;
+  transition: transform .3s cubic-bezier(.55,.055,.675,.19);
+}
+button.button6:after {
+  background: #413ad5;
+  transform: translateX(100%);
+  transition: transform .3s cubic-bezier(.16,.73,.58,.62) .3s;
+}
+button.button6:hover:before,
+button.button6:hover:after {transform: translateX(0);}</pre>
+
+
+
+<button class="button7">Заказать</button> 
+
+<style class="style" href=" contenteditable">
+button.button7{
+  text-decoration: none;
+  outline: none;
+  display: inline-block;
+  padding: 15px 30px;
+  margin: 10px 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 40px 40px #F137A6 inset, 0 0 0 0 #F137A6;
+  font-weight: bold;
+  letter-spacing: 2px;
+  color: white;
+  transition: .15s ease-in-out;
+}
+button.button7:hover {
+  box-shadow: 0 0 10px 0 #F137A6 inset, 0 0 10px 4px #F137A6;
+  color: #F137A6;
+}
+</style>
+
+<strong>Кнопка с объемным цветом</strong>
+<pre lang="php" line="1" escaped="true" class="">
+button.button7{
+  text-decoration: none;
+  outline: none;
+  display: inline-block;
+  padding: 15px 30px;
+  margin: 10px 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 40px 40px #F137A6 inset, 0 0 0 0 #F137A6;
+  font-weight: bold;
+  letter-spacing: 2px;
+  color: white;
+  transition: .15s ease-in-out;
+}
+button.button7:hover {
+  box-shadow: 0 0 10px 0 #F137A6 inset, 0 0 10px 4px #F137A6;
+  color: #F137A6;
+}</pre>
+
+
+<button class="button8">Заказать</button> 
+
+<style class="style" href=" contenteditable">
+button.button8{
+  text-decoration: none;
+  outline: none;
+  display: inline-block;
+  padding: 10px 30px;
+  margin: 10px 20px;
+  position: relative;
+  overflow: hidden;
+  border: 2px solid #fe6637;
+  border-radius: 8px;
+  color: #fe6637;
+  transition: .2s ease-in-out;
+}
+button.button8:before {
+  content: "";
+  background: linear-gradient(90deg, rgba(255,255,255,.1), rgba(255,255,255,.5));
+  height: 50px;
+  width: 50px;
+  position: absolute;
+  top: -8px;
+  left: -75px;
+  transform: skewX(-45deg);
+}
+button.button8:hover {
+  background: #fe6637;
+  color: #fff;
+}
+button.button8:hover:before {
+  left: 150px;
+  transition: .5s ease-in-out;
+}
+</style>
+
+<strong>Кнопка с бликом</strong>
+<pre lang="php" line="1" escaped="true" class="">
+button.button8{
+  text-decoration: none;
+  outline: none;
+  display: inline-block;
+  padding: 10px 30px;
+  margin: 10px 20px;
+  position: relative;
+  overflow: hidden;
+  border: 2px solid #fe6637;
+  border-radius: 8px;
+  color: #fe6637;
+  transition: .2s ease-in-out;
+}
+button.button8:before {
+  content: "";
+  background: linear-gradient(90deg, rgba(255,255,255,.1), rgba(255,255,255,.5));
+  height: 50px;
+  width: 50px;
+  position: absolute;
+  top: -8px;
+  left: -75px;
+  transform: skewX(-45deg);
+}
+button.button8:hover {
+  background: #fe6637;
+  color: #fff;
+}
+button.button8:hover:before {
+  left: 150px;
+  transition: .5s ease-in-out;
+}</pre>
+
+
+
+<h3 style="text-align: center;">Стеклянная кнопка</h3>
+<button class="button9">Заказать</button> 
+
+<style class="style" href=" contenteditable">
+button.button9{
+  position: relative;
+  display: inline-block;
+  color: #777674;
+  font-weight: bold;
+  text-decoration: none;
+  text-shadow: rgba(255,255,255,.5) 1px 1px, rgba(100,100,100,.3) 3px 7px 3px;
+  user-select: none;
+  padding: 1em 2em;
+  outline: none;
+  border-radius: 3px / 100%;
+  background-image:
+   linear-gradient(45deg, rgba(255,255,255,.0) 30%, rgba(255,255,255,.8), rgba(255,255,255,.0) 70%),
+   linear-gradient(to right, rgba(255,255,255,1), rgba(255,255,255,0) 20%, rgba(255,255,255,0) 90%, rgba(255,255,255,.3)),
+   linear-gradient(to right, rgba(125,125,125,1), rgba(255,255,255,.9) 45%, rgba(125,125,125,.5)),
+   linear-gradient(to right, rgba(125,125,125,1), rgba(255,255,255,.9) 45%, rgba(125,125,125,.5)),
+   linear-gradient(to right, rgba(223,190,170,1), rgba(255,255,255,.9) 45%, rgba(223,190,170,.5)),
+   linear-gradient(to right, rgba(223,190,170,1), rgba(255,255,255,.9) 45%, rgba(223,190,170,.5));
+  background-repeat: no-repeat;
+  background-size: 200% 100%, auto, 100% 2px, 100% 2px, 100% 1px, 100% 1px;
+  background-position: 200% 0, 0 0, 0 0, 0 100%, 0 4px, 0 calc(100% - 4px);
+  box-shadow: rgba(0,0,0,.5) 3px 10px 10px -10px;
+}
+button.button9:hover {
+  transition: .5s linear;
+  background-position: -200% 0, 0 0, 0 0, 0 100%, 0 4px, 0 calc(100% - 4px);
+}
+button.button9:active {
+  top: 1px;
+}
+</style>
+
+<strong>Стиль стеклянной кнопки</strong>
+<pre lang="php" line="1" escaped="true" class="">
+button.button9{
+  position: relative;
+  display: inline-block;
+  color: #777674;
+  font-weight: bold;
+  text-decoration: none;
+  text-shadow: rgba(255,255,255,.5) 1px 1px, rgba(100,100,100,.3) 3px 7px 3px;
+  user-select: none;
+  padding: 1em 2em;
+  outline: none;
+  border-radius: 3px / 100%;
+  background-image:
+   linear-gradient(45deg, rgba(255,255,255,.0) 30%, rgba(255,255,255,.8), rgba(255,255,255,.0) 70%),
+   linear-gradient(to right, rgba(255,255,255,1), rgba(255,255,255,0) 20%, rgba(255,255,255,0) 90%, rgba(255,255,255,.3)),
+   linear-gradient(to right, rgba(125,125,125,1), rgba(255,255,255,.9) 45%, rgba(125,125,125,.5)),
+   linear-gradient(to right, rgba(125,125,125,1), rgba(255,255,255,.9) 45%, rgba(125,125,125,.5)),
+   linear-gradient(to right, rgba(223,190,170,1), rgba(255,255,255,.9) 45%, rgba(223,190,170,.5)),
+   linear-gradient(to right, rgba(223,190,170,1), rgba(255,255,255,.9) 45%, rgba(223,190,170,.5));
+  background-repeat: no-repeat;
+  background-size: 200% 100%, auto, 100% 2px, 100% 2px, 100% 1px, 100% 1px;
+  background-position: 200% 0, 0 0, 0 0, 0 100%, 0 4px, 0 calc(100% - 4px);
+  box-shadow: rgba(0,0,0,.5) 3px 10px 10px -10px;
+}
+button.button9:hover {
+  transition: .5s linear;
+  background-position: -200% 0, 0 0, 0 0, 0 100%, 0 4px, 0 calc(100% - 4px);
+}
+button.button9:active {
+  top: 1px;
+}</pre>
+
+
+<h3 style="text-align: center;">3d кнопка css</h3>
+<button class="button10">Заказать</button> 
+
+<style class="style" href=" contenteditable">
+button.button10{
+  position: relative;
+  display: inline-block;
+  font-weight: bold;
+  color: #000;
+  text-decoration: none;
+  text-shadow: -2px 2px rgba(255,255,255,.3);
+  line-height: 1.1;
+  padding: .5em 3em .5em .6em;
+  background: linear-gradient(#ecc92b, #fce25b);
+  box-shadow:
+   0 0 0 1px #fce25b inset,
+   -1px 0px rgb(220,195,35), -1px 1px rgb(192,167,7),
+   -2px 1px rgb(219,194,34), -2px 2px rgb(191,166,6),
+   -3px 2px rgb(218,193,33), -3px 3px rgb(190,165,5),
+   -4px 3px rgb(217,192,32), -4px 4px rgb(189,164,4),
+   -5px 4px rgb(216,191,31), -5px 5px rgb(188,163,3),
+   -6px 5px rgb(215,190,30), -6px 6px rgb(187,162,2),
+   -7px 6px rgb(214,189,29), -7px 7px rgb(186,161,1),
+   -8px 7px rgb(213,188,28), -8px 8px rgb(185,160,0),
+   -7px 9px 1px rgba(0,0,0,.4),
+   -5px 11px 1px rgba(0,0,0,.2),
+   -1px 13px 4px rgba(0,0,0,.2),
+   4px 16px 7px rgba(0,0,0,.3);
+  transition: .4s;
+}
+button.button10:active {
+  box-shadow: none;
+  -webkit-transform: translate(-7px, 8px);
+  transform: translate(-7px, 8px);
+}
+button.button10:after {
+  content: "";
+  position: absolute;
+  top: calc(50% - .6em/2);
+  right: .6em;
+  -webkit-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+  border: .37em solid;
+  border-top: none;
+  border-left: none;
+  width: .6em;
+  height: .6em;
+  box-shadow: inset -2px 2px rgba(255,255,255,.3);
+}
+button.button10:active {
+  top: 1px;
+}
+</style>
+
+<strong>Стиль 3d кнопки</strong>
+<pre lang="php" line="1" escaped="true" class="">
+button.button10{
+  position: relative;
+  display: inline-block;
+  font-weight: bold;
+  color: #000;
+  text-decoration: none;
+  text-shadow: -2px 2px rgba(255,255,255,.3);
+  line-height: 1.1;
+  padding: .5em 3em .5em .6em;
+  background: linear-gradient(#ecc92b, #fce25b);
+  box-shadow:
+   0 0 0 1px #fce25b inset,
+   -1px 0px rgb(220,195,35), -1px 1px rgb(192,167,7),
+   -2px 1px rgb(219,194,34), -2px 2px rgb(191,166,6),
+   -3px 2px rgb(218,193,33), -3px 3px rgb(190,165,5),
+   -4px 3px rgb(217,192,32), -4px 4px rgb(189,164,4),
+   -5px 4px rgb(216,191,31), -5px 5px rgb(188,163,3),
+   -6px 5px rgb(215,190,30), -6px 6px rgb(187,162,2),
+   -7px 6px rgb(214,189,29), -7px 7px rgb(186,161,1),
+   -8px 7px rgb(213,188,28), -8px 8px rgb(185,160,0),
+   -7px 9px 1px rgba(0,0,0,.4),
+   -5px 11px 1px rgba(0,0,0,.2),
+   -1px 13px 4px rgba(0,0,0,.2),
+   4px 16px 7px rgba(0,0,0,.3);
+  transition: .4s;
+}
+button.button10:active {
+  box-shadow: none;
+  -webkit-transform: translate(-7px, 8px);
+  transform: translate(-7px, 8px);
+}
+button.button10:after {
+  content: "";
+  position: absolute;
+  top: calc(50% - .6em/2);
+  right: .6em;
+  -webkit-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+  border: .37em solid;
+  border-top: none;
+  border-left: none;
+  width: .6em;
+  height: .6em;
+  box-shadow: inset -2px 2px rgba(255,255,255,.3);
+}
+button.button10:active {
+  top: 1px;
+}</pre>
+
+
+<h3 style="text-align: center;">Выпадающая кнопка css</h3>
+<button href="#" class="button11">
+<span class="a-btn-3-text">Цена</span>
+<span class="a-btn-3-slide-text">5 р.</span>
+<span class="a-btn-3-icon-right"><span></span></span>
+</button>
+
+<style class="style" href=" contenteditable">
+button.button11 {
+        color: #FFFFFF;
+        text-decoration: none;   
+}
+button.button11{
+    background:#80a9da;
+    background:-webkit-gradient(linear,left top,left bottom,color-stop(#80a9da,0),color-stop(#6f97c5,1));
+    background:-webkit-linear-gradient(top, #80a9da 0%, #6f97c5 100%);
+    background:-moz-linear-gradient(top, #80a9da 0%, #6f97c5 100%);
+    background:-o-linear-gradient(top, #80a9da 0%, #6f97c5 100%);
+    background:linear-gradient(top, #80a9da 0%, #6f97c5 100%);
+    filter:progid:DXImageTransform.Microsoft.gradient( startColorstr='#80a9da', endColorstr='#6f97c5',GradientType=0 );
+    padding-left:20px;
+    padding-right:80px;
+    height:38px;
+    display:block;
+        margin: 20px auto;
+        text-align:center;
+        width:200px;
+    position:relative;
+    border:1px solid #5d81ab;
+    -webkit-box-shadow:0px 1px 1px rgba(255,255,255,0.8) inset, 1px 1px 3px rgba(0,0,0,0.2), 0px 0px 0px 4px rgba(188,188,188,0.5);
+    -moz-box-shadow:0px 1px 1px rgba(255,255,255,0.8) inset, 1px 1px 3px rgba(0,0,0,0.2), 0px 0px 0px 4px rgba(188,188,188,0.5);
+    box-shadow:0px 1px 1px rgba(255,255,255,0.8) inset, 1px 1px 3px rgba(0,0,0,0.2), 0px 0px 0px 4px rgba(188,188,188,0.5);
+    -webkit-border-radius:20px;
+    -moz-border-radius:20px;
+    border-radius:20px;
+    overflow:hidden;
+    -webkit-transition:all 0.3s linear;
+    -moz-transition:all 0.3s linear;
+    -o-transition:all 0.3s linear;
+    transition:all 0.3s linear;
+}
+.a-btn-3-text{
+    padding-top:5px;
+    display:block;
+        width:0px;
+    font-size:18px;
+    white-space:nowrap;
+    text-shadow:0px 1px 1px rgba(255,255,255,0.3);
+    color:#446388;
+    -webkit-transition:all 0.2s linear;
+    -moz-transition:all 0.2s linear;
+    -o-transition:all 0.2s linear;
+    transition:all 0.2s linear;
+}
+.a-btn-3-slide-text{
+    position:absolute;
+    height:100%;
+    top:0px;
+    right:52px;
+    width:0px;
+    background:#63707e;
+    text-shadow:0px -1px 1px #363f49;
+    color:#fff;
+    font-size:18px;
+    white-space:nowrap;
+    text-transform:uppercase;
+    text-align:left;
+    text-indent:10px;
+    overflow:hidden;
+    line-height:38px;
+    -webkit-box-shadow:-1px 0px 1px rgba(255,255,255,0.4), 1px 1px 2px rgba(0,0,0,0.2) inset;
+    -moz-box-shadow:-1px 0px 1px rgba(255,255,255,0.4), 1px 1px 2px rgba(0,0,0,0.2) inset;
+    box-shadow:-1px 0px 1px rgba(255,255,255,0.4), 1px 1px 2px rgba(0,0,0,0.2) inset;
+    -webkit-transition:width 0.3s linear;
+    -moz-transition:width 0.3s linear;
+    -o-transition:width 0.3s linear;
+    transition:width 0.3s linear;
+}
+.a-btn-3-icon-right{
+    position:absolute;
+    right:0px;
+    top:0px;
+    height:100%;
+    width:52px;
+    border-left:1px solid #5d81ab;
+    -webkit-box-shadow:1px 0px 1px rgba(255,255,255,0.4) inset;
+    -moz-box-shadow:1px 0px 1px rgba(255,255,255,0.4) inset;
+    box-shadow:1px 0px 1px rgba(255,255,255,0.4) inset;
+}
+.a-btn-3-icon-right span{
+    width:38px;
+    height:38px;
+    opacity:0.7;
+    position:absolute;
+    left:50%;
+    top:50%;
+    margin:-20px 0px 0px -20px;
+    background:transparent url(images/arrow_right.png) no-repeat 50% 55%;
+    -webkit-transition:all 0.3s linear;
+    -moz-transition:all 0.3s linear;
+    -o-transition:all 0.3s linear;
+    transition:all 0.3s linear;
+}
+.button11:hover{
+    padding-right:140px;
+    -webkit-box-shadow:0px 1px 1px rgba(255,255,255,0.8) inset, 1px 1px 3px rgba(0,0,0,0.2);
+    -moz-box-shadow:0px 1px 1px rgba(255,255,255,0.8) inset, 1px 1px 3px rgba(0,0,0,0.2);
+    box-shadow:0px 1px 1px rgba(255,255,255,0.8) inset, 1px 1px 3px rgba(0,0,0,0.2);
+}
+.button11:hover .a-btn-3-text{
+    text-shadow:0px 1px 1px #5d81ab;
+    color:#fff;
+}
+.button11:hover .a-btn-3-slide-text{
+    width:57px;
+}
+.button11:hover .a-btn-3-icon-right span{
+    opacity:1;
+}
+.button11:active{
+    position:relative;
+    top:1px;
+    background:#5d81ab;
+    -webkit-box-shadow:1px 1px 2px rgba(0,0,0,0.4) inset;
+    -moz-box-shadow:1px 1px 2px rgba(0,0,0,0.4) inset;
+    box-shadow:1px 1px 2px rgba(0,0,0,0.4) inset;
+    border-color:#80a9da;
+}
+</style>
+
+<strong>Код для выпадающей кнопки css</strong>
+<pre lang="php" line="1" escaped="true" class="">
+button.button11 {
+        color: #FFFFFF;
+        text-decoration: none; 
+}
+button.button11{
+    background:#80a9da;
+    background:-webkit-gradient(linear,left top,left bottom,color-stop(#80a9da,0),color-stop(#6f97c5,1));
+    background:-webkit-linear-gradient(top, #80a9da 0%, #6f97c5 100%);
+    background:-moz-linear-gradient(top, #80a9da 0%, #6f97c5 100%);
+    background:-o-linear-gradient(top, #80a9da 0%, #6f97c5 100%);
+    background:linear-gradient(top, #80a9da 0%, #6f97c5 100%);
+    filter:progid:DXImageTransform.Microsoft.gradient( startColorstr='#80a9da', endColorstr='#6f97c5',GradientType=0 );
+    padding-left:20px;
+    padding-right:80px;
+    height:38px;
+    display:block;
+        margin: 20px auto;
+        text-align:center;
+        width:200px;
+    position:relative;
+    border:1px solid #5d81ab;
+    -webkit-box-shadow:0px 1px 1px rgba(255,255,255,0.8) inset, 1px 1px 3px rgba(0,0,0,0.2), 0px 0px 0px 4px rgba(188,188,188,0.5);
+    -moz-box-shadow:0px 1px 1px rgba(255,255,255,0.8) inset, 1px 1px 3px rgba(0,0,0,0.2), 0px 0px 0px 4px rgba(188,188,188,0.5);
+    box-shadow:0px 1px 1px rgba(255,255,255,0.8) inset, 1px 1px 3px rgba(0,0,0,0.2), 0px 0px 0px 4px rgba(188,188,188,0.5);
+    -webkit-border-radius:20px;
+    -moz-border-radius:20px;
+    border-radius:20px;
+    overflow:hidden;
+    -webkit-transition:all 0.3s linear;
+    -moz-transition:all 0.3s linear;
+    -o-transition:all 0.3s linear;
+    transition:all 0.3s linear;
+}
+.a-btn-3-text{
+    padding-top:5px;
+    display:block;
+        width:0px;
+    font-size:18px;
+    white-space:nowrap;
+    text-shadow:0px 1px 1px rgba(255,255,255,0.3);
+    color:#446388;
+    -webkit-transition:all 0.2s linear;
+    -moz-transition:all 0.2s linear;
+    -o-transition:all 0.2s linear;
+    transition:all 0.2s linear;
+}
+.a-btn-3-slide-text{
+    position:absolute;
+    height:100%;
+    top:0px;
+    right:52px;
+    width:0px;
+    background:#63707e;
+    text-shadow:0px -1px 1px #363f49;
+    color:#fff;
+    font-size:18px;
+    white-space:nowrap;
+    text-transform:uppercase;
+    text-align:left;
+    text-indent:10px;
+    overflow:hidden;
+    line-height:38px;
+    -webkit-box-shadow:-1px 0px 1px rgba(255,255,255,0.4), 1px 1px 2px rgba(0,0,0,0.2) inset;
+    -moz-box-shadow:-1px 0px 1px rgba(255,255,255,0.4), 1px 1px 2px rgba(0,0,0,0.2) inset;
+    box-shadow:-1px 0px 1px rgba(255,255,255,0.4), 1px 1px 2px rgba(0,0,0,0.2) inset;
+    -webkit-transition:width 0.3s linear;
+    -moz-transition:width 0.3s linear;
+    -o-transition:width 0.3s linear;
+    transition:width 0.3s linear;
+}
+.a-btn-3-icon-right{
+    position:absolute;
+    right:0px;
+    top:0px;
+    height:100%;
+    width:52px;
+    border-left:1px solid #5d81ab;
+    -webkit-box-shadow:1px 0px 1px rgba(255,255,255,0.4) inset;
+    -moz-box-shadow:1px 0px 1px rgba(255,255,255,0.4) inset;
+    box-shadow:1px 0px 1px rgba(255,255,255,0.4) inset;
+}
+.a-btn-3-icon-right span{
+    width:38px;
+    height:38px;
+    opacity:0.7;
+    position:absolute;
+    left:50%;
+    top:50%;
+    margin:-20px 0px 0px -20px;
+    background:transparent url(images/arrow_right.png) no-repeat 50% 55%;
+    -webkit-transition:all 0.3s linear;
+    -moz-transition:all 0.3s linear;
+    -o-transition:all 0.3s linear;
+    transition:all 0.3s linear;
+}
+.button11:hover{
+    padding-right:140px;
+    -webkit-box-shadow:0px 1px 1px rgba(255,255,255,0.8) inset, 1px 1px 3px rgba(0,0,0,0.2);
+    -moz-box-shadow:0px 1px 1px rgba(255,255,255,0.8) inset, 1px 1px 3px rgba(0,0,0,0.2);
+    box-shadow:0px 1px 1px rgba(255,255,255,0.8) inset, 1px 1px 3px rgba(0,0,0,0.2);
+}
+.button11:hover .a-btn-3-text{
+    text-shadow:0px 1px 1px #5d81ab;
+    color:#fff;
+}
+.button11:hover .a-btn-3-slide-text{
+    width:57px;
+}
+.button11:hover .a-btn-3-icon-right span{
+    opacity:1;
+}
+.button11:active{
+    position:relative;
+    top:1px;
+    background:#5d81ab;
+    -webkit-box-shadow:1px 1px 2px rgba(0,0,0,0.4) inset;
+    -moz-box-shadow:1px 1px 2px rgba(0,0,0,0.4) inset;
+    box-shadow:1px 1px 2px rgba(0,0,0,0.4) inset;
+    border-color:#80a9da;
+}</pre>
+
+<h3 style="text-align: center;">Пульсирующая кнопка css</h3>
+<button class="button12">Заказать</button> 
+
+<style class="style" href=" contenteditable">
+button.button12{
+        position: relative;
+        display:block;
+        color: #ED5B00;
+        text-decoration: none;
+        margin: 20px auto;
+        text-decoration:none;
+        text-align:center;
+        width:125px;
+        font-family: verdana;
+        font-size: 22px;
+        letter-spacing: 2px;
+        border-bottom: 2px solid transparent;
+}
+button.button12:hover,button.button12:focus{
+        outline: none;
+        border-bottom: 2px solid #eee;
+}
+
+button.button12:before, button.button12:after{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 70px;
+        height: 70px;
+        border: 12px double rgba(0,0,0,0.1);
+        border-radius: 50%;
+        content: '';
+        opacity: 0;
+        -webkit-transform: translateX(-50%) translateY(-50%) scale(0.2);
+        -moz-transform: translateX(-50%) translateY(-50%) scale(0.2);
+        transform: translateX(-50%) translateY(-50%) scale(0.2);
+}
+
+button.button12:after{
+        width: 60px;
+        height: 60px;
+        border-width: 6px;
+        -webkit-transform: translateX(-50%) translateY(-50%) scale(0.8);
+        -moz-transform: translateX(-50%) translateY(-50%) scale(0.8);
+        transform: translateX(-50%) translateY(-50%) scale(0.8);
+}
+
+button.button12:hover:before, button.button12:hover:after{
+        -webkit-animation: pulsate 1.2s infinite;
+        -moz-animation: pulsate 1.2s infinite;
+        -ms-animation: pulsate 1.2s infinite;
+        animation: pulsate 1.2s infinite;
+}
+
+@-webkit-keyframes pulsate{
+
+  30%{
+        opacity: 1;
+        -webkit-transform: translateX(-50%) translateY(-50%) scale(1);
+  }
+
+        100%{
+        opacity: 0.3;
+        -webkit-transform: translateX(-50%) translateY(-50%) scale(0.5);
+        }
+
+}
+
+@-moz-keyframes pulsate{
+
+  30%{
+        opacity: 1;
+        -moz-transform: translateX(-50%) translateY(-50%) scale(1);
+  }
+
+        100%{
+        opacity: 0.3;
+        -moz-transform: translateX(-50%) translateY(-50%) scale(0.5);
+        }
+
+}
+
+@-ms-keyframes pulsate{
+
+  30%{
+        opacity: 1;
+        -ms-transform: translateX(-50%) translateY(-50%) scale(1);
+  }
+
+        100%{
+        opacity: 0.3;
+        -ms-transform: translateX(-50%) translateY(-50%) scale(0.5);
+        }
+
+}
+
+@-keyframes pulsate{
+
+  30%{
+        opacity: 1;
+        transform: translateX(-50%) translateY(-50%) scale(1);
+  }
+
+        100%{
+        opacity: 0.3;
+        transform: translateX(-50%) translateY(-50%) scale(0.5);
+        }
+}
+</style>
+
+<strong>Стиль в css для пульсирующей кнопки</strong>
+<pre lang="php" line="1" escaped="true" class="">
+button.button12{
+        position: relative;
+        display:block;
+        color: #ED5B00;
+        text-decoration: none;
+        margin: 20px auto;
+        text-decoration:none;
+        text-align:center;
+        width:125px;
+        font-family: verdana;
+        font-size: 22px;
+        letter-spacing: 2px;
+        border-bottom: 2px solid transparent;
+}
+button.button12:hover,button.button12:focus{
+        outline: none;
+        border-bottom: 2px solid #eee;
+}
+
+button.button12:before, button.button12:after{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 70px;
+        height: 70px;
+        border: 12px double rgba(0,0,0,0.1);
+        border-radius: 50%;
+        content: '';
+        opacity: 0;
+        -webkit-transform: translateX(-50%) translateY(-50%) scale(0.2);
+        -moz-transform: translateX(-50%) translateY(-50%) scale(0.2);
+        transform: translateX(-50%) translateY(-50%) scale(0.2);
+}
+
+button.button12:after{
+        width: 60px;
+        height: 60px;
+        border-width: 6px;
+        -webkit-transform: translateX(-50%) translateY(-50%) scale(0.8);
+        -moz-transform: translateX(-50%) translateY(-50%) scale(0.8);
+        transform: translateX(-50%) translateY(-50%) scale(0.8);
+}
+
+button.button12:hover:before, button.button12:hover:after{
+        -webkit-animation: pulsate 1.2s infinite;
+        -moz-animation: pulsate 1.2s infinite;
+        -ms-animation: pulsate 1.2s infinite;
+        animation: pulsate 1.2s infinite;
+}
+
+@-webkit-keyframes pulsate{
+
+  30%{
+        opacity: 1;
+        -webkit-transform: translateX(-50%) translateY(-50%) scale(1);
+  }
+
+        100%{
+        opacity: 0.3;
+        -webkit-transform: translateX(-50%) translateY(-50%) scale(0.5);
+        }
+
+}
+
+@-moz-keyframes pulsate{
+
+  30%{
+        opacity: 1;
+        -moz-transform: translateX(-50%) translateY(-50%) scale(1);
+  }
+
+        100%{
+        opacity: 0.3;
+        -moz-transform: translateX(-50%) translateY(-50%) scale(0.5);
+        }
+
+}
+
+@-ms-keyframes pulsate{
+
+  30%{
+        opacity: 1;
+        -ms-transform: translateX(-50%) translateY(-50%) scale(1);
+  }
+
+        100%{
+        opacity: 0.3;
+        -ms-transform: translateX(-50%) translateY(-50%) scale(0.5);
+        }
+
+}
+
+@-keyframes pulsate{
+
+  30%{
+        opacity: 1;
+        transform: translateX(-50%) translateY(-50%) scale(1);
+  }
+
+        100%{
+        opacity: 0.3;
+        transform: translateX(-50%) translateY(-50%) scale(0.5);
+        }
+}</pre>
+
+
+
+
+
+
+
+
+
+
+
+
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</body>
+
+		</article>
+		<aside id="side_bar">
+		            <section class="top_comm_wid" id="text-3">			<div class="textwidget"><div class="ya-site-form ya-site-form_inited_no" onclick="return {'action':'https://sdelatlending.ru/search-results','arrow':false,'bg':'transparent','fontsize':12,'fg':'#000000','language':'ru','logo':'rb','publicname':'поиск по сайту','suggest':true,'target':'_self','tld':'ru','type':2,'usebigdictionary':true,'searchid':2304171,'input_fg':'#000000','input_bg':'#ffffff','input_fontStyle':'normal','input_fontWeight':'normal','input_placeholder':'поиск по сайту','input_placeholderColor':'#000000','input_borderColor':'#b641b0'}">
+<form action="https://yandex.ru/search/site/" method="get" target="_self" accept-charset="utf-8"><input type="hidden" name="searchid" value="2304171"/><input type="hidden" name="l10n" value="ru"/><input type="hidden" name="reqenc" value=""/><input type="search" name="text" value=""/><input type="submit" value="Найти"/></form>
+</div>
+<style type="text/css">.ya-page_js_yes .ya-site-form_inited_no { display: none; }</style>
+<p><script type="text/javascript">(function(w,d,c){var s=d.createElement('script'),h=d.getElementsByTagName('script')[0],e=d.documentElement;if((' '+e.className+' ').indexOf(' ya-page_js_yes ')===-1){e.className+=' ya-page_js_yes';}s.type='text/javascript';s.async=true;s.charset='utf-8';s.src=(d.location.protocol==='https:'?'https:':'http:')+'//site.yandex.net/v2.0/js/all.js';h.parentNode.insertBefore(s,h);(w[c]||(w[c]=[])).push(function(){Ya.Site.Form.init()})})(window,document,'yandex_site_callbacks');</script></p>
+</div>
+		</section><section class="top_comm_wid" id="collapscat-2"><h3>Категории</h3><ul id='widget-collapscat-2-top' class='collapsing categories list'>
+      <li class='collapsing categories expandable'><span class='collapsing categories expand'><span class='sym'>&#x25BA;</span></span><a href='https://sdelatlending.ru/category/landing-page' title="Создание landing page состоит из создания прототипа, дизайна, верстки и написания seo продающего текста. Разберем все нюансы, которые возникают при создание landing page с нуля до запуска проекта.">Landing page</a> (21)
+     <div id='collapsCat-5:2' style="display:none">
+        </div>
+      </li> <!-- ending category -->
+      <li class='collapsing categories expandable'><span class='collapsing categories expand'><span class='sym'>&#x25BA;</span></span><a href='https://sdelatlending.ru/category/seo' title="SEO оптимизация сайта landing важна для привлечения посетителей из поисковых систем. Рассмотрим внутреннюю и внешнюю SEO оптимизацию.">SEO</a> (7)
+     <div id='collapsCat-4:2' style="display:none">
+        </div>
+      </li> <!-- ending category -->
+      <li class='collapsing categories expandable'><span class='collapsing categories expand'><span class='sym'>&#x25BA;</span></span><a href='https://sdelatlending.ru/category/web-dizain' title="Рассмотрим как сделатьWeb дизайн для лендинг пейдж для разных блоков. Разработаем прототип сайта в программе moqup перед Web дизайном landing. Подробно рассмотрим инструменты в программе photoshop.">Web дизайн</a> (5)
+     <div id='collapsCat-3:2' style="display:none">
+        </div>
+      </li> <!-- ending category -->
+      <li class='collapsing categories expandable'><span class='collapsing categories expand'><span class='sym'>&#x25BA;</span></span><a href='https://sdelatlending.ru/category/wordpress' title="Самая популярная cms wordpress платформа для создания сайта landing page. Рассмотрим как установить cms wordpress на хостинг или виртуальный сервер open server. Добавим шаблон сайта в  cms wordpress, изменив все пути к картинкам, скриптам и файлам стилей css в index.php. Перенесем готовый сайт на cms wordpress с хостинга на виртуальный сервер. Разберем все популярные плагины cms wordpress. Настроим защиту в cms wordpress. Сделаем новый шаблон для ворд пресс с нуля.">wordpress</a> (3)
+     <div id='collapsCat-6:2' style="display:none">
+        </div>
+      </li> <!-- ending category -->
+      <li class='collapsing categories expandable'><span class='collapsing categories expand'><span class='sym'>&#x25BA;</span></span><a href='https://sdelatlending.ru/category/verstka' title="Рубрика про верстку сайта landin page. Используем платформу gulp с препроцессором sass для ускорения верстки. Рассмотрены все плагины для gulp, такие как&lt;br /&gt;&lt;ul&gt;&lt;br /&gt; 	&lt;li&gt;animate для анимации текста и изображений.&lt;/li&gt;&lt;br /&gt; 	&lt;li&gt;bootstrap-grid сетка для верстки в 12 колонках.&lt;/li&gt;&lt;br /&gt; 	&lt;li&gt;flipclock красивые часы на страничку для акций.&lt;/li&gt;&lt;br /&gt; 	&lt;li&gt;fontawesome шрифт с иконками для сайта.&lt;/li&gt;&lt;br /&gt; 	&lt;li&gt;fotorama плагин для коллекции фотографий.&lt;/li&gt;&lt;br /&gt; 	&lt;li&gt;jquery основной плагин для landing.&lt;/li&gt;&lt;br /&gt; 	&lt;li&gt;magnific-popup для всплывающих окон.&lt;/li&gt;&lt;br /&gt; 	&lt;li&gt;mmenu меню для сайта, которое выезжает сбоку.&lt;/li&gt;&lt;br /&gt; 	&lt;li&gt;owlcarousel для блока отзывов, партнеров, списка предложений.&lt;/li&gt;&lt;br /&gt;&lt;/ul&gt;&lt;br /&gt;И много других плагинов для gulp. Разбираем как создается в index.html структура различных блоков. Стилизация в main.sass секций сайта. Пишем java скрипты с функциями к плагинам. Разбираются все вспомогательные программы для удобства в верстке такие как sublime text, open server, browsersynk. Пропишем все команды к установке и запуску gulp. Для удобства установки плагинов используем bower. Используются красивые эффекты для сайтов parallax, masonry адаптивная плитка.">Верстка</a> (71)
+     <div id='collapsCat-1:2' style="display:none">
+        </div>
+      </li> <!-- ending category -->
+      <li class='collapsing categories expandable'><span class='collapsing categories expand'><span class='sym'>&#x25BA;</span></span><a href='https://sdelatlending.ru/category/magazin-opencart' title="Установка магазина opencart на виртуальный сервер open server и хостинг. Установим свой дизайн на opencart. Сделаем начальную настройку нового магазина. Создадим модуль для магазина opencart с нуля. Переставим блоки и элементы.">Магазин opencart</a> (9)
+     <div id='collapsCat-7:2' style="display:none">
+        </div>
+      </li> <!-- ending category -->
+<li style='display:none'><script type="text/javascript">
+// <![CDATA[
+/* These variables are part of the Collapsing Categories Plugin 
+      *  Version: 2.1.2
+      *  $Id: collapscat.php 1786607 2017-12-13 23:17:01Z robfelty $
+      * Copyright 2007 Robert Felty (robfelty.com)
+      */
+var expandSym='&#x25BA;';
+var collapseSym='&#x25BC;';
+try { collapsItems['catTest'] = 'test'; } catch (err) { collapsItems = new Object(); }
+collapsItems['collapsCat-5:2'] = '<ul><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/nastrojka-vs-code.html\' title=\'  Настройка vs code\'>  Настройка vs code</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/cchetchik-yandeks-metriki-na-lending.html\' title=\'Cчетчик яндекс метрики на лендинг\'>Cчетчик яндекс метрики на лендинг</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/gde-iskat-prodayushhie-lendingi.html\' title=\'Где искать продающие лендинги?\'>Где искать продающие лендинги?</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/delaem-pravilno-reklamnuyu-kompaniyu-v-yandeks-direkt-podbiraem-klyuchevye-frazy.html\' title=\'Делаем правильно рекламную компанию в яндекс директ. Подбираем ключевые фразы.\'>Делаем правильно рекламную компанию в яндекс директ. Подбираем ключевые фразы.</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/zimnie-tovary-dlya-landing-page.html\' title=\'Зимние товары для landing page\'>Зимние товары для landing page</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/kak-vybrat-xosting-i-domen.html\' title=\'Как выбрать хостинг и домен\'>Как выбрать хостинг и домен</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/kak-sdelat-lending-s-vysokoj-konversiej.html\' title=\'Как сделать лендинг с высокой конверсией\'>Как сделать лендинг с высокой конверсией</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/kak-sdelat-multilending.html\' title=\'Как сделать мультилендинг\'>Как сделать мультилендинг</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/kak-sozdat-lending-pejdzh-po-modeli-aida.html\' title=\'Как создать лендинг пейдж по модели aida\'>Как создать лендинг пейдж по модели aida</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/obyazatelnye-bloki-u-landing-page.html\' title=\'Обязательные блоки у landing page\'>Обязательные блоки у landing page</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/reklama-mytarget.html\' title=\'Реклама mytarget\'>Реклама mytarget</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/nastrojka-reklamy-yandeks-direkt-dlya-poiska.html\' title=\'Реклама яндекс директ для поиска\'>Реклама яндекс директ для поиска</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/slova-magnity-v-prodazhax.html\' title=\'Слова магниты в продажах\'>Слова магниты в продажах</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/sozdat-lending-pejdzh-primer.html\' title=\'Создать лендинг пейдж, пример\'>Создать лендинг пейдж, пример</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/targetirovannaya-reklama-v-instagram.html\' title=\'Таргетированная реклама в инстаграм\'>Таргетированная реклама в инстаграм</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/texniki-prodazh-po-telefonu-dlya-landing-page.html\' title=\'Техники продаж по телефону для landing page\'>Техники продаж по телефону для landing page</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/top-10-sans-shriftov.html\' title=\'Топ 10 sans шрифтов\'>Топ 10 sans шрифтов</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/top-10-serif-shriftov-s-zasechkami.html\' title=\'Топ 10 serif шрифтов с засечками\'>Топ 10 serif шрифтов с засечками</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/top-10-okruglyx-shriftov.html\' title=\'Топ 10 округлых шрифтов\'>Топ 10 округлых шрифтов</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/top-5-pechatnyx-shriftov.html\' title=\'Топ 5 печатных шрифтов\'>Топ 5 печатных шрифтов</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/top-pyat-vidzhetov-dlya-lending-pejdzh.html\' title=\'Топ пять  виджетов  для лендинг пейдж\'>Топ пять  виджетов  для лендинг пейдж</a></li></ul>';
+collapsItems['collapsCat-4:2'] = '<ul><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/15-etapov-dlya-sozdaniya-idealnogo-landing-page-uchteny-vse-nyuansy.html\' title=\'15 этапов для создания идеального landing page, учтены все нюансы\'>15 этапов для создания идеального landing page, учтены все нюансы</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/8-osnovnyx-vidov-form-zaxvata-u-lendinga-pravila-dlya-form-i-obshhie-principy-blokov.html\' title=\'8 основных видов форм захвата у лендинга, правила для форм и общие принципы блоков.\'>8 основных видов форм захвата у лендинга, правила для форм и общие принципы блоков.</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/costavlenie-semanticheskogo-yadra-dlya-sajta.html\' title=\'Cоставление семантического ядра для сайта\'>Cоставление семантического ядра для сайта</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/seo-vnutrennyaya-optimizaciya-stranicy-dlya-landing-page-10-osnovnyx-pravil.html\' title=\'seo внутренняя оптимизация страницы для landing page, 10 основных правил.\'>seo внутренняя оптимизация страницы для landing page, 10 основных правил.</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/vneshnyaya-optimizaciya-sajta.html\' title=\'Внешняя оптимизация сайта\'>Внешняя оптимизация сайта</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/konstruktory-dlya-landing-page.html\' title=\'Конструкторы для landing page\'>Конструкторы для landing page</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/sovremennaya-sistema-prodazh-dlya-lendinga-plyus-metody-podbora-vygodnyx-zaprosov.html\' title=\'Современная система продаж для лендинга плюс методы подбора выгодных запросов\'>Современная система продаж для лендинга плюс методы подбора выгодных запросов</a></li></ul>';
+collapsItems['collapsCat-3:2'] = '<ul><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/delaem-gif-banner-i-banner-dlya-twich.html\' title=\'Делаем gif баннер и баннер для twich\'>Делаем gif баннер и баннер для twich</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/dizajn-kartochki-tovara-v-photoshop.html\' title=\'Дизайн карточки товара в photoshop\'>Дизайн карточки товара в photoshop</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/dizajn-shapki-sajta-v-photoshop.html\' title=\'Дизайн шапки сайта в photoshop\'>Дизайн шапки сайта в photoshop</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/kak-sdelat-html-banner.html\' title=\'Как сделать html баннер\'>Как сделать html баннер</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/sozdanie-prototipa-sajta-v-moqup.html\' title=\'Создание прототипа сайта в moqup\'>Создание прототипа сайта в moqup</a></li></ul>';
+collapsItems['collapsCat-6:2'] = '<ul><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/luchshie-plaginy-dlya-wordpress.html\' title=\'Лучшие плагины для wordpress\'>Лучшие плагины для wordpress</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/perenos-sajta-na-wordpress-s-xostinga-na-openserver-eto-prostoj-backup-sajta.html\' title=\'Перенос сайта на wordpress с хостинга на openserver, это простой backup сайта\'>Перенос сайта на wordpress с хостинга на openserver, это простой backup сайта</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/ustanovka-wordpress-na-openserver-s-chistym-shablonom-underscores.html\' title=\'Установка wordpress на openserver с чистым шаблоном underscores\'>Установка wordpress на openserver с чистым шаблоном underscores</a></li></ul>';
+collapsItems['collapsCat-1:2'] = '<ul><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/flipclock-krasivyj-tajmer-obratnogo-otscheta-dlya-akcij-na-sajte.html\' title=\'flipclock красивый таймер обратного отсчета для акций на сайте\'>flipclock красивый таймер обратного отсчета для акций на сайте</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/fotorama-plagin-fotogalereya-dlya-sajta.html\' title=\'Fotorama плагин фотогалерея для сайта\'>Fotorama плагин фотогалерея для сайта</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/livereload-stranic-v-browsersync.html\' title=\'livereload страниц в browsersync\'>livereload страниц в browsersync</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/preloader-pered-zagruzkoj-stranica-sajta.html\' title=\'preloader перед загрузкой страница сайта\'>preloader перед загрузкой страница сайта</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/adaptivnye-plitki-iz-kartinok-na-sajte-plaginom-masonry.html\' title=\'Адаптивные плитки из картинок на сайте плагином masonry\'>Адаптивные плитки из картинок на сайте плагином masonry</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/animaciya-knopki-i-logotipa-dlya-lending.html\' title=\'Анимация кнопки и логотипа для lending\'>Анимация кнопки и логотипа для lending</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/blok-faq-na-bootstrap-tabs-i-accordion.html\' title=\'Блок FAQ на bootstrap tabs и accordion\'>Блок FAQ на bootstrap tabs и accordion</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/bystraya-verstka-v-sublime-text-s-plaginom-emmet.html\' title=\'Быстрая верстка в sublime text с плагином emmet\'>Быстрая верстка в sublime text с плагином emmet</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/verstaem-blok-spisok-preimushhestv.html\' title=\'Верстаем блок список преимуществ\'>Верстаем блок список преимуществ</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/verstaem-sekciyu-tarifov-s-cenoj-price-iz-trex-kolonok.html\' title=\'Верстаем секцию тарифов с ценой price из трех колонок\'>Верстаем секцию тарифов с ценой price из трех колонок</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/verstaem-formu-obratnoj-svyazi-s-vyborom-elementov.html\' title=\'Верстаем форму обратной связи с выбором элементов\'>Верстаем форму обратной связи с выбором элементов</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/verstka-footer-iz-chetyrex-kolonok-s-kartoj-proezda.html\' title=\'Верстка footer из четырех колонок с картой проезда\'>Верстка footer из четырех колонок с картой проезда</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/verstka-gorizontalnogo-verxnego-menyu.html\' title=\'Верстка горизонтального верхнего меню\'>Верстка горизонтального верхнего меню</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/verstka-sekcii-s-h1-izobrazheniem-kotoroe-dvizhetsya-i-formom.html\' title=\'Верстка секции с h1, изображением, которое движется  и формом\'>Верстка секции с h1, изображением, которое движется  и формом</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/vsplyvayushhaya-kartinka-plaginom-magnificpopup.html\' title=\'Всплывающая картинка плагином magnificPopup\'>Всплывающая картинка плагином magnificPopup</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/vsplyvayushhaya-forma-obratnoj-svyazi.html\' title=\'Всплывающая форма обратной связи\'>Всплывающая форма обратной связи</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/vypadayushhee-menyu-dropdown-menu-v-bootstarp3.html\' title=\'Выпадающее меню dropdown-menu в bootstarp3\'>Выпадающее меню dropdown-menu в bootstarp3</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/delaem-vsplyvayushhee-okno-pri-navedenii-vyshki.html\' title=\'Делаем всплывающее окно при наведении вышки\'>Делаем всплывающее окно при наведении вышки</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/delaem-vyezzhayushhee-menyu-plaginom-mmenu-v-stile-hamburger.html\' title=\'Делаем выезжающее меню плагином mmenu в стиле hamburger\'>Делаем выезжающее меню плагином mmenu в стиле hamburger</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/delaem-kalkulyator-dlya-sajta.html\' title=\'Делаем калькулятор для сайта\'>Делаем калькулятор для сайта</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/delaem-krasivuyu-tablicu-html-s-zapisyu-dannyx-v-formu-zakaza.html\' title=\'Делаем красивую таблицу html с записью данных в форму заказа\'>Делаем красивую таблицу html с записью данных в форму заказа</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/delaem-paginaciyu-pagination-i-xlebnye-kroshki-breadcrumb.html\' title=\'Делаем пагинацию pagination и хлебные крошки breadcrumb\'>Делаем пагинацию pagination и хлебные крошки breadcrumb</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/delaem-svoi-vektornye-ikonki-dlya-sajta-icon-pack.html\' title=\'Делаем свои векторные иконки для сайта icon pack\'>Делаем свои векторные иконки для сайта icon pack</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/delaem-svoj-gamburger-menyu-chetyre-vida.html\' title=\'Делаем свой гамбургер меню, четыре вида\'>Делаем свой гамбургер меню, четыре вида</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/dlya-sekcii-moi-preimushhestva-delaem-animaciyu-css.html\' title=\'Для секции мои преимущества делаем анимацию css\'>Для секции мои преимущества делаем анимацию css</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/dobavim-v-blok-shapki-krasivuyu-knopku-dlya-zakaza.html\' title=\'Добавим в блок шапки красивую кнопку для заказа\'>Добавим в блок шапки красивую кнопку для заказа</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/igra-na-javascript-podrobno.html\' title=\'Игра на javascript подробно.\'>Игра на javascript подробно.</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/ispolzuem-bower-dlya-ustanovki-novyx-paketov.html\' title=\'Используем bower для установки новых пакетов\'>Используем bower для установки новых пакетов</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/kak-sdelat-generator-dlya-zakrugleniya-uglov-css.html\' title=\'Как сделать генератор для закругления углов css\'>Как сделать генератор для закругления углов css</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/kak-sdelat-kalkulyator-na-javascript.html\' title=\'Как сделать калькулятор на javascript\'>Как сделать калькулятор на javascript</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/kak-sobrat-gotovyj-proekt-gulp-build.html\' title=\'Как собрать готовый проект gulp build\'>Как собрать готовый проект gulp build</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/kak-ustanovit-gulp-i-plaginy.html\' title=\'Как установить gulp и плагины\'>Как установить gulp и плагины</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/krasivyj-perexod-fona-dlya-landing-page-mezhdu-sekciyami.html\' title=\'Красивый переход фона для landing page между секциями\'>Красивый переход фона для landing page между секциями</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/krasivyj-effekty-parallax-dlya-sajta.html\' title=\'Красивый эффекты parallax для сайта\'>Красивый эффекты parallax для сайта</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/nastraivaem-sublime-text-3.html\' title=\'Настраиваем sublime text 3\'>Настраиваем sublime text 3</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/nastraivaem-preprocessor-sass.html\' title=\'Настраиваем препроцессор sass\'>Настраиваем препроцессор sass</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/nastrojka-open-server-dlya-reload-stranic-v-browsersynk.html\' title=\'Настройка  open server для reload страниц в browsersynk\'>Настройка  open server для reload страниц в browsersynk</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/nastrojka-bootstrap-carousel-na-primere.html\' title=\'Настройка bootstrap carousel на примере\'>Настройка bootstrap carousel на примере</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/osnovnye-gulp-plaginy.html\' title=\'Основные gulp плагины\'>Основные gulp плагины</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/osnovnye-tegi-html.html\' title=\'Основные теги html\'>Основные теги html</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/plavnaya-navigaciya-dlya-lendinga-i-knopka-naverx.html\' title=\'Плавная навигация для лендинга и кнопка наверх\'>Плавная навигация для лендинга и кнопка наверх</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/plagin-magnific-popup-dlya-vsplyvayushhego-okna-formy.html\' title=\'Плагин magnific popup для всплывающего окна формы\'>Плагин magnific popup для всплывающего окна формы</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/plagin-owl-carousel-2-vse-osnovnye-parametry-karuseli.html\' title=\'Плагин Owl carousel 2 все основные параметры карусели\'>Плагин Owl carousel 2 все основные параметры карусели</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/podbrobno-o-bootstrap-setke-v-dizajne-sajta-i-verstke.html\' title=\'Подбробно о bootstrap сетке в дизайне сайта и верстке\'>Подбробно о bootstrap сетке в дизайне сайта и верстке</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/podklyuchaem-shrift-font-awesome-ikonki.html\' title=\'Подключаем шрифт font awesome иконки\'>Подключаем шрифт font awesome иконки</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/podskazka-i-vsplyvayushhee-okno-v-bootstrap-3.html\' title=\'Подсказка и всплывающее окно в bootstrap 3\'>Подсказка и всплывающее окно в bootstrap 3</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/pozicionirovanie-elementov-osnovnye-svojstva-css.html\' title=\'Позиционирование элементов, основные свойства css\'>Позиционирование элементов, основные свойства css</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/progress-bar-obychnyj-i-progress-bar-v-bootstrap.html\' title=\'Прогресс бар обычный и progress-bar в bootstrap\'>Прогресс бар обычный и progress-bar в bootstrap</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/prostoj-sposob-animacii-blokov-animate-css-dlya-sajta.html\' title=\'Простой способ анимации блоков animate.css для сайта\'>Простой способ анимации блоков animate.css для сайта</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/prostoj-sposob-maski-telefona-i-pattern-input-tel.html\' title=\'Простой способ маски телефона и pattern input tel\'>Простой способ маски телефона и pattern input tel</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/prostoj-sposob-sozdaniya-tabs-na-sajte.html\' title=\'Простой способ создания tabs на сайте\'>Простой способ создания tabs на сайте</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/rasstavlyaem-vse-elementy-sekcii-i-delaem-adaptivnyj-dizajn.html\' title=\'Расставляем все элементы секции и делаем адаптивный дизайн\'>Расставляем все элементы секции и делаем адаптивный дизайн</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/rezinovyj-krasivyj-slajder-na-flex.html\' title=\'Резиновый красивый слайдер на flex\'>Резиновый красивый слайдер на flex</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/sverstaem-sekciyu-otzyvov-s-plaginom-owlcarousel.html\' title=\'Сверстаем секцию отзывов с плагином owlcarousel\'>Сверстаем секцию отзывов с плагином owlcarousel</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/sdelaem-3d-effekt-perevorota-izobrazheniya-i-kub-na-css.html\' title=\'Сделаем 3d эффект переворота изображения и куб на css\'>Сделаем 3d эффект переворота изображения и куб на css</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/sdelaem-krasivuyu-knopku-vverx-dlya-sajta.html\' title=\'Сделаем красивую кнопку вверх для сайта\'>Сделаем красивую кнопку вверх для сайта</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/sdelaem-neonovyj-3d-prozrachnyj-i-vypuklyj-tekst.html\' title=\'Сделаем неоновый, 3d, прозрачный и выпуклый текст\'>Сделаем неоновый, 3d, прозрачный и выпуклый текст</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/sekciya-vybora-tovara-s-modalnym-oknom-modal-sm-podrobnee.html\' title=\'Секция выбора товара с модальным окном modal-sm подробнее\'>Секция выбора товара с модальным окном modal-sm подробнее</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/sintaksis-psevdoklassy-ierarxiya-i-svojstva-css.html\' title=\'Синтаксис, псевдоклассы, иерархия и свойства css\'>Синтаксис, псевдоклассы, иерархия и свойства css</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/skript-obratnoj-svyazi-dlya-lendingov.html\' title=\'Скрипт обратной связи для лендингов\'>Скрипт обратной связи для лендингов</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/sozdaem-krasivuyu-css-animaciyu-ikonki-instagram.html\' title=\'Создаем красивую css анимацию иконки instagram\'>Создаем красивую css анимацию иконки instagram</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/sozdaem-modalnoe-okno-bootstarp-3.html\' title=\'Создаем модальное окно bootstarp 3\'>Создаем модальное окно bootstarp 3</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/sozdanie-akkordeona-dlya-sajta.html\' title=\'Создание аккордеона для сайта\'>Создание аккордеона для сайта</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/schetchik-cift-dlya-landing-s-effektom-razmytiya.html\' title=\'Счетчик цифт для landing с эффектом размытия\'>Счетчик цифт для landing с эффектом размытия</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/tri-vida-ikonok-socialnyx-setej-3d-izmenyaet-razmery-i-s-tenyu.html\' title=\'Три вида иконок социальных сетей 3d, изменяет размеры и с тенью\'>Три вида иконок социальных сетей 3d, изменяет размеры и с тенью</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/ukazatel-mestopolozheniya-dlya-karty-i-pulsiruyushhaya-ikonka-telefona.html\' title=\'Указатель местоположения для карты и пульсирующая иконка телефона\'>Указатель местоположения для карты и пульсирующая иконка телефона</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/fiksiruem-menyu-sverxu-stranicy-i-delaem-plavnyj-skroll-do-bloka.html\' title=\'Фиксируем меню сверху страницы и делаем плавный скролл до блока\'>Фиксируем меню сверху страницы и делаем плавный скролл до блока</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/forma-obratnoj-svyazi-v-modalnom-okne-plyus-vtoroj-sposob-otpravki-pochty-cherez-skript.html\' title=\'Форма обратной связи в модальном окне плюс второй способ отправки почты через скрипт\'>Форма обратной связи в модальном окне плюс второй способ отправки почты через скрипт</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/chistyj-gulp-shablon.html\' title=\'Чистый gulp шаблон\'>Чистый gulp шаблон</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/chto-vliyaet-na-konversiyu-lendinga.html\' title=\'Что влияет на конверсию лендинга?\'>Что влияет на конверсию лендинга?</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/effekt-3d-razvorota-evro-bukleta-i-izometricheskie-karty.html\' title=\'Эффект 3d разворота евро буклета и изометрические карты\'>Эффект 3d разворота евро буклета и изометрические карты</a></li></ul>';
+collapsItems['collapsCat-7:2'] = '<ul><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/opencart-kupit-v-odin-klik-v-vsplyvayushhem-okne-zakaza.html\' title=\'Opencart купить в один клик в всплывающем окне заказа\'>Opencart купить в один клик в всплывающем окне заказа</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/opencart-tovary-s-pomoshhyu-modulya-populyarnye-kartochki-tovara.html\' title=\'opencart товары с помощью модуля популярные карточки товара\'>opencart товары с помощью модуля популярные карточки товара</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/delaem-novyj-modul-opencart-dlya-peremennoj-vyvoda-informacii.html\' title=\'Делаем новый модуль opencart для переменной вывода информации\'>Делаем новый модуль opencart для переменной вывода информации</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/dobavim-opencart-slajder-s-atributami-i-stilizuem.html\' title=\'Добавим opencart слайдер с атрибутами и стилизуем\'>Добавим opencart слайдер с атрибутами и стилизуем</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/izmenyaem-opencart-na-svoyu-lyubuyu-temu-s-gulp-i-nastraivaem-browser-sync.html\' title=\'Изменяем opencart на свою любую тему с gulp и настраиваем browser-sync\'>Изменяем opencart на свою любую тему с gulp и настраиваем browser-sync</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/nachalnaya-nastrojka-magazina-opencart-i-napolnenie-tovarami-kategoriyami-atributami-tovara.html\' title=\'Начальная настройка магазина opencart и наполнение товарами, категориями, атрибутами товара.\'>Начальная настройка магазина opencart и наполнение товарами, категориями, атрибутами товара.</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/posadka-svoego-dizajna-na-stranicu-opencart-verxnee-menyu.html\' title=\'Посадка своего дизайна на страницу opencart, верхнее меню.\'>Посадка своего дизайна на страницу opencart, верхнее меню.</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/stilizuem-kategorii-opencart-na-glavnoj-stranice.html\' title=\'Стилизуем категории opencart на главной странице\'>Стилизуем категории opencart на главной странице</a></li><li class=\'collapsing categories item\'><a href=\'https://sdelatlending.ru/ustanovka-opencart-internet-magazin-i-russifikaciya.html\' title=\'Установка opencart интернет магазин и руссификация\'>Установка opencart интернет магазин и руссификация</a></li></ul>';
+/*  Collapse Functions, version 2.0
+ *
+ *--------------------------------------------------------------------------*/
+String.prototype.trim = function() {
+  return this.replace(/^\s+|\s+$/g,"");
+}
+
+function createCookie(name,value,days) {
+  if (days) {
+    var date = new Date();
+    date.setTime(date.getTime()+(days*24*60*60*1000));
+    var expires = "; expires="+date.toGMTString();
+  } else {
+    var expires = "";
+  }
+  document.cookie = name+"="+value+expires+"; path=/";
+}
+
+function readCookie(name) {
+  var nameEQ = name + "=";
+  var ca = document.cookie.split(';');
+  for(var i=0;i < ca.length;i++) {
+    var c = ca[i];
+    while (c.charAt(0)==' ') {
+      c = c.substring(1,c.length);
+    }
+    if (c.indexOf(nameEQ) == 0) {
+      return c.substring(nameEQ.length,c.length);
+    }
+  }
+  return null;
+}
+
+function eraseCookie(name) {
+  createCookie(name,"",-1);
+}
+
+function addExpandCollapse(id, expandSym, collapseSym, accordion) {
+  jQuery('#' + id + ' .expand').live('click', function() {
+    if (accordion==1) {
+      var theDiv = jQuery(this).parent().parent().find('span.collapse').parent().find('div');
+      jQuery(theDiv).hide('normal');
+      jQuery(this).parent().parent().find('span.collapse').removeClass('collapse').addClass('expand');
+        createCookie(theDiv.attr('id'), 0, 7);
+    }
+    jQuery('#' + id + ' .expand .sym').html(expandSym);
+    expandCat(this, expandSym, collapseSym);
+    return false;
+  });
+  jQuery('#' + id + ' .collapse').live('click', function() {
+    collapseCat(this, expandSym, collapseSym);
+    return false;
+  });
+}
+
+function expandCat(symbol, expandSym, collapseSym) {
+    var theDiv = jQuery(symbol).parent().find('div');
+    jQuery(theDiv).html(collapsItems[jQuery(theDiv).attr('id')]).show('normal');
+    jQuery(symbol).removeClass('expand').addClass('collapse');
+    jQuery(symbol).find('.sym').html(collapseSym);
+  createCookie(theDiv.attr('id'), 1, 7);
+}
+function collapseCat(symbol, expandSym, collapseSym) {
+    var theDiv = jQuery(symbol).parent().find('div');
+    jQuery(theDiv).hide('normal');
+    jQuery(symbol).removeClass('collapse').addClass('expand');
+    jQuery(symbol).find('.sym').html(expandSym);
+  createCookie(theDiv.attr('id'), 0, 7);
+}
+addExpandCollapse('widget-collapscat-2-top','&#x25BA;', '&#x25BC;', 0)// ]]>
+</script></li>
+</ul>
+</section><section class="top_comm_wid" id="nav_menu-2"><div class="menu-generatory-onlajn-container"><ul id="menu-generatory-onlajn" class="menu"><li id="menu-item-1660" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1660"><a href="https://sdelatlending.ru/utm-metki-onlajn">UTM метки онлайн</a></li>
+<li id="menu-item-1155" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1155"><a href="https://sdelatlending.ru/gradient-css-generator">градиент css генератор</a></li>
+<li id="menu-item-1156" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1156"><a href="https://sdelatlending.ru/box-shadow-generator">Генератор тени box shadow</a></li>
+<li id="menu-item-1161" class="menu-item menu-item-type-post_type menu-item-object-page current-menu-item page_item page-item-1159 current_page_item menu-item-1161"><a href="https://sdelatlending.ru/generator-knopki-css-onlajn">Генератор кнопки css онлайн</a></li>
+<li id="menu-item-1188" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1188"><a href="https://sdelatlending.ru/generator-tablicy-html">Генератор таблицы html</a></li>
+<li id="menu-item-1194" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1194"><a href="https://sdelatlending.ru/generator-cveta-html">Генератор цвета HTML</a></li>
+<li id="menu-item-1214" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1214"><a href="https://sdelatlending.ru/css-ten-teksta-generator">css тень текста генератор</a></li>
+<li id="menu-item-1391" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1391"><a href="https://sdelatlending.ru/cvetovaya-sxema-onlajn">Цветовая схема онлайн</a></li>
+<li id="menu-item-1396" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1396"><a href="https://sdelatlending.ru/skachat-css-background">Скачать css background</a></li>
+<li id="menu-item-1425" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1425"><a href="https://sdelatlending.ru/perevesti-iz-px-v-em-css">Перевести из px в em css</a></li>
+<li id="menu-item-1460" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1460"><a href="https://sdelatlending.ru/html-redaktor-onlajn">html редактор онлайн</a></li>
+<li id="menu-item-1617" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1617"><a href="https://sdelatlending.ru/iz-css-v-sass-less-i-scss">Из CSS в SASS</a></li>
+</ul></div></section>
+<section class="top_comm_wid" id="wpp-2">
+<h3>ПОПУЛЯРНЫЕ</h3>
+<!-- WordPress Popular Posts -->
+
+<ul class="wpp-list">
+<li>
+<a href="https://sdelatlending.ru/generator-cveta-html" title="Генератор цвета HTML" class="wpp-post-title" target="_self">Генератор цвета HTML</a>
+</li>
+<li>
+<a href="https://sdelatlending.ru/top-10-okruglyx-shriftov.html" title="Топ 10 округлых шрифтов" class="wpp-post-title" target="_self">Топ 10 округлых шрифтов</a>
+</li>
+<li>
+<a href="https://sdelatlending.ru/html-redaktor-onlajn" title="html редактор онлайн" class="wpp-post-title" target="_self">html редактор онлайн</a>
+</li>
+<li>
+<a href="https://sdelatlending.ru/iz-css-v-sass-less-i-scss" title="Из CSS в SASS" class="wpp-post-title" target="_self">Из CSS в SASS</a>
+</li>
+<li>
+<a href="https://sdelatlending.ru/delaem-svoj-gamburger-menyu-chetyre-vida.html" title="Делаем свой гамбургер меню, четыре вида" class="wpp-post-title" target="_self">Делаем свой гамбургер меню, четыре вида</a>
+</li>
+</ul>
+
+</section>
+		
+</aside>
+<script>
+	$('.tagcloud > a').attr('style','');
+</script>		<div class="c-b"></div>	
+</section>	
+	</div><!--End .wrapper-->
+</section><!--End #content-->
