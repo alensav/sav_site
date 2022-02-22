@@ -407,6 +407,7 @@ display: block;
   width: 90%;
   margin:0 0 0 5px;
   border: 1px solid #000;
+  overflow: auto;
 }
 .spravka_ul a {
   width: 80%;
