@@ -396,26 +396,34 @@ display: block;
   padding: 0;
   /*display: flex; */ 
   height: 800px;
-  width: 7%;
+  width: 10%;
   border: 1px solid #000;
 }
 .spravka_s {
-  padding: 0:;
+  font-size: 20px;
+  padding: 0;
   /*display: flex; */ 
   height: 800px;
-  width: 93%;
-  margin:5px;
+  width: 90%;
+  margin:0 0 0 5px;
   border: 1px solid #000;
 }
 .spravka_ul a {
+  width: 80%;
   margin-left: auto;
   margin-right: auto;
   display: block;
+  text-align: center;
+  margin-top: 10px;
 }
 .spravka {
+  margin: 0;
   height: 100%;
   width: 100%;
   display: flex;
+}
+.spravka_s>h2 {
+  text-align: center;
 }
 
 
