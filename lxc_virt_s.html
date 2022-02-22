@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="ru" data-vue-meta="%7B%22lang%22:%7B%22ssr%22:%22ru%22%7D%7D">
+<head >
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+  <meta name="referrer" content="unsafe-url">
+  <title>Переход с виртуальных машин на контейнеры LXC: причины, преимущества и готовая инструкция к применению / Хабр</title>
+  <style>
+    /* cyrillic-ext */
+    @font-face {
+      font-family: 'Fira Sans';
+      font-style: normal;
+      font-weight: 500;
+      font-display: swap;
+      src: url(https://fonts.gstatic.com/s/firasans/v11/va9B4kDNxMZdWfMOD5VnZKveSxf6TF0.woff2) format('woff2');
+      unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+    }
+
+    /* cyrillic */
+    @font-face {
+      font-family: 'Fira Sans';
+      font-style: normal;
+      font-weight: 500;
+      font-display: swap;
+      src: url(https://fonts.gstatic.com/s/firasans/v11/va9B4kDNxMZdWfMOD5VnZKveQhf6TF0.woff2) format('woff2');
+      unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+    }
+
+    /* latin-ext */
+    @font-face {
+      font-family: 'Fira Sans';
+      font-style: normal;
+      font-weight: 500;
+      font-display: swap;
+      src: url(https://fonts.gstatic.com/s/firasans/v11/va9B4kDNxMZdWfMOD5VnZKveSBf6TF0.woff2) format('woff2');
+      unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+    }
+
+    /* latin */
+    @font-face {
+      font-family: 'Fira Sans';
+      font-style: normal;
+      font-weight: 500;
+      font-display: swap;
+      src: url(https://fonts.gstatic.com/s/firasans/v11/va9B4kDNxMZdWfMOD5VnZKveRhf6.woff2) format('woff2');
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+    }
+
+    /* non-breaking hyphen */
+    @font-face {
+      font-family: 'Fira Sans';
+      font-style: normal;
+      font-weight: 500;
+      font-display: swap;
+      src: url(https://fonts.gstatic.com/l/font?kit=KFOlCnqEu92Fr1MmEU9vBh0_IsHAlmrO6g&skey=ee881451c540fdec&v=v29) format('woff2');
+      unicode-range: U+02011;
+    }
+  </style>
+  <link rel="preload" href="https://assets.habr.com/habr-web/css/chunk-vendors.e7843cc0.css" as="style"><link rel="preload" href="https://assets.habr.com/habr-web/js/chunk-vendors.658114aa.js" as="script"><link rel="preload" href="https://assets.habr.com/habr-web/css/app.ff32777a.css" as="style"><link rel="preload" href="https://assets.habr.com/habr-web/js/app.20948af9.js" as="script">
+  <link rel="stylesheet" href="https://assets.habr.com/habr-web/css/chunk-vendors.e7843cc0.css"><link rel="stylesheet" href="https://assets.habr.com/habr-web/css/app.ff32777a.css">
+  <script>window.i18nFetch = new Promise((res, rej) => {
+          const xhr = new XMLHttpRequest();
+          xhr.open('GET', '/js/i18n/ru-compiled.7adea935c1c19f8fed5c71c4e9a7db8d.json');
+          xhr.responseType = 'json';
+          xhr.onload = function(e) {
+            if (this.status === 200) {
+              res({ru: xhr.response});
+            } else {
+              rej(e);
+            }
+          };
+          xhr.send();
+        });</script>
+  
+  <script data-vue-meta="ssr" type="application/ld+json" data-vmid="ldjson-schema">{"@context":"http:\/\/schema.org","@type":"Article","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/habr.com\/ru\/post\/458658\/"},"headline":"Переход с виртуальных машин на контейнеры LXC: причины, преимущества и готовая инструкция к применению","datePublished":"2019-07-03T12:12:49+03:00","dateModified":"2019-07-03T14:01:27+03:00","author":{"@type":"Person","name":"QSOFT"},"publisher":{"@type":"Organization","name":"Habr","logo":{"@type":"ImageObject","url":"https:\/\/habrastorage.org\/webt\/a_\/lk\/9m\/a_lk9mjkccjox-zccjrpfolmkmq.png"}},"description":"О чем мы расскажем:  &mdash; Почему мы решили перейти на LXC контейнеры? &mdash; Как создать контейнер и запустить на нем хост на базе Битрикс?  Для кого это будет полезно:...","url":"https:\/\/habr.com\/ru\/post\/458658\/#post-content-body","about":["h_virtualization","h_s_admin","h_bitrix","f_develop","f_admin"],"image":["https:\/\/habr.com\/share\/publication\/458658\/aa924e196d707da94b0dcce437c8c4c8\/"]}</script>
+  <script src="//www.googletagservices.com/tag/js/gpt.js" async></script>
+  <style>.grecaptcha-badge{visibility: hidden;}</style>
+  <meta name="habr-version" content="2.63.0">
+  
+  <meta data-vue-meta="ssr" property="fb:app_id" content="444736788986613"><meta data-vue-meta="ssr" property="fb:pages" content="472597926099084"><meta data-vue-meta="ssr" name="twitter:card" content="summary_large_image"><meta data-vue-meta="ssr" name="twitter:site" content="@habr_com"><meta data-vue-meta="ssr" property="og:site_name" content="Хабр" data-vmid="og:site_name"><meta data-vue-meta="ssr" property="og:title" content="Переход с виртуальных машин на контейнеры LXC: причины, преимущества и готовая инструкция к применению" data-vmid="og:title"><meta data-vue-meta="ssr" name="twitter:title" content="Переход с виртуальных машин на контейнеры LXC: причины, преимущества и готовая инструкция к применению" data-vmid="twitter:title"><meta data-vue-meta="ssr" name="aiturec:title" content="Переход с виртуальных машин на контейнеры LXC: причины, преимущества и готовая инструкция к применению" data-vmid="aiturec:title"><meta data-vue-meta="ssr" name="description" content="О чем мы расскажем:
+
+— Почему мы решили перейти на LXC контейнеры?
+— Как создать контейнер и запустить на нем хост на базе Битрикс?
+
+Для кого это будет полезно:
+
+Для всех, кто хочет попробовать..." data-vmid="description"><meta data-vue-meta="ssr" itemprop="description" content="О чем мы расскажем:
+
+— Почему мы решили перейти на LXC контейнеры?
+— Как создать контейнер и запустить на нем хост на базе Битрикс?
+
+Для кого это будет полезно:
+
+Для всех, кто хочет попробовать..." data-vmid="description:itemprop"><meta data-vue-meta="ssr" property="og:description" content="О чем мы расскажем:
+
+— Почему мы решили перейти на LXC контейнеры?
+— Как создать контейнер и запустить на нем хост на базе Битрикс?
+
+Для кого это будет полезно:
+
+Для всех, кто хочет попробовать..." data-vmid="og:description"><meta data-vue-meta="ssr" name="twitter:description" content="О чем мы расскажем:
+
+— Почему мы решили перейти на LXC контейнеры?
+— Как создать контейнер и запустить на нем хост на базе Битрикс?
+
+Для кого это будет полезно:
+
+Для всех, кто хочет попробовать..." data-vmid="twitter:description"><meta data-vue-meta="ssr" property="aiturec:description" content="О чем мы расскажем:
+
+— Почему мы решили перейти на LXC контейнеры?
+— Как создать контейнер и запустить на нем хост на базе Битрикс?
+
+Для кого это будет полезно:
+
+Для всех, кто хочет попробовать..." data-vmid="aiturec:description"><meta data-vue-meta="ssr" itemprop="image" content="https://habr.com/share/publication/458658/aa924e196d707da94b0dcce437c8c4c8/" data-vmid="image:itemprop"><meta data-vue-meta="ssr" property="og:image" content="https://habr.com/share/publication/458658/aa924e196d707da94b0dcce437c8c4c8/" data-vmid="og:image"><meta data-vue-meta="ssr" property="og:image:width" content="1200" data-vmid="og:image:width"><meta data-vue-meta="ssr" property="og:image:height" content="630" data-vmid="og:image:height"><meta data-vue-meta="ssr" property="aiturec:image" content="https://habr.com/share/publication/458658/aa924e196d707da94b0dcce437c8c4c8/" data-vmid="aiturec:image"><meta data-vue-meta="ssr" name="twitter:image" content="https://habr.com/share/publication/458658/aa924e196d707da94b0dcce437c8c4c8/" data-vmid="twitter:image"><meta data-vue-meta="ssr" property="vk:image" content="https://habr.com/share/publication/458658/aa924e196d707da94b0dcce437c8c4c8/?format=vk" data-vmid="vk:image"><meta data-vue-meta="ssr" property="aiturec:item_id" content="458658" data-vmid="aiturec:item_id"><meta data-vue-meta="ssr" property="aiturec:datetime" content="2019-07-03T09:12:49.000Z" data-vmid="aiturec:datetime"><meta data-vue-meta="ssr" content="https://habr.com/ru/post/458658/" property="og:url" data-vmid="og:url"><meta data-vue-meta="ssr" property="og:type" content="article" data-vmid="og:type"><meta data-vue-meta="ssr" property="og:locale" content="ru_RU" data-vmid="og:locale"><meta data-vue-meta="ssr" name="keywords" content="LNX контейнеры">
+  <link data-vue-meta="ssr" href="https://habr.com/ru/rss/post/458658/?fl=ru" type="application/rss+xml" title="" rel="alternate" name="rss"><link data-vue-meta="ssr" href="https://habr.com/ru/post/458658/" rel="canonical" data-vmid="canonical"><link data-vue-meta="ssr" data-vmid="hreflang"><link data-vue-meta="ssr" image_src="image" href="https://habr.com/share/publication/458658/aa924e196d707da94b0dcce437c8c4c8/" data-vmid="image:href">
+  <meta name="apple-mobile-web-app-status-bar-style" content="#303b44">
+  <meta name="msapplication-TileColor" content="#629FBC">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <link
+    rel="shortcut icon"
+    type="image/png"
+    sizes="16x16"
+    href="https://assets.habr.com/habr-web/img/favicons/favicon-16.png"
+  >
+  <link
+    rel="shortcut icon"
+    type="image/png"
+    sizes="32x32"
+    href="https://assets.habr.com/habr-web/img/favicons/favicon-32.png"
+  >
+  <link
+    rel="apple-touch-icon"
+    type="image/png"
+    sizes="76x76"
+    href="https://assets.habr.com/habr-web/img/favicons/apple-touch-icon-76.png"
+  >
+  <link
+    rel="apple-touch-icon"
+    type="image/png"
+    sizes="120x120"
+    href="https://assets.habr.com/habr-web/img/favicons/apple-touch-icon-120.png"
+  >
+  <link
+    rel="apple-touch-icon"
+    type="image/png"
+    sizes="152x152"
+    href="https://assets.habr.com/habr-web/img/favicons/apple-touch-icon-152.png"
+  >
+  <link
+    rel="apple-touch-icon"
+    type="image/png"
+    sizes="180x180"
+    href="https://assets.habr.com/habr-web/img/favicons/apple-touch-icon-180.png"
+  >
+  <link
+    rel="apple-touch-icon"
+    type="image/png"
+    sizes="256x256"
+    href="https://assets.habr.com/habr-web/img/favicons/apple-touch-icon-256.png"
+  >
+  <link
+    rel="apple-touch-startup-image"
+    media="screen and (device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)"
+    href="https://assets.habr.com/habr-web/img/splashes/splash_1136x640.png"
+  >
+  <link
+    rel="apple-touch-startup-image"
+    media="screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)"
+    href="https://assets.habr.com/habr-web/img/splashes/splash_2436x1125.png"
+  >
+  <link
+    rel="apple-touch-startup-image"
+    media="screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)"
+    href="https://assets.habr.com/habr-web/img/splashes/splash_1792x828.png"
+  >
+  <link
+    rel="apple-touch-startup-image"
+    media="screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)"
+    href="https://assets.habr.com/habr-web/img/splashes/splash_828x1792.png"
+  >
+  <link
+    rel="apple-touch-startup-image"
+    media="screen and (device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)"
+    href="https://assets.habr.com/habr-web/img/splashes/splash_1334x750.png"
+  >
+  <link
+    rel="apple-touch-startup-image"
+    media="screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)"
+    href="https://assets.habr.com/habr-web/img/splashes/splash_1242x2668.png"
+  >
+  <link
+    rel="apple-touch-startup-image"
+    media="screen and (device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)"
+    href="https://assets.habr.com/habr-web/img/splashes/splash_2208x1242.png"
+  >
+  <link
+    rel="apple-touch-startup-image"
+    media="screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)"
+    href="https://assets.habr.com/habr-web/img/splashes/splash_1125x2436.png"
+  >
+  <link
+    rel="apple-touch-startup-image"
+    media="screen and (device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)"
+    href="https://assets.habr.com/habr-web/img/splashes/splash_1242x2208.png"
+  >
+  <link
+    rel="apple-touch-startup-image"
+    media="screen and (device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)"
+    href="https://assets.habr.com/habr-web/img/splashes/splash_2732x2048.png"
+  >
+  <link
+    rel="apple-touch-startup-image"
+    media="screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)"
+    href="https://assets.habr.com/habr-web/img/splashes/splash_2688x1242.png"
+  >
+  <link
+    rel="apple-touch-startup-image"
+    media="screen and (device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)"
+    href="https://assets.habr.com/habr-web/img/splashes/splash_2224x1668.png"
+  >
+  <link
+    rel="apple-touch-startup-image"
+    media="screen and (device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)"
+    href="https://assets.habr.com/habr-web/img/splashes/splash_750x1334.png"
+  >
+  <link
+    rel="apple-touch-startup-image"
+    media="screen and (device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)"
+    href="https://assets.habr.com/habr-web/img/splashes/splash_2048x2732.png"
+  >
+  <link
+    rel="apple-touch-startup-image"
+    media="screen and (device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)"
+    href="https://assets.habr.com/habr-web/img/splashes/splash_2388x1668.png"
+  >
+  <link
+    rel="apple-touch-startup-image"
+    media="screen and (device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)"
+    href="https://assets.habr.com/habr-web/img/splashes/splash_1668x2224.png"
+  >
+  <link
+    rel="apple-touch-startup-image"
+    media="screen and (device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)"
+    href="https://assets.habr.com/habr-web/img/splashes/splash_640x1136.png"
+  >
+  <link
+    rel="apple-touch-startup-image"
+    media="screen and (device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)"
+    href="https://assets.habr.com/habr-web/img/splashes/splash_1668x2388.png"
+  >
+  <link
+    rel="apple-touch-startup-image"
+    media="screen and (device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)"
+    href="https://assets.habr.com/habr-web/img/splashes/splash_2048x1536.png"
+  >
+  <link
+    rel="apple-touch-startup-image"
+    media="screen and (device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)"
+    href="https://assets.habr.com/habr-web/img/splashes/splash_1536x2048.png"
+  >
+  <link
+    rel="mask-icon"
+    color="#77a2b6"
+    href="https://assets.habr.com/habr-web/img/favicons/apple-touch-icon-120.svg"
+  >
+  <link
+    crossorigin="use-credentials"
+    href="/manifest.webmanifest"
+    rel="manifest"
+  >
+</head>
+<body>
+  <h2 id="lxc2">LXC_VIRT</h2>
+
+
+<div id="app" data-server-rendered="true" data-async-called="true"><div class="tm-layout__wrapper"><!----> <div></div> <!----> <header class="tm-header"><div class="tm-page-width"><div class="tm-header__container"><!----> <span class="tm-header__logo-wrap"><a href="/ru/" class="tm-header__logo tm-header__logo_ru"><svg height="16" width="16" class="tm-svg-img tm-header__icon"><title>Хабр</title> <use xlink:href="/img/habr-logo-ru.svg#logo"></use></svg></a> <span class="tm-header__beta-sign" style="display:none;">β</span></span> <div class="tm-dropdown tm-header__projects"><div class="tm-dropdown__head"><button class="tm-header__dropdown-toggle"><svg height="16" width="16" class="tm-svg-img tm-header__icon tm-header__icon_dropdown"><title>Открыть список</title> <use xlink:href="/img/megazord-v24.4a410f80.svg#arrow-down"></use></svg></button></div> <!----></div> <a href="/ru/sandbox/start/" class="tm-header__become-author-btn">
+            Как стать автором
+          </a> <div class="tm-feature tm-header__feature tm-feature_variant-inline"><a href="https://effect.habr.com/a/C_ts-u0cD1dUzrnrYGP9KDLI-n8QoM4law3FrXhbZvDvmGluXUHhHFccPE0rKwVQ7MhmUHhXyiLPxFsrWjQeXgUSc_n3UsP6j-XmmXCbFB5gBdwD6hkWS48ncG30HkZabXKOzg" rel="noopener" target="_blank" class="tm-feature__link"><img alt height="20" src="https://effect.habr.com/a/kJL6hFToKPMinEaJwfbGlbITu5CLMc0HNo2xH5CQ-woho1e3OUYArAttWfpJmjSLC6NItB75zbaxgqYjQ834muAfWdLshftzqgQq080KySaAJzZVyQ3VBQAzrAGvOHMVzaVcwKFL9tQGvp1vTa48C-lufDi0fdcCewA1bQShZ1JrKnhGA1mZaK0gn5_mKyL2cBcvwMSfU5fDJVYg-75_BAI" width="20" class="tm-feature__icon">
+    Фронтенд-неделя
+  </a></div> <a href="https://effect.habr.com/a/7d416gnSm7IBSV2KyAAFkKcJY6BUxkVkgd9QLKbSIcFe9nQLcaA_6IyY5oiUNDenF4arnnvTTe0m9CyOsyDnZctdB7YWjbEGGrjuHBO-iOADQ1PB6bZ4kYZB9mIpXjuazN8JB_eOHw" target="_blank" class="tm-top-link" style="color:#99ddff;">
+  Как COVID отрывается на IT: тренды и новое исследование
+</a> <!----></div></div></header> <div class="tm-layout"><div class="tm-page-progress-bar"></div> <div data-menu-sticky="true" class="tm-base-layout__header tm-base-layout__header_is-sticky"><div class="tm-page-width"><div class="tm-base-layout__header-wrapper"><div class="tm-main-menu"><div class="tm-main-menu__section"><nav class="tm-main-menu__section-content"><!----> <a href="/ru/all/" class="tm-main-menu__item">
+        Все потоки
+      </a> <a href="/ru/flows/develop/" class="tm-main-menu__item">
+          Разработка
+        </a><a href="/ru/flows/admin/" class="tm-main-menu__item">
+          Администрирование
+        </a><a href="/ru/flows/design/" class="tm-main-menu__item">
+          Дизайн
+        </a><a href="/ru/flows/management/" class="tm-main-menu__item">
+          Менеджмент
+        </a><a href="/ru/flows/marketing/" class="tm-main-menu__item">
+          Маркетинг
+        </a><a href="/ru/flows/popsci/" class="tm-main-menu__item">
+          Научпоп
+        </a></nav></div></div> <div class="tm-header-user-menu tm-base-layout__user-menu"><a href="/ru/search/" class="tm-header-user-menu__item tm-header-user-menu__search"><svg height="24" width="24" class="tm-svg-img tm-header-user-menu__icon tm-header-user-menu__icon_search tm-header-user-menu__icon_dark"><title>Поиск</title> <use xlink:href="/img/megazord-v24.4a410f80.svg#search"></use></svg></a> <!----> <!----> <!----> <div class="tm-header-user-menu__item tm-header-user-menu__user_desktop"><div class="tm-dropdown"><div class="tm-dropdown__head"><svg height="24" width="24" data-test-id="menu-toggle-guest" class="tm-svg-img tm-header-user-menu__icon"><title>Профиль</title> <use xlink:href="/img/megazord-v24.4a410f80.svg#header-user"></use></svg> <!----></div> <!----></div> <!----></div> <!----></div></div></div></div> <!----> <div class="tm-page-width"></div> <main class="tm-layout__container"><div hl="ru" data-async-called="true" class="tm-page"><div class="tm-page-width"><!----> <div class="tm-page__wrapper"><div class="tm-page__main tm-page__main_has-sidebar"><div class="pull-down"><div class="pull-down__header" style="height:0px;"><div class="pull-down__content" style="bottom:10px;"><svg height="24" width="24" class="tm-svg-img pull-down__arrow"><title>Обновить</title> <use xlink:href="/img/megazord-v24.4a410f80.svg#pull-arrow"></use></svg></div></div> <div class="tm-article-presenter"> <div class="tm-article-presenter__body"><div class="tm-misprint-area"><div class="tm-misprint-area__wrapper"><article class="tm-article-presenter__content tm-article-presenter__content_narrow"><div class="tm-article-presenter__header"> <div class="tm-article-snippet tm-article-presenter__snippet"><div class="tm-article-snippet__meta-container"><div class="tm-article-snippet__meta"><span class="tm-user-info tm-article-snippet__author"><a href="/ru/users/qsoft/" title="qsoft" class="tm-user-info__userpic"><div class="tm-entity-image"><img alt="" height="24" src="//habrastorage.org/r/w32/getpro/habr/avatars/234/6bc/141/2346bc141ae051016ab1971ae407e5d1.jpg" width="24" class="tm-entity-image__pic"></div></a> <span class="tm-user-info__user"><a href="/ru/users/qsoft/" class="tm-user-info__username">
+      qsoft
+    </a> </span></span> <span class="tm-article-snippet__datetime-published"><time datetime="2019-07-03T09:12:49.000Z" title="2019-07-03, 12:12">3  июля  2019 в 12:12</time></span></div> <!----></div> <h1 lang="ru" class="tm-article-snippet__title tm-article-snippet__title_h1"><span>Переход с виртуальных машин на контейнеры LXC: причины, преимущества и готовая инструкция к применению</span></h1> <div class="tm-article-snippet__hubs"><span class="tm-article-snippet__hubs-item"><a href="/ru/hub/virtualization/" class="tm-article-snippet__hubs-item-link"><span>Виртуализация</span> <span title="Профильный хаб" class="tm-article-snippet__profiled-hub">*</span></a></span><span class="tm-article-snippet__hubs-item"><a href="/ru/hub/s_admin/" class="tm-article-snippet__hubs-item-link"><span>Серверное администрирование</span> <span title="Профильный хаб" class="tm-article-snippet__profiled-hub">*</span></a></span><span class="tm-article-snippet__hubs-item"><a href="/ru/hub/bitrix/" class="tm-article-snippet__hubs-item-link"><span>1С-Битрикс</span> <!----></a></span></div> <!----> <!----> <!----></div></div> <!----> <div data-gallery-root="" lang="ru" class="tm-article-body"><div></div> <div id="post-content-body"><div><div class="article-formatted-body article-formatted-body_version-1"><div xmlns="http://www.w3.org/1999/xhtml"><b>О чем мы расскажем:</b><br/>
+<br/>
+— Почему мы решили перейти на LXC контейнеры?<br/>
+— Как создать контейнер и запустить на нем хост на базе Битрикс?<br/>
+<br/>
+<b>Для кого это будет полезно:</b><br/>
+<br/>
+Для всех, кто хочет попробовать новое решение, при этом используя меньше ресурсов.<br/>
+<a name="habracut"></a><br/>
+<h2>Преимущества LXC перед виртуальными машинами</h2><br/>
+Мы перешли на контейнеры, когда столкнулись с нехваткой ресурсов серверов, сложностью разграничения прав доступа для разных проектов и конфликтами программного обеспечения в одной виртуальной машине. Вот несколько ключевых преимуществ LXC перед виртуальными машинами:<br/>
+<br/>
+<ol>
+<li>Меньше потерь производительности CPU, дисковых операций и оперативной памяти. Почти всё, что доступно в контейнере, работает со скоростью сервера.</li>
+<li>Не нужно выделять оперативную память под ядро ОС, видеопамять, дисковые буферы и т.д.</li>
+<li>Быстрый запуск. Фактически запускаются только те приложения, которые необходимы для работы контейнера.</li>
+<li>Поддерживается запуск в контейнере отдельных приложений, а не полной системы. Удобно, что доступы можно выдавать простым добавлением пользователя, (а не chroot), так как у нас только один проект в контейнере (на виртуалках было несколько).</li>
+<li>Возможность управлять ресурсами каждого контейнера.</li>
+<li>Быстро и легко перемещать контейнеры между серверами. </li>
+</ol><br/>
+Мы пользуемся rsync. Просто создаем на новом сервере контейнер с таким же названием и копируем:<br/>
+<br/>
+<pre><code class="plaintext">rsync -alvz старыйСервер:/var/lib/lxd/container/test/ /var/lib/lxd/container/test/</code></pre><br/>
+Нужно подробнее остановиться на пятом пункте и рассказать про управление ресурсами. Мы должны предоставить контейнеру достаточное количество ресурсов для работы, и в то же время быть уверенными в том, что контейнер не будет потреблять лишних ресурсов, мешая тем самым работе остальной системы.<br/>
+<br/>
+Посмотреть статистику потребления ресурсов можно командой: lxc info test<br/>
+<br/>
+<pre><code class="plaintext">Remote: unix://
+Архитектура: x86_64
+Создано: 2018/12/04 14:27 UTC
+Status: Running
+Type: persistent
+Профили: default
+Pid: 28317
+IPs:
+eth0:	inet	172.27.2.204	vethF91F2U
+Resources:
+Процессы: 56
+CPU usage:
+Использование ЦП (в секундах): 20583
+Memory usage:
+Memory (current): 1.03GB
+Memory (peak): 3.11GB
+Network usage:
+eth0:
+Получено байтов: 17.45GB
+Отправлено байтов: 9.93GB
+</code></pre><br/>
+По этой статистике можно отследить, сколько ресурсов потребляет контейнер и, при необходимости, ограничить их потребление при помощи специальных команд:<br/>
+<br/>
+<ul>
+<li>lxc config set test limits.memory 2048M # устанавливаем лимит памяти.</li>
+<li>lxc config set test limits.cpu 1,2,3,8 # привязываем контейнер к ядрам CPU.</li>
+<li>lxc config set test cpu.allowance 10% # ограничиваем потребление ресурсов CPU.</li>
+<li>lxc config set test root size 50GB # ограничиваем объём используемого контейнером дискового пространства(работает только с ZFS или btrfs).</li>
+<li>lxc config get test limits.memory – просматриваем установленное значение лимита</li>
+</ul><br/>
+В итоге контейнеры позволяют поднять на весьма стандартном десктопе несколько десятков контейнеров, сохраняя достаточную производительность.<br/>
+<br/>
+<h2>Настраиваем сервер и переносим стандартный хост с Bitrix из виртуалки на контейнер</h2><br/>
+<b>1. Настройка сервера</b><br/>
+<br/>
+1.1 Устанавливаем на сервер последнюю версию Ubuntu 18.04 server. В ней уже есть LXD. LXD это надстройка над LXC, гипервизор, который упрощает взаимодействие с системой контейнеризации.<br/>
+ 1.2 <b>apt install bridge-utils</b> # установим bridge-utils<br/>
+ 1.3 <b>lxd init</b> # инициализируем lxd<br/>
+ 1.4 <b>lxc profile edit default</b> # редактируем файл профиля:<br/>
+<br/>
+<pre><code class="plaintext">devices:
+eth0:
+name: eth0
+nictype: bridged
+parent: br0
+type: nic
+root:
+path: /
+pool: default
+type: disk
+name: default
+</code></pre><br/>
+ 1. 5 <b>lxc launch ubuntu:18.04 test #</b> создаем контейнер с названием test. Он сам скачает образ, создаст и запустит его. На этом настройка и создание контейнера закончены, дальше переходим к настройке контейнера и переносу хоста на него.<br/>
+<br/>
+<b>2. Настройка контейнера для хоста и перенос сайта</b><br/>
+<br/>
+2.1 <b>lxc exec test /bin/bash # </b>Заходим в созданный контейнер.<br/>
+ 2.2 <b>add-apt-repository ppa:ondrej/php #</b> Добавляем репозиторий.<br/>
+ 2.3 <b>apt update #</b> Обновляем репозиторий.<br/>
+ 2.4 <b>apt install </b><br/>
+<b>php7.1{fpm,bcmath,bz2,cli,common,curl,dev,enchant,fpm,gd,gmp,imap,intl,json,<br/>
+ldap,mbstring,mcrypt,mysql,odbc,opcache,phpdbg,pspell,readline,recode,soap,<br/>
+tidy,xml,xmlrpc,xsl,zip} # </b>Устанавливаем php и все нужные модули для битрикса.<br/>
+ 2.5 <b>apt install nginx # </b>Устанавливаем nginx.<br/>
+ 2.6 <b>vim /etc/netplan/50-cloud-init.yaml #</b> Делаем ip статичным:<br/>
+<br/>
+<pre><code class="plaintext">network:
+version: 2
+ethernets:
+eth0:
+addresses: [172.27.2.108/16]
+gateway4: 172.27.0.1
+nameservers:
+addresses: [172.27.1.1]
+dhcp4: false</code></pre><br/>
+ 2.7 Копируем конфиги php и nginx с нашей виртуалки, проверяем, что все запускается и работает.<br/>
+ 2.8 Переносим весь сайт с нашей виртуалки. Например:<br/>
+<br/>
+<b>rsync -alvz стараяВиртуалка:/var/www/ /var/www/</b><br/>
+<br/>
+<b>3. Создание отдельного контейнера для базы данных</b><br/>
+<br/>
+3.1 Повторим шаги 1<b>.5, 2.1 и 2.6</b>, назвав контейнер к примеру test-db.<br/>
+ 3.2 <b>apt install mysql-server #</b> установим БД<br/>
+ 3.3 <b>apt install pv #</b> Установим PV, чтобы видеть прогресс, когда будем заливать БД.<br/>
+<br/>
+<b>4. Настройка нового сервера БД</b> <br/>
+<br/>
+Для начала соберем информацию со старого сервера:<br/>
+<br/>
+4.1 Нам понадобится user и pass от нужной базы.<br/>
+ 4.2 <b>mysql -u test -p'test' -e «show create database testDB;» #</b> Узнаем как создана БД (то, что нам понадобится выделено):<br/>
+<br/>
+<pre><code class="plaintext">mysql: [Warning] Using a password on the command line interface can be insecure.
++----------+--------------------------------------------------------------------------+
+| Database | Create Database |
++----------+--------------------------------------------------------------------------+
+| demoshop | &lt;b>CREATE DATABASE `demoshop` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci */ |&lt;/b>
++----------+--------------------------------------------------------------------------+</code></pre><br/>
+ 4.3 <b>mysqldump -ER --single-transaction --quick testDB | gzip > testDB.sql.gz #</b> Выполним эту команду на сервере, где лежит наша БД. Она сделает дамп и сожмет его в архив.<br/>
+<br/>
+Зайдем в нашу новую базу и выполним следующие действия:<br/>
+<br/>
+4.4 <b>rsync -alvz стараяБД:/root/ testDB.sql.gz /root/ #</b> перенесем архив с дампом на наш контейнер.<br/>
+ 4.5 <b>mysql # </b>Зайдем в нашу базу<br/>
+ 4.5.1 <b>CREATE USER 'user'@'%' IDENTIFIED BY 'pass'; #</b> создадим такого же пользователя и пароль.<br/>
+ 4.5.2 Из пункта 4.2 введем команду: <b>CREATE DATABASE `имяБД` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci */</b>;<br/>
+ 4.5.3 <b>GRANT ALL PRIVILEGES ON имяБД .* TO 'user'@'%' IDENTIFIED by 'pass'; #</b> Дадим права нашей базе.<br/>
+ 4.6 Выйдем из базы и из консоли контейнера выполним: <b>pv testDB.sql.gz |zcat | mysql testDB #</b> Заливаем дамп в нашу базу<br/>
+<br/>
+<b>5. Проверка</b> <br/>
+ <br/>
+ 5.1 Меняем параметры подключения к БД, указываем новый IP нашей базы.<br/>
+ 5.2 После этого сайт должен открываться по IP или DNS, это зависит от вашей конфигурации.<br/>
+<br/>
+<h2>Заключение</h2><br/>
+Таким образом, LXC контейнеры помогают нам уменьшить потребление ресурсов тестовых серверов и уместить больше хостов на одном сервере, при этом сохраняя возможность удобно управлять потребляемыми ресурсами каждого хоста. Теперь у вас есть готовая инструкция, показывающая, как просто это реализовать.</div></div></div> <DIV class="v-portal" style="display:none;"></DIV></div> <!----> <!----></div> <div class="tm-article-presenter__meta"><div class="tm-separated-list tm-article-presenter__meta-list"><span class="tm-separated-list__title">Теги:</span> <ul class="tm-separated-list__list"><li class="tm-separated-list__item"><a href="/ru/search/?target_type=posts&amp;order=relevance&amp;q=%5BLNX%20%D0%BA%D0%BE%D0%BD%D1%82%D0%B5%D0%B9%D0%BD%D0%B5%D1%80%D1%8B%5D" class="tm-tags-list__link">LNX контейнеры</a></li></ul></div> <div class="tm-separated-list tm-article-presenter__meta-list"><span class="tm-separated-list__title">Хабы:</span> <ul class="tm-separated-list__list"><li class="tm-separated-list__item"><a href="/ru/hub/virtualization/" class="tm-hubs-list__link">
+    Виртуализация
+  </a></li><li class="tm-separated-list__item"><a href="/ru/hub/s_admin/" class="tm-hubs-list__link">
+    Серверное администрирование
+  </a></li><li class="tm-separated-list__item"><a href="/ru/hub/bitrix/" class="tm-hubs-list__link">
+    1С-Битрикс
+  </a></li></ul></div></div></article></div> <!----></div> <div class="tm-article-sticky-panel"><div class="tm-data-icons tm-article-sticky-panel__icons"><div class="tm-article-rating tm-data-icons__item"><div class="tm-votes-meter tm-article-rating__votes-switcher"><svg height="24" width="24" class="tm-svg-img tm-votes-meter__icon tm-votes-meter__icon_appearance-article"><title>Всего голосов 20: ↑15 и ↓5</title> <use xlink:href="/img/megazord-v24.4a410f80.svg#counter-rating"></use></svg> <span title="Всего голосов 20: ↑15 и ↓5" class="tm-votes-meter__value tm-votes-meter__value_positive tm-votes-meter__value_appearance-article tm-votes-meter__value_rating">+10</span></div> <DIV class="v-portal" style="display:none;"></DIV></div> <!----> <span title="Количество просмотров" class="tm-icon-counter tm-data-icons__item"><svg height="24" width="24" class="tm-svg-img tm-icon-counter__icon"><title>Просмотры</title> <use xlink:href="/img/megazord-v24.4a410f80.svg#counter-views"></use></svg> <span class="tm-icon-counter__value">13K</span></span> <button title="Добавить в закладки" type="button" class="bookmarks-button tm-data-icons__item"><span title="Добавить в закладки" class="tm-svg-icon__wrapper bookmarks-button__icon"><svg height="24" width="24" class="tm-svg-img tm-svg-icon"><title>Добавить в закладки</title> <use xlink:href="/img/megazord-v24.4a410f80.svg#counter-favorite"></use></svg></span> <span title="Количество пользователей, добавивших публикацию в закладки" class="bookmarks-button__counter">
+    83
+  </span></button> <!----> <div title="Поделиться" class="tm-sharing tm-data-icons__item"><button type="button" class="tm-sharing__button"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="tm-sharing__icon"><path fill="currentColor" d="M13.8 13.8V18l7.2-6.6L13.8 5v3.9C5 8.9 3 18.6 3 18.6c2.5-4.4 6-4.8 10.8-4.8z"></path></svg></button> <DIV class="v-portal" style="display:none;"></DIV></div> <DIV class="v-portal" style="display:none;"></DIV></div> </div></div> <DIV class="v-portal" style="display:none;"></DIV> <div class="tm-article-presenter__footer"><div class="tm-article-blocks"><!----> <section class="tm-block tm-block_spacing-bottom"><!----> <div class="tm-block__body tm-block__body_variant-balanced"><div class="tm-article-author"> <div class="tm-user-card tm-article-author__user-card tm-user-card_variant-article"><div class="tm-user-card__info-container"><div class="tm-user-card__header"><div class="tm-user-card__header-data"><a href="/ru/users/qsoft/" class="tm-user-card__userpic tm-user-card__userpic_size-40"><div class="tm-entity-image"><img alt="" src="//habrastorage.org/getpro/habr/avatars/234/6bc/141/2346bc141ae051016ab1971ae407e5d1.jpg" class="tm-entity-image__pic"></div></a> <div class="tm-user-card__meta"><div title=" 51 голос " class="tm-karma tm-user-card__karma"><div class="tm-karma__votes tm-karma__votes_positive">
+    17
+  </div> <div class="tm-karma__text">
+    Карма
+  </div></div> <div title="Рейтинг пользователя" class="tm-rating tm-user-card__rating"><div class="tm-rating__header"> <div class="tm-rating__counter">1</div></div> <div class="tm-rating__text">
+    Рейтинг
+  </div></div></div></div></div> <div class="tm-user-card__info tm-user-card__info_variant-article"><div class="tm-user-card__title tm-user-card__title_variant-article"><span class="tm-user-card__name tm-user-card__name_variant-article">QSOFT</span> <a href="/ru/users/qsoft/" class="tm-user-card__nickname tm-user-card__nickname_variant-article">
+          @qsoft
+        </a> <!----></div> <p class="tm-user-card__short-info tm-user-card__short-info_variant-article">Пользователь</p></div></div> <div class="tm-user-card__buttons tm-user-card__buttons_variant-article"><!----> <!----> <!----> <!----> <!----></div></div> <!----></div> <DIV class="v-portal" style="display:none;"></DIV></div> <!----></section> <div class="tm-article-blocks__comments"><div class="tm-article-page-comments"><div class="tm-article-comments-counter-link tm-article-comments-counter-button"><a href="/ru/post/458658/comments/" class="tm-article-comments-counter-link__link tm-article-comments-counter-link__link_button-style"><svg height="24" width="24" class="tm-svg-img tm-article-comments-counter-link__icon tm-article-comments-counter-link__icon_contrasted"><title>Комментарии</title> <use xlink:href="/img/megazord-v24.4a410f80.svg#counter-comments"></use></svg> <span class="tm-article-comments-counter-link__value tm-article-comments-counter-link__value_contrasted">
+       Комментарии 28 
+    </span></a> <!----></div></div></div> <div class="tm-ad-banner__container tm-page-article__banner"><!----> <div id="articleBottomBanner11018" class="tm-ad-banner"></div></div> <!----> <section class="tm-block tm-block_spacing-around"><header class="tm-block__header"><h2 class="tm-block__title">Минуточку внимания</h2> <div class="tm-block__header-aside"><a href="https://tmtm.ru/megapost/" target="_blank" class="tm-block-extralink">
+      Разместить
+    </a></div></header> <div class="tm-block__body"><div pagination="" slides-per-view="1" class="tm-promo-block__content-wrapper"><div class="tm-promo-block__item-wrapper"><a href="https://effect.habr.com/a/TL_u2hAdzyrjMHgRQ88BL8xpSv-8AnKdrbHjK_4goQ90wM3goRS5P6EJehQsKBYT9FEk1vHB8ZttUohErcNK4T3eSNPBUifUwX1KMdK92RckV9FtA7Dux8kO2xZzGpwOv53SXWuuxRdshf96RUrn8RAVA6jrx7A" rel="nofollow sponsored" class="tm-promo-block__item tm-article-title__link"><header class="tm-promo-block__head"><div class="tm-promo-block__image-wrapper"><img alt="" src="https://effect.habr.com/a/F7EEeQZ_ayZlEpNRZVEz01Pfi31QL5WRD1qlluWXwgLMaiWhT6Vy5l5CqGtyXbfy4mdhGgqBzYMlzScVSUuapzOMX9SibbEE2x3eWBjYzf_0aY68L-rmKVaBXRxjm6HfwrXVA_qhqb0qXZShMliwCX3s1hgsPZuMRpjbs9HSpXrPH-6XmZ5IjScQfQni6dwKdlvOj0w1Ly8bBrii" class="tm-promo-block__image"></div> <div class="tm-promo-block__label">
+                Промо
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 11 11" class="tm-block-promo__external"><path fill="currentColor" d="M7.5 0a.5.5 0 000 1h1.793L5.146 5.146a.5.5 0 10.708.708L10 1.707V3.5a.5.5 0 001 0v-3a.5.5 0 00-.5-.5h-3zm-7 1a.5.5 0 00-.5.5v9a.5.5 0 00.5.5h9a.5.5 0 00.5-.5V6a.5.5 0 00-1 0v4H1V2h4a.5.5 0 000-1H.5z"></path></svg></div></header> <div class="tm-promo-block__info"><h3 class="tm-promo-block__title">Красивое: смотрим тренды рынка труда в IT вместе с вами</h3></div></a></div><div class="tm-promo-block__item-wrapper"><a href="https://effect.habr.com/a/kRtL7-i2OsGUQYPZqNp3xuMlPbegjLWjOkozQPE1LrMAGkcwOrET0nCnheshu5Js_v4DeU54ubd0UTL8xu7AnV4keVZvBCNOI-uJKnhkAP6nlLKPaPvEKtZY1SGhHhnWi-ecDfpIcJ-bQQ" rel="nofollow " class="tm-promo-block__item tm-article-title__link"><header class="tm-promo-block__head"><div class="tm-promo-block__image-wrapper"><img alt="" src="https://effect.habr.com/a/zUNAddcoaFgz_xlM72wJPpwcgZjtLAs4ycYiFcvJTm6_E4SwxVsSI-_TNFO1g-OCwanHHZwspk1kkZ7f672Yd6NUOVFj4vbylU24bo4NFkt1whixjOMcTsqt4Hl_kcGErtn20ukIEb6x5qU-TzQpKAfXqAPC7LaI0BcTI29-ZJRdUMMUFHG4KChnc9zIqq4DGRem3Vmi8HXFh4Xg5Gvq" class="tm-promo-block__image"></div> <div class="tm-promo-block__label">
+                Событие
+                <!----></div></header> <div class="tm-promo-block__info"><h3 class="tm-promo-block__title">Фронтенд-неделя на Хабр Карьере</h3></div></a></div><div class="tm-promo-block__item-wrapper"><a href="https://effect.habr.com/a/Fxo7W-F5GltRWY-8iQ8IVXusx67gM7HyVkEN3BPAY76dikBYbOdAmJTxsw3Afc03iS3Ufe1z-1pHFFk4xZavmDPjt1gCtWeE6Z47PuzfoHnI3y5v9oT_Fj2eYOut" rel="nofollow " class="tm-promo-block__item tm-article-title__link"><header class="tm-promo-block__head"><div class="tm-promo-block__image-wrapper"><img alt="" src="https://effect.habr.com/a/ULqOJwl7gXMBseDAYYy9lT21xqxd8-275kcoskOjbOb2H9b2nKdfHtqaGRVFjoz23fbm3YBwhtuYOie7XYVHH0h5xJJpdAb8cBRlbIixIWEy28kgsGDBxdXURmcwusyXq1L2VLNSmZdIoL1Aulg3MUY2DzdrWHAlJEQTv0Sn4IMlsnjp6SXRYKiQUmX8QvqP13cKZILBLqsG" class="tm-promo-block__image"></div> <div class="tm-promo-block__label">
+                Турбо
+                <!----></div></header> <div class="tm-promo-block__info"><h3 class="tm-promo-block__title">Пошёл герой за тридевять земель и нашёл хаб Serverless</h3></div></a></div></div></div> <!----></section> <!----> <!----> </div></div></div></div></div> <div class="tm-page__sidebar"><div class="tm-layout-sidebar"><div class="tm-layout-sidebar__ads tm-layout-sidebar__ads_initial"><div class="tm-ad-banner__container tm-layout-sidebar__banner"><!----> <div id="sidebarBanner11019" class="tm-ad-banner"></div></div></div> <div class="tm-sexy-sidebar tm-sexy-sidebar_initial" style="margin-top:0px;"><!----> <section data-async-called="true" class="tm-block tm-block_spacing-bottom"><header class="tm-block__header"><h2 class="tm-block__title">Работа</h2> <!----></header> <div class="tm-block__body"><div class="tm-vacancies-block__item"><a href="https://career.habr.com/vacancies/devops" target="_blank" class="tm-vacancies-block__vacancy-title">
+        DevOps инженер
+      </a> <div class="tm-vacancies-block__vacancies-count">
+        91
+    вакансия
+      </div></div><div class="tm-vacancies-block__item"><a href="https://career.habr.com/vacancies/web_razrabotchik_bitrix" target="_blank" class="tm-vacancies-block__vacancy-title">
+        Bitrix разработчик
+      </a> <div class="tm-vacancies-block__vacancies-count">
+        45
+    вакансий
+      </div></div><div class="tm-vacancies-block__item"><a href="https://career.habr.com/vacancies/sistemnij_administrator" target="_blank" class="tm-vacancies-block__vacancy-title">
+        Системный администратор
+      </a> <div class="tm-vacancies-block__vacancies-count">
+        135
+    вакансий
+      </div></div></div> <footer class="tm-block__footer"><a href="https://career.habr.com/catalog" class="tm-block-extralink">
+      Все вакансии
+    </a></footer></section></div></div></div></div></div></div></main> <!----></div> <div class="tm-footer-menu"><div class="tm-page-width"><div class="tm-footer-menu__container"><div class="tm-footer-menu__block"><h3 class="tm-footer-menu__block-title">
+          Ваш аккаунт
+        </h3> <div class="tm-footer-menu__block-content"><ul class="tm-footer-menu__list"><li class="tm-footer-menu__list-item"><a href="/kek/v1/auth/habrahabr/?back=/ru/post/458658/&amp;hl=ru" rel="nofollow" target="_self">
+                Войти
+              </a></li><li class="tm-footer-menu__list-item"><a href="/kek/v1/auth/habrahabr-register/?back=/ru/post/458658/&amp;hl=ru" rel="nofollow" target="_self">
+                Регистрация
+              </a></li></ul></div></div><div class="tm-footer-menu__block"><h3 class="tm-footer-menu__block-title">
+          Разделы
+        </h3> <div class="tm-footer-menu__block-content"><ul class="tm-footer-menu__list"><li class="tm-footer-menu__list-item"><a href="/ru/" class="footer-menu__item-link router-link-active">
+                Публикации
+              </a></li><li class="tm-footer-menu__list-item"><a href="/ru/news/" class="footer-menu__item-link">
+                Новости
+              </a></li><li class="tm-footer-menu__list-item"><a href="/ru/hubs/" class="footer-menu__item-link">
+                Хабы
+              </a></li><li class="tm-footer-menu__list-item"><a href="/ru/companies/" class="footer-menu__item-link">
+                Компании
+              </a></li><li class="tm-footer-menu__list-item"><a href="/ru/users/" class="footer-menu__item-link">
+                Авторы
+              </a></li><li class="tm-footer-menu__list-item"><a href="/ru/sandbox/" class="footer-menu__item-link">
+                Песочница
+              </a></li></ul></div></div><div class="tm-footer-menu__block"><h3 class="tm-footer-menu__block-title">
+          Информация
+        </h3> <div class="tm-footer-menu__block-content"><ul class="tm-footer-menu__list"><li class="tm-footer-menu__list-item"><a href="/ru/docs/help/" class="footer-menu__item-link">
+                Устройство сайта
+              </a></li><li class="tm-footer-menu__list-item"><a href="/ru/docs/authors/codex/" class="footer-menu__item-link">
+                Для авторов
+              </a></li><li class="tm-footer-menu__list-item"><a href="/ru/docs/companies/corpblogs/" class="footer-menu__item-link">
+                Для компаний
+              </a></li><li class="tm-footer-menu__list-item"><a href="/ru/docs/docs/transparency/" class="footer-menu__item-link">
+                Документы
+              </a></li><li class="tm-footer-menu__list-item"><a href="https://account.habr.com/info/agreement" target="_blank">
+                Соглашение
+              </a></li><li class="tm-footer-menu__list-item"><a href="https://account.habr.com/info/confidential/" target="_blank">
+                Конфиденциальность
+              </a></li></ul></div></div><div class="tm-footer-menu__block"><h3 class="tm-footer-menu__block-title">
+          Услуги
+        </h3> <div class="tm-footer-menu__block-content"><ul class="tm-footer-menu__list"><li class="tm-footer-menu__list-item"><a href="https://docs.google.com/presentation/d/e/2PACX-1vQLwRfQmXibiUlWaRg-BAc38s7oM3lJiaPju7qmdJsp8ysIvZ_G-Npem0njJLMozE2bPHMpDqiI5hhy/pub?start=false&amp;loop=false&amp;delayms=60000&amp;slide=id.g91a03369cd_4_297" target="_blank">
+                Реклама
+              </a></li><li class="tm-footer-menu__list-item"><a href="https://habrastorage.org/storage/stuff/habr/service_price.pdf" target="_blank">
+                Тарифы
+              </a></li><li class="tm-footer-menu__list-item"><a href="https://docs.google.com/presentation/d/e/2PACX-1vQJJds8-Di7BQSP_guHxICN7woVYoN5NP_22ra-BIo4bqnTT9FR6fB-Ku2P0AoRpX0Ds-LRkDeAoD8F/pub?start=false&amp;loop=false&amp;delayms=60000" target="_blank">
+                Контент
+              </a></li><li class="tm-footer-menu__list-item"><a href="https://tmtm.timepad.ru/" target="_blank">
+                Семинары
+              </a></li><li class="tm-footer-menu__list-item"><a href="/ru/megaprojects/" class="footer-menu__item-link">
+                Мегапроекты
+              </a></li></ul></div></div></div></div></div> <div class="tm-footer"><div class="tm-page-width"><div class="tm-footer__container"><!----> <div class="tm-footer__social"><a href="https://www.facebook.com/habrahabr.ru" rel="nofollow noopener noreferrer" target="_blank" class="tm-svg-icon__wrapper tm-social-icons__icon"><svg height="16" width="16" class="tm-svg-img tm-svg-icon"><title>Facebook</title> <use xlink:href="/img/social-icons-sprite.svg#social-logo-facebook"></use></svg></a><a href="https://twitter.com/habr_com" rel="nofollow noopener noreferrer" target="_blank" class="tm-svg-icon__wrapper tm-social-icons__icon"><svg height="16" width="16" class="tm-svg-img tm-svg-icon"><title>Twitter</title> <use xlink:href="/img/social-icons-sprite.svg#social-logo-twitter"></use></svg></a><a href="https://vk.com/habr" rel="nofollow noopener noreferrer" target="_blank" class="tm-svg-icon__wrapper tm-social-icons__icon"><svg height="16" width="16" class="tm-svg-img tm-svg-icon"><title>VK</title> <use xlink:href="/img/social-icons-sprite.svg#social-logo-vkontakte"></use></svg></a><a href="https://telegram.me/habr_com" rel="nofollow noopener noreferrer" target="_blank" class="tm-svg-icon__wrapper tm-social-icons__icon"><svg height="16" width="16" class="tm-svg-img tm-svg-icon"><title>Telegram</title> <use xlink:href="/img/social-icons-sprite.svg#social-logo-telegram"></use></svg></a><a href="https://www.youtube.com/channel/UCd_sTwKqVrweTt4oAKY5y4w" rel="nofollow noopener noreferrer" target="_blank" class="tm-svg-icon__wrapper tm-social-icons__icon"><svg height="16" width="16" class="tm-svg-img tm-svg-icon"><title>Youtube</title> <use xlink:href="/img/social-icons-sprite.svg#social-logo-youtube"></use></svg></a><a href="https://zen.yandex.ru/habr" rel="nofollow noopener noreferrer" target="_blank" class="tm-svg-icon__wrapper tm-social-icons__icon"><svg height="16" width="16" class="tm-svg-img tm-svg-icon"><title>Яндекс Дзен</title> <use xlink:href="/img/social-icons-sprite.svg#social-logo-zen"></use></svg></a></div> <DIV class="v-portal" style="display:none;"></DIV> <button class="tm-footer__link"><!---->
+        Настройка языка
+      </button> <a href="/ru/about" class="tm-footer__link">
+        О сайте
+      </a> <a href="/ru/feedback/" class="tm-footer__link">
+        Техническая поддержка
+      </a> <!----> <a href="/berserk-mode-nope" class="tm-footer__link">
+        Вернуться на старую версию
+      </a> <div class="tm-footer-copyright"><span class="tm-copyright"><span class="tm-copyright__years">© 2006–2022 </span> <span class="tm-copyright__name">«<a href="https://company.habr.com/" rel="noopener" target="_blank" class="tm-copyright__link">Habr</a>»</span></span></div></div></div></div> <!----> <!----></div> <div class="vue-portal-target"></div></div>
+<script>window.__INITIAL_STATE__={"adblock":{"hasAcceptableAdsFilter":false,"hasAdblock":false},"articlesList":{"articlesList":{"458658":{"id":"458658","timePublished":"2019-07-03T09:12:49+00:00","isCorporative":false,"lang":"ru","titleHtml":"Переход с виртуальных машин на контейнеры LXC: причины, преимущества и готовая инструкция к применению","leadData":{"textHtml":"\u003Cb\u003EО чем мы расскажем:\u003C\u002Fb\u003E\u003Cbr\u003E\r\n\u003Cbr\u003E\r\n— Почему мы решили перейти на LXC контейнеры?\u003Cbr\u003E\r\n— Как создать контейнер и запустить на нем хост на базе Битрикс?\u003Cbr\u003E\r\n\u003Cbr\u003E\r\n\u003Cb\u003EДля кого это будет полезно:\u003C\u002Fb\u003E\u003Cbr\u003E\r\n\u003Cbr\u003E\r\nДля всех, кто хочет попробовать новое решение, при этом используя меньше ресурсов.\u003Cbr\u003E","imageUrl":null,"buttonTextHtml":"Читать дальше →","image":null},"editorVersion":"1.0","postType":"article","postLabels":[],"author":{"scoreStats":{"score":17,"votesCount":51},"rating":1,"relatedData":null,"contacts":[],"authorContacts":[],"paymentDetails":{"paymentYandexMoney":null,"paymentPayPalMe":null,"paymentWebmoney":null},"id":"57726","alias":"qsoft","fullname":"QSOFT","avatarUrl":"\u002F\u002Fhabrastorage.org\u002Fgetpro\u002Fhabr\u002Favatars\u002F234\u002F6bc\u002F141\u002F2346bc141ae051016ab1971ae407e5d1.jpg","speciality":"Пользователь"},"statistics":{"commentsCount":28,"favoritesCount":83,"readingCount":13276,"score":10,"votesCount":20},"hubs":[{"relatedData":null,"id":"7312","alias":"virtualization","type":"collective","title":"Виртуализация","titleHtml":"Виртуализация","isProfiled":true},{"relatedData":null,"id":"17350","alias":"s_admin","type":"collective","title":"Серверное администрирование","titleHtml":"Серверное администрирование","isProfiled":true},{"relatedData":null,"id":"17703","alias":"bitrix","type":"collective","title":"1С-Битрикс","titleHtml":"1С-Битрикс","isProfiled":false}],"flows":[{"id":"1","alias":"develop","title":"Разработка"},{"id":"6","alias":"admin","title":"Администрирование"}],"relatedData":null,"textHtml":"\u003Cdiv xmlns=\"http:\u002F\u002Fwww.w3.org\u002F1999\u002Fxhtml\"\u003E\u003Cb\u003EО чем мы расскажем:\u003C\u002Fb\u003E\u003Cbr\u002F\u003E\r\n\u003Cbr\u002F\u003E\r\n— Почему мы решили перейти на LXC контейнеры?\u003Cbr\u002F\u003E\r\n— Как создать контейнер и запустить на нем хост на базе Битрикс?\u003Cbr\u002F\u003E\r\n\u003Cbr\u002F\u003E\r\n\u003Cb\u003EДля кого это будет полезно:\u003C\u002Fb\u003E\u003Cbr\u002F\u003E\r\n\u003Cbr\u002F\u003E\r\nДля всех, кто хочет попробовать новое решение, при этом используя меньше ресурсов.\u003Cbr\u002F\u003E\r\n\u003Ca name=\"habracut\"\u003E\u003C\u002Fa\u003E\u003Cbr\u002F\u003E\r\n\u003Ch2\u003EПреимущества LXC перед виртуальными машинами\u003C\u002Fh2\u003E\u003Cbr\u002F\u003E\r\nМы перешли на контейнеры, когда столкнулись с нехваткой ресурсов серверов, сложностью разграничения прав доступа для разных проектов и конфликтами программного обеспечения в одной виртуальной машине. Вот несколько ключевых преимуществ LXC перед виртуальными машинами:\u003Cbr\u002F\u003E\r\n\u003Cbr\u002F\u003E\r\n\u003Col\u003E\r\n\u003Cli\u003EМеньше потерь производительности CPU, дисковых операций и оперативной памяти. Почти всё, что доступно в контейнере, работает со скоростью сервера.\u003C\u002Fli\u003E\r\n\u003Cli\u003EНе нужно выделять оперативную память под ядро ОС, видеопамять, дисковые буферы и т.д.\u003C\u002Fli\u003E\r\n\u003Cli\u003EБыстрый запуск. Фактически запускаются только те приложения, которые необходимы для работы контейнера.\u003C\u002Fli\u003E\r\n\u003Cli\u003EПоддерживается запуск в контейнере отдельных приложений, а не полной системы. Удобно, что доступы можно выдавать простым добавлением пользователя, (а не chroot), так как у нас только один проект в контейнере (на виртуалках было несколько).\u003C\u002Fli\u003E\r\n\u003Cli\u003EВозможность управлять ресурсами каждого контейнера.\u003C\u002Fli\u003E\r\n\u003Cli\u003EБыстро и легко перемещать контейнеры между серверами. \u003C\u002Fli\u003E\r\n\u003C\u002Fol\u003E\u003Cbr\u002F\u003E\r\nМы пользуемся rsync. Просто создаем на новом сервере контейнер с таким же названием и копируем:\u003Cbr\u002F\u003E\r\n\u003Cbr\u002F\u003E\r\n\u003Cpre\u003E\u003Ccode class=\"plaintext\"\u003Ersync -alvz старыйСервер:\u002Fvar\u002Flib\u002Flxd\u002Fcontainer\u002Ftest\u002F \u002Fvar\u002Flib\u002Flxd\u002Fcontainer\u002Ftest\u002F\u003C\u002Fcode\u003E\u003C\u002Fpre\u003E\u003Cbr\u002F\u003E\r\nНужно подробнее остановиться на пятом пункте и рассказать про управление ресурсами. Мы должны предоставить контейнеру достаточное количество ресурсов для работы, и в то же время быть уверенными в том, что контейнер не будет потреблять лишних ресурсов, мешая тем самым работе остальной системы.\u003Cbr\u002F\u003E\r\n\u003Cbr\u002F\u003E\r\nПосмотреть статистику потребления ресурсов можно командой: lxc info test\u003Cbr\u002F\u003E\r\n\u003Cbr\u002F\u003E\r\n\u003Cpre\u003E\u003Ccode class=\"plaintext\"\u003ERemote: unix:\u002F\u002F\nАрхитектура: x86_64\nСоздано: 2018\u002F12\u002F04 14:27 UTC\nStatus: Running\nType: persistent\nПрофили: default\nPid: 28317\nIPs:\neth0:\tinet\t172.27.2.204\tvethF91F2U\nResources:\nПроцессы: 56\nCPU usage:\nИспользование ЦП (в секундах): 20583\nMemory usage:\nMemory (current): 1.03GB\nMemory (peak): 3.11GB\nNetwork usage:\neth0:\nПолучено байтов: 17.45GB\nОтправлено байтов: 9.93GB\n\u003C\u002Fcode\u003E\u003C\u002Fpre\u003E\u003Cbr\u002F\u003E\r\nПо этой статистике можно отследить, сколько ресурсов потребляет контейнер и, при необходимости, ограничить их потребление при помощи специальных команд:\u003Cbr\u002F\u003E\r\n\u003Cbr\u002F\u003E\r\n\u003Cul\u003E\r\n\u003Cli\u003Elxc config set test limits.memory 2048M # устанавливаем лимит памяти.\u003C\u002Fli\u003E\r\n\u003Cli\u003Elxc config set test limits.cpu 1,2,3,8 # привязываем контейнер к ядрам CPU.\u003C\u002Fli\u003E\r\n\u003Cli\u003Elxc config set test cpu.allowance 10% # ограничиваем потребление ресурсов CPU.\u003C\u002Fli\u003E\r\n\u003Cli\u003Elxc config set test root size 50GB # ограничиваем объём используемого контейнером дискового пространства(работает только с ZFS или btrfs).\u003C\u002Fli\u003E\r\n\u003Cli\u003Elxc config get test limits.memory – просматриваем установленное значение лимита\u003C\u002Fli\u003E\r\n\u003C\u002Ful\u003E\u003Cbr\u002F\u003E\r\nВ итоге контейнеры позволяют поднять на весьма стандартном десктопе несколько десятков контейнеров, сохраняя достаточную производительность.\u003Cbr\u002F\u003E\r\n\u003Cbr\u002F\u003E\r\n\u003Ch2\u003EНастраиваем сервер и переносим стандартный хост с Bitrix из виртуалки на контейнер\u003C\u002Fh2\u003E\u003Cbr\u002F\u003E\r\n\u003Cb\u003E1. Настройка сервера\u003C\u002Fb\u003E\u003Cbr\u002F\u003E\r\n\u003Cbr\u002F\u003E\r\n1.1 Устанавливаем на сервер последнюю версию Ubuntu 18.04 server. В ней уже есть LXD. LXD это надстройка над LXC, гипервизор, который упрощает взаимодействие с системой контейнеризации.\u003Cbr\u002F\u003E\r\n 1.2 \u003Cb\u003Eapt install bridge-utils\u003C\u002Fb\u003E # установим bridge-utils\u003Cbr\u002F\u003E\r\n 1.3 \u003Cb\u003Elxd init\u003C\u002Fb\u003E # инициализируем lxd\u003Cbr\u002F\u003E\r\n 1.4 \u003Cb\u003Elxc profile edit default\u003C\u002Fb\u003E # редактируем файл профиля:\u003Cbr\u002F\u003E\r\n\u003Cbr\u002F\u003E\r\n\u003Cpre\u003E\u003Ccode class=\"plaintext\"\u003Edevices:\neth0:\nname: eth0\nnictype: bridged\nparent: br0\ntype: nic\nroot:\npath: \u002F\npool: default\ntype: disk\nname: default\n\u003C\u002Fcode\u003E\u003C\u002Fpre\u003E\u003Cbr\u002F\u003E\r\n 1. 5 \u003Cb\u003Elxc launch ubuntu:18.04 test #\u003C\u002Fb\u003E создаем контейнер с названием test. Он сам скачает образ, создаст и запустит его. На этом настройка и создание контейнера закончены, дальше переходим к настройке контейнера и переносу хоста на него.\u003Cbr\u002F\u003E\r\n\u003Cbr\u002F\u003E\r\n\u003Cb\u003E2. Настройка контейнера для хоста и перенос сайта\u003C\u002Fb\u003E\u003Cbr\u002F\u003E\r\n\u003Cbr\u002F\u003E\r\n2.1 \u003Cb\u003Elxc exec test \u002Fbin\u002Fbash # \u003C\u002Fb\u003EЗаходим в созданный контейнер.\u003Cbr\u002F\u003E\r\n 2.2 \u003Cb\u003Eadd-apt-repository ppa:ondrej\u002Fphp #\u003C\u002Fb\u003E Добавляем репозиторий.\u003Cbr\u002F\u003E\r\n 2.3 \u003Cb\u003Eapt update #\u003C\u002Fb\u003E Обновляем репозиторий.\u003Cbr\u002F\u003E\r\n 2.4 \u003Cb\u003Eapt install \u003C\u002Fb\u003E\u003Cbr\u002F\u003E\r\n\u003Cb\u003Ephp7.1{fpm,bcmath,bz2,cli,common,curl,dev,enchant,fpm,gd,gmp,imap,intl,json,\u003Cbr\u002F\u003E\r\nldap,mbstring,mcrypt,mysql,odbc,opcache,phpdbg,pspell,readline,recode,soap,\u003Cbr\u002F\u003E\r\ntidy,xml,xmlrpc,xsl,zip} # \u003C\u002Fb\u003EУстанавливаем php и все нужные модули для битрикса.\u003Cbr\u002F\u003E\r\n 2.5 \u003Cb\u003Eapt install nginx # \u003C\u002Fb\u003EУстанавливаем nginx.\u003Cbr\u002F\u003E\r\n 2.6 \u003Cb\u003Evim \u002Fetc\u002Fnetplan\u002F50-cloud-init.yaml #\u003C\u002Fb\u003E Делаем ip статичным:\u003Cbr\u002F\u003E\r\n\u003Cbr\u002F\u003E\r\n\u003Cpre\u003E\u003Ccode class=\"plaintext\"\u003Enetwork:\nversion: 2\nethernets:\neth0:\naddresses: [172.27.2.108\u002F16]\ngateway4: 172.27.0.1\nnameservers:\naddresses: [172.27.1.1]\ndhcp4: false\u003C\u002Fcode\u003E\u003C\u002Fpre\u003E\u003Cbr\u002F\u003E\r\n 2.7 Копируем конфиги php и nginx с нашей виртуалки, проверяем, что все запускается и работает.\u003Cbr\u002F\u003E\r\n 2.8 Переносим весь сайт с нашей виртуалки. Например:\u003Cbr\u002F\u003E\r\n\u003Cbr\u002F\u003E\r\n\u003Cb\u003Ersync -alvz стараяВиртуалка:\u002Fvar\u002Fwww\u002F \u002Fvar\u002Fwww\u002F\u003C\u002Fb\u003E\u003Cbr\u002F\u003E\r\n\u003Cbr\u002F\u003E\r\n\u003Cb\u003E3. Создание отдельного контейнера для базы данных\u003C\u002Fb\u003E\u003Cbr\u002F\u003E\r\n\u003Cbr\u002F\u003E\r\n3.1 Повторим шаги 1\u003Cb\u003E.5, 2.1 и 2.6\u003C\u002Fb\u003E, назвав контейнер к примеру test-db.\u003Cbr\u002F\u003E\r\n 3.2 \u003Cb\u003Eapt install mysql-server #\u003C\u002Fb\u003E установим БД\u003Cbr\u002F\u003E\r\n 3.3 \u003Cb\u003Eapt install pv #\u003C\u002Fb\u003E Установим PV, чтобы видеть прогресс, когда будем заливать БД.\u003Cbr\u002F\u003E\r\n\u003Cbr\u002F\u003E\r\n\u003Cb\u003E4. Настройка нового сервера БД\u003C\u002Fb\u003E \u003Cbr\u002F\u003E\r\n\u003Cbr\u002F\u003E\r\nДля начала соберем информацию со старого сервера:\u003Cbr\u002F\u003E\r\n\u003Cbr\u002F\u003E\r\n4.1 Нам понадобится user и pass от нужной базы.\u003Cbr\u002F\u003E\r\n 4.2 \u003Cb\u003Emysql -u test -p'test' -e «show create database testDB;» #\u003C\u002Fb\u003E Узнаем как создана БД (то, что нам понадобится выделено):\u003Cbr\u002F\u003E\r\n\u003Cbr\u002F\u003E\r\n\u003Cpre\u003E\u003Ccode class=\"plaintext\"\u003Emysql: [Warning] Using a password on the command line interface can be insecure.\n+----------+--------------------------------------------------------------------------+\n| Database | Create Database |\n+----------+--------------------------------------------------------------------------+\n| demoshop | &lt;b\u003ECREATE DATABASE `demoshop` \u002F*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci *\u002F |&lt;\u002Fb\u003E\n+----------+--------------------------------------------------------------------------+\u003C\u002Fcode\u003E\u003C\u002Fpre\u003E\u003Cbr\u002F\u003E\r\n 4.3 \u003Cb\u003Emysqldump -ER --single-transaction --quick testDB | gzip \u003E testDB.sql.gz #\u003C\u002Fb\u003E Выполним эту команду на сервере, где лежит наша БД. Она сделает дамп и сожмет его в архив.\u003Cbr\u002F\u003E\r\n\u003Cbr\u002F\u003E\r\nЗайдем в нашу новую базу и выполним следующие действия:\u003Cbr\u002F\u003E\r\n\u003Cbr\u002F\u003E\r\n4.4 \u003Cb\u003Ersync -alvz стараяБД:\u002Froot\u002F testDB.sql.gz \u002Froot\u002F #\u003C\u002Fb\u003E перенесем архив с дампом на наш контейнер.\u003Cbr\u002F\u003E\r\n 4.5 \u003Cb\u003Emysql # \u003C\u002Fb\u003EЗайдем в нашу базу\u003Cbr\u002F\u003E\r\n 4.5.1 \u003Cb\u003ECREATE USER 'user'@'%' IDENTIFIED BY 'pass'; #\u003C\u002Fb\u003E создадим такого же пользователя и пароль.\u003Cbr\u002F\u003E\r\n 4.5.2 Из пункта 4.2 введем команду: \u003Cb\u003ECREATE DATABASE `имяБД` \u002F*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci *\u002F\u003C\u002Fb\u003E;\u003Cbr\u002F\u003E\r\n 4.5.3 \u003Cb\u003EGRANT ALL PRIVILEGES ON имяБД .* TO 'user'@'%' IDENTIFIED by 'pass'; #\u003C\u002Fb\u003E Дадим права нашей базе.\u003Cbr\u002F\u003E\r\n 4.6 Выйдем из базы и из консоли контейнера выполним: \u003Cb\u003Epv testDB.sql.gz |zcat | mysql testDB #\u003C\u002Fb\u003E Заливаем дамп в нашу базу\u003Cbr\u002F\u003E\r\n\u003Cbr\u002F\u003E\r\n\u003Cb\u003E5. Проверка\u003C\u002Fb\u003E \u003Cbr\u002F\u003E\r\n \u003Cbr\u002F\u003E\r\n 5.1 Меняем параметры подключения к БД, указываем новый IP нашей базы.\u003Cbr\u002F\u003E\r\n 5.2 После этого сайт должен открываться по IP или DNS, это зависит от вашей конфигурации.\u003Cbr\u002F\u003E\r\n\u003Cbr\u002F\u003E\r\n\u003Ch2\u003EЗаключение\u003C\u002Fh2\u003E\u003Cbr\u002F\u003E\r\nТаким образом, LXC контейнеры помогают нам уменьшить потребление ресурсов тестовых серверов и уместить больше хостов на одном сервере, при этом сохраняя возможность удобно управлять потребляемыми ресурсами каждого хоста. Теперь у вас есть готовая инструкция, показывающая, как просто это реализовать.\u003C\u002Fdiv\u003E","tags":[{"titleHtml":"LNX контейнеры"}],"metadata":{"stylesUrls":[],"scriptUrls":[],"shareImageUrl":"https:\u002F\u002Fhabr.com\u002Fshare\u002Fpublication\u002F458658\u002Faa924e196d707da94b0dcce437c8c4c8\u002F","shareImageWidth":1200,"shareImageHeight":630,"vkShareImageUrl":"https:\u002F\u002Fhabr.com\u002Fshare\u002Fpublication\u002F458658\u002Faa924e196d707da94b0dcce437c8c4c8\u002F?format=vk","schemaJsonLd":"{\"@context\":\"http:\\\u002F\\\u002Fschema.org\",\"@type\":\"Article\",\"mainEntityOfPage\":{\"@type\":\"WebPage\",\"@id\":\"https:\\\u002F\\\u002Fhabr.com\\\u002Fru\\\u002Fpost\\\u002F458658\\\u002F\"},\"headline\":\"Переход с виртуальных машин на контейнеры LXC: причины, преимущества и готовая инструкция к применению\",\"datePublished\":\"2019-07-03T12:12:49+03:00\",\"dateModified\":\"2019-07-03T14:01:27+03:00\",\"author\":{\"@type\":\"Person\",\"name\":\"QSOFT\"},\"publisher\":{\"@type\":\"Organization\",\"name\":\"Habr\",\"logo\":{\"@type\":\"ImageObject\",\"url\":\"https:\\\u002F\\\u002Fhabrastorage.org\\\u002Fwebt\\\u002Fa_\\\u002Flk\\\u002F9m\\\u002Fa_lk9mjkccjox-zccjrpfolmkmq.png\"}},\"description\":\"О чем мы расскажем:  &mdash; Почему мы решили перейти на LXC контейнеры? &mdash; Как создать контейнер и запустить на нем хост на базе Битрикс?  Для кого это будет полезно:...\",\"url\":\"https:\\\u002F\\\u002Fhabr.com\\\u002Fru\\\u002Fpost\\\u002F458658\\\u002F#post-content-body\",\"about\":[\"h_virtualization\",\"h_s_admin\",\"h_bitrix\",\"f_develop\",\"f_admin\"],\"image\":[\"https:\\\u002F\\\u002Fhabr.com\\\u002Fshare\\\u002Fpublication\\\u002F458658\\\u002Faa924e196d707da94b0dcce437c8c4c8\\\u002F\"]}","metaDescription":"О чем мы расскажем:\r\n\r\n— Почему мы решили перейти на LXC контейнеры?\r\n— Как создать контейнер и запустить на нем хост на базе Битрикс?\r\n\r\nДля кого это будет полезно:\r\n\r\nДля всех, кто хочет попробовать...","mainImageUrl":null,"amp":false,"customTrackerLinks":[]},"polls":[],"commentsEnabled":true,"rulesRemindEnabled":false,"votesEnabled":true,"status":"published","plannedPublishTime":null,"checked":null,"isEditorial":false}},"articlesIds":{},"isLoading":false,"pagesCount":{},"route":{},"reasonsList":null,"view":"cards","lastVisitedRoute":{},"ssrCommentsArticleIds":["419733"],"karma":{}},"authorContribution":{"authors":{}},"betaTest":{"currentAnnouncement":null,"announcements":{},"announcementCards":null,"announcementComments":{},"announcementCommentThreads":{},"announcementCommentingStatuses":{},"archivedList":[]},"authorStatistics":{"articleRefs":{},"articleIds":{},"pagesCount":{},"route":{},"viewsCount":[],"maxStatsCount":{}},"career":{"seoLandings":[{"title":"DevOps инженер","vacanciesCount":91,"itemUrl":"https:\u002F\u002Fcareer.habr.com\u002Fvacancies\u002Fdevops","itemHubs":["devops","build_automation","sys_admin","virtualization","kubernetes"]},{"title":"Bitrix разработчик","vacanciesCount":45,"itemUrl":"https:\u002F\u002Fcareer.habr.com\u002Fvacancies\u002Fweb_razrabotchik_bitrix","itemHubs":["bitrix"]},{"title":"Системный администратор","vacanciesCount":135,"itemUrl":"https:\u002F\u002Fcareer.habr.com\u002Fvacancies\u002Fsistemnij_administrator","itemHubs":["it-infrastructure","s_admin","server_side_optimization","sys_admin"]}],"hubs":"virtualization,s_admin,bitrix"},"comments":{"articleComments":{},"searchCommentsResults":null,"previewComment":null,"pagesCount":null,"commentAccess":{},"scrollParents":{},"pageArticleComments":{"lastViewedComment":0,"postId":null,"lastCommentTimestamp":"","moderated":[],"moderatedIds":[],"commentRoute":""}},"companies":{"companyRefs":{},"companyIds":{},"companyTopIds":{},"pagesCount":{},"companyProfiles":{},"companiesCategories":[],"companiesCategoriesTotalCount":0,"companiesWidgets":{},"companiesWorkers":{},"companiesFans":{},"route":{},"isLoading":false,"companyWorkersLoading":false,"companyFansLoading":false,"vacancies":{}},"companiesContribution":{"hubs":{},"flows":{},"companyRefs":{}},"companyHubsContribution":{"contributionRefs":{"hubRefs":{},"hubIds":{}}},"conversation":{"messages":[],"respondent":null,"isLoadMore":false},"conversations":{"conversations":[],"unreadCount":0,"pagesCount":0,"isLoadMore":false},"desktopState":{"desktopFl":null,"desktopHl":null,"isChecked":false,"isLoginDemanded":false},"docs":{"menu":{},"articles":{},"mainMenu":[],"loading":{"main":false,"dropdown":false,"article":false}},"feature":{"isProbablyVisible":"true"},"flows":{"flows":[{"alias":"develop","id":1,"route":{"name":"FLOW_PAGE","params":{"flowName":"develop"}}},{"alias":"admin","id":6,"route":{"name":"FLOW_PAGE","params":{"flowName":"admin"}}},{"alias":"design","id":2,"route":{"name":"FLOW_PAGE","params":{"flowName":"design"}}},{"alias":"management","id":3,"route":{"name":"FLOW_PAGE","params":{"flowName":"management"}}},{"alias":"marketing","id":4,"route":{"name":"FLOW_PAGE","params":{"flowName":"marketing"}}},{"alias":"popsci","id":7,"route":{"name":"FLOW_PAGE","params":{"flowName":"popsci"}}}]},"global":{"isPwa":false,"device":"desktop","isHabrCom":true},"hubs":{"hubRefs":{},"hubIds":{},"pagesCount":{},"isLoading":false,"route":{}},"hubsBlock":{"hubRefs":{},"hubIds":{}},"i18n":{"fl":"ru","hl":"ru"},"info":{"infoPage":{},"isLoading":true},"location":{"urlStruct":{"protocol":null,"slashes":null,"auth":null,"host":null,"port":null,"hostname":null,"hash":null,"search":null,"query":{},"pathname":null,"path":null,"href":""},"searchQuery":null},"me":{"user":null,"ppgDemanded":false,"karmaResetInfo":{"canReincarnate":null,"wasReincarnated":null,"currentScore":null},"notes":null},"mostReadingList":{"mostReadingListIds":[],"mostReadingListRefs":null,"promoPost":null},"pinnedPost":{"pinnedPost":null},"ppa":{"articles":{},"card":null,"transactions":null,"totalTransactions":null,"isAccessible":null},"projectsBlocks":{"activeBlocks":{}},"promoData":{"isLoading":false,"hasLoaded":true,"featurer":[{"title":"Фронтенд-неделя","gal":"pitch_ft_2022","image":{"url":"https:\u002F\u002Feffect.habr.com\u002Fa\u002FkJL6hFToKPMinEaJwfbGlbITu5CLMc0HNo2xH5CQ-woho1e3OUYArAttWfpJmjSLC6NItB75zbaxgqYjQ834muAfWdLshftzqgQq080KySaAJzZVyQ3VBQAzrAGvOHMVzaVcwKFL9tQGvp1vTa48C-lufDi0fdcCewA1bQShZ1JrKnhGA1mZaK0gn5_mKyL2cBcvwMSfU5fDJVYg-75_BAI"},"link":{"url":"https:\u002F\u002Feffect.habr.com\u002Fa\u002FC_ts-u0cD1dUzrnrYGP9KDLI-n8QoM4law3FrXhbZvDvmGluXUHhHFccPE0rKwVQ7MhmUHhXyiLPxFsrWjQeXgUSc_n3UsP6j-XmmXCbFB5gBdwD6hkWS48ncG30HkZabXKOzg"}}],"megaposts":[{"title":"Как COVID отрывается на IT: тренды и новое исследование","color":"#99ddff","link":{"url":"https:\u002F\u002Feffect.habr.com\u002Fa\u002F7d416gnSm7IBSV2KyAAFkKcJY6BUxkVkgd9QLKbSIcFe9nQLcaA_6IyY5oiUNDenF4arnnvTTe0m9CyOsyDnZctdB7YWjbEGGrjuHBO-iOADQ1PB6bZ4kYZB9mIpXjuazN8JB_eOHw"},"events":{"view":"yJksNkPDwwhGce0M84yQebZirC7F1Nn_T0cWFCzuUEwETjyVzcjCMPxrGBApYts3EEyTMCEpB0B6PA"}}],"promoLinks":[{"title":"А как прошел ваш 2021? Исследуем рынок труда в IT, строим тренды и ищем аномалии","label":"Промо","external":true,"link":{"url":"https:\u002F\u002Feffect.habr.com\u002Fa\u002FLWNHNOpDBQ5f96RdOGcGbtxyXjO8YLl6Rp5NXRU0YFwQiV59SiMoHPboplxMc3pwxD7sbN_31JrVmt5PcTCNFCiZFzZnl3gysVRTxia3g0XukiG1yH-1Ysslr3uKJePdhAlknT7LB0tzkeLkNR8J_dGmbiGtbK4"},"events":{"view":"4OMtQd4YpD_rA4UBaIWImVQ9sY_fnYSAIpytLdvalZc9trT4cH0k5Y2hvh9es-Tv1CyZz_cPNhqXhA"}},{"title":"Почему программисты пишут статьи? ","label":"Мегапост","external":false,"link":{"url":"https:\u002F\u002Feffect.habr.com\u002Fa\u002F51u4hlWhBiua6TMuUrfCemUvSCzrnuhI5eEU_zXaKnv_OxtS4r8e_D8lMQX7OxwxnUNLG1BMHzWBbUw2CSVQ_ZtmRYW8ngsvGOJaIiQLW-0E"},"events":{"view":"eCxCPeEBxE41vbCv9bIqjRtcsR_JF2-ll-GfAeuXUd4KBTopDHtKJPfM3yaXPrmm-wXltPWwFurAEw"}}],"promoPosts":[{"title":"Красивое: смотрим тренды рынка труда в IT вместе с вами","label":"Промо","external":true,"image":{"url":"https:\u002F\u002Feffect.habr.com\u002Fa\u002FF7EEeQZ_ayZlEpNRZVEz01Pfi31QL5WRD1qlluWXwgLMaiWhT6Vy5l5CqGtyXbfy4mdhGgqBzYMlzScVSUuapzOMX9SibbEE2x3eWBjYzf_0aY68L-rmKVaBXRxjm6HfwrXVA_qhqb0qXZShMliwCX3s1hgsPZuMRpjbs9HSpXrPH-6XmZ5IjScQfQni6dwKdlvOj0w1Ly8bBrii"},"link":{"url":"https:\u002F\u002Feffect.habr.com\u002Fa\u002FTL_u2hAdzyrjMHgRQ88BL8xpSv-8AnKdrbHjK_4goQ90wM3goRS5P6EJehQsKBYT9FEk1vHB8ZttUohErcNK4T3eSNPBUifUwX1KMdK92RckV9FtA7Dux8kO2xZzGpwOv53SXWuuxRdshf96RUrn8RAVA6jrx7A"}},{"title":"Фронтенд-неделя на Хабр Карьере","label":"Событие","external":false,"image":{"url":"https:\u002F\u002Feffect.habr.com\u002Fa\u002FzUNAddcoaFgz_xlM72wJPpwcgZjtLAs4ycYiFcvJTm6_E4SwxVsSI-_TNFO1g-OCwanHHZwspk1kkZ7f672Yd6NUOVFj4vbylU24bo4NFkt1whixjOMcTsqt4Hl_kcGErtn20ukIEb6x5qU-TzQpKAfXqAPC7LaI0BcTI29-ZJRdUMMUFHG4KChnc9zIqq4DGRem3Vmi8HXFh4Xg5Gvq"},"link":{"url":"https:\u002F\u002Feffect.habr.com\u002Fa\u002FkRtL7-i2OsGUQYPZqNp3xuMlPbegjLWjOkozQPE1LrMAGkcwOrET0nCnheshu5Js_v4DeU54ubd0UTL8xu7AnV4keVZvBCNOI-uJKnhkAP6nlLKPaPvEKtZY1SGhHhnWi-ecDfpIcJ-bQQ"}},{"title":"Пошёл герой за тридевять земель и нашёл хаб Serverless","label":"Турбо","external":false,"image":{"url":"https:\u002F\u002Feffect.habr.com\u002Fa\u002FULqOJwl7gXMBseDAYYy9lT21xqxd8-275kcoskOjbOb2H9b2nKdfHtqaGRVFjoz23fbm3YBwhtuYOie7XYVHH0h5xJJpdAb8cBRlbIixIWEy28kgsGDBxdXURmcwusyXq1L2VLNSmZdIoL1Aulg3MUY2DzdrWHAlJEQTv0Sn4IMlsnjp6SXRYKiQUmX8QvqP13cKZILBLqsG"},"link":{"url":"https:\u002F\u002Feffect.habr.com\u002Fa\u002FFxo7W-F5GltRWY-8iQ8IVXusx67gM7HyVkEN3BPAY76dikBYbOdAmJTxsw3Afc03iS3Ufe1z-1pHFFk4xZavmDPjt1gCtWeE6Z47PuzfoHnI3y5v9oT_Fj2eYOut"}}]},"pullRefresh":{"shouldRefresh":false},"sandbox":{"articleIds":[],"articleRefs":{},"pagesCount":null,"route":{},"lastVisitedRoute":{},"isLoading":false},"search":{"searchQueryError":null},"settingsOther":{"inputs":{"uiLang":{"errors":[],"ref":null,"value":""},"articlesLangEnglish":{"errors":[],"ref":null,"value":false},"articlesLangRussian":{"errors":[],"ref":null,"value":false},"agreement":{"errors":[],"ref":null,"value":false},"email":{"errors":[],"ref":null,"value":true},"digest":{"errors":[],"ref":null,"value":true}}},"similarList":{"similarListIds":[],"similarListRefs":null},"ssr":{"error":null,"isDataLoaded":false,"isDataLoading":false,"isHydrationFailed":false,"isServer":false},"technotext":{"nominationsList":[]},"userHubsContribution":{"contributionRefs":{"hubRefs":{},"hubIds":{}}},"userInvites":{"availableInvites":0,"usedInvitesIds":[],"usedInvitesRefs":{},"usedInvitesPagesCount":0,"unusedInvitesIds":[],"unusedInvitesRefs":{},"unusedInvitesPagesCount":0},"users":{"authorRefs":{},"authorIds":{},"pagesCount":{},"authorProfiles":{},"userHubs":{},"userInvitations":{},"authorFollowers":{},"authorFollowed":{},"userSpecialization":{},"karmaStats":[],"statistics":null,"isLoading":false,"authorFollowersLoading":false,"authorFollowedLoading":false,"userHubsLoading":false,"userInvitationsLoading":false,"route":{}},"viewport":{"prevScrollY":{},"scrollY":0,"width":0},"tracker":{"items":{},"pagesCache":{},"markedViewedSilently":{},"markedRead":{},"unreadCounters":{"applications":null,"system":null,"mentions":null,"subscribers":null,"posts_and_comments":null},"unviewedCounters":{"applications":null,"system":null,"mentions":null,"subscribers":null,"posts_and_comments":null}}};(function(){var s;(s=document.currentScript||document.scripts[document.scripts.length-1]).parentNode.removeChild(s);}());</script>
+<script src="https://assets.habr.com/habr-web/js/chunk-vendors.658114aa.js" defer></script><script src="https://assets.habr.com/habr-web/js/app.20948af9.js" defer></script>
+
+
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    </script>
+  
+  <script type="text/javascript" >
+    (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+    m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+    (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+    ym(24049213, "init", {
+      defer:true,
+      trackLinks:true,
+      accurateTrackBounce:true,
+      webvisor:false,
+    });
+  </script>
+  <noscript>
+    <div>
+      <img src="https://mc.yandex.ru/watch/24049213" style="position:absolute; left:-9999px;" alt="" />
+    </div>
+  </noscript>
+  
+    <script type="text/javascript">
+      window.addEventListener('load', function () {
+        setTimeout(() => {
+          const img = new Image();
+          img.src = 'https://vk.com/rtrg?p=VK-RTRG-421343-57vKE';
+        }, 0);
+      });
+    </script>
+  
+<script src="/js/ads.js" onload="window['zhY4i4nJ9K'] = true"></script>
+</body>
+</html>
