@@ -29,7 +29,7 @@
     column-rule: 1px solid #ccc;
 }
     /*--Одна колонка для PRINT  --*/
-     #txt_4, #txt_8, #txt_9, #txt_10, #txt_11, #txt_12 {
+     #txt_4, #txt_8, #txt_9, #txt_10, #txt_11, #txt_12, #txt_13 {
     display: none;
     padding: 12px;
     border: 1px solid #C0C0C0;
@@ -166,7 +166,8 @@
 #tab_9:checked ~ #txt_9,
 #tab_10:checked ~ #txt_10,
 #tab_11:checked ~ #txt_11,
-#tab_12:checked ~ #txt_12 { display: block; }
+#tab_12:checked ~ #txt_12,
+#tab_13:checked ~ #txt_13 { display: block; }
 </style>
 </head>
 <body>
@@ -200,6 +201,8 @@
     <label for="tab_11">SYNC</label>
     <input type="radio" name="inset" value="" id="tab_12">
     <label for="tab_12">SPRAVKA</label>
+    <input type="radio" name="inset" value="" id="tab_13">
+    <label for="tab_13">LESSON_22</label>
 
     <div id="txt_1">
     	<h1>САД-Прививка</h1>
@@ -379,6 +382,10 @@
     </div>
     <div id="txt_12">
         <iframe height="800" width="100%" name="" src="spravka_s.html" frameborder="0"></iframe>
+        
+    </div>
+    <div id="txt_13">
+        <iframe height="800" width="100%" name="" src="lesson_22.html" frameborder="0"></iframe>
         
     </div>
 </div>
