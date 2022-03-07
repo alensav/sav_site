@@ -413,6 +413,9 @@ display: block;
   border: 1px solid #000;
   overflow: auto;
 }
+.spravka_s h1 {
+  color: black;
+}
 .spravka_ul a {
   width: 80%;
   margin-left: auto;
