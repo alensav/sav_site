@@ -1,0 +1,766 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="pragma" content="no-cache" />
+<meta http-equiv="cache-control" content="no-cache" />
+
+<meta name='yandex-verification' content='791ca0c490de4ea4' />
+<meta name="adbit-site-verification" content="2e98712cec463f713229d7cd711c09e132d79fd36af8a4722bdd311130ea5b2f" />
+
+<meta name="Keywords" content="webhamster, hamster, хомяк, хомячок, любопытный, Sergey, Stepanov, Сергей, Степанов, Xintrea, Linux, C, C++, Qt, MyTetra, PHP, JavaScript, Nginx, SQL, программирование, компьютер, компьютеры, интернет, сайт"/>
+<meta name="Description" content="Webhamster.ru - любопытный хомячок. Собираем информацию по крупицам."/>
+
+<link rel="stylesheet" type="text/css" href="/css/tinymce_site.css"/>
+<link rel="stylesheet" type="text/css" href="/css/site.css"/>
+
+<title>MyTetra - программа накопления осмысленной информации ( Проекты / Код : MyTetra ) </title>
+
+<!-- Google anl -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-18583535-1']);
+  _gaq.push(['_trackPageview']);
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+</head>
+
+<body style="margin: 0px;">
+
+<div align="center" style="margin: 0px; padding: 0px; width: 100%;">
+<div align="left" style="margin: 0px; padding: 0px; width: 980px;">
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-left: 0px;">
+
+ <tr style="margin-left: 0px;"><td colspan="3" style="margin-left: 0px;">   
+
+  <!-- Заголовок сайта -->
+  <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-left: 0px;">
+   <tr style="margin-left: 0px;">
+    <td style="margin-left: 0px;"><a href="https://webhamster.ru/"><img src="/db/data/design/header_left.png" border="0"/></a></td>
+    <td width="100%" bgcolor="#6480C2"></td>  
+    <td width="303" height="110" align="right" valign="bottom" style="background-image: url('/db/data/design/header_right.png'); background-position: top left; background-repeat: no-repeat;"><img src="/db/data/design/header_right_line.png" border="0"/><br/>
+
+     <table width="100%" border="0" cellspacing="5" cellpadding="0"><tr><td align="right" valign="bottom">
+      <div class="header_font_slogan">Собираем<br/>информацию<br/>по крупицам</div>
+     </td></tr></table>
+
+    </td> 
+   </tr>
+  </table>  
+
+ </td></tr>
+ 
+ <tr style="margin-left: 0px;">
+ 
+  <!-- Меню -->   
+  <td width="128" bgcolor="#6480C2" valign="top" style="background-image: url('/db/data/design/header_left_nis.png'); background-position: top left; background-repeat: no-repeat; margin-left: 0px;">
+
+   <div style="margin-left: 12px; margin-right: 12px; margin-top: 20px; margin-bottom: 20px;">
+    <div><nobr><span class="menu_font_header">Для всех:</span></nobr></div><div><nobr><a href="https://webhamster.ru/site/page/index/main" class="menu_font">Главная</a></nobr></div><div><nobr><a href="https://webhamster.ru/site/page/index/articles/projectcode" class="menu_font">Проекты / Код</a></nobr></div><div><nobr><span class="menu_font_nolink">Статьи</span></nobr></div><div class="menu_block_div_subitem"><nobr><a href="https://webhamster.ru/site/page/index/articles/comp" class="menu_font">Компьютерное</a></nobr></div><div class="menu_block_div_subitem"><nobr><a href="https://webhamster.ru/site/page/index/articles/hmake" class="menu_font">Самоделки</a></nobr></div><div class="menu_block_div_subitem"><nobr><a href="https://webhamster.ru/site/page/index/articles/misc" class="menu_font">Разное</a></nobr></div><div><nobr><a href="https://webhamster.ru/punbb" class="menu_font">Форум</a></nobr></div><div><nobr><a href="https://webhamster.ru/site/page/index/wasistdas" class="menu_font">Это что такое?</a></nobr></div><div><nobr>&nbsp;</nobr></div><div><nobr><span class="menu_font_header">Для себя:</span></nobr></div><div><nobr><a href="https://webhamster.ru/site/page/index/draw" class="menu_font">Рисунки</a></nobr></div><div><nobr><a href="https://webhamster.ru/site/page/index/demodesign" class="menu_font">Demo Design</a></nobr></div><div><nobr><a href="https://webhamster.ru/site/page/index/animation" class="menu_font">Анимация</a></nobr></div><div><nobr><a href="https://webhamster.ru/site/page/index/game" class="menu_font">Игроделанье</a></nobr></div><div><nobr><a href="https://webhamster.ru/site/page/index/guestbook" class="menu_font">Гостевая книга</a></nobr></div><div><nobr>&nbsp;</nobr></div><div><nobr><a href="https://webhamster.ru/site/page/index/search" class="menu_font">Поиск по сайту</a></nobr></div>  
+   </div>
+
+
+   <!-- Статистика -->
+   <div style="margin-left: 12px; margin-right: 12px; margin-top: 38px; margin-bottom: 20px;">
+    <!-- <span class="menu_font_header"><p>Статистика</p></span> -->
+    <center>
+     <!--LiveInternet logo--><noindex><a href="https://www.liveinternet.ru/click"
+target="_blank" rel="nofollow"><img src="//counter.yadro.ru/logo?27.2"
+title="LiveInternet: показано количество просмотров и посетителей"
+alt="" border="0" width="88" height="120"/></a></noindex><!--/LiveInternet-->
+    </center>
+    <br/>
+   </div>
+
+
+   <!-- RSS -->
+   <div style="margin-left: 12px; margin-right: 12px; margin-top: 20px; margin-bottom: 20px;">
+
+    <span class="menu_font_header"><p>RSS подписка</p></span>
+
+    <table border="0" cellpadding="0" cellspacing="0"><tr>
+     <td valign="top">
+      <a href="https://webhamster.ru/site/rss"><img src="/db/data/design/rss_feed.png" border="0"/></a>
+     </td>
+     <td valign="top">
+      <div class="text_font_basis" style="padding-left: 12px;">
+        Подпишитесь на новости сайта по RSS
+      </div>
+     </td> 
+    </tr></table> 
+    <br/>
+   </div>
+
+
+   <!-- Встраиваемый блок -->
+   <div style="margin-left: 12px; margin-right: 12px; margin-top: 20px; margin-bottom: 20px;">
+     <span class="text_font_basis">
+            <!-- a485f4a6 -->
+     </span>
+   </div>
+
+
+   <div style="margin-left: 3px; margin-right: 3px; margin-top: 50px; margin-bottom: 20px;">
+
+     
+   </div>
+
+  </td>  
+ 
+  <!-- Основной текст -->
+  <td  bgcolor="#FAFAFA" valign="top" style="background-image: url('/db/data/design/header_left_ugol.png'); background-position: top left; background-repeat: no-repeat;">
+
+   <div style="margin-left: 20px; margin-right: 20px; margin-top: 20px; margin-bottom: 20px;">
+
+    <div class="text_font_big_head" style="text-align: right">
+Проекты / Код</div>
+<div><br/></div>
+  
+
+    <div class="text_font_basis">
+
+     <!-- <div class="tinymce"> -->
+     <div>
+      <!-- Текст статьи, article view -->
+<div>
+
+ <div class="text_font_big_head">MyTetra</div><br/><table border="0" width="100%" cellspacing="0">
+ <tr>
+  <td valign="middle" width="100%" bgcolor="#8fa3d3">
+   <span class="block_font_header_left">
+    <div class="block_div_header">
+     MyTetra - программа накопления осмысленной информации    </div>
+   </span> 
+  </td>
+
+  
+  <td valign="middle" align="right" bgcolor="#8fa3d3">
+   <span class="block_font_header_right">
+    <div class="block_div_header">
+     28-12-2011<br/>07:00:12    </div>
+   </span> 
+  </td>
+ </tr>
+ <tr>
+  <td valign="top" colspan="3" bgcolor="#E2E2FF">
+   <span class="block_font_text">
+    <div class="block_div_text">
+     <div class="tinymce">
+      <p style="text-align: right;"><span style="color: #808080;"><strong>Официальная страница / Official page</strong></span></p>
+<p>&nbsp;</p>
+<p style="text-align: right;"><span style="color: #808080;"><strong>(Rus / <a href="/site/page/index/articles/projectcode/138">Eng</a>)</strong></span></p>
+<p>&nbsp;</p>
+<p class="text_font_big_head">Программа</p>
+<p>&nbsp;</p>
+<p><strong>MyTetra</strong> &mdash; это полнофункциональный кроссплатформенный менеджер заметок (PIM-manager), использующийся для сбора и накопления  различного рода информации. Все записи (заметки, статьи) организуются в древовидную структуру, а так же снабжаются ключевыми словами-тегами, позволяющими быстро находить нужные записи. Ссылки между записями, прикрепляемые файлы, шифрование, развернутый поиск, синхронизация, копирование из браузера, кроссплатформенность, один из лучших визуальных WYSIWYG редакторов текста - все это есть в PIM-менеджере MyTetra.</p>
+<p>&nbsp;</p>
+<p>Программа написана на языке C++ по принципу Qt-only, и не требует для своей работы никаких других сторонних библиотек.</p>
+<p>&nbsp;</p>
+<p>Поддерживаемые системы: <strong>Linux</strong>, <strong>Windows</strong>, <strong>Mac Os X</strong>,&nbsp;<strong>FreeBSD</strong>, <strong>MeeGo</strong><br />Лицензия: <strong>GPL v.3</strong><br />Последняя актуальная версия: <strong>1.44.31</strong> (14.09.2018)</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p class="text_font_big_head">Онлайн-клиенты</p>
+<p>&nbsp;</p>
+<p>Существует два web-клиента, предоставляющие доступ к данным MyTetra. Для их использования необходимо, чтобы база знаний хранилась на публичных сервисах, таких как GitHub.com, BitBucket.org, etc.</p>
+<p>&nbsp;</p>
+<p>Клиенты:</p>
+<ul>
+<li><strong><a href="/site/page/index/articles/projectcode/267">MyTetra Share</a></strong>&nbsp;- сервис для размещения (публикации) базы записей MyTetra в сети Интернет. Работает с <strong>22.04.2013</strong>.</li>
+<li><strong><a href="/site/page/index/articles/projectcode/235">MyTetra Web Client</a></strong>&nbsp;- клиент для онлайн доступа к данным. Имеет веб-интерфейс, похожий на Qt-интерфейс MyTetra. Работает с <strong>30.09.2012</strong>.</li>
+</ul>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p class="text_font_head text_font_big_head">Скриншоты</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p style="text-align: center;"><img style="display: block; margin-left: auto; margin-right: auto;" src="/db/data/articles/105/MyTetraInterface_v_1_42_small.png" alt="" /><span class="text_font_mini">v.1.42 <a href="/db/data/articles/105/MyTetraInterface_v_1_42_full.png">Полный размер</a></span></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" src="/db/data/articles/105/MyTetraInterface_v_1_26_small.png" alt="" /></p>
+<p style="text-align: center;"><span class="text_font_mini">v.1.26 <a href="/db/data/articles/105/MyTetraInterface_v_1_26_full.png">Полный размер</a></span></p>
+<p style="text-align: center;">&nbsp;</p>
+<p style="text-align: center;"><span class="text_font_mini"><br /></span></p>
+<p><img style="margin-top: 2px; margin-bottom: 2px; display: block; margin-left: auto; margin-right: auto;" src="/db/data/articles/105/scr_198.png" alt="MyTetra screenshot 1" /></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p class="text_font_big_head">Скачать</p>
+<p>&nbsp;</p>
+<p class="text_font_head"><span class="text_font_basis"><strong>v.1.44.31</strong> <span style="font-size: x-small;">(</span></span><span class="text_font_basis"><span style="font-size: x-small;">14.09.2018)</span></span></p>
+<p>&nbsp;</p>
+<p><a href="/db/data/articles/105/mytetra_1_44_31_lin_64.tar.gz"><strong>MyTetra v.1.44.31 для Linux 64 bit</strong></a> (25 Мб) - сборка со всеми библиотеками</p>
+<p>&nbsp;</p>
+<p><a href="/db/data/articles/105/mytetra_1_44_31_win.zip"><strong>MyTetra v.1.44.31 для Windows</strong></a> (16 Мб) - сборка со всеми библиотеками</p>
+<p>&nbsp;</p>
+<p><a href="/db/data/articles/105/mytetra_1_44_31_src.tar.gz"><strong>Архив исходников MyTetra v.1.44.31</strong></a> (14 Мб)</p>
+<p>&nbsp;</p>
+<p><strong><a href="/punbb/viewtopic.php?id=198">Ссылки на сборки от энтузиастов</a></strong> - неофициальные нестабильные сборки более новых версий</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p class="text_font_big_head">Материальная поддержка</p>
+<p>&nbsp;</p>
+<p><iframe src="https://money.yandex.ru/quickpay/shop-widget?account=410011385378014&amp;quickpay=shop&amp;payment-type-choice=on&amp;mobile-payment-type-choice=on&amp;writer=seller&amp;targets=%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82+MyTetra%3A+%D1%87%D0%B0%D1%88%D0%B5%D1%87%D0%BA%D0%B0+%D0%BA%D0%BE%D1%84%D0%B5+%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D1%83.&amp;targets-hint=&amp;default-sum=300&amp;button-text=03&amp;comment=on&amp;hint=%D0%92%D0%B0%D1%88%D0%B8+%D0%BF%D0%BE%D0%B6%D0%B5%D0%BB%D0%B0%D0%BD%D0%B8%D1%8F&amp;successURL=" frameborder="0" scrolling="no" height="312" width="450"></iframe></p>
+<p>&nbsp;</p>
+<p><strong>Сбербанк:</strong> 5469 5200 1474 9600</p>
+<p><strong>PayPal:</strong> <a href="https://www.paypal.me/SMStepanov">https://www.paypal.me/SMStepanov</a></p>
+<p><strong>WMZ:</strong> Z586949314665<br /><strong>WMP: </strong>P914723712675</p>
+<p><strong>Яндекс.Деньги (Ю.Money):</strong> 410011385378014<br /><strong>BTC:</strong> 13U5ZWfifBs1XDzJYRmwCjUqFqz3LEwPar<br /><strong>ETH:</strong> 0x5FB23243c77FAb8f13C46941c112cF5E9E8483A8</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p class="text_font_big_head">Разработка и исходники</p>
+<p>&nbsp;</p>
+<p>Исходники MyTetra доступны на GitHub. Страница проекта:</p>
+<p>&nbsp;</p>
+<p><a href="https://github.com/xintrea/mytetra_dev">https://github.com/xintrea/mytetra_dev</a></p>
+<p>&nbsp;</p>
+<p>Для получения последних актуальных исходников создайте директорию и выполните в ней команду:</p>
+<p>&nbsp;</p>
+<p class="text_font_block_code">git clone https://github.com/xintrea/mytetra_dev.git</p>
+<p>&nbsp;</p>
+<p>После скачивания исходников, не забудьте переключиться на нужную ветку:</p>
+<p>&nbsp;</p>
+<p class="text_font_block_code">git checkout master</p>
+<p class="text_font_block_code">или</p>
+<p class="text_font_block_code">git checkout&nbsp;<span class="text_font_inline_code">experimental</span></p>
+<p>&nbsp;</p>
+<p>У нас используется две ветки: <span class="text_font_inline_code">master</span> и <span class="text_font_inline_code">experimental</span>.</p>
+<p>&nbsp;</p>
+<p><strong>master</strong> - стабильная ветка с последними стабильными исходниками:</p>
+<p>&nbsp;</p>
+<p><a href="https://github.com/xintrea/mytetra_dev/tree/master">https://github.com/xintrea/mytetra_dev/tree/master</a></p>
+<p>&nbsp;</p>
+<p><strong>experimental</strong> - ветка для разработки:</p>
+<p>&nbsp;</p>
+<p><a href="https://github.com/xintrea/mytetra_dev/tree/experimental">https://github.com/xintrea/mytetra_dev/tree/experimental</a></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p class="text_font_head text_font_big_head">Документация</p>
+<p>&nbsp;</p>
+<p><strong><a href="/db/data/articles/105/user_guide_ru.pdf">Краткое руководство пользователя MyTetra (рус.)</a></strong> (pdf, 125 Кб)</p>
+<p>&nbsp;</p>
+<p><strong><a href="/site/page/index/articles/projectcode/170">Настройка синхронизации MyTetra через интернет</a></strong></p>
+<p>&nbsp;</p>
+<p><strong><a href="/site/page/index/articles/projectcode/184">Формат хранения данных MyTetra <br /></a></strong></p>
+<p>&nbsp;</p>
+<p><a href="/site/page/index/articles/projectcode/143"><strong>Обзор MyTetra версии 1.28</strong></a></p>
+<p>&nbsp;</p>
+<p><a href="/site/page/index/articles/projectcode/173"><strong>Обзор MyTetra версии 1.30</strong></a></p>
+<p>&nbsp;</p>
+<p><a href="/site/page/index/articles/projectcode/412"><strong>Обзор MyTetra версии 1.42</strong></a></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p class="text_font_big_head">Видео</p>
+<p>&nbsp;</p>
+<p><span><a href="https://www.youtube.com/watch?v=Bmp_dk2LA6I" target="_blank">Обзор MyTetra v.1.42. Часть 1. <strong>Обзор основных возможностей MyTetra</strong></a><br /></span></p>
+<p><br /><a href="https://www.youtube.com/watch?v=117EhdqvLRI" target="_blank"><span><span>Обзор MyTetra v.1.42. </span>Часть 2. <strong>Настройки программы MyTetra</strong></span></a></p>
+<p>&nbsp;</p>
+<p><a href="https://www.youtube.com/watch?v=cOYKPfVesFc" target="_blank"><span><span>Обзор MyTetra v.1.42. </span></span></a><span><a href="https://www.youtube.com/watch?v=cOYKPfVesFc" target="_blank">Часть 3. <strong>Нововведения в MyTetra v.1.42</strong></a><br /></span></p>
+<p>&nbsp;</p>
+<p><a href="https://www.youtube.com/watch?v=NGA0VoDnK6w">Пример интеграции MyTetra и браузера с помощью стороннего скрипт-решения</a> (Гриня Григорий)</p>
+<p><span><br /></span></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p class="text_font_head text_font_big_head">Обсудить</p>
+<p class="text_font_head">&nbsp;</p>
+<p>Ветка обсуждения на форуме сайта WebHamster.ru: <a href="/punbb/viewforum.php?id=3">https://webhamster.ru/punbb/viewforum.php?id=3</a></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p class="text_font_head text_font_big_head">Для кого предназначена программа MyTetra</p>
+<p><br />В первую очередь программа предназначена для людей, которые видят неимоверную величину современных потоков информации, и понимают сложность  хранения всех сведений в собственной памяти.</p>
+<p>&nbsp;</p>
+<p>Тот, у кого возникало желание разгрузить память от редко используемой информации, может сделать программу MyTetra своим постоянным спутником.<br /><br />Бывает так, что поиск нужной информации через интернет-поисковики сложен, и нужные вещи вы находите через пару часов интенсивного поиска. Если вы чувствуете, что второй раз найти эту информацию в интернете будет так же сложно, запишите ее в MyTetra.<br /><br />Если вы нашли информацию, которая может пригодиться в ближайшее время, и вы видите, что информация подана хорошо и полно, запишите её в MyTetra.<br /><br />Если вы хотите избавиться от бумажечек, в которых написаны правила составления каких-нибудь команд, или синтаксис, который вы постоянно забываете - запишите их в MyTetra, и эти сведения всегда будут под рукой.<br /><br />В MyTetra удобно делать собственные рабочие записи, писать документацию или заготовки своих статей.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p class="text_font_head text_font_big_head">Главные особенности программы</p>
+<ul>
+<li>Всегда запоминается геометрия окна</li>
+<li>При запуске открывается последняя запись, с которой ранее шла работа</li>
+<li>Окно прячется в системный лоток</li>
+<li>Клик на кнопку закрытия не закрывает программу, а сворачивает окно. Для выхода надо явно выбрать пункт меню &laquo;Выход&raquo; или нажать Ctrl+Q</li>
+<li>Ветки дерева навигации можно свободно сортировать (перемещать вверх-вниз) в пределах ведущей ветки</li>
+<li>Для веток доступны операции удаления, копирования, вставки</li>
+<li>Записи, прикрепленные к ветке, можно свободно сортировать (перемещать вверх-вниз) в пределах списка</li>
+<li>Для выбранных записей доступны операции удаления, копирования, вставки</li>
+<li>Записям можно задавать текстовые метки (теги) для быстрого поиска</li>
+<li>Выбранная запись всегда доступна для редактирования без дополнительных действий (планируется добавить режим защиты от изменений для важных записей)</li>
+<li>Программа сама сохраняет текст заметки при переключении на другую запись или ветку, при выходе из программы</li>
+<li>Программа имеет настраиваемую директорию-корзину, куда автоматически складывает предыдущие версии всех записей</li>
+<li>Для добавления записей используется WYSIWYG редактор</li>
+<li>В редакторе предусмотрен режим отображения символов разметки текста</li>
+</ul>
+<p>&nbsp;</p>
+<ul>
+</ul>
+<p class="text_font_head text_font_big_head">Подробности реализации</p>
+<p><br />Дерево навигации хранится в одном XML-файле с несложным форматом, кодировка UTF-8.<br /><br />Записи хранятся в файлах HTML-формата в кодировке UTF-8. Для редактирования используется специально разработанный для MyTetra интегрируемый визуальный редактор <strong>WyEdit</strong>. Данный редактор в дальнейшем планируется выделить в отдельный проект. Каждая запись хранится в отдельной директории, в которой располагается основной HTML-файл и файлы картинок.<br /><br />Программа распространяется с исходными кодами под свободной лицензией GPL v.3 и имеет открытый формат хранения данных. При разработке используются только фреймверк Qt и стандартные C++ библиотеки.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p class="text_font_head text_font_big_head">Торжественное обещание разработчиков</p>
+<p><br />Разработчики торжественно клянутся, что каждая новая версия программы MyTetra будет совместима с предыдущим форматом хранения данных, либо будет иметь средства для перекодирования в новый формат без потерь информации.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p class="text_font_head text_font_big_head">История изменений</p>
+<p>&nbsp;</p>
+<p><strong>0.x - 1.x</strong></p>
+<p>&nbsp;</p>
+<p>Первые версии с интерфейсом Qt3, переход на версию Qt4: 2003 - 2011 г.</p>
+<p>&nbsp;</p>
+<p>Использование форм QtDesigner в Qt3 не позволяло сделать полностью управляемый код, поэтому после перехода на Qt4, "нарисованные" формы в виде файлов *.ui в проекте отсутствуют.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><strong>1.25 - 1.30.1 </strong><span class="text_font_mini"><em><br /></em></span></p>
+<p>&nbsp;</p>
+<p>Первые публичные версии 2011 - 2016 г.<strong>&nbsp;</strong><span class="text_font_mini"><em>&nbsp;</em></span></p>
+<ul>
+<li>Исправлено подключение заголовочных файлов Qt-фреймверка</li>
+<li>Сделано более точное восстановление геометрии окна</li>
+<li>Добавлена возможность запуска в системах, в которых отсутствует системный трей</li>
+<li>Ввозможность запуска MyTetra в операционной системе MeeGo</li>
+<li>В globalParameters теперь хранятся ссылки на основные объекты  главного окна. Это сделано для того, чтобы не использовать поиск  объектов по имени, так как при начальной инициализации MainWindow до  выхода из конструктора MainWindow невозможно найти подчиненные объекты  MainWindow</li>
+<li>Метки сделаны кликабельными, при клике на метку происходит поиск</li>
+<li>При выделении картинки и клике на конопку управления картинками появляется окно настройки размеров картинки</li>
+<li>Теперь при клике на кнопку просмотра HTML-исходника есть возможность его отредактировать</li>
+<li>Появилась возможность выделять часть текста для форматирования в  код. Ранее для того, чтобы отформатировать в код нужно было выделять  полностью параграф. Теперь можно выделить, например, одно слово, и при  нажатии на клавишу "{}" начертанию слова будет применено начертание кода</li>
+<li>Появилась настройка цвета кода</li>
+<li>Ресурсы (картинки, перевод) из внешних файлов перенесены вовнутрь бинарника и доступ к ним идет через механизм Qt-ресурсов</li>
+<li>Сделана более правильная очистка форматирования при нажатии клавиши сброса форматирования к стандартному</li>
+<li>Сделан вызов редактирования свойств картинки по правому клику мыши</li>
+<li>Исправлен механизм запоминания размеров области поиска по базе</li>
+<li>Добавлена возможность старта программы из любой директории, то есть,  теперь не обязательно давать команду cd &lt;директория&gt; в стартовом  скрипте</li>
+<li>Сделано создание начальных файлов окружения в текущей директории бинарника и в директории пользователя</li>
+<li>Сделаны диалоги, которые вызываются при первоначальном старте  программы, и которые выясняют, где нужно создать начальные файлы  программы</li>
+<li>Добавлена кнопка редактирования цвета текста. Скрыта, так как плохо укладывается в концепцию программы</li>
+<li>Добавлена кнопка распахивания редактора. Скрыта, так как плохо укладывается в концепцию программы</li>
+<li>В *.pro файл добавлена секция инсталляции, при команде make install бинарник mytetra копируется в /usr/local/bin</li>
+<li>Исправление замеченных багов, небольшая реорганизация кода</li>
+<li>Добавлено шифрование, синхронизация, навигация по истории. Шифрование отлажено на 32-х битных и на 64-х битных платформах.</li>
+</ul>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><strong>1.42.2</strong> <em>от 22.11.2016</em></p>
+<p>&nbsp;</p>
+<p>Все изменения описаны в трех видеороликах: <a href="https://www.youtube.com/watch?v=Bmp_dk2LA6I">https://www.youtube.com/watch?v=Bmp_dk2LA6I</a></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><strong>1.43.27</strong> <em>от 06.07.2018</em></p>
+<p>&nbsp;</p>
+<ul>
+<li>Исправлена проблема неполного удаления директории записи при удалении самой записи, возникающая при определенных условиях;</li>
+<li>Исправлена проблема, из-за которой превращалась в кашу только что  созданная, ни разу не записанная внутренними механизмами MyTetra запись,  при переключении её ветки в режим шифрования;</li>
+<li>Исправлен баг, из-за которого дважды нажималась кнопка PgUp при одиночном нажатии PgUp в редакторе;</li>
+<li>Сделан поиск по названию ветки;</li>
+<li>Устранены потенциальные memory leak в библиотеке шифрования;</li>
+<li>Исправлена ошибка, возникающая при переименовании прикрепленного  файла путем правки его расширения. При некоторых условиях измененный  таким способом файл становился недоступным из программы MyTetra;</li>
+<li>Сделана корректная работа с прикрепляемыми dot-файлами, файлами с точками на конце и файлами без расширения;</li>
+<li>В диалоге добавления записи кнопка OK сделана активной по умолчанию для любых графических окружений рабочего стола;</li>
+<li>Исправлен баг, при котором в момент форматирования "в код" или в  момент форматирования "в чистый текст", в случае длинного текста (когда  видна полоса прокрутки), весь текст прокручивался наверх;</li>
+<li>Исправлена работа со строкой тегов, в которой каким-либо образом были добавлены символы перевода строки;</li>
+<li>Исправлена проблема некорректного восстановления положения окна в некоторых оконных средах, например в LXDE+Openbox;</li>
+<li>Исправлен баг, при котором добавляемый в аттачи PNG-файл удалялся в  том случае, если перед добавлением, в тексте редактора, была вставлена  картинка;</li>
+<li>Исправлен баг, при котором в момент копирования записи в буфер  обмена, если текст записи был изменен, но изменения небыли записаны, то в  буфер попадала запись без изменений;</li>
+<li>Исправлен баг, при котором в редакторе невозможно было писать  обычный текст после ссылки в случае, если ссылка стояла в самом конце  текста;</li>
+<li>Исправлен баг, при котором в тексте, идущем сразу после ссылки, и  который не был ссылкой, сохранялась информация о том, что присутствует  строка с текстом ссылки (особенность QTextEdit);</li>
+<li>Сделано автоматическое выделение всей ссылки в момент нажатия на  кнопку редактирования ссылки в том случае, если пользователь просто  поставил курсор на текст ссылки и сам не сделал выделения;</li>
+<li>Исправлена очистка форматиования при нажатии кнопки "Только текст" в  случае, если очищается URL в самом начале или в самом конце текста;</li>
+<li>Изменен принцип отобажения семейства шрифтра в редакторе. Если шрифт  не определен, то отображается дефолтный шрифт, который хранится в  настройках редактора. Так же короткие имена шрифтов заменяются на  полные;</li>
+<li>Исправлено поведение выпадающих списков начертания шрифта и размера  шрифта. Теперь они более правильно отображают свои значения в случае  сложного форматирования при вставке текста из браузера;</li>
+<li>Файл лога действий стал автоматически ротироваться с целью сохранения допустимого размера;</li>
+<li>Решена проблема закачивания картинок и файлов с HTTPS-ресурсов, связанная с различием версий библиотеки openssl;</li>
+<li>Добавлены иконки национальных флагов в окне общих настроек, чтобы выбор языка был более заметен;</li>
+<li>В контекстное меню редактора добавлен пункт "Вставить только текст";</li>
+<li>Исправлено появление тонкого начертания символов после снятия bold-форматирования (актуально для HiDPI мониторов);</li>
+<li>Исправлен стартовый скрипт mytetra.run для Linux, так чтобы он корректно срабатывал в случае, если для данного файла создается линк;</li>
+<li>Прочие правки.</li>
+</ul>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p class="text_font_big_head">План развития</p>
+<p>&nbsp;</p>
+<p>Здесь записываются желаемые возможности программы, которые необходимо реализовывать в новых версиях.</p>
+<p>&nbsp;</p>
+<ul>
+<li>При   поиске по базе, в случае если поисковая фраза найдена внутри текста   записи, сделать прокрутку до данного места и выделение найденного   текста;</li>
+<li style="font-family: 'Arial'; font-size: 10pt;">Попробовать   реализовать следующий функционал: "Неплохо бы сделать, чтобы поведение   форматирования (полужирный, курсив и т.п.) было схоже с поведением в   текстовых процессорах в том плане, чтобы можно было, к примеру, нажать   ctrl + B и начать писать текст уже полужирным шрифтом, а не сперва   писать текст, а лишь потом назначать форматирование";</li>
+<li style="font-family: 'Arial'; font-size: 10pt;">Опционально: cделать просмотр истории измененных записей в каталоге Trash, сделать функционал по восстановлению данных записей;</li>
+<li style="font-family: 'Arial'; font-size: 10pt;">Сделать   кнопку/команду "Закрыть зашифрованные ветки" чтобы ветки закрылись и   далее снова потребовался ввод пароля для доступа к данным;</li>
+<li style="font-family: 'Arial'; font-size: 10pt;">Сделать настройку "Закрыть зашифрованные ветки спустя N минут бездействия";</li>
+<li style="font-family: 'Arial'; font-size: 10pt;">Опционально: сделать облако меток;</li>
+<li style="font-family: 'Arial'; font-size: 10pt;">Некоторые   пользователи сообщают, что при инсталляции MyTetra в директории   пользователя создается директория с именем ?????. Разобраться почему,   исправить. Подробне тут   https://webhamster.ru/punbb/viewtopic.php?pid=389#p389; Видимо, проблема возникает при русскоязычном имени пользователя (соответственно, в имени каталога пользователя имеются русскоязычные символы);</li>
+<li style="font-family: 'Arial'; font-size: 10pt;">Добавить настройку горячих клавиш;</li>
+<li style="font-family: 'Arial'; font-size: 10pt;">Добавить возможность вводить и редактировать формулы (актуально для школьников и студентов).</li>
+</ul>
+<ul style="margin: 0px;">
+</ul>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<ul>
+</ul>
+<p class="text_font_big_head">Старые версии</p>
+<p>&nbsp;</p>
+<p class="text_font_head"><span class="text_font_basis"><strong>v.1.43</strong> <span style="font-size: x-small;">(</span></span><span class="text_font_basis"><span style="font-size: x-small;">06.07.2018)</span></span></p>
+<p>&nbsp;</p>
+<p><a href="/db/data/articles/105/mytetra_1_43_27_lin_64.tar.gz"><strong>MyTetra v.1.43 для Linux 64 bit</strong></a> (25 Мб) - сборка со всеми библиотеками</p>
+<p>&nbsp;</p>
+<p><a href="/db/data/articles/105/mytetra_1_43_27_win.zip"><strong>MyTetra v.1.43 для Windows</strong></a> (15 Мб) - сборка со всеми библиотеками</p>
+<p>&nbsp;</p>
+<p><a href="/db/data/articles/105/mytetra_1_43_27_src.zip"><strong>Архив исходников MyTetra v.1.43.27</strong></a> (14 Мб)</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span class="text_font_basis"><strong>v.1.42</strong> <span style="font-size: x-small;">(22.11.2016)</span></span></p>
+<p>&nbsp;</p>
+<p><a href="/db/data/articles/105/mytetra_1_42_2_lin_32.tar.gz"><strong>MyTetra v.1.42 для Linux 32 bit</strong></a> (22 Мб) - сборка со всеми библиотеками</p>
+<p>&nbsp;</p>
+<p><a href="/db/data/articles/105/mytetra_1_42_2_lin_64.tar.gz"><strong>MyTetra v.1.42 для Linux 64 bit</strong></a> (23 Мб) - сборка со всеми библиотеками</p>
+<p>&nbsp;</p>
+<p><a href="/db/data/articles/105/mytetra_1_42_2_win.rar"><strong>MyTetra v.1.42 для Windows</strong></a> (20 Мб) - сборка со всеми библиотеками</p>
+<p>&nbsp;</p>
+<p><span style="color: #808080;"><strong>Сборка для Mac Os X</strong></span> - требуется оборудование Apple</p>
+<p>&nbsp;</p>
+<p><a href="/db/data/articles/105/mytetra_v_1_42_2_src.zip"><strong>Архив исходников MyTetra v.1.42.2</strong></a> (15 Мб)</p>
+<p>&nbsp;</p>
+<p><a href="https://copr.fedorainfracloud.org/coprs/ollowtf/mytetra/"><strong>Репозитарии MyTetra Fedora 23, 24, 25<strong>&nbsp;</strong></strong></a> (Grechishkin Pavel)</p>
+<p>&nbsp;</p>
+<p><a href="https://aur.archlinux.org/packages/mytetra"><strong>Сборка для ArchLinux</strong></a> (Cyberxndr)</p>
+<p class="text_font_head">&nbsp;</p>
+<p>&nbsp;</p>
+<p><span class="text_font_basis"><strong>v.1.30</strong> <span style="font-size: x-small;">(2011 - 2016) <br /></span></span></p>
+<p>&nbsp;</p>
+<p><a href="/db/data/articles/105/mytetra_1_30_lin_portable.tar.gz"><strong>MyTetra v.1.30 для Linux i386-i686</strong></a>&nbsp;(7,5 Мб) - сборка со всеми библиотеками</p>
+<p>&nbsp;</p>
+<p><a href="/db/data/articles/105/mytetra_1_30_win.zip"><strong>MyTetra v.1.30 для Windows<strong>&nbsp;</strong></strong></a> (7,9 Мб)</p>
+<p>&nbsp;</p>
+<p><a href="/db/data/articles/105/mytetra_1_30_freebsd_8_2.tar.gz"><strong>MyTetra v.1.30 для FreeBSD 8.2</strong></a> (1,5 Мб) - для работы установить Qt 4.7.3 через систему портов</p>
+<p>&nbsp;</p>
+<p><a href="/db/data/articles/105/mytetra_1_30_1_mac.dmg"><strong>MyTetra v.1.30.1 для Mac Os X 10.6.8 x86-64</strong></a> (10,7 Мб)</p>
+<p>&nbsp;</p>
+<p><a href="/db/data/articles/105/ru.webhamster_.mytetra-1_.30_.1-1_.i686_.rpm"><strong>MyTetra v.1.30.1 для MeeGo</strong></a> (5,3 Mb)</p>
+<p>&nbsp;</p>
+<p><a href="http://slackbuilds.org/slackbuilds/13.37/office/mytetra.tar.gz"><strong>MyTetra v 1.30.1 SlackBuild для Linux SlackWare 13.37</strong></a></p>
+<p>&nbsp;</p>
+<p><span style="color: #808080;"><strong>Исходники MyTetra v.1.30.1</strong></span> - смотрите раздел <strong>Разработка</strong>, чтобы получить актуальные исходники</p>
+<p>&nbsp;</p>     </div>
+    </div>
+   </span> 
+  </td>
+ </tr> 
+</table><br/><div style="text-align: center; background: #e2e2fe; padding: 10px; margin-bottom: 15px;"><div style="display: inline-block;">
+
+<!-- Yandex.RTB R-A-259917-1 -->
+<div id="yandex_rtb_R-A-259917-1"></div>
+<script type="text/javascript">
+    (function(w, d, n, s, t) {
+        w[n] = w[n] || [];
+        w[n].push(function() {
+            Ya.Context.AdvManager.render({
+                blockId: "R-A-259917-1",
+                renderTo: "yandex_rtb_R-A-259917-1",
+                async: true
+            });
+        });
+        t = d.getElementsByTagName("script")[0];
+        s = d.createElement("script");
+        s.type = "text/javascript";
+        s.src = "//an.yandex.ru/system/context.js";
+        s.async = true;
+        t.parentNode.insertBefore(s, t);
+    })(this, this.document, "yandexContextAsyncCallbacks");
+</script>
+
+</div></div><br/><p><a href="https://webhamster.ru/site/page/index/articles/projectcode">К списку проектов</a></p>
+</div>
+
+<!-- Соседние статьи -->
+<div>
+ <br>
+ <b>Еще в этом разделе:</b><br>
+ 
+ 
+ <table border="0" width="100%"> 
+  <tr>
+   <td width="50%" align="left">
+    <div><table border="0"><tr>  <td valign="middle"><a href="https://webhamster.ru/site/page/index/articles/projectcode/272" style="text-decoration: none;"><font size="+3"><b>&lt;</b></font></a></td>  <td valign="middle"><div><a href="https://webhamster.ru/site/page/index/articles/projectcode/272"><b>BASH</b>: Cron Emulator</a></div></td>  </tr></table></div>
+   </td>    
+   <td>&nbsp;&nbsp;&nbsp;</td>
+   <td width="50%" align="right">
+    <div align="left"><table border="0"><tr>  <td valign="middle"><div><a href="https://webhamster.ru/site/page/index/articles/projectcode/138"><b>MyTetra</b>: MyTetra (English page)</a></div></td>  <td valign="middle"><a href="https://webhamster.ru/site/page/index/articles/projectcode/138" style="text-decoration: none;"><font size="+3"><b>&gt;</b></font></a></td> </tr></table></div>
+   </td>
+  </tr>
+ </table>
+
+</div>
+
+  
+     </div>
+     
+     <div style="margin-top: 20px; margin-bottom: 20px;">
+        
+     </div>
+     
+    </div>
+
+   </div>
+
+   <div style="margin-left: 20px; margin-right: 20px; margin-top: 20px; margin-bottom: 20px;">
+
+   
+   </div>
+
+  </td>  
+
+  <!-- Правая колонка -->
+  <td width="200" bgcolor="#8FA3D3" valign="top">
+
+   <!-- Интересное на сайте --> 
+   <div style="margin-left: 12px; margin-right: 12px; margin-top: 20px; margin-bottom: 20px;">
+
+    <span class="right_panel_font_header"><p>Интересное на сайте</p></span>
+
+    <noindex>
+    <span class="text_font_basis">
+     <div>
+ <span class="text_font_head_light">
+  Платформа 1C:Предприятие   &raquo  </span>
+ <span class="text_font_head text_font_head_link" >
+  <a href="https://webhamster.ru/site/page/index/articles/comp/260">
+   Как сравнивать типы значений в 1С - Краткая памятка  </a> 
+ </span>
+</div>
+
+
+<span class="text_font_basis_link">
+ <a href="https://webhamster.ru/site/page/index/articles/comp/260">
+
+<div><br/>Платформа 1С имеет множество предопределенных типов значений. Практически на каждый вид системного объекта имеется отдельный тип. Поэтому один из важн...</div>
+
+
+ </a> 
+</span>
+
+<!--
+<div class="text_font_mini" style="text-align: right;">
+ <br/>
+ <b><a href="https://webhamster.ru/site/page/index/articles/comp/260">Подробнее &raquo;</a></b>
+</div>
+-->
+
+<br>  
+    </span>
+    </noindex>
+
+   </div>
+
+   <!-- Новости сайта в этом месяце в предыдущие годы -->
+   <div style="margin-left: 12px; margin-right: 12px; margin-top: 20px; margin-bottom: 20px;">
+
+    <span class="right_panel_font_header"><p>О чем писал сайт в этом месяце в предыдущие годы?</p></span>
+
+    <noindex>
+    <span class="text_font_basis">
+     <div>
+ <span class="text_font_head_light">
+  26 марта 2016   &raquo  </span>
+ <span class="text_font_head text_font_head_link" >
+  <a href="https://webhamster.ru/site/page/index/main/news/356">
+   Как восстановить работу иконки Dropbox в Linux  </a> 
+ </span>
+</div>
+
+
+<span class="text_font_basis_link">
+ <a href="https://webhamster.ru/site/page/index/main/news/356">
+
+<div><br/>Сначала Adobe Flash перестала выпускать Flash под Linux, а с некоторых пор и Dropbox перестал поддерживать работу Dropbox под Linux. Ну как перестал.....</div>
+
+
+ </a> 
+</span>
+
+<!--
+<div class="text_font_mini" style="text-align: right;">
+ <br/>
+ <b><a href="https://webhamster.ru/site/page/index/main/news/356">Подробнее &raquo;</a></b>
+</div>
+-->
+
+<br>    </span>
+    </noindex>
+
+   </div>
+
+
+   <!-- Социальные кнопки -->
+   <div style="margin-left: 12px; margin-right: 12px; margin-top: 20px; margin-bottom: 20px;">
+     <span class="right_panel_font_header"><p>Поделиться этой страницей</p></span>
+     <!-- uSocial -->
+<script async src="https://usocial.pro/usocial/usocial.js?v=6.1.3.1" data-script="usocial" charset="utf-8"></script>
+<div class="uSocial-Share" data-pid="32d173b612becdb5d5ac56693531b3f0" data-type="share" data-options="round-rect,style3,default,absolute,horizontal,size24,eachCounter0,counter0,nomobile" data-social="fb,twi,lin,lj,gPlus,vk,ok"></div>
+<!-- /uSocial -->
+     <br/>
+   </div>
+
+     
+   <!-- Встраиваемый блок -->
+   <div style="margin-left: 12px; margin-right: 12px; margin-top: 20px; margin-bottom: 20px;">
+     <span class="text_font_basis">
+      <div class="saapee_block header-min-font"><script type="text/javascript">
+<!--
+var _acic={dataProvider:10};(function(){var e=document.createElement("script");e.type="text/javascript";e.async=true;e.src="https://www.acint.net/aci.js";var t=document.getElementsByTagName("script")[0];t.parentNode.insertBefore(e,t)})()
+//-->
+</script> Ученые назвали <a href="https://kipmu.ru/dinozavry/" target="_blank">птиц одним из видов динозавров</a>. </div>     </span>
+   </div>
+
+
+   <!-- Кнопка хостера Fornex -->
+   
+
+
+
+
+   <!-- Дополнительная информация -->
+   <div style="margin-left: 12px; margin-right: 12px; margin-top: 20px; margin-bottom: 20px;">
+    <br/>
+     <span class="text_font_basis">
+      <div class="tinymce">
+  <p><strong>Внимание!</strong></p>
+<p><strong><br /></strong></p>
+<p>На этом сайте разрабатывается программа <strong><a href="/site/page/index/articles/projectcode/105">MyTetra</a></strong> и её родственные проекты. Доступны к просмотру следующие базы знаний:</p>
+<p>&nbsp;</p>
+<p><a href="/mytetrashare/index/mtb0">База Xintrea</a> (стр.&nbsp;<a href="/mytetrashare/index/mtb0-0">1</a>)</p>
+<p><a href="/mytetrashare/index/mtb327">База Rarrugas</a> (стр.&nbsp;<a href="/mytetrashare/index/mtb327-0">1</a>)</p>
+<p><a href="/mytetrashare/index/mtb2">База Balas</a></p>
+<p><a href="/mytetrashare/index/mtb3">База YellowRaven</a></p>
+<p><a href="/mytetrashare/index/mtb4">База Yurons</a></p>
+<p><a href="/mytetrashare/index/mtb108">База Lesnik757</a></p>
+<p><a href="/mytetrashare/index/mtb106">База Shandor</a></p>
+<p><a href="/mytetrashare/index/mtb104">База Sirrichar</a></p>
+<p><a href="/mytetrashare/index/mtb207">База Anatolean</a>&nbsp;(стр. <a href="/mytetrashare/index/mtb207-0">1</a>)</p>
+<p><a href="/mytetrashare/index/mtb145">База Аrmagedec</a></p>
+<p><a href="/mytetrashare/index/mtb147">База SorokinRed</a></p>
+<p><a href="/mytetrashare/index/mtb149">База Deadelf79</a></p>
+<p><a href="/mytetrashare/index/mtb172">База Adgaver</a> (стр.&nbsp;<a href="/mytetrashare/index/mtb172-0">1</a>)</p>
+<p><a href="/mytetrashare/index/mtb183">База Pipitos1983</a></p>
+<p><a href="/mytetrashare/index/mtb176">База Soxsten</a>&nbsp;(стр. <a href="/mytetrashare/index/mtb176-0">1</a>)</p>
+<p><a href="/mytetrashare/index/mtb186">База Silenn</a>&nbsp;(стр. <a href="/mytetrashare/index/mtb186-0">1</a><span style="font-family: &quot;DejaVu Sans&quot;; font-size: 13.3333px;">)</span></p>
+<p><a href="/mytetrashare/index/mtb188">База Shlyapnikova</a> <span style="font-size: xx-small;">- херомантия и ригидность</span></p>
+<p><a href="/mytetrashare/index/mtb189">База Svoynickname</a>&nbsp;(стр. <a href="/mytetrashare/index/mtb189-0">1</a><span style="font-family: &quot;DejaVu Sans&quot;; font-size: 13.3333px;">)</span></p>
+<p><a href="/mytetrashare/index/mtb190">База Larson227</a>&nbsp;(стр. <a href="/mytetrashare/index/mtb190-0">1</a><span style="font-family: &quot;DejaVu Sans&quot;; font-size: 13.3333px;">)</span></p>
+<p><a href="/mytetrashare/index/mtb191">База Velonski</a>&nbsp;(стр. <a href="/mytetrashare/index/mtb191-0">1</a><span style="font-family: &quot;DejaVu Sans&quot;; font-size: 13.3333px;">)</span></p>
+<p><a href="/mytetrashare/index/mtb339">База BrokeRU</a>&nbsp;(стр. <a href="/mytetrashare/index/mtb339-0">1</a><span style="font-family: &quot;DejaVu Sans&quot;; font-size: 13.3333px;">)</span></p>
+<p><a href="/mytetrashare/index/mtb402">База Mcold</a>&nbsp;(стр. <a href="/mytetrashare/index/mtb402">1</a><span style="font-family: &quot;DejaVu Sans&quot;; font-size: 13.3333px;">)</span></p>
+<p><a href="/mytetrashare/index/mtb348">База Alensav</a> (стр.&nbsp;<a href="/mytetrashare/index/mtb348-0">1</a>)</p>
+<p><a href="/mytetrashare/index/mtb405">База Consp11</a>&nbsp;(стр. <a href="/mytetrashare/index/mtb405-0">1</a>)</p>
+<p><a href="/mytetrashare/index/mtb408">База Kozlov-AE</a> (стр.&nbsp;<a href="/mytetrashare/index/mtb408-0">1</a>)</p>
+<p><a href="/mytetrashare/index/mtb426">База Wwwlir</a>&nbsp;(стр. <a href="/mytetrashare/index/mtb426-0">1</a><span style="font-family: &quot;DejaVu Sans&quot;; font-size: 13.3333px;">)</span></p>
+<p><a href="/mytetrashare/index/mtb336">База Duwaz</a>&nbsp;(стр. <a href="/mytetrashare/index/mtb336-0">1</a><span style="font-family: &quot;DejaVu Sans&quot;; font-size: 13.3333px;">)</span></p>
+<p>&nbsp;</p>
+<p>Требуют доработки:</p>
+<p>&nbsp;</p>
+<p><a href="/mytetrashare/index/mtb136">База Tairesh</a></p>
+<p><a href="/mytetrashare/index/mtb143">База Ivnglkv</a></p>
+<p><a href="/mytetrashare/index/mtb55">База Kolyag87</a></p>
+<p><a href="/mytetrashare/index/mtb139">База Andyk101</a></p>
+<p><a href="/mytetrashare/index/mtb144">База Garik456456</a></p>
+<p><a href="/mytetrashare/index/mtb146">База Harpokrat</a></p>
+<p><a href="/mytetrashare/index/mtb148">База SalexIzyh</a></p>
+<p><a href="/mytetrashare/index/mtb372">База RuDennn (Bunny-Hop)</a></p>
+<p><a href="/mytetrashare/index/mtb185">База Manakaden</a></p>
+<p><a href="/mytetrashare/index/mtb187">База Vitvrn</a></p>
+<p><a href="/mytetrashare/index/mtb195">База Fanrok</a></p>
+<p><a href="/mytetrashare/index/mtb342">База Grimar</a></p>
+<p><a href="/mytetrashare/index/mtb345">База_Juryak</a></p>
+<p><a href="/mytetrashare/index/mtb393">База Nicolasomsk</a></p>
+<p><a href="/mytetrashare/index/mtb375">База Azatserikbaev</a></p>
+<p><a href="/mytetrashare/index/mtb387">База Shut913</a></p>
+<p>&nbsp;</p>
+<p>Подробности на странице <strong><a href="/site/page/index/articles/projectcode/267">MyTetra&nbsp;Share</a></strong>.</p></div>
+     </span>
+   </div>
+
+
+  </td>  
+ </tr>
+
+ <!-- Низ страницы --> 
+ <tr style="margin-left: 0px;">   
+  <td colspan="3" bgcolor="#4F3F3F" style="margin-left: 0px;"><!-- E8E33D -->
+
+   <table border="0" width="100%" style="margin-left: 0px;">
+    <tr style="margin-left: 0px;">
+     <td align="left" width="30%" style="margin-left: 0px;">
+      <div class="bottom_font">
+       <nobr>&nbsp;<a href="https://webhamster.ru/" class="bottom_font">WebHamster.Ru</a></nobr><br/>
+       <nobr>&nbsp;Домик любопытного хомячка</nobr>
+      </div> 
+     </td> 
+     <td align="center" width="30%">
+
+     <table border="0" width="1%">
+      <tr>
+       <td>
+        <!-- begin of Top100 code -->
+<noindex>
+<script id="top100Counter" type="text/javascript" src="https://counter.rambler.ru/top100.jcn?2286108"></script>
+<noscript>
+<a href="https://top100.rambler.ru/navi/2286108/">
+<img src="https://counter.rambler.ru/top100.cnt?2286108" alt="Rambler's Top100" border="0" />
+</a>
+</noscript>
+</noindex>
+<!-- end of Top100 code -->
+       </td>
+       <td>
+        <!-- ТИЦ --><noindex><a href="https://yandex.ru/cy?base=0&amp;host=webhamster.ru" rel="nofollow"><img src="https://www.yandex.ru/cycounter?webhamster.ru" width="88" height="31" alt="Яндекс индекс цитирования" border="0" /></a></noindex><!-- /ТИЦ -->
+       </td>
+      </tr>
+     </table> 
+
+     </td>
+     <td align="right" width="30%">
+      <div class="bottom_font">
+       <nobr>Почтовый ящик&nbsp;</nobr><br/>
+       <nobr><script type="text/javascript">
+	//<![CDATA[
+	var l=new Array();
+	l[0]='>';l[1]='a';l[2]='/';l[3]='<';l[4]='|109';l[5]='|111';l[6]='|99';l[7]='|46';l[8]='|108';l[9]='|105';l[10]='|97';l[11]='|109';l[12]='|103';l[13]='|64';l[14]='|97';l[15]='|101';l[16]='|114';l[17]='|116';l[18]='|110';l[19]='|105';l[20]='|88';l[21]='>';l[22]='"';l[23]='t';l[24]='n';l[25]='o';l[26]='f';l[27]='_';l[28]='m';l[29]='o';l[30]='t';l[31]='t';l[32]='o';l[33]='b';l[34]='"';l[35]='=';l[36]='s';l[37]='s';l[38]='a';l[39]='l';l[40]='c';l[41]='"';l[42]='|109';l[43]='|111';l[44]='|99';l[45]='|46';l[46]='|108';l[47]='|105';l[48]='|97';l[49]='|109';l[50]='|103';l[51]='|64';l[52]='|97';l[53]='|101';l[54]='|114';l[55]='|116';l[56]='|110';l[57]='|105';l[58]='|120';l[59]=':';l[60]='o';l[61]='t';l[62]='l';l[63]='i';l[64]='a';l[65]='m';l[66]='"';l[67]='=';l[68]='f';l[69]='e';l[70]='r';l[71]='h';l[72]=' ';l[73]='a';l[74]='<';
+	for (var i = l.length-1; i >= 0; i=i-1){
+	if (l[i].substring(0, 1) == '|') document.write("&#"+unescape(l[i].substring(1))+";");
+	else document.write(unescape(l[i]));}
+	//]]>
+	</script>&nbsp;</nobr>
+      </div> 
+     </td>  
+    </tr>
+   </table>
+
+  </td>
+ </tr>
+ 
+</table> 
+
+</div>
+</div>
+
+<!--LiveInternet counter--><script type="text/javascript"><!--
+new Image().src = "//counter.yadro.ru/hit?r"+
+escape(document.referrer)+((typeof(screen)=="undefined")?"":
+";s"+screen.width+"*"+screen.height+"*"+(screen.colorDepth?
+screen.colorDepth:screen.pixelDepth))+";u"+escape(document.URL)+
+";"+Math.random();//--></script><!--/LiveInternet-->
+<script type="text/javascript" src="https://adbit.biz/js/show_ads.js"></script>
+
+</body>
+</html>
